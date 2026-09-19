@@ -744,6 +744,8 @@
     "max_iterations": 30,
     "theta_damping": 0.5,
     "theta_damping_fallback": 0.25,
-    "convergence_threshold_hours": 0.008333333333333333
+    "convergence_threshold_hours": 0.008333333333333333,
+    "convergence_threshold_hours_precise": 0.001,
+    "note_precise": "0.5 мин (раздел 6.1) достаточно для отображения W на экране, но грубо для ΔS_j (разность двух близких больших чисел). Для локального пересчёта и сравнения соседей (12.3, 6.3) используем convergence_threshold_hours_precise. См. docs/journal.md."
   }
 }
