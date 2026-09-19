@@ -1,0 +1,26 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0 1.5rem 2rem;
+  color: #1a1a1a;
+}
+
+header {
+  padding: 1.5rem 0 0.5rem;
+}
+
+.subtitle {
+  color: #555;
+}
+
+#data-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+#data-footer div {
+  margin-bottom: 0.15rem;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "charges",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Прототип математической модели размещения быстрых ЭЗС (МТПС, проблема №03)",
+  "scripts": {
+    "test:t3": "node tests/t3-queue-vs-erlangc.js",
+    "generate:data": "node scripts/generate-synthetic-data.js",
+    "check:breakeven": "node scripts/check-breakeven-dc60-1.js"
+  }
+}

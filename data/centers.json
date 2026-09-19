@@ -1,0 +1,390 @@
+{
+  "source": "синтетика (генератор), заменить на карту Россети МР",
+  "date": "2026-09-19",
+  "centers": [
+    {
+      "id": "PS-100",
+      "lat": 55.60897,
+      "lon": 37.82472,
+      "reserve_MVA": 1.55,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-101",
+      "lat": 55.74486,
+      "lon": 37.62131,
+      "reserve_MVA": 4.88,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-102",
+      "lat": 55.75016,
+      "lon": 37.61834,
+      "reserve_MVA": 10.67,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-103",
+      "lat": 55.75035,
+      "lon": 37.53159,
+      "reserve_MVA": 9.27,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-104",
+      "lat": 55.67201,
+      "lon": 37.56719,
+      "reserve_MVA": 5.64,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-105",
+      "lat": 55.70206,
+      "lon": 37.57618,
+      "reserve_MVA": 11.33,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-106",
+      "lat": 55.91874,
+      "lon": 37.68913,
+      "reserve_MVA": 10.14,
+      "bus_planned_kW": 390,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-107",
+      "lat": 55.90444,
+      "lon": 37.61175,
+      "reserve_MVA": 4.24,
+      "bus_planned_kW": 320,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-108",
+      "lat": 55.80584,
+      "lon": 37.90632,
+      "reserve_MVA": 8.96,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-109",
+      "lat": 55.75004,
+      "lon": 37.62667,
+      "reserve_MVA": 5.19,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-110",
+      "lat": 55.57929,
+      "lon": 37.81807,
+      "reserve_MVA": 2.54,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-111",
+      "lat": 55.7748,
+      "lon": 37.87537,
+      "reserve_MVA": 5.32,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-112",
+      "lat": 55.8265,
+      "lon": 37.46583,
+      "reserve_MVA": 3.19,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-113",
+      "lat": 55.56414,
+      "lon": 37.63168,
+      "reserve_MVA": 5.17,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-114",
+      "lat": 55.8054,
+      "lon": 37.61404,
+      "reserve_MVA": 7.5,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-115",
+      "lat": 55.8399,
+      "lon": 37.75468,
+      "reserve_MVA": 9.67,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-116",
+      "lat": 55.71078,
+      "lon": 37.66977,
+      "reserve_MVA": 9.97,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-117",
+      "lat": 55.74079,
+      "lon": 37.59051,
+      "reserve_MVA": 9.05,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-118",
+      "lat": 55.73257,
+      "lon": 37.79724,
+      "reserve_MVA": 5.06,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-119",
+      "lat": 55.818,
+      "lon": 37.60364,
+      "reserve_MVA": 6.9,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-120",
+      "lat": 55.79941,
+      "lon": 37.89628,
+      "reserve_MVA": 8.91,
+      "bus_planned_kW": 360,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-121",
+      "lat": 55.72612,
+      "lon": 37.58835,
+      "reserve_MVA": 9.72,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-122",
+      "lat": 55.76023,
+      "lon": 37.61023,
+      "reserve_MVA": 11.83,
+      "bus_planned_kW": 570,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-123",
+      "lat": 55.58954,
+      "lon": 37.68857,
+      "reserve_MVA": 4.03,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-124",
+      "lat": 55.57274,
+      "lon": 37.45288,
+      "reserve_MVA": 0.56,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-125",
+      "lat": 55.76167,
+      "lon": 37.7136,
+      "reserve_MVA": 9.03,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-126",
+      "lat": 55.88094,
+      "lon": 37.69688,
+      "reserve_MVA": 10.49,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-127",
+      "lat": 55.7611,
+      "lon": 37.61833,
+      "reserve_MVA": 9.26,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-128",
+      "lat": 55.74983,
+      "lon": 37.58102,
+      "reserve_MVA": 10.11,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-129",
+      "lat": 55.81037,
+      "lon": 37.51893,
+      "reserve_MVA": 1.65,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-130",
+      "lat": 55.86385,
+      "lon": 37.45181,
+      "reserve_MVA": 9.2,
+      "bus_planned_kW": 240,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-131",
+      "lat": 55.73267,
+      "lon": 37.99416,
+      "reserve_MVA": 0.92,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-132",
+      "lat": 55.7584,
+      "lon": 37.69794,
+      "reserve_MVA": 1.45,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-133",
+      "lat": 55.68276,
+      "lon": 37.32973,
+      "reserve_MVA": 2.88,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-134",
+      "lat": 55.66663,
+      "lon": 37.42433,
+      "reserve_MVA": 8.02,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-135",
+      "lat": 55.5858,
+      "lon": 37.54257,
+      "reserve_MVA": 5.44,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-136",
+      "lat": 55.60851,
+      "lon": 37.79158,
+      "reserve_MVA": 7.8,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-137",
+      "lat": 55.81673,
+      "lon": 37.94416,
+      "reserve_MVA": 6.95,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-138",
+      "lat": 55.8678,
+      "lon": 37.66505,
+      "reserve_MVA": 6.59,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-139",
+      "lat": 55.83699,
+      "lon": 37.52981,
+      "reserve_MVA": 7.89,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-140",
+      "lat": 55.76334,
+      "lon": 37.50058,
+      "reserve_MVA": 3.18,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-141",
+      "lat": 55.61243,
+      "lon": 37.61743,
+      "reserve_MVA": 7.85,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-142",
+      "lat": 55.69286,
+      "lon": 37.70483,
+      "reserve_MVA": 3.51,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-143",
+      "lat": 55.6796,
+      "lon": 37.4943,
+      "reserve_MVA": 4.7,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-144",
+      "lat": 55.76652,
+      "lon": 37.63278,
+      "reserve_MVA": 1.77,
+      "bus_planned_kW": 440,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-145",
+      "lat": 55.85599,
+      "lon": 37.703,
+      "reserve_MVA": 4.06,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-146",
+      "lat": 55.61032,
+      "lon": 37.7371,
+      "reserve_MVA": 4.77,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    },
+    {
+      "id": "PS-147",
+      "lat": 55.86866,
+      "lon": 37.62966,
+      "reserve_MVA": 2.32,
+      "bus_planned_kW": 0,
+      "reserve_date": "2026-09-01"
+    }
+  ]
+}
