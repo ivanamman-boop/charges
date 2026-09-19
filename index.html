@@ -4,20 +4,68 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Модель размещения быстрых ЭЗС — прототип</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <header>
     <h1>Модель размещения быстрых ЭЗС</h1>
-    <p class="subtitle">Прототип, МТПС, проблема №03. Карта и паспорт площадки появятся в понедельник.</p>
+    <p class="subtitle">Прототип, МТПС, проблема №03. Клик по карте — черновик паспорта площадки (модули 1-4; подключение и экономика — во вторник).</p>
   </header>
 
   <main id="app">
-    <p>Каркас репозитория. Данные генерируются и лежат рядом в <code>data/*.json</code>, код модулей — в <code>js/*.js</code>.</p>
+    <div id="loading" class="loading">Считаю опорное равновесие сети…</div>
+
+    <div id="layout" hidden>
+      <div id="map-col">
+        <div id="controls">
+          <label>
+            Час: <span id="hour-label">12:00</span>
+            <input id="hour-slider" type="range" min="0" max="23" value="12" step="1" />
+          </label>
+          <label>
+            Тип дня:
+            <select id="day-type-select">
+              <option value="weekday">будни</option>
+              <option value="weekend">выходной</option>
+            </select>
+          </label>
+          <label>
+            Сезон:
+            <select id="season-select">
+              <option value="summer">лето</option>
+              <option value="winter">зима</option>
+            </select>
+          </label>
+          <label>
+            Год: <span id="year-label">2026</span>
+            <input id="year-slider" type="range" min="2026" max="2030" value="2026" step="1" />
+          </label>
+          <label>
+            Сценарий:
+            <select id="scenario-select">
+              <option value="base">базовый</option>
+              <option value="conservative">консервативный</option>
+              <option value="optimistic">оптимистичный</option>
+            </select>
+          </label>
+          <button id="recompute-btn">Пересчитать равновесие</button>
+          <span id="recompute-status"></span>
+        </div>
+        <div id="map"></div>
+        <p class="hint">Клик по карте — поставить кандидата (DC60-1) и посчитать черновик паспорта. Цвет станций — загрузка U(h) в выбранный час.</p>
+      </div>
+
+      <aside id="passport-col">
+        <div id="passport-placeholder">Кликните по карте, чтобы поставить кандидата и увидеть черновик паспорта площадки.</div>
+        <div id="passport" hidden></div>
+      </aside>
+    </div>
   </main>
 
   <footer id="data-footer"></footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
