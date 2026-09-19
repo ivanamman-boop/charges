@@ -11,32 +11,42 @@ index.html          точка входа статического сайта
 css/style.css
 js/
   app.js             подвал с источниками данных
+  demand.js          модуль 1 — спрос
+  choice.js          модуль 2 — выбор станции, Хафф
   queue.js           модуль 3 — очередь и загрузка (M/M/c/K)
-  demand.js          модуль 1 — спрос (вс)
-  choice.js          модуль 2 — выбор станции, Хафф (вс)
-  equilibrium.js      модуль 4 — равновесие (вс)
+  equilibrium.js     модуль 4 — равновесие сети (демпфированные итерации)
   grid.js            модуль 5 — подключение к сети (вт)
   equipment.js       модуль 6 — подбор оборудования (вт)
   economics.js       модуль 7 — экономика (вт)
   portfolio.js       модуль 8 — базовая линия и портфель (после 24.09)
 data/
-  cells.json         сетка спроса 1x1 км (синтетика, генератор ниже)
-  stations.json      действующие + плановые станции (синтетика)
-  centers.json       питающие центры (синтетика)
-  params.json        все параметры модели (раздел 11 + каталог 8.1), не синтетика — перенесено из спецификации
+  cells.json                 сетка спроса 1x1 км (синтетика, генератор ниже)
+  stations.json               действующие + плановые станции (синтетика)
+  centers.json                питающие центры (синтетика)
+  params.json                  все параметры модели (раздел 11 + каталог 8.1); не синтетика — перенесено из спецификации, D0 откалиброван
+  reference-equilibria.json    опорные равновесия сети без кандидата (сценарий base, 2026/2030 x зима/лето x будни/выходной)
 scripts/
-  generate-synthetic-data.js   генератор cells/stations/centers.json
-  check-breakeven-dc60-1.js    разовая проверка формулы 9.5 (см. journal.md)
+  generate-synthetic-data.js       генератор cells/stations/centers.json
+  calibrate-d0.js                  бисекция D0 по S_obs (раздел 3.5)
+  compute-reference-equilibria.js  опорные равновесия → data/reference-equilibria.json
+  check-breakeven-dc60-1.js        разовая проверка формулы 9.5 (см. journal.md)
 tests/
-  t3-queue-vs-erlangc.js       Т3: цепь M/M/c/K против Erlang-C
+  t1-demand-conservation.js   Т1: сохранение спроса
+  t2-huff-probabilities.js    Т2: вероятности Хаффа суммируются в 1
+  t3-queue-vs-erlangc.js      Т3: цепь M/M/c/K против Erlang-C
+  t4-balance-new-station.js   Т4: баланс при добавлении станции
+  t5-hand-calc.js             Т5: сверка с независимым расчётом, fixture hand5.json
+  fixtures/hand5.json         5 ячеек + 2 станции для Т5
 ```
 
 ## Запуск
 
 ```bash
-npm run generate:data   # пересоздать синтетические cells/stations/centers.json
-npm run test:t3         # тест Т3
-npm run check:breakeven # разовая проверка U* для DC60-1
+npm run generate:data        # пересоздать синтетические cells/stations/centers.json
+npm run calibrate:d0         # пересчитать D0 и записать в data/params.json
+npm run reference:equilibria # пересчитать data/reference-equilibria.json
+npm test                     # Т1-Т5 подряд
+npm run check:breakeven      # разовая проверка U* для DC60-1
 ```
 
 Для просмотра сайта — любой статический сервер, например `npx serve .`.
@@ -44,10 +54,14 @@ npm run check:breakeven # разовая проверка U* для DC60-1
 ## Статус (обновляется по ходу недели)
 
 - [x] сб: каркас репозитория, генератор синтетики, queue.js, Т3
-- [ ] вс: demand.js, choice.js, equilibrium.js, опорные равновесия в JSON, Т1/Т2/Т4/Т5
+- [x] вс: demand.js, choice.js, equilibrium.js, калибровка D0, опорные равновесия в JSON, Т1/Т2/Т4/Т5
 - [ ] пн: карта Leaflet, ползунок времени, клик → локальный пересчёт, черновик паспорта, Т8
 - [ ] вт: grid.js, equipment.js, economics.js, настоящие данные, Т7
 - [ ] ср: Т6, кнопка «Проверить модель», исправления
+
+Известное упрощение: опорные равновесия посчитаны только для сценария
+`base` (8 из 16 комбинаций раздела 12.3) — остальные сценарии добавим,
+когда в интерфейсе появится переключатель сценария.
 
 Отложено на после 24.09: модуль 8 со CELF (пока таблица), конфигурация с
 накопителем, тесты Т9-Т11.

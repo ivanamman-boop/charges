@@ -2,174 +2,744 @@
   "source": "Спецификация прототипа - математическая модель v1, раздел 11 (обновлено 19.09.2026)",
   "date": "2026-09-19",
   "note": "Каждый лист {value,min,max,tag,source}. tag: И - источник, Р - расчёт от источника, Д - допущение. D0 калибруется офлайн (3.5) и будет дописан в воскресенье после equilibrium.js.",
-
   "M1_demand": {
-    "D0": { "value": null, "min": null, "max": null, "tag": "Р", "source": "калибровка бисекцией по S_obs (3.5), TODO вс" },
-    "S_obs": {
-      "spring": { "value": 4.1, "min": null, "max": null, "tag": "И", "source": "Проблема v1, Москва 2026" },
-      "august": { "value": 6, "min": null, "max": null, "tag": "И", "source": "Проблема v1, Москва 2026" }
+    "D0": {
+      "value": 1758.31,
+      "min": null,
+      "max": null,
+      "tag": "Р",
+      "source": "калибровка бисекцией (scripts/calibrate-d0.js), 14 итераций, среднее S по J_ex=4.098 при S_obs=4.1"
     },
-    "top10_share_energy_moskvy": { "value": 0.15, "min": null, "max": null, "tag": "И", "source": "Газета Метро, 15.06.2026" },
+    "S_obs": {
+      "spring": {
+        "value": 4.1,
+        "min": null,
+        "max": null,
+        "tag": "И",
+        "source": "Проблема v1, Москва 2026"
+      },
+      "august": {
+        "value": 6,
+        "min": null,
+        "max": null,
+        "tag": "И",
+        "source": "Проблема v1, Москва 2026"
+      }
+    },
+    "top10_share_energy_moskvy": {
+      "value": 0.15,
+      "min": null,
+      "max": null,
+      "tag": "И",
+      "source": "Газета Метро, 15.06.2026"
+    },
     "theta": {
-      "P0": { "value": 0.15, "min": null, "max": null, "tag": "Д", "source": "кастдев и дозапрос РСЗС" },
-      "P1": { "value": 0.45, "min": null, "max": null, "tag": "Д", "source": "кастдев и дозапрос РСЗС" },
-      "T": { "value": 0.30, "min": null, "max": null, "tag": "Д", "source": "кастдев и дозапрос РСЗС (доля такси в сессиях)" },
-      "C": { "value": 0.10, "min": null, "max": null, "tag": "Д", "source": "кастдев и дозапрос РСЗС" }
+      "P0": {
+        "value": 0.15,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "кастдев и дозапрос РСЗС"
+      },
+      "P1": {
+        "value": 0.45,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "кастдев и дозапрос РСЗС"
+      },
+      "T": {
+        "value": 0.3,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "кастдев и дозапрос РСЗС (доля такси в сессиях)"
+      },
+      "C": {
+        "value": 0.1,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "кастдев и дозапрос РСЗС"
+      }
     },
     "g_private": {
-      "conservative": { "value": 0.35, "min": null, "max": null, "tag": "И", "source": "TAdviser, рост ЭМ на учёте по РФ" },
-      "base": { "value": 0.80, "min": null, "max": null, "tag": "Р", "source": "парк Москвы 5200 (07.2023, Ведомости) -> 23000 (нач. 2026, Автостат)" },
-      "optimistic": { "value": 0.93, "min": null, "max": null, "tag": "Р", "source": "цель города 320 тыс. к 2030 от 23 тыс. в 2026" }
+      "conservative": {
+        "value": 0.35,
+        "min": null,
+        "max": null,
+        "tag": "И",
+        "source": "TAdviser, рост ЭМ на учёте по РФ"
+      },
+      "base": {
+        "value": 0.8,
+        "min": null,
+        "max": null,
+        "tag": "Р",
+        "source": "парк Москвы 5200 (07.2023, Ведомости) -> 23000 (нач. 2026, Автостат)"
+      },
+      "optimistic": {
+        "value": 0.93,
+        "min": null,
+        "max": null,
+        "tag": "Р",
+        "source": "цель города 320 тыс. к 2030 от 23 тыс. в 2026"
+      }
     },
     "g_taxi": {
-      "conservative": { "value": 0.50, "min": null, "max": null, "tag": "Д", "source": "Москва 24, 27.06.2026" },
-      "base_and_optimistic": { "value": 1.00, "min": null, "max": null, "tag": "И", "source": "Москва 24, 27.06.2026, удвоение за год" }
+      "conservative": {
+        "value": 0.5,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "Москва 24, 27.06.2026"
+      },
+      "base_and_optimistic": {
+        "value": 1,
+        "min": null,
+        "max": null,
+        "tag": "И",
+        "source": "Москва 24, 27.06.2026, удвоение за год"
+      }
     },
     "m_weekday_weekend": {
-      "P": { "value_weekday": 0.95, "value_weekend": 1.125, "tag": "Д", "source": "почасовые данные РСЗС" },
-      "T": { "value_weekday": 1.0, "value_weekend": 1.0, "tag": "Д", "source": "почасовые данные РСЗС" },
-      "C": { "value_weekday": 1.4, "value_weekend": 0.0, "tag": "Д", "source": "почасовые данные РСЗС" }
+      "P": {
+        "value_weekday": 0.95,
+        "value_weekend": 1.125,
+        "tag": "Д",
+        "source": "почасовые данные РСЗС"
+      },
+      "T": {
+        "value_weekday": 1,
+        "value_weekend": 1,
+        "tag": "Д",
+        "source": "почасовые данные РСЗС"
+      },
+      "C": {
+        "value_weekday": 1.4,
+        "value_weekend": 0,
+        "tag": "Д",
+        "source": "почасовые данные РСЗС"
+      }
     },
     "zeta_season": {
-      "winter": { "value": 1.10, "min": null, "max": null, "tag": "Д", "source": "дозапрос про 30-40% зимой" },
-      "summer": { "value": 0.93, "min": null, "max": null, "tag": "Д", "source": "дозапрос про 30-40% зимой" }
+      "winter": {
+        "value": 1.1,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "дозапрос про 30-40% зимой"
+      },
+      "summer": {
+        "value": 0.93,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "дозапрос про 30-40% зимой"
+      }
     },
     "layer_weights": {
-      "P0": { "res": 0.1, "work": 0.3, "poi": 0.4, "road": 0.2, "taxi": 0.0 },
-      "P1": { "res": 0.5, "work": 0.2, "poi": 0.2, "road": 0.1, "taxi": 0.0 },
-      "T": { "res": 0.1, "work": 0.2, "poi": 0.1, "road": 0.2, "taxi": 0.4 },
-      "C": { "res": 0.0, "work": 0.6, "poi": 0.0, "road": 0.4, "taxi": 0.0 },
+      "P0": {
+        "res": 0.1,
+        "work": 0.3,
+        "poi": 0.4,
+        "road": 0.2,
+        "taxi": 0
+      },
+      "P1": {
+        "res": 0.5,
+        "work": 0.2,
+        "poi": 0.2,
+        "road": 0.1,
+        "taxi": 0
+      },
+      "T": {
+        "res": 0.1,
+        "work": 0.2,
+        "poi": 0.1,
+        "road": 0.2,
+        "taxi": 0.4
+      },
+      "C": {
+        "res": 0,
+        "work": 0.6,
+        "poi": 0,
+        "road": 0.4,
+        "taxi": 0
+      },
       "tag": "Д",
       "source": "команда, обосновывается в блоке 4"
     },
     "hourly_profile_weekday": {
-      "P0": { "b": 0.02, "peaks": [{ "mu": 13, "A": 0.6, "sigma": 3 }, { "mu": 18, "A": 0.4, "sigma": 2 }] },
-      "P1": { "b": 0.03, "peaks": [{ "mu": 9, "A": 0.3, "sigma": 2 }, { "mu": 19, "A": 0.6, "sigma": 2.5 }] },
-      "T": { "b": 0.40, "peaks": [{ "mu": 4, "A": 0.3, "sigma": 2 }, { "mu": 15, "A": 0.5, "sigma": 3 }] },
-      "C": { "b": 0.00, "peaks": [{ "mu": 12, "A": 1.0, "sigma": 3 }] },
+      "P0": {
+        "b": 0.02,
+        "peaks": [
+          {
+            "mu": 13,
+            "A": 0.6,
+            "sigma": 3
+          },
+          {
+            "mu": 18,
+            "A": 0.4,
+            "sigma": 2
+          }
+        ]
+      },
+      "P1": {
+        "b": 0.03,
+        "peaks": [
+          {
+            "mu": 9,
+            "A": 0.3,
+            "sigma": 2
+          },
+          {
+            "mu": 19,
+            "A": 0.6,
+            "sigma": 2.5
+          }
+        ]
+      },
+      "T": {
+        "b": 0.4,
+        "peaks": [
+          {
+            "mu": 4,
+            "A": 0.3,
+            "sigma": 2
+          },
+          {
+            "mu": 15,
+            "A": 0.5,
+            "sigma": 3
+          }
+        ]
+      },
+      "C": {
+        "b": 0,
+        "peaks": [
+          {
+            "mu": 12,
+            "A": 1,
+            "sigma": 3
+          }
+        ]
+      },
       "tag": "Д",
       "source": "форма пиков из ТЗ, числа - допущение"
     },
     "hourly_profile_weekend": {
-      "P0": { "b": 0.02, "peaks": [{ "mu": 14, "A": 1.0, "sigma": 3.5 }] },
-      "P1": { "b": 0.03, "peaks": [{ "mu": 14, "A": 1.0, "sigma": 3.5 }] },
-      "T": { "b": 0.40, "peaks": [{ "mu": 4, "A": 0.3, "sigma": 2 }, { "mu": 15, "A": 0.5, "sigma": 3 }] },
-      "C": { "b": 0.00, "peaks": [] },
+      "P0": {
+        "b": 0.02,
+        "peaks": [
+          {
+            "mu": 14,
+            "A": 1,
+            "sigma": 3.5
+          }
+        ]
+      },
+      "P1": {
+        "b": 0.03,
+        "peaks": [
+          {
+            "mu": 14,
+            "A": 1,
+            "sigma": 3.5
+          }
+        ]
+      },
+      "T": {
+        "b": 0.4,
+        "peaks": [
+          {
+            "mu": 4,
+            "A": 0.3,
+            "sigma": 2
+          },
+          {
+            "mu": 15,
+            "A": 0.5,
+            "sigma": 3
+          }
+        ]
+      },
+      "C": {
+        "b": 0,
+        "peaks": []
+      },
       "tag": "Д",
       "source": "выходные: у P0/P1 один пик, у C спроса нет, у T как в будни"
     }
   },
-
   "M2_choice": {
     "d_half_km": {
-      "P0": { "value": 2.0, "min": 1.0, "max": 3.0, "tag": "Д", "source": "японское исследование (Transportation Research D, 2016), заменить кастдевом" },
-      "P1": { "value": 1.5, "min": 0.75, "max": 2.25, "tag": "Д", "source": "то же" },
-      "T": { "value": 0.75, "min": 0.375, "max": 1.125, "tag": "Д", "source": "то же" },
-      "C": { "value": 1.0, "min": 0.5, "max": 1.5, "tag": "Д", "source": "то же" }
+      "P0": {
+        "value": 2,
+        "min": 1,
+        "max": 3,
+        "tag": "Д",
+        "source": "японское исследование (Transportation Research D, 2016), заменить кастдевом"
+      },
+      "P1": {
+        "value": 1.5,
+        "min": 0.75,
+        "max": 2.25,
+        "tag": "Д",
+        "source": "то же"
+      },
+      "T": {
+        "value": 0.75,
+        "min": 0.375,
+        "max": 1.125,
+        "tag": "Д",
+        "source": "то же"
+      },
+      "C": {
+        "value": 1,
+        "min": 0.5,
+        "max": 1.5,
+        "tag": "Д",
+        "source": "то же"
+      }
     },
     "W_half_min": {
-      "P": { "value": 7, "min": null, "max": null, "tag": "Д", "source": "опрос 441 владельца ЭМ, Sustainability 2024, заменить кастдевом" },
-      "T": { "value": 5, "min": null, "max": null, "tag": "Д", "source": "то же" },
-      "C": { "value": 7, "min": null, "max": null, "tag": "Д", "source": "то же" }
+      "P": {
+        "value": 7,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "опрос 441 владельца ЭМ, Sustainability 2024, заменить кастдевом"
+      },
+      "T": {
+        "value": 5,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "то же"
+      },
+      "C": {
+        "value": 7,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "то же"
+      }
     },
-    "d0_km": { "value": 5, "min": 3, "max": 8, "tag": "Д", "source": "калибровка вместе с D0" },
-    "alpha_P": { "value": 0.5, "min": null, "max": null, "tag": "Д", "source": "чувствительность" },
-    "alpha_c": { "value": 0.3, "min": null, "max": null, "tag": "Д", "source": "чувствительность" },
-    "alpha_rub": { "value": 1.0, "min": null, "max": null, "tag": "Д", "source": "чувствительность" },
-    "rho_road_factor": { "value": 1.3, "min": 1.2, "max": 1.5, "tag": "Д", "source": "проверка на 20 маршрутах в Яндекс.Картах" },
-    "taxi_tariff_ratio": { "value_RSZS": 19, "value_default": 23, "tag": "Д", "source": "раздел 4.2, o_j = (23/19)^alpha_rub для сегмента T на станциях РСЗС" }
+    "d0_km": {
+      "value": 5,
+      "min": 3,
+      "max": 8,
+      "tag": "Д",
+      "source": "калибровка вместе с D0"
+    },
+    "alpha_P": {
+      "value": 0.5,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "чувствительность"
+    },
+    "alpha_c": {
+      "value": 0.3,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "чувствительность"
+    },
+    "alpha_rub": {
+      "value": 1,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "чувствительность"
+    },
+    "rho_road_factor": {
+      "value": 1.3,
+      "min": 1.2,
+      "max": 1.5,
+      "tag": "Д",
+      "source": "проверка на 20 маршрутах в Яндекс.Картах"
+    },
+    "taxi_tariff_ratio": {
+      "value_RSZS": 19,
+      "value_default": 23,
+      "tag": "Д",
+      "source": "раздел 4.2, o_j = (23/19)^alpha_rub для сегмента T на станциях РСЗС"
+    }
   },
-
   "M3_queue": {
     "e_kWh": {
-      "P0_P1_C": { "value": 25, "min": null, "max": null, "tag": "Р", "source": "РСЗС: 12.6 млн кВт*ч на 500 тыс. сессий" },
-      "T": { "value": 30, "min": null, "max": null, "tag": "Д", "source": "РСЗС: 12.6 млн кВт*ч на 500 тыс. сессий" }
+      "P0_P1_C": {
+        "value": 25,
+        "min": null,
+        "max": null,
+        "tag": "Р",
+        "source": "РСЗС: 12.6 млн кВт*ч на 500 тыс. сессий"
+      },
+      "T": {
+        "value": 30,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "РСЗС: 12.6 млн кВт*ч на 500 тыс. сессий"
+      }
     },
-    "avg_dc_session_control_min": { "value": 30, "min": null, "max": null, "tag": "И", "source": "Газета Метро, 15.06.2026" },
+    "avg_dc_session_control_min": {
+      "value": 30,
+      "min": null,
+      "max": null,
+      "tag": "И",
+      "source": "Газета Метро, 15.06.2026"
+    },
     "P_veh_kW": {
-      "P_C": { "value": 100, "min": null, "max": null, "tag": "Д", "source": "структура парка по моделям" },
-      "T": { "value": 80, "min": null, "max": null, "tag": "Д", "source": "структура парка по моделям" }
+      "P_C": {
+        "value": 100,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "структура парка по моделям"
+      },
+      "T": {
+        "value": 80,
+        "min": null,
+        "max": null,
+        "tag": "Д",
+        "source": "структура парка по моделям"
+      }
     },
-    "phi": { "value": 0.7, "min": 0.6, "max": 0.8, "tag": "Д", "source": "логи сессий РСЗС" },
-    "t0_min": { "value": 5, "min": null, "max": null, "tag": "Д", "source": "-" },
-    "kappa_winter": { "E": { "value": 1.15, "tag": "Д", "source": "дозапрос" }, "P": { "value": 0.8, "tag": "Д", "source": "дозапрос" } },
-    "Q_waiting_slots": { "value": 2, "min": null, "max": null, "tag": "Д", "source": "осмотр площадки" },
-    "T_threshold_min": { "value": 10, "min": null, "max": null, "tag": "Д", "source": "медиана кастдева" },
-    "alpha_accessibility": { "value": 0.9, "min": null, "max": null, "tag": "Д", "source": "медиана кастдева" },
-    "a_tech": { "value": 0.95, "min": null, "max": null, "tag": "Д", "source": "дозапрос (аптайм)" },
-    "b_ICE": { "value": 0.02, "min": null, "max": null, "tag": "Д", "source": "МАДИ (1000+ случаев ДВС - число, не доля)" }
+    "phi": {
+      "value": 0.7,
+      "min": 0.6,
+      "max": 0.8,
+      "tag": "Д",
+      "source": "логи сессий РСЗС"
+    },
+    "t0_min": {
+      "value": 5,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "-"
+    },
+    "kappa_winter": {
+      "E": {
+        "value": 1.15,
+        "tag": "Д",
+        "source": "дозапрос"
+      },
+      "P": {
+        "value": 0.8,
+        "tag": "Д",
+        "source": "дозапрос"
+      }
+    },
+    "Q_waiting_slots": {
+      "value": 2,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "осмотр площадки"
+    },
+    "T_threshold_min": {
+      "value": 10,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "медиана кастдева"
+    },
+    "alpha_accessibility": {
+      "value": 0.9,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "медиана кастдева"
+    },
+    "a_tech": {
+      "value": 0.95,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "дозапрос (аптайм)"
+    },
+    "b_ICE": {
+      "value": 0.02,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "МАДИ (1000+ случаев ДВС - число, не доля)"
+    }
   },
-
   "M5_grid": {
-    "cos_phi": { "value": 0.95, "min": null, "max": null, "tag": "Д", "source": "энергетик" },
-    "c_A_rub_per_kW": { "value": 7500, "min": 5000, "max": 10000, "tag": "И", "source": "коридор льготной ставки, ПП РФ №1178 п.87; Москва для физлиц 8350 (energo.one)" },
-    "c_B_rub_per_kW": { "value": 65000, "min": 50000, "max": 80000, "tag": "И", "source": "Проблема v1, Москва" },
-    "c_cab_rub_per_m": { "value": 0, "min": null, "max": null, "tag": "Д", "source": "нет дефолта, 0 с предупреждением; уточнить сметой подрядчика" },
-    "T_conn_months": {
-      "A": { "value": 7.5, "min": 6, "max": 9, "tag": "И", "source": "НПО ЭЛМ (практика 6-9)" },
-      "B": { "value": 10.5, "min": 9, "max": 12, "tag": "И", "source": "РСЗС блок 2 в.2 (до года)" }
+    "cos_phi": {
+      "value": 0.95,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "энергетик"
     },
-    "k_res": { "value": 0, "min": 0, "max": 0.5, "tag": "Д", "source": "доля забронированного резерва, чувствительность на стенде" },
+    "c_A_rub_per_kW": {
+      "value": 7500,
+      "min": 5000,
+      "max": 10000,
+      "tag": "И",
+      "source": "коридор льготной ставки, ПП РФ №1178 п.87; Москва для физлиц 8350 (energo.one)"
+    },
+    "c_B_rub_per_kW": {
+      "value": 65000,
+      "min": 50000,
+      "max": 80000,
+      "tag": "И",
+      "source": "Проблема v1, Москва"
+    },
+    "c_cab_rub_per_m": {
+      "value": 0,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "нет дефолта, 0 с предупреждением; уточнить сметой подрядчика"
+    },
+    "T_conn_months": {
+      "A": {
+        "value": 7.5,
+        "min": 6,
+        "max": 9,
+        "tag": "И",
+        "source": "НПО ЭЛМ (практика 6-9)"
+      },
+      "B": {
+        "value": 10.5,
+        "min": 9,
+        "max": 12,
+        "tag": "И",
+        "source": "РСЗС блок 2 в.2 (до года)"
+      }
+    },
+    "k_res": {
+      "value": 0,
+      "min": 0,
+      "max": 0.5,
+      "tag": "Д",
+      "source": "доля забронированного резерва, чувствительность на стенде"
+    },
     "subsidy_equipment": {
-      "rate_2dc_rub_per_kW": { "value": 11235, "tag": "И", "source": "electro.cars, Elli (НПО ЭЛМ)" },
-      "rate_3plus_dc_rub_per_kW": { "value": 12484, "tag": "И", "source": "electro.cars, Elli (НПО ЭЛМ)" },
-      "cap_share": { "value": 0.6, "tag": "И", "source": "условия 2025-2027" },
-      "cap_rub": { "value": 4369400, "tag": "И", "source": "условия 2025-2027" },
+      "rate_2dc_rub_per_kW": {
+        "value": 11235,
+        "tag": "И",
+        "source": "electro.cars, Elli (НПО ЭЛМ)"
+      },
+      "rate_3plus_dc_rub_per_kW": {
+        "value": 12484,
+        "tag": "И",
+        "source": "electro.cars, Elli (НПО ЭЛМ)"
+      },
+      "cap_share": {
+        "value": 0.6,
+        "tag": "И",
+        "source": "условия 2025-2027"
+      },
+      "cap_rub": {
+        "value": 4369400,
+        "tag": "И",
+        "source": "условия 2025-2027"
+      },
       "min_power_kW": 149,
       "min_connectors": 2,
       "default_enabled": false
     },
     "subsidy_connection": {
-      "cap_share": { "value": 0.6, "tag": "И", "source": "условия 2025-2027" },
-      "cap_rub": { "value": 2114350, "tag": "И", "source": "условия 2025-2027" },
+      "cap_share": {
+        "value": 0.6,
+        "tag": "И",
+        "source": "условия 2025-2027"
+      },
+      "cap_rub": {
+        "value": 2114350,
+        "tag": "И",
+        "source": "условия 2025-2027"
+      },
       "default_enabled": false
     }
   },
-
   "M6_M7_equipment_economics": {
     "catalog": {
       "note": "Раздел 8.1. *-bal создаётся автоматически, если P_avail < P_cap базовой конфигурации.",
       "configs": [
-        { "omega": "DC60-1", "P_cap_kW": 60, "posts": 1, "P_post_kW": 60, "C_eq_mln_rub": 1.6, "comment": "как большинство станций РСЗС в Москве (89 из 126)" },
-        { "omega": "DC60-2", "P_cap_kW": 60, "posts": 2, "P_post_kW": 60, "C_eq_mln_rub": 1.6, "comment": "то же оборудование, оба разъёма одновременно" },
-        { "omega": "DC120-2", "P_cap_kW": 120, "posts": 2, "P_post_kW": 60, "C_eq_mln_rub": 3.2, "comment": "две станции DC60" },
-        { "omega": "DC150-2", "P_cap_kW": 150, "posts": 2, "P_post_kW": 150, "C_eq_mln_rub": 2.2, "comment": "базовая комплектация" },
-        { "omega": "DC150-2S", "P_cap_kW": 150, "posts": 2, "P_post_kW": 150, "C_eq_mln_rub": 3.2, "comment": "версия под субсидию" },
-        { "omega": "DC300-4", "P_cap_kW": 300, "posts": 4, "P_post_kW": 150, "C_eq_mln_rub": 4.4, "comment": "две станции DC150, всегда класс Б" }
+        {
+          "omega": "DC60-1",
+          "P_cap_kW": 60,
+          "posts": 1,
+          "P_post_kW": 60,
+          "C_eq_mln_rub": 1.6,
+          "comment": "как большинство станций РСЗС в Москве (89 из 126)"
+        },
+        {
+          "omega": "DC60-2",
+          "P_cap_kW": 60,
+          "posts": 2,
+          "P_post_kW": 60,
+          "C_eq_mln_rub": 1.6,
+          "comment": "то же оборудование, оба разъёма одновременно"
+        },
+        {
+          "omega": "DC120-2",
+          "P_cap_kW": 120,
+          "posts": 2,
+          "P_post_kW": 60,
+          "C_eq_mln_rub": 3.2,
+          "comment": "две станции DC60"
+        },
+        {
+          "omega": "DC150-2",
+          "P_cap_kW": 150,
+          "posts": 2,
+          "P_post_kW": 150,
+          "C_eq_mln_rub": 2.2,
+          "comment": "базовая комплектация"
+        },
+        {
+          "omega": "DC150-2S",
+          "P_cap_kW": 150,
+          "posts": 2,
+          "P_post_kW": 150,
+          "C_eq_mln_rub": 3.2,
+          "comment": "версия под субсидию"
+        },
+        {
+          "omega": "DC300-4",
+          "P_cap_kW": 300,
+          "posts": 4,
+          "P_post_kW": 150,
+          "C_eq_mln_rub": 4.4,
+          "comment": "две станции DC150, всегда класс Б"
+        }
       ],
       "tag": "И",
       "source": "прайс-лист Elli (НПО ЭЛМ), 2026"
     },
-    "C_site_mln_rub": { "value": 0.7, "min": 0.5, "max": 1.0, "tag": "Д", "source": "дозапрос" },
-    "C_int_mln_rub": { "value": 0.1, "min": null, "max": null, "tag": "Д", "source": "дозапрос" },
-    "C_sunk_mln_rub": { "value": 0.3, "min": null, "max": null, "tag": "Д", "source": "дозапрос" },
-    "tariff_incl_vat_rub_per_kWh": {
-      "retail_and_corporate": { "value": 23, "tag": "И", "source": "atomic-energy.ru, 30.07.2026" },
-      "taxi": { "value": 19, "tag": "И", "source": "atomic-energy.ru, 30.07.2026" }
+    "C_site_mln_rub": {
+      "value": 0.7,
+      "min": 0.5,
+      "max": 1,
+      "tag": "Д",
+      "source": "дозапрос"
     },
-    "vat_rate": { "value": 0.22, "tag": "И", "source": "ГАРАНТ.РУ, с 01.01.2026" },
-    "p_el_rub_per_kWh": { "value": 10, "min": 8, "max": 13, "tag": "Д", "source": "предельные цены Мосэнергосбыта, сайт не открылся, первый приоритет Бори" },
-    "eta_ch": { "value": 0.94, "min": null, "max": null, "tag": "Д", "source": "-" },
-    "f_acq": { "value": 0.02, "min": null, "max": null, "tag": "Д", "source": "-" },
-    "rent_rub_per_place_month": { "value": 10000, "min": 0, "max": 30000, "tag": "Д", "source": "дозапрос, часто место дают за процент или бесплатно" },
-    "maintenance_share_Ceq_per_year": { "value": 0.04, "tag": "Д", "source": "дозапрос" },
-    "connectivity_insurance_rub_per_year": { "value": 60000, "tag": "Д", "source": "дозапрос" },
-    "r_discount_rate": { "value": 0.18, "tag": "Д", "source": "ключевая ставка 14% (ЦБ, 11.09.2026) + 4 п.п. риска" },
-    "H_years": { "value": 10, "tag": "Д", "source": "срок службы оборудования, дозапрос" }
+    "C_int_mln_rub": {
+      "value": 0.1,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "дозапрос"
+    },
+    "C_sunk_mln_rub": {
+      "value": 0.3,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "дозапрос"
+    },
+    "tariff_incl_vat_rub_per_kWh": {
+      "retail_and_corporate": {
+        "value": 23,
+        "tag": "И",
+        "source": "atomic-energy.ru, 30.07.2026"
+      },
+      "taxi": {
+        "value": 19,
+        "tag": "И",
+        "source": "atomic-energy.ru, 30.07.2026"
+      }
+    },
+    "vat_rate": {
+      "value": 0.22,
+      "tag": "И",
+      "source": "ГАРАНТ.РУ, с 01.01.2026"
+    },
+    "p_el_rub_per_kWh": {
+      "value": 10,
+      "min": 8,
+      "max": 13,
+      "tag": "Д",
+      "source": "предельные цены Мосэнергосбыта, сайт не открылся, первый приоритет Бори"
+    },
+    "eta_ch": {
+      "value": 0.94,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "-"
+    },
+    "f_acq": {
+      "value": 0.02,
+      "min": null,
+      "max": null,
+      "tag": "Д",
+      "source": "-"
+    },
+    "rent_rub_per_place_month": {
+      "value": 10000,
+      "min": 0,
+      "max": 30000,
+      "tag": "Д",
+      "source": "дозапрос, часто место дают за процент или бесплатно"
+    },
+    "maintenance_share_Ceq_per_year": {
+      "value": 0.04,
+      "tag": "Д",
+      "source": "дозапрос"
+    },
+    "connectivity_insurance_rub_per_year": {
+      "value": 60000,
+      "tag": "Д",
+      "source": "дозапрос"
+    },
+    "r_discount_rate": {
+      "value": 0.18,
+      "tag": "Д",
+      "source": "ключевая ставка 14% (ЦБ, 11.09.2026) + 4 п.п. риска"
+    },
+    "H_years": {
+      "value": 10,
+      "tag": "Д",
+      "source": "срок службы оборудования, дозапрос"
+    }
   },
-
   "M8_portfolio": {
-    "pool_size_max": { "value": 300, "tag": "Д", "source": "раздел 10.1" },
-    "min_distance_to_existing_m": { "value": 150, "tag": "Д", "source": "раздел 10.1" },
-    "min_distance_between_new_km": { "value": 1, "tag": "Д", "source": "раздел 10.2" },
-    "T_B_delay_months": { "value": 6, "tag": "Д", "source": "раздел 10.2" },
-    "fast_screening_top_n": { "value": 10, "tag": "Д", "source": "раздел 10.3" },
+    "pool_size_max": {
+      "value": 300,
+      "tag": "Д",
+      "source": "раздел 10.1"
+    },
+    "min_distance_to_existing_m": {
+      "value": 150,
+      "tag": "Д",
+      "source": "раздел 10.1"
+    },
+    "min_distance_between_new_km": {
+      "value": 1,
+      "tag": "Д",
+      "source": "раздел 10.2"
+    },
+    "T_B_delay_months": {
+      "value": 6,
+      "tag": "Д",
+      "source": "раздел 10.2"
+    },
+    "fast_screening_top_n": {
+      "value": 10,
+      "tag": "Д",
+      "source": "раздел 10.3"
+    },
     "seed": 20260919,
     "note": "модуль отложен на после 24.09, CELF пока заранее посчитанной таблицей"
   },
-
-  "days_weights": { "n_winter_months": 5, "n_summer_months": 7, "n_weekday": 5, "n_weekend": 2 },
-
+  "days_weights": {
+    "n_winter_months": 5,
+    "n_summer_months": 7,
+    "n_weekday": 5,
+    "n_weekend": 2
+  },
   "equilibrium": {
     "max_iterations": 30,
     "theta_damping": 0.5,
