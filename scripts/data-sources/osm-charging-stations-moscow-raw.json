@@ -1,0 +1,5257 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-09-20T02:23:35Z",
+    "timestamp_areas_base": "2026-09-19T10:28:36Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 2656686171,
+  "lat": 55.6965806,
+  "lon": 37.8524035,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 2914048739,
+  "lat": 55.7485607,
+  "lon": 37.7082921,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "Револьта",
+    "socket:schuko": "2",
+    "socket:schuko:current": "16",
+    "socket:schuko:voltage": "220",
+    "socket:type2": "2",
+    "socket:type2:current": "32",
+    "socket:type2:voltage": "380",
+    "website": "https://revolta.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 2914048740,
+  "lat": 55.8328857,
+  "lon": 37.4814863,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "Револьта",
+    "socket:schuko": "1",
+    "socket:schuko:current": "16",
+    "socket:schuko:voltage": "220",
+    "socket:type2": "1",
+    "socket:type2:current": "32",
+    "socket:type2:voltage": "380",
+    "website": "https://revolta.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 3775034863,
+  "lat": 55.7344600,
+  "lon": 37.6358114,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "fee": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Московский электротранспорт",
+    "parking:fee": "no",
+    "ref": "002",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 4143311990,
+  "lat": 55.6951211,
+  "lon": 37.3801689,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Tesla Supercharger",
+    "brand:wikidata": "Q17089620",
+    "capacity": "4",
+    "name": "Tesla Supercharger",
+    "note": "Tesla does not operate this charger",
+    "source": "https://moscowteslaclub.ru/article/supercharger-v-moskve-pervaya-v-rossii-zaryadnaya-stantsiya-tesla/;https://x.com/TheTeslaLife/status/1129752553867100164?s=20"
+  }
+},
+{
+  "type": "node",
+  "id": 4489999489,
+  "lat": 55.7630944,
+  "lon": 37.6098306,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "1",
+    "motorcar": "yes",
+    "operator": "Мосэнерго",
+    "operator:wikidata": "Q1477022",
+    "parking:fee": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 4523495753,
+  "lat": 55.7624030,
+  "lon": 37.6002229,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2026-05-15",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4675039623,
+  "lat": 55.7566653,
+  "lon": 37.6074628,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 4703123846,
+  "lat": 55.7619870,
+  "lon": 37.6179950,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "3",
+    "operator": "Мосэнерго",
+    "operator:wikidata": "Q1477022",
+    "socket:type2": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 4714015491,
+  "lat": 55.7455748,
+  "lon": 37.6343693,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "check_date": "2026-02-14"
+  }
+},
+{
+  "type": "node",
+  "id": 4714015492,
+  "lat": 55.7455203,
+  "lon": 37.6345036,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "check_date": "2026-02-14"
+  }
+},
+{
+  "type": "node",
+  "id": 4714015494,
+  "lat": 55.7454008,
+  "lon": 37.6347978,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "check_date": "2026-02-14"
+  }
+},
+{
+  "type": "node",
+  "id": 4764138228,
+  "lat": 55.7705780,
+  "lon": 37.5677660,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Мосэнерго",
+    "capacity": "1",
+    "description:ru": "бесконтактные карты оплаты",
+    "fee": "yes",
+    "motorcar": "yes",
+    "payment:cash": "no",
+    "payment:coins": "no",
+    "payment:notes": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 4776464330,
+  "lat": 55.7117458,
+  "lon": 37.6200503,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-03-01",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "ref": "023"
+  }
+},
+{
+  "type": "node",
+  "id": 4776464381,
+  "lat": 55.7117420,
+  "lon": 37.6202195,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-03-01",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "ref": "022"
+  }
+},
+{
+  "type": "node",
+  "id": 4902990461,
+  "lat": 55.7557797,
+  "lon": 37.6280112,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "Мосэнерго",
+    "socket:type2": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 4908359221,
+  "lat": 55.8008743,
+  "lon": 37.2992438,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 5001194553,
+  "lat": 55.6002936,
+  "lon": 37.6347920,
+  "tags": {
+    "amenity": "charging_station",
+    "fuel:electricity": "yes",
+    "name": "EMI",
+    "website": "https://www.e-m-i.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 5149643982,
+  "lat": 55.7536721,
+  "lon": 37.6409277,
+  "tags": {
+    "amenity": "charging_station",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5221942790,
+  "lat": 55.7470627,
+  "lon": 37.5991379,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "check_date": "2025-11-02"
+  }
+},
+{
+  "type": "node",
+  "id": 5270381569,
+  "lat": 55.7600254,
+  "lon": 37.6550093,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 5294751983,
+  "lat": 55.7650740,
+  "lon": 37.5978736,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 5418444344,
+  "lat": 55.7569560,
+  "lon": 37.6440954,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 5511434092,
+  "lat": 55.7596180,
+  "lon": 37.6415192,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 5754223812,
+  "lat": 55.7393232,
+  "lon": 37.6334973,
+  "tags": {
+    "amenity": "charging_station",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5773235095,
+  "lat": 55.7618281,
+  "lon": 37.6069850,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "check_date": "2026-01-02",
+    "covered": "no",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "ref": "159",
+    "scooter": "yes",
+    "source": "survey",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 5923035838,
+  "lat": 55.7610722,
+  "lon": 37.6462965,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 6001524476,
+  "lat": 55.8234148,
+  "lon": 37.6371208,
+  "tags": {
+    "amenity": "charging_station",
+    "amperage": "500",
+    "bus": "yes",
+    "capacity": "1",
+    "note": "зарядные станции для электробуса, тегов лучше amenity=charging_station не придумал",
+    "vehicle": "no",
+    "voltage": "600"
+  }
+},
+{
+  "type": "node",
+  "id": 6001524477,
+  "lat": 55.8228462,
+  "lon": 37.6360304,
+  "tags": {
+    "amenity": "charging_station",
+    "amperage": "500",
+    "bus": "yes",
+    "capacity": "1",
+    "note": "зарядные станции для электробуса, тегов лучше amenity=charging_station не придумал",
+    "vehicle": "no",
+    "voltage": "600"
+  }
+},
+{
+  "type": "node",
+  "id": 6251478417,
+  "lat": 55.7673351,
+  "lon": 37.5646183,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "Газпром"
+  }
+},
+{
+  "type": "node",
+  "id": 6384348199,
+  "lat": 55.7390234,
+  "lon": 37.5954039,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "capacity": "1",
+    "check_date": "2025-10-25",
+    "operator": "Мосэнерго",
+    "operator:wikidata": "Q1477022"
+  }
+},
+{
+  "type": "node",
+  "id": 6409353152,
+  "lat": 55.7410702,
+  "lon": 37.6182349,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:none": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "fee": "yes",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "Volt for drive",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "yes",
+    "payment:qr_code": "no",
+    "ref": "97",
+    "scooter": "yes",
+    "socket:type2": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 6442588812,
+  "lat": 55.7544041,
+  "lon": 37.6469560,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 6473962980,
+  "lat": 55.7479864,
+  "lon": 37.6329461,
+  "tags": {
+    "amenity": "charging_station",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6473962981,
+  "lat": 55.7479928,
+  "lon": 37.6329193,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2026-05-02",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6747197009,
+  "lat": 55.7471527,
+  "lon": 37.6259737,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "2",
+    "check_date": "2026-02-14",
+    "motorcar": "yes",
+    "parking:fee": "no",
+    "ref": "035",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "44 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "44 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 6747197010,
+  "lat": 55.7472059,
+  "lon": 37.6259563,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "2",
+    "check_date": "2026-02-14",
+    "motorcar": "yes",
+    "parking:fee": "no",
+    "ref": "034",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "44 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "44 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 6751163511,
+  "lat": 55.7473388,
+  "lon": 37.6290576,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "1",
+    "motorcar": "yes",
+    "parking:fee": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 7034470704,
+  "lat": 55.7736350,
+  "lon": 37.6129644,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-10-09",
+    "contact:phone": "+7 495 1182660",
+    "operator": "Volt for drive"
+  }
+},
+{
+  "type": "node",
+  "id": 7034470705,
+  "lat": 55.7736388,
+  "lon": 37.6130636,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-10-09",
+    "contact:phone": "+7 495 1182660",
+    "operator": "Volt for drive"
+  }
+},
+{
+  "type": "node",
+  "id": 7044984332,
+  "lat": 55.7635994,
+  "lon": 37.5741126,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 7044984333,
+  "lat": 55.7636567,
+  "lon": 37.5741059,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 7063367761,
+  "lat": 55.8232042,
+  "lon": 37.6367124,
+  "tags": {
+    "amenity": "charging_station",
+    "amperage": "500",
+    "bus": "yes",
+    "capacity": "1",
+    "note": "зарядные станции для электробуса, тегов лучше amenity=charging_station не придумал",
+    "vehicle": "no",
+    "voltage": "600"
+  }
+},
+{
+  "type": "node",
+  "id": 7063367766,
+  "lat": 55.8230238,
+  "lon": 37.6363724,
+  "tags": {
+    "amenity": "charging_station",
+    "amperage": "500",
+    "bus": "yes",
+    "capacity": "1",
+    "note": "зарядные станции для электробуса, тегов лучше amenity=charging_station не придумал",
+    "vehicle": "no",
+    "voltage": "600"
+  }
+},
+{
+  "type": "node",
+  "id": 7218189500,
+  "lat": 55.7279839,
+  "lon": 37.5679716,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 7566874003,
+  "lat": 55.8444581,
+  "lon": 37.5843760,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "psv": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7733937141,
+  "lat": 55.8773150,
+  "lon": 37.6550612,
+  "tags": {
+    "amenity": "charging_station",
+    "amperage": "16",
+    "bicycle": "yes",
+    "capacity": "4",
+    "covered": "no",
+    "fee": "no",
+    "motorcar": "no",
+    "power_supply": "cee_7_3",
+    "power_supply:frequency": "50",
+    "power_supply:voltage": "230",
+    "scooter": "no",
+    "socket:schuko": "4",
+    "truck": "no",
+    "voltage": "230",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7783777599,
+  "lat": 55.7479325,
+  "lon": 37.5950626,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-11-02"
+  }
+},
+{
+  "type": "node",
+  "id": 7799623225,
+  "lat": 55.7143113,
+  "lon": 37.5937315,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Мосэнерго",
+    "parking:fee": "no",
+    "ref": "101",
+    "scooter": "no",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 7835351085,
+  "lat": 55.7421428,
+  "lon": 37.6058149,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 8018603385,
+  "lat": 55.6587477,
+  "lon": 37.6283833,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8042288567,
+  "lat": 55.7568877,
+  "lon": 37.6378848,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8168878321,
+  "lat": 55.7861420,
+  "lon": 37.6369121,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8168878322,
+  "lat": 55.7861397,
+  "lon": 37.6369571,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8209007835,
+  "lat": 55.7755932,
+  "lon": 37.6725832,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8237670185,
+  "lat": 55.8374332,
+  "lon": 37.6555736,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2": "yes",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 8237670186,
+  "lat": 55.8643112,
+  "lon": 37.6742722,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "authentication:membership_card": "yes",
+    "fee": "no",
+    "name": "МГТС",
+    "operator": "ПАО МГТС",
+    "socket:chademo": "yes",
+    "socket:chademo:output": "50 kW",
+    "socket:type2": "yes",
+    "socket:type2_combo": "yes",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://mgts.ru/home/chargestation/"
+  }
+},
+{
+  "type": "node",
+  "id": 8237731310,
+  "lat": 55.8182032,
+  "lon": 37.5795502,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "authentication:membership_card": "yes",
+    "fee": "no",
+    "name": "МГТС",
+    "operator": "ПАО МГТС",
+    "socket:schuko": "yes",
+    "socket:type2": "yes",
+    "socket:type2:output": "22 kW",
+    "website": "https://mgts.ru/home/chargestation/"
+  }
+},
+{
+  "type": "node",
+  "id": 8241760055,
+  "lat": 55.5997389,
+  "lon": 37.6020922,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "socket:chademo": "yes",
+    "socket:chademo:output": "50 kW",
+    "socket:type2": "yes",
+    "socket:type2_combo": "yes",
+    "socket:type2_combo:output": "50 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 8309112470,
+  "lat": 55.6529357,
+  "lon": 37.6455650,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8361264729,
+  "lat": 55.7883438,
+  "lon": 37.6399467,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 8608386499,
+  "lat": 55.7441910,
+  "lon": 37.6630345,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-08-21",
+    "operator": "Мосэнерго",
+    "ref": "068"
+  }
+},
+{
+  "type": "node",
+  "id": 8608386500,
+  "lat": 55.7442157,
+  "lon": 37.6631005,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-08-21",
+    "operator": "Мосэнерго",
+    "ref": "041"
+  }
+},
+{
+  "type": "node",
+  "id": 8879678221,
+  "lat": 55.7871000,
+  "lon": 37.6327684,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 9067369754,
+  "lat": 55.7044254,
+  "lon": 37.6576289,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "description": "Энергия Москвы, 1-й Автозаводский пр. #107",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "name": "Энергия Москвы №107",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "107",
+    "scooter": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 9102074310,
+  "lat": 55.7044046,
+  "lon": 37.6584979,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "hgv": "no",
+    "motorcar": "yes",
+    "name": "Мосэнерго",
+    "operator": "Мосэнерго",
+    "scooter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9215595822,
+  "lat": 55.8344486,
+  "lon": 37.3575959,
+  "tags": {
+    "amenity": "charging_station",
+    "name": "PlugMe"
+  }
+},
+{
+  "type": "node",
+  "id": 9276085157,
+  "lat": 55.8875181,
+  "lon": 37.6358449,
+  "tags": {
+    "amenity": "charging_station",
+    "fixme": "Добавить доступные способы оплаты и к какой сети принадлежит",
+    "manufacturer": "Фора (ГРПЗ)",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 9348573701,
+  "lat": 55.5672657,
+  "lon": 37.5719736,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "4"
+  }
+},
+{
+  "type": "node",
+  "id": 9364492029,
+  "lat": 55.6980029,
+  "lon": 37.5029169,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 9394512600,
+  "lat": 55.8440870,
+  "lon": 37.4822622,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "2",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 9404946869,
+  "lat": 55.7020891,
+  "lon": 37.6892182,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "authentication:app": "no",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "yes",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "yes",
+    "bus": "no",
+    "capacity": "3",
+    "covered": "yes",
+    "fee": "no",
+    "hgv": "no",
+    "motorcar": "no",
+    "no:network": "yes",
+    "opening_hours": "24/7",
+    "operator": "Сбербанк",
+    "scooter": "yes",
+    "socket:schuko": "3",
+    "socket:schuko:voltage": "220 V"
+  }
+},
+{
+  "type": "node",
+  "id": 9409853948,
+  "lat": 55.7515385,
+  "lon": 37.6481568,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "capacity": "1",
+    "fee": "yes",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 9447164950,
+  "lat": 55.8503358,
+  "lon": 37.4379018,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "panoramax": "6966001d-b93e-4f92-8467-decf90278460",
+    "panoramax:0": "1a199a71-ed23-4a1f-aa54-fe0be32b9d64",
+    "parking:fee": "no",
+    "phone": "+7 495 018 19 20",
+    "ref": "099",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 9449266961,
+  "lat": 55.8938895,
+  "lon": 37.3963049,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "motorcar": "yes",
+    "name": "Энергия Москвы",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046"
+  }
+},
+{
+  "type": "node",
+  "id": 9449266963,
+  "lat": 55.8919418,
+  "lon": 37.3990461,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-02-09",
+    "covered": "no",
+    "motorcar": "yes",
+    "name": "Энергия Москвы",
+    "name:ru": "Энергия Москвы",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "ref": "289",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 9449266964,
+  "lat": 55.8650812,
+  "lon": 37.4680124,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "motorcar": "yes",
+    "name": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 9529542867,
+  "lat": 55.7241888,
+  "lon": 37.6893888,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Энергия Москвы",
+    "ref": "279",
+    "socket:type2": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 9573136624,
+  "lat": 55.7124410,
+  "lon": 37.6196323,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "capacity": "6",
+    "count": "6",
+    "fee": "no",
+    "motorcar": "yes",
+    "name": "Яндекс заправки",
+    "network": "Яндекс Заправки",
+    "opening_hours": "24/7",
+    "operator": "Яндекс",
+    "parking:fee": "yes",
+    "socket": "type2",
+    "socket:type2_cable": "6",
+    "socket:type2_cable:output": "22 kW",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 9645148761,
+  "lat": 55.7456423,
+  "lon": 37.6583380,
+  "tags": {
+    "amenity": "charging_station",
+    "charging_station:output": "50kW",
+    "check_date": "2025-10-09",
+    "ref": "295"
+  }
+},
+{
+  "type": "node",
+  "id": 9655365406,
+  "lat": 55.7925228,
+  "lon": 37.5629894,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "motorcar": "yes",
+    "ref": "105"
+  }
+},
+{
+  "type": "node",
+  "id": 9726734704,
+  "lat": 55.7697750,
+  "lon": 37.6262145,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "2",
+    "motorcar": "yes",
+    "parking:fee": "no",
+    "ref": "292"
+  }
+},
+{
+  "type": "node",
+  "id": 9757195240,
+  "lat": 55.7664411,
+  "lon": 37.6544503,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "description": "АС 22 кВт #251",
+    "operator": "Энергия москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 9763454541,
+  "lat": 55.7431251,
+  "lon": 37.4128754,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "1",
+    "charge": "19.5 RUB/kW",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "payment:app": "yes",
+    "ref": "286",
+    "ref:ocm": "267399",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 9773243485,
+  "lat": 55.7596104,
+  "lon": 37.6632960,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "contact:website": "https://green-drive.net/",
+    "fee": "yes",
+    "hgv": "no",
+    "motorcar": "yes",
+    "name": "Green drive",
+    "payment:app": "yes",
+    "scooter": "yes",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 9782471777,
+  "lat": 55.8256915,
+  "lon": 37.4521646,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "fee": "no",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "ref": "233",
+    "scooter": "yes",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "voltage": "22000",
+    "website": "https://mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 9790594682,
+  "lat": 55.7771527,
+  "lon": 37.6356746,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-08-15"
+  }
+},
+{
+  "type": "node",
+  "id": 9838230594,
+  "lat": 55.6649127,
+  "lon": 37.4847274,
+  "tags": {
+    "amenity": "charging_station",
+    "name": "Volta",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 9856341290,
+  "lat": 55.7524298,
+  "lon": 37.5312978,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 9856341291,
+  "lat": 55.7523747,
+  "lon": 37.5312817,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 9981833346,
+  "lat": 55.8176077,
+  "lon": 37.7129706,
+  "tags": {
+    "amenity": "charging_station",
+    "description": "Зарядная станция для электромобилей 22КВТ Type2 Melekess",
+    "ref": "390"
+  }
+},
+{
+  "type": "node",
+  "id": 9995076029,
+  "lat": 55.7706923,
+  "lon": 37.6305731,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "check_date": "2025-10-17",
+    "motorcar": "yes",
+    "parking:fee": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 10012952103,
+  "lat": 55.8219333,
+  "lon": 37.5141527,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 10039769854,
+  "lat": 55.7386414,
+  "lon": 37.5387396,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "1",
+    "operator": "Мосэнерго"
+  }
+},
+{
+  "type": "node",
+  "id": 10052886818,
+  "lat": 55.7950558,
+  "lon": 37.7118748,
+  "tags": {
+    "amenity": "charging_station",
+    "network": "Энергия Москвы",
+    "ref": "405",
+    "socket:type2": "1",
+    "voltage": "22"
+  }
+},
+{
+  "type": "node",
+  "id": 10121187991,
+  "lat": 55.7409292,
+  "lon": 37.7682955,
+  "tags": {
+    "amenity": "charging_station",
+    "fixme": "Уточнить тип и количество разъёмов, бренд (Энергия Москвы?)",
+    "name": "297"
+  }
+},
+{
+  "type": "node",
+  "id": 10237447857,
+  "lat": 55.7126109,
+  "lon": 37.5222980,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 10277163546,
+  "lat": 55.7364786,
+  "lon": 37.6553912,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "covered": "no",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "ref": "071",
+    "scooter": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "source": "survey",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 10277163547,
+  "lat": 55.7364352,
+  "lon": 37.6554273,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "covered": "no",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "scooter": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 10287753253,
+  "lat": 55.7079274,
+  "lon": 37.6602086,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "charge": "17 RUB",
+    "covered": "no",
+    "fee": "yes",
+    "hgv": "no",
+    "manufacturer": "Schindler",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Volt for drive",
+    "opening_hours": "24/7",
+    "operator": "Volt for drive",
+    "parking:fee": "no",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "yes",
+    "phone": "+7 495 118 26 60",
+    "scooter": "yes",
+    "socket:type2": "1",
+    "socket:type2:current": "32 A",
+    "socket:type2:output": "22 kW",
+    "socket:type2:voltage": "400 V",
+    "website": "https://v4d.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 10753742207,
+  "lat": 55.7105641,
+  "lon": 37.6730530,
+  "tags": {
+    "access": "customers",
+    "addr:floor": "1",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Punkt e",
+    "bus": "no",
+    "capacity": "2;1",
+    "charge": "15 RUB;10 RUB",
+    "covered": "yes",
+    "email": "info@punkt-e.ru",
+    "fee": "yes",
+    "hgv": "no",
+    "level": "0",
+    "manufacturer": "Pandora;Schindler",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Punkt E",
+    "opening_hours": "24/7",
+    "parking:fee": "yes",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "no",
+    "phone": "+7 800 222 37 00",
+    "ref": "7700403;7700402",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "20 kW",
+    "socket:type2:output": "22 kW",
+    "socket:type2_cable": "1",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "20 kW",
+    "source": "survey",
+    "website": "https://punkt-e.ru"
+  }
+},
+{
+  "type": "node",
+  "id": 10759421792,
+  "lat": 55.7129758,
+  "lon": 37.6588734,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "yes",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Volt for drive",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "phone": "+7 495 118 26 60",
+    "ref": "140",
+    "scooter": "yes",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "source": "survey",
+    "website": "https://v4d.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 10779210744,
+  "lat": 55.7628592,
+  "lon": 37.6337870,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "contact:website": "https://zevs.group/",
+    "operator": "Zevs"
+  }
+},
+{
+  "type": "node",
+  "id": 10832358321,
+  "lat": 55.7741775,
+  "lon": 37.8257133,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 10860615408,
+  "lat": 55.7431349,
+  "lon": 37.5709424,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "capacity": "3",
+    "fee": "no",
+    "operator": "Энергия Москвы",
+    "ref": "75"
+  }
+},
+{
+  "type": "node",
+  "id": 10919497458,
+  "lat": 55.8609054,
+  "lon": 37.4165590,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "covered": "no",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "panoramax": "e4b37e8c-341c-4a75-9be0-f524dec5b402",
+    "panoramax:0": "5f499fd2-086b-43ef-854a-bb099c293eae",
+    "parking:fee": "no",
+    "phone": "+7 495 018 19 20",
+    "ref": "287",
+    "scooter": "no",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru"
+  }
+},
+{
+  "type": "node",
+  "id": 10924954433,
+  "lat": 55.7087328,
+  "lon": 37.6618174,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 0181920",
+    "ref": "130",
+    "scooter": "yes",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "website": "https://www.mos.ru/electro/"
+  }
+},
+{
+  "type": "node",
+  "id": 10973299325,
+  "lat": 55.7092727,
+  "lon": 37.5855154,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "264",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 10984913621,
+  "lat": 55.7447575,
+  "lon": 37.4968169,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "capacity": "2",
+    "covered": "no",
+    "ref": "411"
+  }
+},
+{
+  "type": "node",
+  "id": 11007039814,
+  "lat": 55.8406876,
+  "lon": 37.3539387,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11047290906,
+  "lat": 55.7167635,
+  "lon": 37.7746851,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11047292325,
+  "lat": 55.7184080,
+  "lon": 37.7847474,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11150207098,
+  "lat": 55.7480504,
+  "lon": 37.6760824,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11232532321,
+  "lat": 55.6907365,
+  "lon": 37.6886828,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "contact:phone": "+7 495 0181920",
+    "contact:website": "mos.ru/electro",
+    "ref": "275",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11242897455,
+  "lat": 55.7976532,
+  "lon": 37.6890231,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11251512785,
+  "lat": 55.8349135,
+  "lon": 37.3939082,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 11271479601,
+  "lat": 55.8445996,
+  "lon": 37.3578367,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11281966047,
+  "lat": 55.7827703,
+  "lon": 37.6292279,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11356539240,
+  "lat": 55.8767226,
+  "lon": 37.5377266,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11365655097,
+  "lat": 55.7479525,
+  "lon": 37.6935084,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11379425157,
+  "lat": 55.8514810,
+  "lon": 37.5935948,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "contact:website": "https://transport.mos.ru/electro",
+    "operator": "Энергия Москвы",
+    "ref": "484"
+  }
+},
+{
+  "type": "node",
+  "id": 11397740060,
+  "lat": 55.7624716,
+  "lon": 37.6623646,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "2",
+    "check_date": "2026-03-15",
+    "fee": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 018 19 20",
+    "ref": "247",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11508682238,
+  "lat": 55.7049657,
+  "lon": 37.6399370,
+  "tags": {
+    "access": "customers",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11627908776,
+  "lat": 55.7088670,
+  "lon": 37.5932683,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "hgv": "no",
+    "motorcar": "yes",
+    "name": "Artis",
+    "scooter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11630416727,
+  "lat": 55.8168330,
+  "lon": 37.4640381,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11638544973,
+  "lat": 55.8784044,
+  "lon": 37.5577417,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11638562132,
+  "lat": 55.8614703,
+  "lon": 37.5678214,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11668432569,
+  "lat": 55.8081679,
+  "lon": 37.5316132,
+  "tags": {
+    "addr:housenumber": "12",
+    "addr:street": "Часовая улица",
+    "amenity": "charging_station",
+    "bicycle": "yes",
+    "name": "Энергия Москвы",
+    "ref": "439",
+    "socket:chademo": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11684562460,
+  "lat": 55.7396978,
+  "lon": 37.8583099,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "ref": "088",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11749485173,
+  "lat": 55.6803826,
+  "lon": 37.5960735,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "1",
+    "check_date": "2026-03-05",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 018 19 20",
+    "ref": "267",
+    "scooter": "yes",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "website": "https://mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11750491622,
+  "lat": 55.7703395,
+  "lon": 37.5166998,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 018 19 20",
+    "ref": "239",
+    "scooter": "yes",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11752471165,
+  "lat": 55.7200104,
+  "lon": 37.6096967,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "maxstay": "3 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "804",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11752527691,
+  "lat": 55.7127967,
+  "lon": 37.6329287,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "3 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 018 19 20",
+    "ref": "497",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11766714364,
+  "lat": 55.7902002,
+  "lon": 37.5705291,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11766714365,
+  "lat": 55.7901052,
+  "lon": 37.5706995,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "motorcar": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11777950696,
+  "lat": 55.7200446,
+  "lon": 37.6097011,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "3 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "606",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11777965673,
+  "lat": 55.7203802,
+  "lon": 37.6153631,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "3 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "116",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11777977767,
+  "lat": 55.7200896,
+  "lon": 37.6097195,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "3 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "805",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11778016486,
+  "lat": 55.7191096,
+  "lon": 37.6003279,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "yes",
+    "authentication:money_card": "no",
+    "authentication:nfc": "yes",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Мосэнерго",
+    "parking:fee": "no",
+    "ref": "99",
+    "scooter": "yes",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11778079392,
+  "lat": 55.7239894,
+  "lon": 37.6348418,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "3 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "106",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11780120738,
+  "lat": 55.7256189,
+  "lon": 37.5760388,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "1",
+    "check_date": "2025-11-08",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "335",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11780182032,
+  "lat": 55.7232769,
+  "lon": 37.5725145,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "1",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "ref": "104",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11780205461,
+  "lat": 55.7051691,
+  "lon": 37.5874082,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "1",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "802",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11786705284,
+  "lat": 55.6946876,
+  "lon": 37.5985102,
+  "tags": {
+    "access": "customers",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "contact:email": "electro@mos.ru",
+    "contact:phone": "+7 495 539-54-54",
+    "contact:website": "https://transport.mos.ru/electro",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "270",
+    "scooter": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11786705289,
+  "lat": 55.6939431,
+  "lon": 37.6079023,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "contact:email": "electro@mos.ru",
+    "contact:phone": "+7 495 539-54-54",
+    "contact:website": "https://transport.mos.ru/electro",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "271",
+    "scooter": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11787331324,
+  "lat": 55.6816908,
+  "lon": 37.5795553,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "check_date": "2026-03-01",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "266",
+    "scooter": "no",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11799624330,
+  "lat": 55.6770624,
+  "lon": 37.6329549,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "2",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "273",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11799628787,
+  "lat": 55.7033852,
+  "lon": 37.6436633,
+  "tags": {
+    "access": "customers",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "1",
+    "motorcar": "yes",
+    "no:network": "yes",
+    "operator": "Авилон",
+    "socket:type2_cable": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 11799638195,
+  "lat": 55.7017648,
+  "lon": 37.6427727,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "2",
+    "motorcar": "yes",
+    "network": "Яндекс Заправки",
+    "opening_hours": "24/7",
+    "parking:fee": "yes",
+    "socket:type2_cable": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 11799648699,
+  "lat": 55.7032638,
+  "lon": 37.6436224,
+  "tags": {
+    "access": "customers",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "1",
+    "motorcar": "yes",
+    "no:network": "yes",
+    "operator": "Авилон",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 11805882966,
+  "lat": 55.7043456,
+  "lon": 37.6577792,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "capacity": "1",
+    "email": "electro@mos.ru",
+    "fee": "no",
+    "maxstay": "5 hours",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "opening_hours": "24/7",
+    "parking:fee": "no",
+    "phone": "+7 495 539 54 54",
+    "ref": "168",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 11813711195,
+  "lat": 55.7297828,
+  "lon": 37.6599630,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "capacity": "2",
+    "covered": "no",
+    "fee": "no",
+    "maxstay": "3 hours",
+    "operator": "Энергия Москвы",
+    "ref": "998",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 11841227566,
+  "lat": 55.7363067,
+  "lon": 37.6395392,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "yes",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "fee": "no",
+    "hgv": "no",
+    "motorcar": "yes",
+    "opening_hours": "24/7",
+    "operator": "Мосэнерго",
+    "operator:wikidata": "Q1477022",
+    "parking:fee": "no",
+    "scooter": "yes",
+    "socket:type2": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 11841227567,
+  "lat": 55.7363542,
+  "lon": 37.6395090,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "no",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "yes",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "1",
+    "fee": "no",
+    "hgv": "no",
+    "motorcar": "yes",
+    "opening_hours": "24/7",
+    "operator": "Мосэнерго",
+    "operator:wikidata": "Q1477022",
+    "scooter": "yes",
+    "socket:type2": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 11841321801,
+  "lat": 55.7357940,
+  "lon": 37.6191995,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "1",
+    "fee": "yes",
+    "fee:conditional": "no @ customers",
+    "motorcar": "yes",
+    "network": "Россети Электротранспорт",
+    "opening_hours": "24/7",
+    "parking:fee": "yes",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "yes",
+    "payment:qr_code": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 11871382661,
+  "lat": 55.7847831,
+  "lon": 37.7068385,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11871382662,
+  "lat": 55.7847018,
+  "lon": 37.7068575,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 11968596075,
+  "lat": 55.7947700,
+  "lon": 37.6191106,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "fixme": "position",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 11968596076,
+  "lat": 55.7848796,
+  "lon": 37.6227625,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "fixme": "position",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 11968596077,
+  "lat": 55.7847748,
+  "lon": 37.6228255,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "fixme": "position",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 11968596078,
+  "lat": 55.7846572,
+  "lon": 37.6229113,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "fixme": "position",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 11972544660,
+  "lat": 55.8065804,
+  "lon": 37.5193620,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "capacity": "2",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes",
+    "opening_hours": "24/7",
+    "parking:fee": "yes",
+    "socket:type2": "2",
+    "socket:type2:output": "22"
+  }
+},
+{
+  "type": "node",
+  "id": 11984722719,
+  "lat": 55.7952966,
+  "lon": 37.5810783,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 11984821179,
+  "lat": 55.8373560,
+  "lon": 37.6286144,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "contact:website": "https://transport.mos.ru/electro",
+    "fee": "no",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 11986404663,
+  "lat": 55.7144198,
+  "lon": 37.7965223,
+  "tags": {
+    "addr:housenumber": "8",
+    "addr:street": "улица Академика Скрябина",
+    "amenity": "charging_station",
+    "capacity": "2",
+    "ref": "987"
+  }
+},
+{
+  "type": "node",
+  "id": 11991567215,
+  "lat": 55.8494250,
+  "lon": 37.6425652,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "ref": "468",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 12064278233,
+  "lat": 55.7064691,
+  "lon": 37.7672224,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:gb_dc": "2",
+    "socket:gb_dc:output": "60 kW",
+    "socket:type2_combo": "2",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 12079980600,
+  "lat": 55.7811030,
+  "lon": 37.6121397,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Мосэнерго",
+    "capacity": "1",
+    "operator": "Мосэнерго",
+    "website": "https://electro.cars/"
+  }
+},
+{
+  "type": "node",
+  "id": 12093819589,
+  "lat": 55.6838938,
+  "lon": 37.5498841,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 12104249712,
+  "lat": 55.6718941,
+  "lon": 37.5826872,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "charge": "20 RUB/kW*h",
+    "fee": "yes",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motorcar": "yes",
+    "network": "it.charge",
+    "opening_hours": "24/7",
+    "operator": "it.Charge",
+    "parking:fee": "yes",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "no",
+    "payment:qr_code": "no",
+    "scooter": "yes",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "60kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60kW",
+    "website": "https://itcharge.ru"
+  }
+},
+{
+  "type": "node",
+  "id": 12116487442,
+  "lat": 55.7183804,
+  "lon": 37.5539739,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "it.charge",
+    "bus": "no",
+    "capacity": "1",
+    "covered": "no",
+    "fee": "yes",
+    "hgv": "no",
+    "manufacturer": "Rewatt",
+    "motorcar": "yes",
+    "network": "it.Charge",
+    "opening_hours": "24/7",
+    "operator": "it.charge",
+    "parking:fee": "yes",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "no",
+    "payment:qr_code": "no",
+    "phone": "+7 495 197 64 63",
+    "scooter": "yes",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:current": "32 A",
+    "socket:type2_cable:output": "22 kW",
+    "socket:type2_cable:voltage": "400 V",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 12116498668,
+  "lat": 55.7184101,
+  "lon": 37.5539812,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "it.charge",
+    "bus": "no",
+    "capacity": "1",
+    "covered": "no",
+    "fee": "yes",
+    "hgv": "no",
+    "manufacturer": "Rewatt",
+    "motorcar": "yes",
+    "network": "it.Charge",
+    "opening_hours": "24/7",
+    "operator": "it.charge",
+    "parking:fee": "yes",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "no",
+    "payment:qr_code": "no",
+    "phone": "+7 495 197 64 63",
+    "scooter": "yes",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:current": "32 A",
+    "socket:type2_cable:output": "22 kW",
+    "socket:type2_cable:voltage": "400 V",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 12152255615,
+  "lat": 55.6752601,
+  "lon": 37.7583281,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 12160555229,
+  "lat": 55.6865046,
+  "lon": 37.6736515,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 12176895901,
+  "lat": 55.7410071,
+  "lon": 37.5244950,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12212647087,
+  "lat": 55.6431209,
+  "lon": 37.4962983,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 12240880146,
+  "lat": 55.7419165,
+  "lon": 37.5308640,
+  "tags": {
+    "access": "yes",
+    "addr:floor": "1",
+    "amenity": "charging_station",
+    "authentication:none": "yes",
+    "bicycle": "yes",
+    "bus": "no",
+    "capacity": "12",
+    "check_date": "2025-07-07",
+    "fee": "no",
+    "hgv": "no",
+    "level": "0",
+    "motorcar": "no",
+    "no:network": "yes",
+    "opening_hours": "24/7",
+    "operator": "Сбер",
+    "scooter": "yes",
+    "socket:schuko": "12",
+    "socket:schuko:voltage": "230 V"
+  }
+},
+{
+  "type": "node",
+  "id": 12293756874,
+  "lat": 55.7392618,
+  "lon": 37.6137959,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "capacity": "1",
+    "check_date": "2026-01-11",
+    "operator": "Мосэнерго",
+    "operator:wikidata": "Q1477022"
+  }
+},
+{
+  "type": "node",
+  "id": 12293756875,
+  "lat": 55.7359024,
+  "lon": 37.6105964,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "check_date": "2026-05-02",
+    "fee": "yes",
+    "operator": "Россети",
+    "operator:en": "Rosseti",
+    "operator:ru": "Россети",
+    "operator:wikidata": "Q4499024"
+  }
+},
+{
+  "type": "node",
+  "id": 12293756876,
+  "lat": 55.7333997,
+  "lon": 37.6096107,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "capacity": "1",
+    "check_date": "2026-05-02",
+    "fee": "no",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "ref": "190"
+  }
+},
+{
+  "type": "node",
+  "id": 12293756877,
+  "lat": 55.7334319,
+  "lon": 37.6096223,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "capacity": "1",
+    "check_date": "2026-05-02",
+    "fee": "no",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046"
+  }
+},
+{
+  "type": "node",
+  "id": 12416967668,
+  "lat": 55.6908453,
+  "lon": 37.5657224,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "4",
+    "fee": "yes",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "it.charge",
+    "opening_hours": "24/7",
+    "operator": "it.charge",
+    "panoramax": "4296992f-99f9-42a3-b869-b0f1e89d1861",
+    "parking:fee": "no",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "no",
+    "payment:qr_code": "no",
+    "phone": "+7 495 197 64 63",
+    "scooter": "yes",
+    "socket:chademo": "1",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "2",
+    "website": "https://itcharge.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 12429496328,
+  "lat": 55.7610283,
+  "lon": 37.6071413,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "covered": "no",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motor_vehicle": "yes",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "scooter": "yes",
+    "source": "survey",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 12429496329,
+  "lat": 55.7610004,
+  "lon": 37.6070917,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:debit_card": "no",
+    "authentication:membership_card": "no",
+    "authentication:money_card": "no",
+    "authentication:nfc": "no",
+    "authentication:none": "no",
+    "authentication:phone_call": "no",
+    "authentication:short_message": "no",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:wikidata": "Q125346046",
+    "bus": "no",
+    "capacity": "2",
+    "covered": "no",
+    "fee": "no",
+    "hgv": "no",
+    "maxstay": "unlimited",
+    "motor_vehicle": "yes",
+    "motorcar": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "parking:fee": "no",
+    "scooter": "yes",
+    "source": "survey",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 12460407601,
+  "lat": 55.7927332,
+  "lon": 37.5941393,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 12467446699,
+  "lat": 55.7537092,
+  "lon": 37.6059060,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "capacity": "2",
+    "check_date": "2025-12-20",
+    "motorcar": "yes",
+    "parking:fee": "no",
+    "ref": "768"
+  }
+},
+{
+  "type": "node",
+  "id": 12469128701,
+  "lat": 55.7446964,
+  "lon": 37.6104790,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "1",
+    "check_date": "2026-05-02",
+    "motorcar": "yes",
+    "parking:fee": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12471880290,
+  "lat": 55.7439500,
+  "lon": 37.6408273,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "2",
+    "check_date": "2025-09-19",
+    "description": "50 kW, DC",
+    "motorcar": "yes",
+    "parking:fee": "no",
+    "ref": "328"
+  }
+},
+{
+  "type": "node",
+  "id": 12475735223,
+  "lat": 55.7700709,
+  "lon": 37.6373261,
+  "tags": {
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "authentication:none": "no",
+    "capacity": "2",
+    "check_date": "2026-04-05",
+    "motorcar": "yes",
+    "parking:fee": "no",
+    "ref": "298"
+  }
+},
+{
+  "type": "node",
+  "id": 12500779372,
+  "lat": 55.8782381,
+  "lon": 37.4823204,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-08-21",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 12534385560,
+  "lat": 55.6704715,
+  "lon": 37.5412191,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 12734152784,
+  "lat": 55.7559437,
+  "lon": 37.5387644,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes",
+    "opening_hours": "24/7"
+  }
+},
+{
+  "type": "node",
+  "id": 12788113334,
+  "lat": 55.7906405,
+  "lon": 37.6827965,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Яндекс заправки",
+    "bus": "no",
+    "capacity": "1",
+    "check_date": "2025-04-26",
+    "covered": "no",
+    "fee": "yes",
+    "hgv": "no",
+    "motorcar": "yes",
+    "network": "Яндекс Заправки",
+    "opening_hours": "24/7",
+    "operator": "Яндекс заправки",
+    "panoramax": "fb259881-c35b-47e5-87c2-a5293d1931f5",
+    "panoramax:0": "d6a69479-9ab6-4a1f-97b8-16dad200d006",
+    "panoramax:1": "96a1f298-86f1-42e2-ba5b-c9e4c4afab4e",
+    "parking:fee": "no",
+    "payment:app": "Яндекс Заправки",
+    "scooter": "yes",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:current": "32",
+    "socket:type2_cable:output": "22 kW",
+    "socket:type2_cable:voltage": "400",
+    "website": "https://zapravki.yandex.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 12799895328,
+  "lat": 55.7429701,
+  "lon": 37.5304342,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Сбер"
+  }
+},
+{
+  "type": "node",
+  "id": 12799921060,
+  "lat": 55.7429390,
+  "lon": 37.5303427,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Сбер"
+  }
+},
+{
+  "type": "node",
+  "id": 12806024947,
+  "lat": 55.7920071,
+  "lon": 37.3417644,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 12809257312,
+  "lat": 55.7596374,
+  "lon": 37.6633098,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Green drive",
+    "bus": "no",
+    "capacity": "2",
+    "fee": "yes",
+    "hgv": "no",
+    "motorcar": "yes",
+    "payment:app": "yes",
+    "scooter": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12809281465,
+  "lat": 55.7602072,
+  "lon": 37.6660103,
+  "tags": {
+    "access": "key",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "bus": "no",
+    "capacity": "2",
+    "hgv": "no",
+    "motorcar": "yes",
+    "noname": "yes",
+    "opening_hours": "24/7",
+    "scooter": "yes",
+    "socket:type2": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 12883077831,
+  "lat": 55.7408174,
+  "lon": 37.5320714,
+  "tags": {
+    "addr:floor": "1",
+    "amenity": "charging_station",
+    "capacity": "9",
+    "check_date": "2025-07-07",
+    "level": "0",
+    "operator": "Сбер"
+  }
+},
+{
+  "type": "node",
+  "id": 12922626733,
+  "lat": 55.8069521,
+  "lon": 37.6500379,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Эталон"
+  }
+},
+{
+  "type": "node",
+  "id": 12922626734,
+  "lat": 55.8069928,
+  "lon": 37.6500781,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Эталон"
+  }
+},
+{
+  "type": "node",
+  "id": 12925515643,
+  "lat": 55.7780529,
+  "lon": 37.6061381,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "check_date": "2025-12-12",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes",
+    "payment:app": "yes",
+    "ref": "980",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 12925515644,
+  "lat": 55.7779578,
+  "lon": 37.6062012,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "check_date": "2025-12-12",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes",
+    "payment:app": "yes",
+    "ref": "981",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 12972360130,
+  "lat": 55.8159642,
+  "lon": 37.7230248,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 13005784504,
+  "lat": 55.6512786,
+  "lon": 37.4787761,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "it.charge",
+    "bus": "no",
+    "capacity": "2",
+    "covered": "no",
+    "fee": "yes",
+    "hgv": "no",
+    "manufacturer": "Rewatt",
+    "motorcar": "yes",
+    "network": "it.Charge",
+    "opening_hours": "24/7",
+    "operator": "it.charge",
+    "parking:fee": "yes",
+    "payment:app": "yes",
+    "payment:cards": "no",
+    "payment:cash": "no",
+    "payment:membership_card": "no",
+    "payment:qr_code": "no",
+    "phone": "+7 495 197 64 63",
+    "scooter": "yes",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:current": "32 A",
+    "socket:type2_cable:output": "22 kW",
+    "socket:type2_cable:voltage": "400 V",
+    "source": "survey"
+  }
+},
+{
+  "type": "node",
+  "id": 13005784505,
+  "lat": 55.6465309,
+  "lon": 37.4688157,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Мосэнерго",
+    "capacity": "1",
+    "description:ru": "бесконтактные карты оплаты",
+    "fee": "yes",
+    "motorcar": "yes",
+    "payment:cash": "no",
+    "payment:coins": "no",
+    "payment:notes": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13005996701,
+  "lat": 55.8387752,
+  "lon": 37.5767048,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13027029558,
+  "lat": 55.7309300,
+  "lon": 37.7381956,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "50 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13049552026,
+  "lat": 55.6931942,
+  "lon": 37.5750594,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 13062219477,
+  "lat": 55.7087737,
+  "lon": 37.6110249,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "1",
+    "operator": "Яндекс заправки"
+  }
+},
+{
+  "type": "node",
+  "id": 13072038424,
+  "lat": 55.7724885,
+  "lon": 37.6138106,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-11-06",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13159449889,
+  "lat": 55.7129653,
+  "lon": 37.6067079,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 13176786035,
+  "lat": 55.7641443,
+  "lon": 37.5740283,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "check_date": "2025-09-28",
+    "check_date:capacity": "2025-09-28",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 13188923160,
+  "lat": 55.7370297,
+  "lon": 37.6620568,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "check_date": "2025-10-02",
+    "motorcar": "yes",
+    "ref": "1751",
+    "socket:type2_combo": "2",
+    "socket:type2_combo:output": "80 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13238380582,
+  "lat": 55.6889852,
+  "lon": 37.5892387,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "1",
+    "check_date": "2026-07-04",
+    "fee": "yes",
+    "operator": "Яндекс заправки",
+    "payment:app": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13260325860,
+  "lat": 55.8697931,
+  "lon": 37.6619938,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "ref": "79",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 13263946975,
+  "lat": 55.8622301,
+  "lon": 37.6744118,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "check_date": "2025-12-26",
+    "contact:phone": "+78007009229;+78005053759",
+    "fee": "yes",
+    "manufacturer": "ПСС",
+    "network": "Атом Энерго",
+    "network:en": "Atom Energo",
+    "network:ru": "Атом Энерго",
+    "opening_hours": "24/7",
+    "payment:app": "yes",
+    "ref": "456",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13263946976,
+  "lat": 55.8850874,
+  "lon": 37.6617406,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "ref": "89",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13263946977,
+  "lat": 55.8594210,
+  "lon": 37.6577624,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "contact:phone": "+78007009229;+78005053759",
+    "fee": "yes",
+    "manufacturer": "ПСС",
+    "network": "Атом Энерго",
+    "network:en": "Atom Energo",
+    "network:ru": "Атом Энерго",
+    "opening_hours": "24/7",
+    "payment:app": "yes",
+    "ref": "446",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13280045859,
+  "lat": 55.7365538,
+  "lon": 37.6879318,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-11-04"
+  }
+},
+{
+  "type": "node",
+  "id": 13283998601,
+  "lat": 55.7421696,
+  "lon": 37.4789223,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Яндекс.Заправки",
+    "check_date": "2026-05-09",
+    "check_date:opening_hours": "2026-05-09",
+    "opening_hours": "24/7",
+    "operator": "Яндекс Заправки",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:output": "22"
+  }
+},
+{
+  "type": "node",
+  "id": 13283998602,
+  "lat": 55.8973210,
+  "lon": 37.4008248,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Розетка",
+    "socket:gb_dc": "2",
+    "socket:type2": "1",
+    "socket:type2_combo": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 13289649064,
+  "lat": 55.9054655,
+  "lon": 37.3853697,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "check_date": "2025-11-08",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes",
+    "ref": "291",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13290022245,
+  "lat": 55.6834610,
+  "lon": 37.5538262,
+  "tags": {
+    "amenity": "charging_station",
+    "manufacturer": "Engy",
+    "socket:chademo": "1",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13290022246,
+  "lat": 55.6731797,
+  "lon": 37.6314665,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Green Drive",
+    "socket:gb_dc": "2",
+    "socket:type2_combo": "2",
+    "website": "https://green-drive.net/"
+  }
+},
+{
+  "type": "node",
+  "id": 13290022247,
+  "lat": 55.7535358,
+  "lon": 37.6709580,
+  "tags": {
+    "amenity": "charging_station",
+    "manufacturer": "Engy",
+    "socket:chademo": "1",
+    "socket:gb_dc": "1",
+    "socket:type2": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13293530568,
+  "lat": 55.5804901,
+  "lon": 37.5736830,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Розетка",
+    "fee": "yes",
+    "payment:app": "yes",
+    "ref": "028",
+    "socket:chademo": "1",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13294919100,
+  "lat": 55.8847920,
+  "lon": 37.5147058,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Трасса",
+    "fee": "yes",
+    "socket:chademo": "3",
+    "socket:gb_dc": "3",
+    "socket:type2_combo": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 13295401138,
+  "lat": 55.7810483,
+  "lon": 37.8407921,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Е-Пойнт",
+    "brand:en": "E-Point",
+    "check_date": "2025-12-27",
+    "contact:phone": "+78007779753",
+    "socket:chademo": "1",
+    "socket:type2_combo": "1",
+    "website": "https://www.e-point.ru/"
+  }
+},
+{
+  "type": "node",
+  "id": 13295719164,
+  "lat": 55.7021742,
+  "lon": 37.7780464,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13298514026,
+  "lat": 55.8814183,
+  "lon": 37.7169743,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13298514027,
+  "lat": 55.8794605,
+  "lon": 37.7146012,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13298514028,
+  "lat": 55.8879286,
+  "lon": 37.6564727,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:chademo": "1",
+    "socket:chademo:output": "60 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "60 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13298514029,
+  "lat": 55.8917210,
+  "lon": 37.6623649,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13299579814,
+  "lat": 55.7151336,
+  "lon": 37.8862353,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity:motorcar": "2",
+    "check_date": "2026-05-29",
+    "check_date:capacity:motorcar": "2026-05-29",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "socket:gb_dc": "2",
+    "socket:gb_dc:output": "60 kW",
+    "socket:type2_combo": "2",
+    "socket:type2_combo:output": "60 kW",
+    "website": "https://transport.mos.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 13299984276,
+  "lat": 55.7897895,
+  "lon": 37.4955071,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Яндекс Заправки",
+    "check_date": "2025-11-12",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13299984277,
+  "lat": 55.7850696,
+  "lon": 37.4960332,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Заряди Авто",
+    "check_date": "2025-11-12",
+    "fee": "yes",
+    "manufacturer": "Парус Электро",
+    "operator": "ООО «РН-Энергия»",
+    "payment:app": "yes",
+    "socket:chademo": "1",
+    "socket:chademo:output": "50 kW",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "150 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "150 kW",
+    "website": "https://www.rn-energo.ru/services/novaya-set-bystrykh-elektrozaryadnykh-stantsiy-zaryadi-avto/"
+  }
+},
+{
+  "type": "node",
+  "id": 13324386629,
+  "lat": 55.6020118,
+  "lon": 37.4829812,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-11-22"
+  }
+},
+{
+  "type": "node",
+  "id": 13340857039,
+  "lat": 55.7425560,
+  "lon": 37.6164651,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-11-29"
+  }
+},
+{
+  "type": "node",
+  "id": 13391070605,
+  "lat": 55.7389587,
+  "lon": 37.6522272,
+  "tags": {
+    "amenity": "charging_station",
+    "operator": "РусГидро",
+    "operator:wikidata": "Q2035424"
+  }
+},
+{
+  "type": "node",
+  "id": 13401697680,
+  "lat": 55.7427120,
+  "lon": 37.6696521,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2025-12-24",
+    "operator": "Яндекс Заправка"
+  }
+},
+{
+  "type": "node",
+  "id": 13406615415,
+  "lat": 55.8566293,
+  "lon": 37.6697737,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Ростелеком",
+    "capacity": "2",
+    "check_date": "2025-12-26",
+    "network": "Touch",
+    "ref": "TS2092",
+    "socket:type2": "2",
+    "website": "https://www.touch-station.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 13406615416,
+  "lat": 55.8562870,
+  "lon": 37.6690174,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Яндекс Заправки",
+    "capacity": "1",
+    "check_date": "2025-12-26",
+    "fee": "yes",
+    "manufacturer": "Rewatt",
+    "socket:type2_cable": "1",
+    "socket:type2_cable:output": "22 kW",
+    "website": "https://zapravki.yandex.ru/electro"
+  }
+},
+{
+  "type": "node",
+  "id": 13406615417,
+  "lat": 55.8758346,
+  "lon": 37.6664914,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "ЭМС",
+    "check_date": "2025-12-26",
+    "fee": "yes",
+    "manufacturer": "ЭМС",
+    "network": "Electro.cars",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13462338276,
+  "lat": 55.7556294,
+  "lon": 37.5607540,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity": "1",
+    "check_date": "2026-01-17",
+    "fee": "yes",
+    "payment:cash": "yes",
+    "payment:contactless": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:mir": "yes",
+    "payment:sbp": "yes",
+    "payment:unionpay": "yes",
+    "payment:visa": "yes",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "50 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13472470428,
+  "lat": 55.7734984,
+  "lon": 37.6636154,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Sitronics Electro",
+    "contact:phone": "+78002509336",
+    "ref": "7728",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1",
+    "website": "https://sitronics-electro.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 13516607326,
+  "lat": 55.5968657,
+  "lon": 37.6009946,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "capacity": "2",
+    "check_date": "2026-02-01",
+    "fee": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:mir": "yes",
+    "payment:sbp": "yes",
+    "payment:unionpay": "yes",
+    "payment:visa": "yes",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13528886910,
+  "lat": 55.8098697,
+  "lon": 37.6370105,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "ref": "101"
+  }
+},
+{
+  "type": "node",
+  "id": 13528886911,
+  "lat": 55.8071252,
+  "lon": 37.6344836,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "ref": "965"
+  }
+},
+{
+  "type": "node",
+  "id": 13528886912,
+  "lat": 55.8071697,
+  "lon": 37.6344950,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "ref": "964"
+  }
+},
+{
+  "type": "node",
+  "id": 13528886913,
+  "lat": 55.8073475,
+  "lon": 37.6349678,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "ref": "967"
+  }
+},
+{
+  "type": "node",
+  "id": 13528886914,
+  "lat": 55.8073443,
+  "lon": 37.6350859,
+  "tags": {
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "ref": "966"
+  }
+},
+{
+  "type": "node",
+  "id": 13602175516,
+  "lat": 55.7573767,
+  "lon": 37.5865956,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13673769854,
+  "lat": 55.7619647,
+  "lon": 37.6316527,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13673769855,
+  "lat": 55.7618666,
+  "lon": 37.6316413,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13673983610,
+  "lat": 55.7856957,
+  "lon": 37.7387183,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 13750165834,
+  "lat": 55.8436602,
+  "lon": 37.3992752,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "covered": "no",
+    "description": "1 x CHAdeMO, 1 x CCS Combo 2",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "payment:app": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13759167856,
+  "lat": 55.7486297,
+  "lon": 37.6568556,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2026-04-24",
+    "ref": "823"
+  }
+},
+{
+  "type": "node",
+  "id": 13760481719,
+  "lat": 55.7079314,
+  "lon": 37.6823551,
+  "tags": {
+    "amenity": "charging_station",
+    "fee": "yes",
+    "motorcar": "yes",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13762273645,
+  "lat": 55.7084853,
+  "lon": 37.6557459,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 13790279330,
+  "lat": 55.7613606,
+  "lon": 37.6360903,
+  "tags": {
+    "access": "private",
+    "amenity": "charging_station",
+    "capacity": "1",
+    "check_date": "2026-05-03"
+  }
+},
+{
+  "type": "node",
+  "id": 13808053108,
+  "lat": 55.7391423,
+  "lon": 37.4207770,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "charge": "23 RUB/kW",
+    "charging_station:output": "150 kW",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "payment:app": "yes",
+    "ref": "1678",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13808053109,
+  "lat": 55.7391034,
+  "lon": 37.4208688,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "charge": "23 RUB/kW",
+    "charging_station:output": "150 kW",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "payment:app": "yes",
+    "ref": "1679",
+    "socket:gb_dc": "1",
+    "socket:type2_combo": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13808118483,
+  "lat": 55.7377832,
+  "lon": 37.4334778,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "1",
+    "charge": "19.5 RUB/kW",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "operator": "Энергия Москвы",
+    "payment:app": "yes",
+    "ref": "398",
+    "ref:ocm": "267400",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 13808293203,
+  "lat": 55.7247689,
+  "lon": 37.4089854,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Яндекс Заправки",
+    "capacity": "1",
+    "charge": "15 RUB/kW",
+    "fee": "yes",
+    "payment:app": "yes",
+    "socket:type2_cable": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13815058401,
+  "lat": 55.7747385,
+  "lon": 37.6287757,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity:motorcar": "2",
+    "charge": "23 RUB/kW",
+    "check_date": "2026-05-10",
+    "check_date:capacity:motorcar": "2026-05-10",
+    "check_date:opening_hours": "2026-05-10",
+    "fee": "yes",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "operator": "Энергия Москвы",
+    "payment:app": "yes",
+    "ref": "046",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "44",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "44"
+  }
+},
+{
+  "type": "node",
+  "id": 13820474692,
+  "lat": 55.7354332,
+  "lon": 37.4228100,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Яндекс Заправки",
+    "capacity": "1",
+    "charge": "15 RUB/kW",
+    "check_date": "2026-05-30",
+    "covered": "no",
+    "fee": "yes",
+    "payment:app": "yes",
+    "payment:cash": "no",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "socket:type2_cable": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 13945081134,
+  "lat": 55.5474933,
+  "lon": 37.5415295,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 13970892739,
+  "lat": 55.6650175,
+  "lon": 37.5122528,
+  "tags": {
+    "amenity": "charging_station",
+    "check_date": "2026-06-27"
+  }
+},
+{
+  "type": "node",
+  "id": 13973052457,
+  "lat": 55.7857330,
+  "lon": 37.4801095,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Энергия Москвы",
+    "capacity": "2",
+    "charge": "23 ₽/кВт•ч",
+    "check_date": "2026-06-28",
+    "covered": "no",
+    "fee": "yes",
+    "manufacturer": "Атомэнерго",
+    "opening_hours": "24/7",
+    "payment:app": "yes",
+    "ref": "1633"
+  }
+},
+{
+  "type": "node",
+  "id": 13976563380,
+  "lat": 55.8620663,
+  "lon": 37.5213824,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "capacity": "2",
+    "charge": "23 руб/кВт•ч",
+    "check_date": "2026-06-30",
+    "covered": "no",
+    "description": "Два коннектора: CCS COMBO 2 и CHADEMO. Общая мощность 60 кВт",
+    "fee": "yes",
+    "opening_hours": "24/7",
+    "payment:app": "yes",
+    "ref": "472"
+  }
+},
+{
+  "type": "node",
+  "id": 14004981766,
+  "lat": 55.7666680,
+  "lon": 37.3714636,
+  "tags": {
+    "access": "yes",
+    "addr:housenumber": "вл4А",
+    "addr:street": "МКАД, 60-й километр",
+    "amenity": "charging_station",
+    "brand": "Punkt E",
+    "capacity": "2",
+    "check_date": "2026-07-11",
+    "covered": "no",
+    "fee": "yes",
+    "opening_hours": "24/7",
+    "payment:app": "yes",
+    "ref": "7702301"
+  }
+},
+{
+  "type": "node",
+  "id": 14008077269,
+  "lat": 55.7834445,
+  "lon": 37.6764187,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 14008077270,
+  "lat": 55.7833506,
+  "lon": 37.6762906,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "charging_station:output": "50",
+    "contact:website": "https://transport.mos.ru/",
+    "fee": "no",
+    "operator": "Энергия Москвы"
+  }
+},
+{
+  "type": "node",
+  "id": 14011442431,
+  "lat": 55.7218463,
+  "lon": 37.4102990,
+  "tags": {
+    "access": "yes",
+    "addr:housenumber": "16 с4",
+    "addr:street": "улица Кубинка",
+    "amenity": "charging_station",
+    "brand": "Яндекс Заправки",
+    "capacity": "1",
+    "charge": "18,5 RUB/kW•h",
+    "check_date": "2026-07-14",
+    "covered": "no",
+    "fee": "yes",
+    "manufacturer": "Rewatt",
+    "name": "Яндекс Заправки",
+    "opening_hours": "24/7",
+    "payment:app": "yes",
+    "socket:type2:output": "22",
+    "socket:type2_cable": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14030891297,
+  "lat": 55.7500896,
+  "lon": 37.7272217,
+  "tags": {
+    "access": "yes",
+    "addr:city": "Москва",
+    "addr:housenumber": "14",
+    "addr:street": "1-я Энтузиастов улица",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "brand": "Электрохаб",
+    "brand:wikidata": "Q140627893",
+    "contact:email": "info@electrohab.ru",
+    "contact:telegram": "https://t.me/Electrohab_ru",
+    "contact:website": "https://electrohab.ru/",
+    "fee": "yes",
+    "name": "Электрохаб Лефортовский",
+    "network": "Электрохаб",
+    "opening_hours": "24/7",
+    "operator": "Электрохаб",
+    "payment:app": "yes",
+    "phone": "+7 800 775-81-87",
+    "socket:gb_ac": "1",
+    "socket:gb_ac:output": "22 kW",
+    "socket:gb_dc": "8",
+    "socket:gb_dc:output": "120 kW",
+    "socket:nacs": "2",
+    "socket:nacs:output": "120 kW",
+    "socket:type2": "1",
+    "socket:type2:output": "22 kW",
+    "socket:type2_combo": "8",
+    "socket:type2_combo:output": "120 kW",
+    "surveillance": "outdoor",
+    "surveillance:type": "camera"
+  }
+},
+{
+  "type": "node",
+  "id": 14030903186,
+  "lat": 55.5791163,
+  "lon": 37.6202679,
+  "tags": {
+    "access": "yes",
+    "addr:city": "Москва",
+    "addr:housenumber": "10с140",
+    "addr:street": "Востряковский проезд",
+    "amenity": "charging_station",
+    "authentication:app": "yes",
+    "brand": "Электрохаб",
+    "brand:wikidata": "Q140627893",
+    "contact:email": "info@electrohab.ru",
+    "contact:telegram": "https://t.me/Electrohab_ru",
+    "contact:website": "https://electrohab.ru/",
+    "fee": "yes",
+    "name": "Электрохаб Южный",
+    "network": "Электрохаб",
+    "opening_hours": "24/7",
+    "operator": "Электрохаб",
+    "payment:app": "yes",
+    "phone": "+7 800 775-81-87",
+    "socket:gb_ac": "1",
+    "socket:gb_ac:output": "7 kW",
+    "socket:gb_dc": "10",
+    "socket:gb_dc:output": "120 kW",
+    "socket:type2": "1",
+    "socket:type2:output": "7 kW",
+    "socket:type2_combo": "10",
+    "socket:type2_combo:output": "120 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 14060126126,
+  "lat": 55.7250511,
+  "lon": 37.4130676,
+  "tags": {
+    "access": "yes",
+    "addr:housenumber": "22 с2",
+    "addr:street": "улица Маршала Неделина",
+    "amenity": "charging_station",
+    "brand": "Яндекс Заправки",
+    "capacity": "1",
+    "charge": "18,50 RUB/kW•h",
+    "check_date": "2026-07-30",
+    "fee": "yes",
+    "payment:app": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14112572672,
+  "lat": 55.7742296,
+  "lon": 37.5866361,
+  "tags": {
+    "amenity": "charging_station",
+    "capacity": "2",
+    "check_date": "2026-08-22"
+  }
+},
+{
+  "type": "node",
+  "id": 14123250120,
+  "lat": 55.8895691,
+  "lon": 37.3935094,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-02-09",
+    "covered": "no",
+    "motorcar": "yes",
+    "name": "Энергия Москвы",
+    "name:ru": "Энергия Москвы",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "ref": "1249",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "150 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "150 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 14123250121,
+  "lat": 55.8895413,
+  "lon": 37.3935094,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-02-09",
+    "covered": "no",
+    "motorcar": "yes",
+    "name": "Энергия Москвы",
+    "name:ru": "Энергия Москвы",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "ref": "1248",
+    "socket:gb_dc": "1",
+    "socket:gb_dc:output": "150 kW",
+    "socket:type2_combo": "1",
+    "socket:type2_combo:output": "150 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 14129106227,
+  "lat": 55.8896262,
+  "lon": 37.3880781,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "brand": "Энергия Москвы",
+    "brand:en": "Energy of Moscow",
+    "brand:ru": "Энергия Москвы",
+    "brand:wikidata": "Q125346046",
+    "capacity": "2",
+    "check_date": "2026-02-09",
+    "covered": "no",
+    "motorcar": "yes",
+    "name": "Энергия Москвы",
+    "name:ru": "Энергия Москвы",
+    "network": "Энергия Москвы",
+    "network:en": "Energy of Moscow",
+    "network:ru": "Энергия Москвы",
+    "network:wikidata": "Q125346046",
+    "opening_hours": "24/7",
+    "ref": "290",
+    "socket:type2": "2",
+    "socket:type2:output": "22 kW"
+  }
+},
+{
+  "type": "node",
+  "id": 14179827633,
+  "lat": 55.7847252,
+  "lon": 37.5705040,
+  "tags": {
+    "access": "customers",
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 14189100443,
+  "lat": 55.6261055,
+  "lon": 37.7512982,
+  "tags": {
+    "access": "yes",
+    "amenity": "charging_station",
+    "brand": "Electro. cars",
+    "capacity": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 14195460783,
+  "lat": 55.7606849,
+  "lon": 37.6175831,
+  "tags": {
+    "amenity": "charging_station"
+  }
+},
+{
+  "type": "node",
+  "id": 14196007867,
+  "lat": 55.6804369,
+  "lon": 37.6032592,
+  "tags": {
+    "amenity": "charging_station",
+    "bicycle": "no",
+    "capacity:motorcar": "1",
+    "operator": "Яндекс заправки"
+  }
+}
+
+  ]
+}
