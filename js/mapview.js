@@ -1,53 +1,83 @@
-// Слои карты (Яндекс.Карты JS API 2.1). Не модуль расчёта — только
-// отрисовка того, что посчитано в equilibrium.js. Раздел 12.1.
+// Слои карты (OpenLayers + OSM-тайлы). Не модуль расчёта — только отрисовка
+// того, что посчитано в equilibrium.js. Раздел 12.1.
 //
 // Библиотека карты сознательно не Leaflet (его автор — гражданин Украины,
-// для конкурса РФ это репутационный риск) и тайлы не OSM — используются
-// Яндекс.Карты целиком, включая картографическую подложку.
+// для конкурса РФ это репутационный риск): OpenLayers — международный
+// open-source проект (изначально MetaCarta, США), без единого привязанного
+// автора. Яндекс.Карты не подошли — платный тариф. OSM-тайлы — открытый
+// краудсорс-проект, не привязан к конкретному человеку/стране.
+//
+// Подключается глобальным <script> (dist/ol.js, UMD-сборка, глобальная
+// переменная `ol`), а не через ESM-импорты отдельных подпутей пакета.
+// ESM-путь пробовали первым - деградировал: у esm.sh/jsdelivr `ol/Map.js` и
+// `ol/View.js` компилируются в независимые чанки, и `new View()` из одного
+// чанка не проходит `instanceof` в конструкторе Map из другого - OL решает,
+// что это Promise, и падает на `.then is not a function`. Подробности и
+// сколько на это ушло времени - docs/journal.md.
 
-const MOSCOW_CENTER = [55.751, 37.618];
+const MOSCOW_CENTER_LONLAT = [37.618, 55.751]; // OL: [lon, lat]
 
 export function initMap() {
-  return new Promise((resolve, reject) => {
-    if (typeof ymaps === 'undefined') {
-      reject(new Error('Яндекс.Карты не загрузились — проверьте API-ключ в index.html (см. комментарий у тега script)'));
+  const demandSource = new ol.source.Vector();
+  const centersSource = new ol.source.Vector();
+  const stationsSource = new ol.source.Vector();
+  const neighborsSource = new ol.source.Vector();
+  const candidateSource = new ol.source.Vector();
+
+  const demandLayer = new ol.layer.Heatmap({
+    source: demandSource,
+    blur: 18,
+    radius: 10,
+    weight: (feature) => feature.get('weight'),
+    gradient: ['#fff2cc', '#e69138', '#990000'],
+    opacity: 0.55,
+  });
+  const centersLayer = new ol.layer.Vector({ source: centersSource });
+  const stationsLayer = new ol.layer.Vector({ source: stationsSource });
+  const neighborsLayer = new ol.layer.Vector({ source: neighborsSource });
+  const candidateLayer = new ol.layer.Vector({ source: candidateSource });
+
+  const map = new ol.Map({
+    target: 'map',
+    layers: [new ol.layer.Tile({ source: new ol.source.OSM() }), demandLayer, centersLayer, stationsLayer, neighborsLayer, candidateLayer],
+    view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10 }),
+  });
+
+  // Общий тултип по наведению (аналог bindTooltip/hintContent).
+  const tooltipEl = document.createElement('div');
+  tooltipEl.className = 'ol-tooltip';
+  tooltipEl.style.display = 'none';
+  // map.addOverlay ниже сам переносит element в свой overlay-контейнер -
+  // вручную добавлять в DOM не нужно.
+  const tooltipOverlay = new ol.Overlay({ element: tooltipEl, offset: [12, 0], positioning: 'center-left' });
+  map.addOverlay(tooltipOverlay);
+  map.on('pointermove', (evt) => {
+    if (evt.dragging) {
+      tooltipEl.style.display = 'none';
       return;
     }
-    // С неверным/отсутствующим ключом API грузится, но ymaps.ready() может
-    // никогда не вызвать колбэк (см. journal.md) — без таймаута страница
-    // молча виснет на экране загрузки.
-    const timeout = setTimeout(() => {
-      reject(new Error('Яндекс.Карты не инициализировались за 8с — похоже, API-ключ в index.html неверный или не указан (developer.tech.yandex.ru)'));
-    }, 8000);
-    // ymaps.ready() может сработать даже с неверным ключом (базовое API
-    // грузится, но дальнейшие шаги - карта/модули - зависают молча), поэтому
-    // таймаут снимаем только один раз всё действительно готово, перед resolve.
-    ymaps.ready(() => {
-      ymaps.modules.require(['Heatmap'], (Heatmap) => {
-        const map = new ymaps.Map('map', { center: MOSCOW_CENTER, zoom: 10, controls: ['zoomControl'] }, { suppressMapOpenBlock: true });
-
-        const stationsLayer = new ymaps.GeoObjectCollection();
-        const centersLayer = new ymaps.GeoObjectCollection();
-        const candidateLayer = new ymaps.GeoObjectCollection();
-        const neighborsLayer = new ymaps.GeoObjectCollection();
-        map.geoObjects.add(centersLayer);
-        map.geoObjects.add(stationsLayer);
-        map.geoObjects.add(neighborsLayer);
-        map.geoObjects.add(candidateLayer);
-
-        const demandHeatmap = new Heatmap([], {
-          radius: 14,
-          dissipating: true,
-          opacity: 0.55,
-          gradient: { 0.1: '#fff2cc', 0.5: '#e69138', 1: '#990000' },
-        });
-        demandHeatmap.setMap(map);
-
-        clearTimeout(timeout);
-        resolve({ map, stationsLayer, centersLayer, candidateLayer, neighborsLayer, demandHeatmap });
-      });
-    });
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l !== demandLayer });
+    if (feature && feature.get('hint')) {
+      tooltipEl.textContent = feature.get('hint');
+      tooltipEl.style.display = 'block';
+      tooltipOverlay.setPosition(evt.coordinate);
+    } else {
+      tooltipEl.style.display = 'none';
+    }
   });
+
+  return { map, demandSource, centersSource, stationsSource, neighborsSource, candidateSource };
+}
+
+// Координата клика по карте (проекция OL) -> {lat, lng}. Инкапсулирует OL,
+// чтобы app.js не знал о конкретной картографической библиотеке.
+export function coordToLatLng(coordinate) {
+  const [lon, lat] = ol.proj.toLonLat(coordinate);
+  return { lat, lng: lon };
+}
+
+function toMapCoord(lat, lon) {
+  return ol.proj.fromLonLat([lon, lat]);
 }
 
 // Загрузка U (0-1) -> цвет. Диапазон 0-40%, т.к. типичная загрузка сети
@@ -60,72 +90,90 @@ function colorForU(u) {
   return `rgb(${r},${g},${b})`;
 }
 
-export function renderDemandLayer({ demandHeatmap, cells, totalDemandPerCell }) {
+function circleStyle({ radiusPx, fillColor, strokeColor = '#333', strokeWidth = 1 }) {
+  return new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: radiusPx,
+      fill: new ol.style.Fill({ color: fillColor }),
+      stroke: new ol.style.Stroke({ color: strokeColor, width: strokeWidth }),
+    }),
+  });
+}
+
+export function renderDemandLayer({ demandSource, cells, totalDemandPerCell }) {
+  demandSource.clear();
   let max = 0;
   for (const v of totalDemandPerCell) max = Math.max(max, v);
   if (max === 0) max = 1;
-  const points = [];
+  const features = [];
   for (let i = 0; i < cells.length; i++) {
     const v = totalDemandPerCell[i];
     if (v <= 0) continue;
-    points.push({ type: 'Feature', id: i, geometry: { type: 'Point', coordinates: [cells[i].lat, cells[i].lon] }, properties: { weight: v / max } });
+    const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(cells[i].lat, cells[i].lon)) });
+    f.set('weight', v / max);
+    features.push(f);
   }
-  demandHeatmap.setData({ type: 'FeatureCollection', features: points });
+  demandSource.addFeatures(features);
 }
 
-export function renderStationsLayer({ stationsLayer, stations, activeStations, Uarr, onClickStation }) {
-  stationsLayer.removeAll();
+export function renderStationsLayer({ stationsSource, stations, activeStations, Uarr, onClickStation }) {
+  stationsSource.clear();
+  const features = [];
   for (let j = 0; j < stations.length; j++) {
     if (!activeStations[j]) continue;
     const st = stations[j];
     const u = Uarr[j];
-    const radiusM = 90 + Math.sqrt(st.posts) * 40;
-    const circle = new ymaps.Circle(
-      [[st.lat, st.lon], radiusM],
-      { hintContent: `${st.id} · ${st.operator}\n${st.P_kW} кВт, ${st.posts} пост(ов)\nU=${(u * 100).toFixed(1)}%` },
-      { fillColor: colorForU(u), fillOpacity: 0.85, strokeColor: '#333', strokeWidth: 1, strokeOpacity: 1 }
-    );
-    if (onClickStation) circle.events.add('click', () => onClickStation(j));
-    stationsLayer.add(circle);
+    const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(st.lat, st.lon)) });
+    f.setStyle(circleStyle({ radiusPx: 4 + Math.sqrt(st.posts) * 2, fillColor: colorForU(u) }));
+    f.set('hint', `${st.id} · ${st.operator}\n${st.P_kW} кВт, ${st.posts} пост(ов)\nU=${(u * 100).toFixed(1)}%`);
+    if (onClickStation) f.set('onClick', () => onClickStation(j));
+    features.push(f);
   }
+  stationsSource.addFeatures(features);
 }
 
-export function renderCentersLayer({ centersLayer, centers }) {
-  centersLayer.removeAll();
+export function renderCentersLayer({ centersSource, centers }) {
+  centersSource.clear();
+  const features = [];
   for (const c of centers) {
-    const circle = new ymaps.Circle(
-      [[c.lat, c.lon], 70],
-      { hintContent: `${c.id}\nрезерв ${c.reserve_MVA} МВА` },
-      { fillColor: '#ccc', fillOpacity: 0.7, strokeColor: '#666', strokeWidth: 1 }
-    );
-    centersLayer.add(circle);
+    const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(c.lat, c.lon)) });
+    f.setStyle(circleStyle({ radiusPx: 3, fillColor: '#ccc', strokeColor: '#666' }));
+    f.set('hint', `${c.id}\nрезерв ${c.reserve_MVA} МВА`);
+    features.push(f);
   }
+  centersSource.addFeatures(features);
 }
 
-export function renderCandidate({ candidateLayer, candidate }) {
-  candidateLayer.removeAll();
+export function renderCandidate({ candidateSource, candidate }) {
+  candidateSource.clear();
   if (!candidate) return;
-  const placemark = new ymaps.Placemark(
-    [candidate.lat, candidate.lon],
-    { hintContent: 'Кандидат' },
-    { preset: 'islands#yellowStarIcon' }
+  const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(candidate.lat, candidate.lon)) });
+  f.setStyle(
+    new ol.style.Style({
+      text: new ol.style.Text({
+        text: '★',
+        font: '20px sans-serif',
+        fill: new ol.style.Fill({ color: '#d4af00' }),
+        stroke: new ol.style.Stroke({ color: '#000', width: 2 }),
+      }),
+    })
   );
-  candidateLayer.add(placemark);
+  f.set('hint', 'Кандидат');
+  candidateSource.addFeature(f);
 }
 
 // 6.3. Соседи, окрашенные по ΔS: красный - теряет, синий - выигрывает,
 // радиус кружка пропорционален |ΔS|.
-export function renderNeighbors({ neighborsLayer, stations, neighborDeltas }) {
-  neighborsLayer.removeAll();
+export function renderNeighbors({ neighborsSource, stations, neighborDeltas }) {
+  neighborsSource.clear();
+  const features = [];
   for (const { globalIdx, deltaS } of neighborDeltas) {
     const st = stations[globalIdx];
     const color = deltaS < 0 ? '#c0392b' : '#2980b9';
-    const radiusM = 60 + Math.min(400, Math.abs(deltaS) * 80);
-    const circle = new ymaps.Circle(
-      [[st.lat, st.lon], radiusM],
-      { hintContent: `${st.id}: ΔS=${deltaS.toFixed(2)} сессий/сутки` },
-      { fillColor: color, fillOpacity: 0.5, strokeColor: color, strokeWidth: 1 }
-    );
-    neighborsLayer.add(circle);
+    const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(st.lat, st.lon)) });
+    f.setStyle(circleStyle({ radiusPx: 3 + Math.min(15, Math.abs(deltaS) * 3), fillColor: color, strokeColor: color }));
+    f.set('hint', `${st.id}: ΔS=${deltaS.toFixed(2)} сессий/сутки`);
+    features.push(f);
   }
+  neighborsSource.addFeatures(features);
 }

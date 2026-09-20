@@ -3,7 +3,7 @@
 import { SEGMENTS } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidate } from './equipment.js';
-import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors } from './mapview.js';
+import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng } from './mapview.js';
 import { renderPassport, renderEquipmentEconomics } from './passport.js';
 import { runAllTests } from './tests.js';
 
@@ -77,14 +77,14 @@ function rerenderMapForHour() {
   for (let j = 0; j < stations.length; j++) Uarr[j] = fullResult.qh.U[j * 24 + hour];
 
   renderStationsLayer({
-    stationsLayer: state.layers.stationsLayer,
+    stationsSource: state.layers.stationsSource,
     stations,
     activeStations: fullResult.activeStations,
     Uarr,
     onClickStation: null,
   });
   renderDemandLayer({
-    demandHeatmap: state.layers.demandHeatmap,
+    demandSource: state.layers.demandSource,
     cells,
     totalDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, hour),
   });
@@ -148,7 +148,7 @@ async function onMapClick(latlng) {
   const candidateBase = { id: 'CANDIDATE', lat: latlng.lat, lon: latlng.lng, operator: 'РСЗС', status: 'candidate' };
   const candidate = { ...candidateBase, P_kW: 60, posts: 1, P_post_kW: 60, year_open: readControls().year };
   state.candidate = candidate;
-  renderCandidate({ candidateLayer: state.layers.candidateLayer, candidate });
+  renderCandidate({ candidateSource: state.layers.candidateSource, candidate });
 
   const { dayType, season, year, scenario } = readControls();
 
@@ -173,7 +173,7 @@ async function onMapClick(latlng) {
   const { neighbors } = renderPassport({ container: passportEl, local, baselineS: state.baselineS, candidate, stations: state.stations });
 
   renderNeighbors({
-    neighborsLayer: state.layers.neighborsLayer,
+    neighborsSource: state.layers.neighborsSource,
     stations: state.stations,
     neighborDeltas: neighbors.map((n) => ({ globalIdx: n.globalJ, deltaS: n.deltaS })),
   });
@@ -256,18 +256,15 @@ async function main() {
 
   renderFooter({ cellsRaw: raw.cellsRaw, stationsRaw: raw.stationsRaw, centersRaw: raw.centersRaw, params: raw.params });
 
-  state.layers = await initMap();
-  renderCentersLayer({ centersLayer: state.layers.centersLayer, centers: state.centers });
-  state.layers.map.events.add('click', (e) => {
-    const coords = e.get('coords'); // [lat, lon]
-    onMapClick({ lat: coords[0], lng: coords[1] });
-  });
+  state.layers = initMap();
+  renderCentersLayer({ centersSource: state.layers.centersSource, centers: state.centers });
+  state.layers.map.on('singleclick', (evt) => onMapClick(coordToLatLng(evt.coordinate)));
 
   await recomputeFullEquilibrium();
 
   document.getElementById('loading').hidden = true;
   document.getElementById('layout').hidden = false;
-  state.layers.map.container.fitToViewport();
+  state.layers.map.updateSize();
 
   document.getElementById('hour-slider').addEventListener('input', rerenderMapForHour);
   document.getElementById('year-slider').addEventListener('input', () => {
