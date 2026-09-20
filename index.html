@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Модель размещения быстрых ЭЗС — прототип</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -67,7 +66,13 @@
 
   <footer id="data-footer"></footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!--
+    Ключ Яндекс.Карт: получить бесплатно на developer.tech.yandex.ru
+    (JavaScript API и HTTP Геокодер), нужен Яндекс ID. Подставить вместо
+    YOUR_YANDEX_API_KEY ниже. Без ключа карта не загрузится - "loading"
+    покажет ошибку с этой же подсказкой.
+  -->
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_YANDEX_API_KEY&lang=ru_RU" type="text/javascript"></script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

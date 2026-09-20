@@ -84,7 +84,7 @@ function rerenderMapForHour() {
     onClickStation: null,
   });
   renderDemandLayer({
-    demandLayer: state.layers.demandLayer,
+    demandHeatmap: state.layers.demandHeatmap,
     cells,
     totalDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, hour),
   });
@@ -256,15 +256,18 @@ async function main() {
 
   renderFooter({ cellsRaw: raw.cellsRaw, stationsRaw: raw.stationsRaw, centersRaw: raw.centersRaw, params: raw.params });
 
-  state.layers = initMap();
+  state.layers = await initMap();
   renderCentersLayer({ centersLayer: state.layers.centersLayer, centers: state.centers });
-  state.layers.map.on('click', (e) => onMapClick(e.latlng));
+  state.layers.map.events.add('click', (e) => {
+    const coords = e.get('coords'); // [lat, lon]
+    onMapClick({ lat: coords[0], lng: coords[1] });
+  });
 
   await recomputeFullEquilibrium();
 
   document.getElementById('loading').hidden = true;
   document.getElementById('layout').hidden = false;
-  state.layers.map.invalidateSize();
+  state.layers.map.container.fitToViewport();
 
   document.getElementById('hour-slider').addEventListener('input', rerenderMapForHour);
   document.getElementById('year-slider').addEventListener('input', () => {

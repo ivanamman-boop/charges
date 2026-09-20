@@ -19,7 +19,7 @@ header {
   font-style: italic;
 }
 
-#layout {
+#layout:not([hidden]) {
   display: flex;
   gap: 1.5rem;
   align-items: flex-start;
@@ -200,11 +200,4 @@ header {
 
 #data-footer div {
   margin-bottom: 0.15rem;
-}
-
-.candidate-icon {
-  font-size: 20px;
-  color: #d4af00;
-  text-shadow: 0 0 2px #000, 0 0 2px #000;
-  text-align: center;
 }

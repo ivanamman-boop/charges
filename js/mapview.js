@@ -1,22 +1,53 @@
-// Слои карты (Leaflet). Не модуль расчёта — только отрисовка того, что
-// посчитано в equilibrium.js. Раздел 12.1.
+// Слои карты (Яндекс.Карты JS API 2.1). Не модуль расчёта — только
+// отрисовка того, что посчитано в equilibrium.js. Раздел 12.1.
+//
+// Библиотека карты сознательно не Leaflet (его автор — гражданин Украины,
+// для конкурса РФ это репутационный риск) и тайлы не OSM — используются
+// Яндекс.Карты целиком, включая картографическую подложку.
 
 const MOSCOW_CENTER = [55.751, 37.618];
 
 export function initMap() {
-  const map = L.map('map', { preferCanvas: true }).setView(MOSCOW_CENTER, 10);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap',
-    maxZoom: 18,
-  }).addTo(map);
+  return new Promise((resolve, reject) => {
+    if (typeof ymaps === 'undefined') {
+      reject(new Error('Яндекс.Карты не загрузились — проверьте API-ключ в index.html (см. комментарий у тега script)'));
+      return;
+    }
+    // С неверным/отсутствующим ключом API грузится, но ymaps.ready() может
+    // никогда не вызвать колбэк (см. journal.md) — без таймаута страница
+    // молча виснет на экране загрузки.
+    const timeout = setTimeout(() => {
+      reject(new Error('Яндекс.Карты не инициализировались за 8с — похоже, API-ключ в index.html неверный или не указан (developer.tech.yandex.ru)'));
+    }, 8000);
+    // ymaps.ready() может сработать даже с неверным ключом (базовое API
+    // грузится, но дальнейшие шаги - карта/модули - зависают молча), поэтому
+    // таймаут снимаем только один раз всё действительно готово, перед resolve.
+    ymaps.ready(() => {
+      ymaps.modules.require(['Heatmap'], (Heatmap) => {
+        const map = new ymaps.Map('map', { center: MOSCOW_CENTER, zoom: 10, controls: ['zoomControl'] }, { suppressMapOpenBlock: true });
 
-  const demandLayer = L.layerGroup().addTo(map);
-  const stationsLayer = L.layerGroup().addTo(map);
-  const centersLayer = L.layerGroup().addTo(map);
-  const candidateLayer = L.layerGroup().addTo(map);
-  const neighborsLayer = L.layerGroup().addTo(map);
+        const stationsLayer = new ymaps.GeoObjectCollection();
+        const centersLayer = new ymaps.GeoObjectCollection();
+        const candidateLayer = new ymaps.GeoObjectCollection();
+        const neighborsLayer = new ymaps.GeoObjectCollection();
+        map.geoObjects.add(centersLayer);
+        map.geoObjects.add(stationsLayer);
+        map.geoObjects.add(neighborsLayer);
+        map.geoObjects.add(candidateLayer);
 
-  return { map, demandLayer, stationsLayer, centersLayer, candidateLayer, neighborsLayer };
+        const demandHeatmap = new Heatmap([], {
+          radius: 14,
+          dissipating: true,
+          opacity: 0.55,
+          gradient: { 0.1: '#fff2cc', 0.5: '#e69138', 1: '#990000' },
+        });
+        demandHeatmap.setMap(map);
+
+        clearTimeout(timeout);
+        resolve({ map, stationsLayer, centersLayer, candidateLayer, neighborsLayer, demandHeatmap });
+      });
+    });
+  });
 }
 
 // Загрузка U (0-1) -> цвет. Диапазон 0-40%, т.к. типичная загрузка сети
@@ -29,92 +60,72 @@ function colorForU(u) {
   return `rgb(${r},${g},${b})`;
 }
 
-function colorForDemand(t) {
-  // t в [0,1], простая светло-жёлтая -> тёмно-красная шкала.
-  const r = Math.round(255 - t * 40);
-  const g = Math.round(230 - t * 180);
-  const b = Math.round(150 - t * 140);
-  return `rgb(${r},${Math.max(g, 20)},${Math.max(b, 10)})`;
-}
-
-export function renderDemandLayer({ demandLayer, cells, totalDemandPerCell }) {
-  demandLayer.clearLayers();
+export function renderDemandLayer({ demandHeatmap, cells, totalDemandPerCell }) {
   let max = 0;
   for (const v of totalDemandPerCell) max = Math.max(max, v);
   if (max === 0) max = 1;
+  const points = [];
   for (let i = 0; i < cells.length; i++) {
     const v = totalDemandPerCell[i];
     if (v <= 0) continue;
-    const t = v / max;
-    L.circleMarker([cells[i].lat, cells[i].lon], {
-      radius: 2 + t * 3,
-      color: colorForDemand(t),
-      fillColor: colorForDemand(t),
-      fillOpacity: 0.5,
-      stroke: false,
-    }).addTo(demandLayer);
+    points.push({ type: 'Feature', id: i, geometry: { type: 'Point', coordinates: [cells[i].lat, cells[i].lon] }, properties: { weight: v / max } });
   }
+  demandHeatmap.setData({ type: 'FeatureCollection', features: points });
 }
 
 export function renderStationsLayer({ stationsLayer, stations, activeStations, Uarr, onClickStation }) {
-  stationsLayer.clearLayers();
+  stationsLayer.removeAll();
   for (let j = 0; j < stations.length; j++) {
     if (!activeStations[j]) continue;
+    const st = stations[j];
     const u = Uarr[j];
-    const marker = L.circleMarker([stations[j].lat, stations[j].lon], {
-      radius: 4 + Math.sqrt(stations[j].posts) * 2,
-      color: '#333',
-      weight: 1,
-      fillColor: colorForU(u),
-      fillOpacity: 0.85,
-    });
-    marker.bindTooltip(
-      `${stations[j].id} · ${stations[j].operator}<br>${stations[j].P_kW} кВт, ${stations[j].posts} пост(ов)<br>U=${(u * 100).toFixed(1)}%`
+    const radiusM = 90 + Math.sqrt(st.posts) * 40;
+    const circle = new ymaps.Circle(
+      [[st.lat, st.lon], radiusM],
+      { hintContent: `${st.id} · ${st.operator}\n${st.P_kW} кВт, ${st.posts} пост(ов)\nU=${(u * 100).toFixed(1)}%` },
+      { fillColor: colorForU(u), fillOpacity: 0.85, strokeColor: '#333', strokeWidth: 1, strokeOpacity: 1 }
     );
-    if (onClickStation) marker.on('click', () => onClickStation(j));
-    marker.addTo(stationsLayer);
+    if (onClickStation) circle.events.add('click', () => onClickStation(j));
+    stationsLayer.add(circle);
   }
 }
 
 export function renderCentersLayer({ centersLayer, centers }) {
-  centersLayer.clearLayers();
+  centersLayer.removeAll();
   for (const c of centers) {
-    L.circleMarker([c.lat, c.lon], {
-      radius: 3,
-      color: '#666',
-      fillColor: '#ccc',
-      fillOpacity: 0.7,
-    })
-      .bindTooltip(`${c.id}<br>резерв ${c.reserve_MVA} МВА`)
-      .addTo(centersLayer);
+    const circle = new ymaps.Circle(
+      [[c.lat, c.lon], 70],
+      { hintContent: `${c.id}\nрезерв ${c.reserve_MVA} МВА` },
+      { fillColor: '#ccc', fillOpacity: 0.7, strokeColor: '#666', strokeWidth: 1 }
+    );
+    centersLayer.add(circle);
   }
 }
 
 export function renderCandidate({ candidateLayer, candidate }) {
-  candidateLayer.clearLayers();
+  candidateLayer.removeAll();
   if (!candidate) return;
-  L.marker([candidate.lat, candidate.lon], {
-    icon: L.divIcon({ className: 'candidate-icon', html: '★', iconSize: [20, 20] }),
-  })
-    .bindTooltip('Кандидат')
-    .addTo(candidateLayer);
+  const placemark = new ymaps.Placemark(
+    [candidate.lat, candidate.lon],
+    { hintContent: 'Кандидат' },
+    { preset: 'islands#yellowStarIcon' }
+  );
+  candidateLayer.add(placemark);
 }
 
 // 6.3. Соседи, окрашенные по ΔS: красный - теряет, синий - выигрывает,
-// размер кружка пропорционален |ΔS|.
+// радиус кружка пропорционален |ΔS|.
 export function renderNeighbors({ neighborsLayer, stations, neighborDeltas }) {
-  neighborsLayer.clearLayers();
+  neighborsLayer.removeAll();
   for (const { globalIdx, deltaS } of neighborDeltas) {
     const st = stations[globalIdx];
     const color = deltaS < 0 ? '#c0392b' : '#2980b9';
-    L.circleMarker([st.lat, st.lon], {
-      radius: 3 + Math.min(15, Math.abs(deltaS) * 3),
-      color,
-      fillColor: color,
-      fillOpacity: 0.5,
-      weight: 1,
-    })
-      .bindTooltip(`${st.id}: ΔS=${deltaS.toFixed(2)} сессий/сутки`)
-      .addTo(neighborsLayer);
+    const radiusM = 60 + Math.min(400, Math.abs(deltaS) * 80);
+    const circle = new ymaps.Circle(
+      [[st.lat, st.lon], radiusM],
+      { hintContent: `${st.id}: ΔS=${deltaS.toFixed(2)} сессий/сутки` },
+      { fillColor: color, fillOpacity: 0.5, strokeColor: color, strokeWidth: 1 }
+    );
+    neighborsLayer.add(circle);
   }
 }
