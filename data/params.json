@@ -4,11 +4,11 @@
   "note": "Каждый лист {value,min,max,tag,source}. tag: И - источник, Р - расчёт от источника, Д - допущение. D0 калибруется офлайн (3.5) и будет дописан в воскресенье после equilibrium.js.",
   "M1_demand": {
     "D0": {
-      "value": 3296.65,
+      "value": 7897.81,
       "min": null,
       "max": null,
       "tag": "Р",
-      "source": "калибровка бисекцией (scripts/calibrate-d0.js), 13 итераций, среднее S по J_ex=4.098 при S_obs=4.1"
+      "source": "калибровка бисекцией (scripts/calibrate-d0.js), 13 итераций, среднее S по J_ex=4.099 при S_obs=4.1"
     },
     "S_obs": {
       "spring": {
