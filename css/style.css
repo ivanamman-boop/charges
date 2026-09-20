@@ -48,6 +48,57 @@ header {
   gap: 0.2rem;
 }
 
+#run-tests-btn {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+#test-results {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+#test-results .test-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.15rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+#test-results .test-status {
+  font-weight: bold;
+  width: 1.5rem;
+  flex-shrink: 0;
+}
+
+#test-results .test-status.pass {
+  color: #2e7d32;
+}
+
+#test-results .test-status.fail {
+  color: #c0392b;
+}
+
+#test-results .test-status.soft-fail {
+  color: #b8860b;
+}
+
+#test-results .test-detail {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+#test-results .test-summary {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
 #recompute-btn {
   padding: 0.4rem 0.8rem;
   cursor: pointer;

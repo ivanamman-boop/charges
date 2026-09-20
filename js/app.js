@@ -5,6 +5,7 @@ import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } fro
 import { evaluateCandidate } from './equipment.js';
 import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors } from './mapview.js';
 import { renderPassport, renderEquipmentEconomics } from './passport.js';
+import { runAllTests } from './tests.js';
 
 const DATA_FILES = ['cells', 'stations', 'centers', 'params'];
 
@@ -202,6 +203,52 @@ async function onMapClick(latlng) {
   }
 }
 
+// Кнопка «Проверить модель» (раздел 13). Т6/Т8 в браузере считаются в
+// сокращённом виде (меньше кандидатов) - полные версии см. `npm test`.
+async function runTests() {
+  const btn = document.getElementById('run-tests-btn');
+  const panel = document.getElementById('test-results');
+  btn.disabled = true;
+  panel.hidden = false;
+  panel.innerHTML = '<p>Считаю Т1-Т8…</p>';
+  await new Promise((r) => setTimeout(r, 0));
+
+  const rows = [];
+  const renderRows = () => {
+    panel.innerHTML = rows
+      .map((r) => {
+        const cls = r.pass ? 'pass' : r.soft ? 'soft-fail' : 'fail';
+        const mark = r.pass ? '✓' : r.soft ? '⚠' : '✗';
+        return `<div class="test-row"><span class="test-status ${cls}">${mark}</span><div><div>${r.name}</div><div class="test-detail">${r.detail}</div></div></div>`;
+      })
+      .join('');
+  };
+
+  try {
+    const results = await runAllTests({
+      cells: state.cells,
+      stationsAll: state.stationsAll,
+      stations: state.stations,
+      params: state.preciseParams,
+      fullContext: state.fullContext,
+      fullResult: state.fullResult,
+      onProgress: (r) => {
+        rows.push(r);
+        renderRows();
+      },
+    });
+    const hardFails = results.filter((r) => !r.pass && !r.soft);
+    const softFails = results.filter((r) => !r.pass && r.soft);
+    const summary = hardFails.length === 0 ? `Все обязательные тесты пройдены (${results.length - softFails.length}/${results.length - softFails.length}${softFails.length ? `, +${softFails.length} ожидаемо мягких` : ''})` : `${hardFails.length} тест(ов) провалено: ${hardFails.map((r) => r.id).join(', ')}`;
+    panel.innerHTML += `<div class="test-summary" style="color:${hardFails.length ? '#c0392b' : '#2e7d32'}">${summary}</div>`;
+  } catch (err) {
+    console.error(err);
+    panel.innerHTML += `<div class="test-summary" style="color:#c0392b">Ошибка при прогоне тестов: ${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 async function main() {
   const { cells, stationsAll, centers, params, raw } = await loadData();
   const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
@@ -224,6 +271,7 @@ async function main() {
     document.getElementById('year-label').textContent = document.getElementById('year-slider').value;
   });
   document.getElementById('recompute-btn').addEventListener('click', recomputeFullEquilibrium);
+  document.getElementById('run-tests-btn').addEventListener('click', runTests);
 
   // Фоновый прогрев оставшихся 7 опорных равновесий (не блокирует UI), чтобы
   // клик по карте позже не ждал их с нуля. Черновик Web Worker - на потом.
