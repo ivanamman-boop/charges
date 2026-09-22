@@ -99,12 +99,13 @@ function main() {
     }
   }
 
+  const osmOnly = stations.filter((s) => s.source_detail !== 'yandex').length;
   writeFileSync(
     STATIONS_PATH,
     JSON.stringify(
       {
-        source: `OpenStreetMap (Overpass API, ${stations.length - added - replaced} только-OSM) + Яндекс.Карты (вручную собранные ответы поиска "Электрозаправки" из DevTools, см. scripts/data-sources/yandex-charging-stations-compact.json: ${replaced} уточнили существующие OSM-точки точной мощностью/оператором, ${added} добавили новых). Покрытие всё ещё неполное относительно независимых оценок (~1000+ по Москве) - заменить на данные Бори/Сони с transport.mos.ru при появлении.`,
-        date: '2026-09-20',
+        source: `OpenStreetMap (Overpass API, ${osmOnly} только-OSM) + Яндекс.Карты (вручную собранные ответы поиска "Электрозаправки" из DevTools, см. scripts/data-sources/yandex-charging-stations-compact.json: ${stations.length - osmOnly} станций уточнены/добавлены Яндексом суммарно за все объезды карты, из них ${replaced} уточнили существующие точки и ${added} добавили новых на этом прогоне). Покрытие всё ещё неполное относительно независимых оценок (~1000+ по Москве) - заменить на данные Бори/Сони с transport.mos.ru при появлении.`,
+        date: new Date().toISOString().slice(0, 10),
         stations,
       },
       null,
