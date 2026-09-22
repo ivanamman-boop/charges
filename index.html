@@ -59,10 +59,30 @@
       </div>
 
       <aside id="passport-col">
+        <button id="add-to-list-btn" disabled>Добавить в список площадок</button>
         <div id="passport-placeholder">Кликните по карте, чтобы поставить кандидата и увидеть черновик паспорта площадки.</div>
         <div id="passport" hidden></div>
       </aside>
     </div>
+
+    <section id="candidate-list-section" hidden>
+      <h2>Список площадок</h2>
+      <p class="hint">Балл — среднее по трём критериям (доступность мощности / трафик спроса в радиусе 2 км / конкуренция в радиусе 1.5 км). Трафик считается относительно других строк списка. Клик по строке — открыть полный паспорт этой площадки.</p>
+      <table id="candidate-list-table">
+        <thead>
+          <tr>
+            <th data-sort="index">#</th>
+            <th data-sort="composite">Балл</th>
+            <th data-sort="powerScore">Мощность</th>
+            <th data-sort="trafficScore">Трафик</th>
+            <th data-sort="competitionScore">Конкуренция</th>
+            <th data-sort="district">Район</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="candidate-list-body"></tbody>
+      </table>
+    </section>
   </main>
 
   <footer id="data-footer"></footer>
