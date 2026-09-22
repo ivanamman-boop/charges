@@ -6,6 +6,7 @@ import { evaluateCandidate } from './equipment.js';
 import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng } from './mapview.js';
 import { renderPassport, renderEquipmentEconomics } from './passport.js';
 import { runAllTests } from './tests.js';
+import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
 
 const DATA_FILES = ['cells', 'stations', 'centers', 'params'];
 
@@ -47,6 +48,10 @@ const state = {
   candidate: null,
   localResult: null,
   layers: null,
+  candidateList: [], // список площадок с баллами (фидбек Росатома), см. js/scoring.js
+  candidateListNextId: 1,
+  candidateListSort: { key: 'composite', dir: 'desc' },
+  activeListId: null,
 };
 
 function readControls() {
@@ -141,14 +146,27 @@ async function recomputeFullEquilibrium() {
     document.getElementById('passport-placeholder').hidden = false;
     document.getElementById('passport-placeholder').textContent = 'Условия сети изменились — кликните по карте ещё раз.';
     state.candidate = null;
+    document.getElementById('add-to-list-btn').disabled = true;
+  }
+
+  // Баллы списка считаются на условиях момента добавления (спрос/сеть) -
+  // при смене условий список теряет сопоставимость, поэтому очищаем.
+  if (state.candidateList.length > 0) {
+    state.candidateList = [];
+    state.activeListId = null;
+    renderCandidateListTable();
   }
 }
 
-async function onMapClick(latlng) {
-  const candidateBase = { id: 'CANDIDATE', lat: latlng.lat, lon: latlng.lng, operator: 'РСЗС', status: 'candidate' };
+async function placeCandidateAndShowPassport(lat, lon, listId = null) {
+  state.activeListId = listId;
+  renderCandidateListTable(); // подсветить активную строку, если открыли из списка
+
+  const candidateBase = { id: 'CANDIDATE', lat, lon, operator: 'РСЗС', status: 'candidate' };
   const candidate = { ...candidateBase, P_kW: 60, posts: 1, P_post_kW: 60, year_open: readControls().year };
   state.candidate = candidate;
   renderCandidate({ candidateSource: state.layers.candidateSource, candidate });
+  document.getElementById('add-to-list-btn').disabled = false;
 
   const { dayType, season, year, scenario } = readControls();
 
@@ -201,6 +219,114 @@ async function onMapClick(latlng) {
   if (state.candidate === candidate) {
     renderEquipmentEconomics({ evalResult });
   }
+}
+
+function onMapClick(latlng) {
+  placeCandidateAndShowPassport(latlng.lat, latlng.lng, null);
+}
+
+// Список площадок с баллами (фидбек Росатома: "список с балльной оценкой:
+// доступность мощности, трафик, конкуренция в радиусе, тип района"). Баллы
+// считаются быстро (js/scoring.js), без перебора оборудования - чтобы можно
+// было накидать много кандидатов подряд, не дожидаясь М5-М7 на каждый.
+function scoreBadgeColor(score) {
+  const t = Math.max(0, Math.min(1, score / 100));
+  const r = Math.round(200 - t * 160);
+  const g = Math.round(90 + t * 100);
+  return `rgb(${r},${g},70)`;
+}
+
+function addCurrentCandidateToList() {
+  if (!state.candidate) return;
+  const raw = scoreCandidateRaw({
+    candidate: state.candidate,
+    cells: state.cells,
+    stations: state.stations,
+    centers: state.centers,
+    params: state.preciseParams,
+    demand: state.fullResult.demand,
+  });
+  state.candidateList.push({
+    listId: state.candidateListNextId++,
+    lat: state.candidate.lat,
+    lon: state.candidate.lon,
+    ...raw,
+  });
+  renderCandidateListTable();
+}
+
+function removeFromList(listId) {
+  state.candidateList = state.candidateList.filter((c) => c.listId !== listId);
+  if (state.activeListId === listId) state.activeListId = null;
+  renderCandidateListTable();
+}
+
+function sortCandidateList(items) {
+  const { key, dir } = state.candidateListSort;
+  const sorted = [...items].sort((a, b) => {
+    const av = a[key];
+    const bv = b[key];
+    if (typeof av === 'string') return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+    return dir === 'asc' ? av - bv : bv - av;
+  });
+  return sorted;
+}
+
+function renderCandidateListTable() {
+  const section = document.getElementById('candidate-list-section');
+  const tbody = document.getElementById('candidate-list-body');
+  if (state.candidateList.length === 0) {
+    section.hidden = true;
+    return;
+  }
+  section.hidden = false;
+
+  const scored = normalizeAndScore(state.candidateList);
+  const sorted = sortCandidateList(scored);
+
+  tbody.innerHTML = sorted
+    .map((c, i) => {
+      const active = c.listId === state.activeListId ? ' class="active"' : '';
+      return `<tr${active} data-list-id="${c.listId}">
+        <td>${i + 1}</td>
+        <td><span class="score-badge" style="background:${scoreBadgeColor(c.composite)}">${c.composite.toFixed(0)}</span></td>
+        <td>${c.powerScore.toFixed(0)} <span class="hint">(${c.pAvailKW.toFixed(0)} кВт)</span></td>
+        <td>${c.trafficScore.toFixed(0)}</td>
+        <td>${c.competitionScore.toFixed(0)} <span class="hint">(${c.nearbyCount} рядом)</span></td>
+        <td>${c.district}</td>
+        <td><button class="remove-candidate-btn" data-remove-id="${c.listId}" title="Убрать из списка">✕</button></td>
+      </tr>`;
+    })
+    .join('');
+
+  tbody.querySelectorAll('tr').forEach((tr) => {
+    tr.addEventListener('click', (e) => {
+      if (e.target.closest('.remove-candidate-btn')) return;
+      const id = Number(tr.dataset.listId);
+      const entry = state.candidateList.find((c) => c.listId === id);
+      if (entry) placeCandidateAndShowPassport(entry.lat, entry.lon, id);
+    });
+  });
+  tbody.querySelectorAll('.remove-candidate-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeFromList(Number(btn.dataset.removeId));
+    });
+  });
+}
+
+function wireCandidateListSorting() {
+  document.querySelectorAll('#candidate-list-table th[data-sort]').forEach((th) => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sort;
+      if (state.candidateListSort.key === key) {
+        state.candidateListSort.dir = state.candidateListSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        state.candidateListSort = { key, dir: 'desc' };
+      }
+      renderCandidateListTable();
+    });
+  });
 }
 
 // Кнопка «Проверить модель» (раздел 13). Т6/Т8 в браузере считаются в
@@ -272,18 +398,18 @@ async function main() {
   });
   document.getElementById('recompute-btn').addEventListener('click', recomputeFullEquilibrium);
   document.getElementById('run-tests-btn').addEventListener('click', runTests);
+  document.getElementById('add-to-list-btn').addEventListener('click', addCurrentCandidateToList);
+  wireCandidateListSorting();
 
-  // Фоновый прогрев оставшихся 7 опорных равновесий (не блокирует UI), чтобы
-  // клик по карте позже не ждал их с нуля. Черновик Web Worker - на потом.
-  const combos = [];
-  for (const year of [2026, 2030]) for (const season of ['winter', 'summer']) for (const dayType of ['weekday', 'weekend']) combos.push({ year, season, dayType });
-  (function warmNext(i) {
-    if (i >= combos.length) return;
-    setTimeout(() => {
-      getBaseline(combos[i].year, combos[i].season, combos[i].dayType);
-      warmNext(i + 1);
-    }, 50);
-  })(0);
+  // Фоновый прогрев остальных 7 опорных равновесий убран: на 779 реальных
+  // станциях один расчёт равновесия занимает секунды, а не миллисекунды, и
+  // цепочка setTimeout(...,50) держит поток занятым почти непрерывно первые
+  // ~20-25с после отрисовки карты - за это время debounce-таймер singleclick
+  // в OpenLayers (250мс) физически не получает свободного тика, и первый
+  // клик по карте у пользователя "теряется" (на самом деле не теряется, а
+  // откладывается на десятки секунд). getBaseline() ниже и так кэширует
+  // результат по ключу год|сезон|деньТипа - смена сценария просто считает
+  // равновесие один раз при первом обращении, без фонового прогрева.
 }
 
 main().catch((err) => {
