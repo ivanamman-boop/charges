@@ -3,7 +3,7 @@
 import { SEGMENTS } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidate } from './equipment.js';
-import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng } from './mapview.js';
+import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel } from './mapview.js';
 import { renderPassport, renderEquipmentEconomics } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
@@ -384,7 +384,16 @@ async function main() {
 
   state.layers = initMap();
   renderCentersLayer({ centersSource: state.layers.centersSource, centers: state.centers });
-  state.layers.map.on('singleclick', (evt) => onMapClick(coordToLatLng(evt.coordinate)));
+  state.layers.map.on('singleclick', (evt) => {
+    // Клик по кластеру станций (несколько под курсором на текущем зуме) -
+    // приближаем карту к его границам вместо постановки кандидата.
+    const extent = clusterExtentAtPixel(state.layers.map, state.layers.stationsLayer, evt.pixel);
+    if (extent) {
+      state.layers.map.getView().fit(extent, { padding: [60, 60, 60, 60], maxZoom: 16, duration: 300 });
+      return;
+    }
+    onMapClick(coordToLatLng(evt.coordinate));
+  });
 
   await recomputeFullEquilibrium();
 
