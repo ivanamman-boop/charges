@@ -19,6 +19,101 @@ header {
   font-style: italic;
 }
 
+#glossary {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: #f4f4f4;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+#glossary summary {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.25rem 0;
+}
+
+#glossary summary:hover {
+  color: #4a7cb5;
+}
+
+.glossary-body {
+  margin-top: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.glossary-body h3 {
+  font-size: 0.9rem;
+  margin: 0 0 0.4rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.2rem;
+}
+
+.term-list {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.term-list > div {
+  margin-bottom: 0.5rem;
+}
+
+.term-list dt {
+  font-weight: bold;
+  color: #333;
+}
+
+.term-list dd {
+  margin: 0.1rem 0 0;
+  color: #666;
+}
+
+.swatch {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 0.1rem;
+}
+
+.swatch-gradient {
+  background: linear-gradient(90deg, rgb(40, 160, 40), rgb(220, 30, 40));
+}
+
+.swatch-size {
+  border: 2px solid #333;
+  background: #7a7a7a;
+}
+
+.swatch-grey {
+  background: #ccc;
+  border: 1px solid #666;
+}
+
+.swatch-heat {
+  background: linear-gradient(90deg, #fff2cc, #e69138, #990000);
+}
+
+.swatch-star {
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  color: #d4af00;
+  text-shadow: 0 0 1px #000;
+  font-size: 1em;
+}
+
+.swatch-neighbor-red {
+  background: #c0392b;
+}
+
+.swatch-neighbor-blue {
+  background: #2980b9;
+}
+
 #layout:not([hidden]) {
   display: flex;
   gap: 1.5rem;
