@@ -66,12 +66,11 @@ export function renderPassport({ container, local, baselineS, candidate, station
   const ownLoss = own.filter((n) => n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
   const foreignLoss = foreign.filter((n) => n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
 
-  const maxBar = Math.max(1e-6, ...hourlySegments.flatMap((s) => s.values));
-  const barsHtml = Array.from({ length: 24 }, (_, h) => {
-    const parts = hourlySegments.map((s) => s.values[h]);
-    const total = parts.reduce((a, b) => a + b, 0);
-    return `<div class="bar" style="height:${(total / maxBar) * 100}%" title="${h}:00 — ${fmt(total, 2)} сессий"></div>`;
-  }).join('');
+  const hourlyTotals = Array.from({ length: 24 }, (_, h) => hourlySegments.reduce((acc, s) => acc + s.values[h], 0));
+  const maxBar = Math.max(1e-6, ...hourlyTotals);
+  const barsHtml = hourlyTotals
+    .map((total, h) => `<div class="bar" style="height:${(total / maxBar) * 100}%" title="${h}:00 — ${fmt(total, 2)} сессий"></div>`)
+    .join('');
 
   container.innerHTML = `
     <h2>Черновик паспорта площадки</h2>
