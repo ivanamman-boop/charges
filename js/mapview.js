@@ -17,10 +17,19 @@
 
 const MOSCOW_CENTER_LONLAT = [37.618, 55.751]; // OL: [lon, lat]
 
+// Кластеризация станций (как на картах АЗС): близкие точки на текущем
+// зуме схлопываются в один кружок с числом, при приближении расходятся
+// обратно на реальные координаты. Расстояние - в пикселях экрана, поэтому
+// поведение не зависит от того, сколько всего станций в data/stations.json -
+// добавление новых станций позже не требует правок здесь (source у
+// ol.source.Cluster просто перегруппировывает то, что в нём есть).
+const STATION_CLUSTER_DISTANCE_PX = 40;
+
 export function initMap() {
   const demandSource = new ol.source.Vector();
   const centersSource = new ol.source.Vector();
   const stationsSource = new ol.source.Vector();
+  const stationsClusterSource = new ol.source.Cluster({ distance: STATION_CLUSTER_DISTANCE_PX, source: stationsSource });
   const neighborsSource = new ol.source.Vector();
   const candidateSource = new ol.source.Vector();
 
@@ -33,7 +42,7 @@ export function initMap() {
     opacity: 0.55,
   });
   const centersLayer = new ol.layer.Vector({ source: centersSource });
-  const stationsLayer = new ol.layer.Vector({ source: stationsSource });
+  const stationsLayer = new ol.layer.Vector({ source: stationsClusterSource, style: stationClusterStyle });
   const neighborsLayer = new ol.layer.Vector({ source: neighborsSource });
   const candidateLayer = new ol.layer.Vector({ source: candidateSource });
 
@@ -57,8 +66,9 @@ export function initMap() {
       return;
     }
     const feature = map.forEachFeatureAtPixel(evt.pixel, (f) => f, { layerFilter: (l) => l !== demandLayer });
-    if (feature && feature.get('hint')) {
-      tooltipEl.textContent = feature.get('hint');
+    const hint = feature && clusterAwareHint(feature);
+    if (hint) {
+      tooltipEl.textContent = hint;
       tooltipEl.style.display = 'block';
       tooltipOverlay.setPosition(evt.coordinate);
     } else {
@@ -66,7 +76,25 @@ export function initMap() {
     }
   });
 
-  return { map, demandSource, centersSource, stationsSource, neighborsSource, candidateSource };
+  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource };
+}
+
+// Клик по карте (app.js) должен отличать клик по кластеру (несколько
+// станций под курсором) от клика по пустому месту/одиночной станции -
+// первое приближает карту к границам кластера, второе ставит кандидата.
+// Возвращает координаты для fit() или null, если клик был не по кластеру.
+export function clusterExtentAtPixel(map, stationsLayer, pixel) {
+  const feature = map.forEachFeatureAtPixel(pixel, (f) => f, { layerFilter: (l) => l === stationsLayer });
+  const members = feature && feature.get('features');
+  if (!members || members.length <= 1) return null;
+  return ol.extent.boundingExtent(members.map((f) => f.getGeometry().getCoordinates()));
+}
+
+function clusterAwareHint(feature) {
+  const members = feature.get('features');
+  if (!members) return feature.get('hint');
+  if (members.length === 1) return members[0].get('hint');
+  return `${members.length} станций рядом — приблизьте карту, чтобы увидеть их отдельно`;
 }
 
 // Координата клика по карте (проекция OL) -> {lat, lng}. Инкапсулирует OL,
@@ -96,6 +124,29 @@ function circleStyle({ radiusPx, fillColor, strokeColor = '#333', strokeWidth = 
       radius: radiusPx,
       fill: new ol.style.Fill({ color: fillColor }),
       stroke: new ol.style.Stroke({ color: strokeColor, width: strokeWidth }),
+    }),
+  });
+}
+
+// Стиль слоя-кластера станций (ol.layer.Vector.style, вызывается заново на
+// каждый рендер для каждого текущего кластера). Одиночный "кластер" из 1
+// станции переиспользует уже посчитанный в renderStationsLayer стиль
+// (цвет по U(h)) - его не нужно пересчитывать здесь.
+function stationClusterStyle(feature) {
+  const members = feature.get('features');
+  if (members.length === 1) return members[0].getStyle();
+  const count = members.length;
+  const radius = Math.min(26, 11 + Math.sqrt(count) * 2.2);
+  return new ol.style.Style({
+    image: new ol.style.Circle({
+      radius,
+      fill: new ol.style.Fill({ color: 'rgba(42, 120, 214, 0.88)' }),
+      stroke: new ol.style.Stroke({ color: '#fff', width: 2 }),
+    }),
+    text: new ol.style.Text({
+      text: String(count),
+      font: 'bold 12px system-ui, sans-serif',
+      fill: new ol.style.Fill({ color: '#fff' }),
     }),
   });
 }
