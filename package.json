@@ -22,6 +22,9 @@
     "assign:demand-layers": "node scripts/assign-real-demand-layers.js",
     "merge:yandex": "node scripts/merge-yandex-stations.js",
     "fit:hourly-profile": "node scripts/fit-hourly-profile.js",
+    "build:tp04": "node scripts/build-tp04.js",
+    "build:pool": "node scripts/build-pool.js",
+    "compute:portfolio": "node scripts/compute-portfolio.js",
     "calibrate:d0": "node scripts/calibrate-d0.js --write",
     "reference:equilibria": "node scripts/compute-reference-equilibria.js",
     "check:breakeven": "node scripts/check-breakeven-dc60-1.js"

@@ -145,6 +145,7 @@
             <div class="legend-row"><span class="legend-dot legend-dot-u"></span>станция, цвет — загрузка</div>
             <div class="legend-row"><span class="legend-dot legend-dot-cluster">5</span>группа станций</div>
             <div class="legend-row"><span class="legend-dot legend-dot-center">⚡</span>центр питания (при приближении)</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-pick">1</span>рекомендованная площадка</div>
           </div>
         </div>
         <p class="hint">Клик по карте — поставить кандидата (DC60-1) и посчитать черновик паспорта. Цвет станций — загрузка U(h) в выбранный час.</p>
@@ -157,6 +158,28 @@
         <div id="passport" hidden></div>
       </aside>
     </div>
+
+    <section id="portfolio-section" hidden>
+      <div class="portfolio-head">
+        <div>
+          <div class="eyebrow">Модуль 8 · решение задачи</div>
+          <h2>Где ставить новые станции</h2>
+          <p class="hint" id="portfolio-subtitle"></p>
+        </div>
+        <div class="portfolio-toggles">
+          <label><input type="checkbox" id="toggle-model" checked /> <span class="pin pin-model">1</span> рекомендации модели</label>
+          <label><input type="checkbox" id="toggle-trad" /> <span class="pin pin-trad">1</span> традиционный подход</label>
+        </div>
+      </div>
+      <div id="portfolio-compare" class="compare-grid"></div>
+      <table id="portfolio-table">
+        <thead>
+          <tr><th>#</th><th>Площадка</th><th>Округ</th><th>Оборудование</th><th>Сессий/сут<br><span class="th-sub">2026 → 2030</span></th><th>NPV за 10 лет</th><th>Окупаемость</th><th>Вердикт</th></tr>
+        </thead>
+        <tbody id="portfolio-body"></tbody>
+      </table>
+      <p class="hint" id="portfolio-footnote"></p>
+    </section>
 
     <section id="candidate-list-section" hidden>
       <h2>Список площадок</h2>

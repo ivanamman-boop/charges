@@ -661,3 +661,259 @@ header .eyebrow {
 .remove-candidate-btn:hover {
   color: #a52a2a;
 }
+
+/* --- Модуль 8: рекомендации, где ставить --- */
+#portfolio-section {
+  margin-top: 1.75rem;
+  padding: 1.25rem 1.35rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.portfolio-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.portfolio-head .eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.portfolio-head h2 {
+  font-size: 1.3rem;
+  margin: 0.2rem 0 0.3rem;
+}
+
+.portfolio-head .hint {
+  max-width: 70ch;
+  margin: 0;
+}
+
+.portfolio-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+}
+
+.portfolio-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.portfolio-toggles input {
+  accent-color: var(--accent);
+}
+
+.pin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.pin-model {
+  background: #6d28d9;
+  border: 2px solid #fbbf24;
+  border-radius: 999px;
+}
+
+.pin-trad {
+  background: rgba(82, 81, 78, 0.9);
+  border: 1.5px solid #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(82, 81, 78, 0.35);
+}
+
+.legend-dot-pick {
+  background: #6d28d9;
+  border: 2px solid #fbbf24;
+  width: 16px;
+  height: 16px;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 0.6rem;
+  margin: 1.1rem 0 1.2rem;
+}
+
+.compare-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  background: var(--page);
+}
+
+.compare-card.compare-labels {
+  background: transparent;
+  border-color: transparent;
+  padding-left: 0;
+}
+
+.compare-card.compare-model {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft-2);
+}
+
+.compare-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+  height: 1.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.compare-labels .compare-title {
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+.compare-cell {
+  font-size: 0.82rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  color: var(--ink-secondary);
+}
+
+.compare-cell.num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.compare-cell.better {
+  color: var(--accent-dark);
+}
+
+.compare-cell.better::after {
+  content: "✓";
+  margin-left: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--good);
+}
+
+#portfolio-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+#portfolio-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--border-strong);
+  vertical-align: bottom;
+}
+
+#portfolio-table .th-sub {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+#portfolio-table td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+#portfolio-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+#portfolio-table tbody tr:hover {
+  background: var(--accent-soft);
+}
+
+#portfolio-table .num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+#portfolio-table .pos {
+  color: var(--good);
+  font-weight: 600;
+}
+
+#portfolio-table .neg {
+  color: var(--critical);
+  font-weight: 600;
+}
+
+.site-kind {
+  font-weight: 600;
+}
+
+.site-name {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 720px) {
+  .compare-grid {
+    grid-template-columns: 1fr;
+  }
+  .compare-card.compare-labels {
+    display: none;
+  }
+  #portfolio-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+.npv-range {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+
+.verdict {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.verdict-go {
+  background: #e3f6e3;
+  color: #0a7a0a;
+}
+
+.verdict-cond {
+  background: #fdf3d7;
+  color: #8a6508;
+}
