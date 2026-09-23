@@ -269,8 +269,8 @@ function testT6({ cells, stations, params, year }) {
   delete flatParams.M1_demand.hourly_correction_weekday; // иначе r(h) снова делает профиль неплоским
   delete flatParams.M1_demand.hourly_correction_weekend;
   const rand = mulberry32(606 + year);
-  const lats = cells.map((c) => c.lat), lons = cells.map((c) => c.lon);
-  const latMin = Math.min(...lats), latMax = Math.max(...lats), lonMin = Math.min(...lons), lonMax = Math.max(...lons);
+  // Кандидат - случайная ячейка ± ~0.5 км (после обрезки по МКАД углы bbox вне области модели).
+  const nearRandomCell = () => { const c = cells[Math.floor(rand() * cells.length)]; return { lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 }; };
   const CONDITIONS = { scenario: 'base', dayType: 'weekday', season: 'summer' };
 
   const active = stations.filter((s) => s.year_open <= year);
@@ -279,7 +279,7 @@ function testT6({ cells, stations, params, year }) {
 
   const valuesA = [], valuesB = [], valuesC = [];
   for (let k = 0; k < N; k++) {
-    const candidate = { id: `T6-${k}`, lat: latMin + rand() * (latMax - latMin), lon: lonMin + rand() * (lonMax - lonMin), operator: 'РСЗС', P_kW: 60, posts: 1, P_post_kW: 60, status: 'candidate', year_open: year };
+    const candidate = { id: `T6-${k}`, ...nearRandomCell(), operator: 'РСЗС', P_kW: 60, posts: 1, P_post_kW: 60, status: 'candidate', year_open: year };
 
     const local = localEquilibrium({ cells, stations: active, candidate, params, year, ...CONDITIONS, fullContext, fullResult });
     valuesA.push(sumLam(local.combined.bySegment, local.candidateLocalIdx));
@@ -342,12 +342,12 @@ function testT7({ params }) {
 function testT8({ cells, stations, params, fullContext, fullResult }) {
   const N = 3;
   const rand = mulberry32(77);
-  const lats = cells.map((c) => c.lat), lons = cells.map((c) => c.lon);
-  const latMin = Math.min(...lats), latMax = Math.max(...lats), lonMin = Math.min(...lons), lonMax = Math.max(...lons);
+  // Кандидат - случайная ячейка ± ~0.5 км (после обрезки по МКАД углы bbox вне области модели).
+  const nearRandomCell = () => { const c = cells[Math.floor(rand() * cells.length)]; return { lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 }; };
 
   let worst = 0;
   for (let k = 0; k < N; k++) {
-    const candidate = { id: `T8-${k}`, lat: latMin + rand() * (latMax - latMin), lon: lonMin + rand() * (lonMax - lonMin), operator: 'РСЗС', P_kW: 60, posts: 1, P_post_kW: 60, status: 'candidate', year_open: fullResult.year };
+    const candidate = { id: `T8-${k}`, ...nearRandomCell(), operator: 'РСЗС', P_kW: 60, posts: 1, P_post_kW: 60, status: 'candidate', year_open: fullResult.year };
     const local = localEquilibrium({ cells, stations, candidate, params, year: fullResult.year, scenario: fullResult.scenario, dayType: fullResult.dayType, season: fullResult.season, fullContext, fullResult });
 
     const withCandidate = [...stations, candidate];

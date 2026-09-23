@@ -42,16 +42,14 @@ function mulberry32(seed) {
   };
 }
 const rand = mulberry32(606);
-const lats = cells.map((c) => c.lat);
-const lons = cells.map((c) => c.lon);
-const latMin = Math.min(...lats), latMax = Math.max(...lats);
-const lonMin = Math.min(...lons), lonMax = Math.max(...lons);
+// Кандидат - случайная ячейка сетки ± ~0.5 км, а не случайная точка bbox:
+// после обрезки по МКАД (clip-to-mkad.js) углы bbox лежат вне области
+// модели, где нет ни одной ячейки спроса.
 const N_CANDIDATES = 50;
-const candidatesGeo = Array.from({ length: N_CANDIDATES }, (_, k) => ({
-  id: `T6-${k}`,
-  lat: latMin + rand() * (latMax - latMin),
-  lon: lonMin + rand() * (lonMax - lonMin),
-}));
+const candidatesGeo = Array.from({ length: N_CANDIDATES }, (_, k) => {
+  const c = cells[Math.floor(rand() * cells.length)];
+  return { id: `T6-${k}`, lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 };
+});
 
 function sumLam(lamBySegment, idx) {
   let sum = 0;

@@ -57,15 +57,14 @@ const rand = mulberry32(7);
 // приближение с "замороженной" внешней границей (12.3), точность которого
 // падает при более сильном возмущении сети (см. journal.md); DC60-1 как
 // типичный кандидат держит расхождение в пределах заявленных 2%.
-const lats = cells.map((c) => c.lat);
-const lons = cells.map((c) => c.lon);
-const latMin = Math.min(...lats), latMax = Math.max(...lats);
-const lonMin = Math.min(...lons), lonMax = Math.max(...lons);
+// Кандидат - случайная ячейка сетки ± ~0.5 км, а не случайная точка bbox:
+// после обрезки по МКАД (clip-to-mkad.js) углы bbox лежат вне области
+// модели, где нет ни одной ячейки спроса.
+const randomCell = () => cells[Math.floor(rand() * cells.length)];
 
 const candidates = Array.from({ length: 10 }, (_, k) => ({
   id: `CANDIDATE-${k}`,
-  lat: latMin + rand() * (latMax - latMin),
-  lon: lonMin + rand() * (lonMax - lonMin),
+  ...((c) => ({ lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 }))(randomCell()),
   operator: 'РСЗС',
   P_kW: 60,
   posts: 1,

@@ -1,19 +1,7 @@
 {
-  "source": "OpenStreetMap (Overpass API, 117 только-OSM) + Яндекс.Карты (вручную собранные ответы поиска \"Электрозаправки\" из DevTools, см. scripts/data-sources/yandex-charging-stations-compact.json: 867 станций уточнены/добавлены Яндексом суммарно за все объезды карты, из них 1017 уточнили существующие точки и 0 добавили новых на этом прогоне). Покрытие всё ещё неполное относительно независимых оценок (~1000+ по Москве) - заменить на данные Бори/Сони с transport.mos.ru при появлении.",
+  "source": "OpenStreetMap (Overpass API, 117 только-OSM) + Яндекс.Карты (вручную собранные ответы поиска \"Электрозаправки\" из DevTools, см. scripts/data-sources/yandex-charging-stations-compact.json: 867 станций уточнены/добавлены Яндексом суммарно за все объезды карты, из них 1017 уточнили существующие точки и 0 добавили новых на этом прогоне). Покрытие всё ещё неполное относительно независимых оценок (~1000+ по Москве) - заменить на данные Бори/Сони с transport.mos.ru при появлении. | Обрезано по МКАД (scripts/clip-to-mkad.js, data/mkad.json): модель считается для Москвы внутри МКАД, где станции собраны полно.",
   "date": "2026-09-22",
   "stations": [
-    {
-      "id": "S-0001",
-      "lat": 55.6965806,
-      "lon": 37.8524035,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 2656686171
-    },
     {
       "id": "S-0002",
       "lat": 55.7485607,
@@ -49,18 +37,6 @@
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
-    },
-    {
-      "id": "S-0005",
-      "lat": 55.6951211,
-      "lon": 37.3801689,
-      "operator": "Tesla Supercharger",
-      "P_kW": 60,
-      "posts": 4,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 4143311990
     },
     {
       "id": "S-0006",
@@ -193,18 +169,6 @@
       "status": "active",
       "year_open": 2024,
       "osm_id": 4902990461
-    },
-    {
-      "id": "S-0017",
-      "lat": 55.8008743,
-      "lon": 37.2992438,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 4908359221
     },
     {
       "id": "S-0018",
@@ -795,18 +759,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0067",
-      "lat": 55.8344486,
-      "lon": 37.3575959,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 9215595822
-    },
-    {
       "id": "S-0068",
       "lat": 55.8875181,
       "lon": 37.6358449,
@@ -817,18 +769,6 @@
       "status": "active",
       "year_open": 2024,
       "osm_id": 9276085157
-    },
-    {
-      "id": "S-0069",
-      "lat": 55.5672657,
-      "lon": 37.5719736,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 4,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 9348573701
     },
     {
       "id": "S-0070",
@@ -889,30 +829,6 @@
       "status": "active",
       "year_open": 2024,
       "osm_id": 9447164950
-    },
-    {
-      "id": "S-0075",
-      "lat": 55.8938895,
-      "lon": 37.3963049,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 9449266961
-    },
-    {
-      "id": "S-0076",
-      "lat": 55.8919418,
-      "lon": 37.3990461,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 9449266963
     },
     {
       "id": "S-0077",
@@ -1311,18 +1227,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0110",
-      "lat": 55.8406876,
-      "lon": 37.3539387,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 11007039814
-    },
-    {
       "id": "S-0111",
       "lat": 55.716746,
       "lon": 37.774654,
@@ -1393,18 +1297,6 @@
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
-    },
-    {
-      "id": "S-0117",
-      "lat": 55.8445996,
-      "lon": 37.3578367,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 11271479601
     },
     {
       "id": "S-0118",
@@ -1537,18 +1429,6 @@
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
-    },
-    {
-      "id": "S-0129",
-      "lat": 55.7396978,
-      "lon": 37.8583099,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 11684562460
     },
     {
       "id": "S-0130",
@@ -2343,18 +2223,6 @@
       "osm_id": 12799921060
     },
     {
-      "id": "S-0196",
-      "lat": 55.7920071,
-      "lon": 37.3417644,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 12806024947
-    },
-    {
       "id": "S-0197",
       "lat": 55.759643,
       "lon": 37.663336,
@@ -2655,30 +2523,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0222",
-      "lat": 55.897321,
-      "lon": 37.4008248,
-      "operator": "Розетка",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13283998602
-    },
-    {
-      "id": "S-0223",
-      "lat": 55.9054655,
-      "lon": 37.3853697,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13289649064
-    },
-    {
       "id": "S-0224",
       "lat": 55.683461,
       "lon": 37.5538262,
@@ -2713,18 +2557,6 @@
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
-    },
-    {
-      "id": "S-0227",
-      "lat": 55.5804901,
-      "lon": 37.573683,
-      "operator": "Розетка",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13293530568
     },
     {
       "id": "S-0228",
@@ -2811,18 +2643,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0235",
-      "lat": 55.7151336,
-      "lon": 37.8862353,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13299579814
-    },
-    {
       "id": "S-0236",
       "lat": 55.789805,
       "lon": 37.495588,
@@ -2845,18 +2665,6 @@
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
-    },
-    {
-      "id": "S-0238",
-      "lat": 55.6020118,
-      "lon": 37.4829812,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13324386629
     },
     {
       "id": "S-0239",
@@ -3207,18 +3015,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0268",
-      "lat": 55.5474933,
-      "lon": 37.5415295,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13945081134
-    },
-    {
       "id": "S-0269",
       "lat": 55.665051,
       "lon": 37.51229,
@@ -3349,42 +3145,6 @@
       "status": "active",
       "year_open": 2024,
       "osm_id": 14112572672
-    },
-    {
-      "id": "S-0280",
-      "lat": 55.8895691,
-      "lon": 37.3935094,
-      "operator": "Энергия Москвы",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 14123250120
-    },
-    {
-      "id": "S-0281",
-      "lat": 55.8895413,
-      "lon": 37.3935094,
-      "operator": "Энергия Москвы",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 14123250121
-    },
-    {
-      "id": "S-0282",
-      "lat": 55.8896262,
-      "lon": 37.3880781,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 14129106227
     },
     {
       "id": "S-0283",
@@ -7419,46 +7179,10 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0619",
-      "lat": 55.815044,
-      "lon": 37.361822,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0620",
-      "lat": 55.815908,
-      "lon": 37.371757,
-      "operator": "МОСОБЛЭНЕРГО",
-      "P_kW": 150,
-      "posts": 1,
-      "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0621",
       "lat": 55.817739,
       "lon": 37.387556,
       "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0622",
-      "lat": 55.815555,
-      "lon": 37.380136,
-      "operator": "Punkt E",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -7503,18 +7227,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0626",
-      "lat": 55.81608,
-      "lon": 37.380112,
-      "operator": "МОСОБЛЭНЕРГО",
-      "P_kW": 150,
-      "posts": 1,
-      "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0627",
       "lat": 55.815974,
       "lon": 37.381104,
@@ -7551,18 +7263,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0630",
-      "lat": 55.838071,
-      "lon": 37.379639,
-      "operator": "Электрозарядный комплекс Энергия Москвы",
-      "P_kW": 60,
-      "posts": 4,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0631",
       "lat": 55.847453,
       "lon": 37.426495,
@@ -7581,30 +7281,6 @@
       "operator": "Яндекс Заправки",
       "P_kW": 60,
       "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0633",
-      "lat": 55.861133,
-      "lon": 37.398085,
-      "operator": "РСЗС",
-      "P_kW": 150,
-      "posts": 3,
-      "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0634",
-      "lat": 55.864214,
-      "lon": 37.401166,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -7630,18 +7306,6 @@
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0637",
-      "lat": 55.869312,
-      "lon": 37.406367,
-      "operator": "Заряди авто",
-      "P_kW": 150,
-      "posts": 3,
-      "P_post_kW": 150,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
@@ -7683,18 +7347,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0641",
-      "lat": 55.858711,
-      "lon": 37.390922,
-      "operator": "МОСОБЛЭНЕРГО",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0642",
       "lat": 55.850965,
       "lon": 37.450237,
@@ -7723,18 +7375,6 @@
       "lat": 55.865481,
       "lon": 37.464125,
       "operator": "Energo",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0645",
-      "lat": 55.887289,
-      "lon": 37.433099,
-      "operator": "Электропойнт",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -7807,18 +7447,6 @@
       "lat": 55.863843,
       "lon": 37.466009,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0652",
-      "lat": 55.88462,
-      "lon": 37.452426,
-      "operator": "Розетка",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -7971,18 +7599,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0665",
-      "lat": 55.910163,
-      "lon": 37.542548,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0666",
       "lat": 55.904283,
       "lon": 37.540401,
@@ -8013,18 +7629,6 @@
       "operator": "Энергия Москвы, станция зарядки электромобилей",
       "P_kW": 60,
       "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0669",
-      "lat": 55.911484,
-      "lon": 37.588033,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 4,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -8073,18 +7677,6 @@
       "operator": "Sitronics Electro",
       "P_kW": 60,
       "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0674",
-      "lat": 55.909062,
-      "lon": 37.600077,
-      "operator": "Charing point",
-      "P_kW": 60,
-      "posts": 1,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -8379,18 +7971,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0699",
-      "lat": 55.894136,
-      "lon": 37.700971,
-      "operator": "Major Auto",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0700",
       "lat": 55.867364,
       "lon": 37.670389,
@@ -8398,18 +7978,6 @@
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0701",
-      "lat": 55.901735,
-      "lon": 37.715231,
-      "operator": "Punkt E",
-      "P_kW": 150,
-      "posts": 3,
-      "P_post_kW": 150,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
@@ -8431,30 +7999,6 @@
       "lat": 55.859318,
       "lon": 37.700278,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0704",
-      "lat": 55.881803,
-      "lon": 37.731404,
-      "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 3,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0705",
-      "lat": 55.891638,
-      "lon": 37.746531,
-      "operator": "Punkt E",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -8715,30 +8259,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0727",
-      "lat": 55.809145,
-      "lon": 37.841041,
-      "operator": "Artis",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0728",
-      "lat": 55.808746,
-      "lon": 37.841684,
-      "operator": "Volt",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0729",
       "lat": 55.75936,
       "lon": 37.796416,
@@ -8769,30 +8289,6 @@
       "operator": "Яндекс Заправки",
       "P_kW": 60,
       "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0732",
-      "lat": 55.779092,
-      "lon": 37.854986,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0733",
-      "lat": 55.765417,
-      "lon": 37.844464,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -9651,18 +9147,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0805",
-      "lat": 55.625969,
-      "lon": 37.798741,
-      "operator": "Major Auto",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0806",
       "lat": 55.636393,
       "lon": 37.778839,
@@ -9687,30 +9171,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0808",
-      "lat": 55.634512,
-      "lon": 37.811803,
-      "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0809",
-      "lat": 55.643612,
-      "lon": 37.827527,
-      "operator": "РСЗС",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0810",
       "lat": 55.64446,
       "lon": 37.821185,
@@ -9723,48 +9183,12 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0811",
-      "lat": 55.64444,
-      "lon": 37.828932,
-      "operator": "РСЗС",
-      "P_kW": 150,
-      "posts": 3,
-      "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0812",
-      "lat": 55.657538,
-      "lon": 37.84356,
-      "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 3,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0813",
       "lat": 55.651886,
       "lon": 37.833392,
       "operator": "IT Charge",
       "P_kW": 120,
       "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0814",
-      "lat": 55.655319,
-      "lon": 37.847017,
-      "operator": "Зарядка электромобилей",
-      "P_kW": 60,
-      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -9790,66 +9214,6 @@
       "P_kW": 150,
       "posts": 4,
       "P_post_kW": 150,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0817",
-      "lat": 55.652145,
-      "lon": 37.845607,
-      "operator": "Станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0818",
-      "lat": 55.662277,
-      "lon": 37.848091,
-      "operator": "Мособлэнерго",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0819",
-      "lat": 55.663463,
-      "lon": 37.84885,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0820",
-      "lat": 55.6814,
-      "lon": 37.863932,
-      "operator": "Мособлэнерго",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0821",
-      "lat": 55.674554,
-      "lon": 37.861793,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex"
@@ -10063,18 +9427,6 @@
       "lat": 55.710432,
       "lon": 37.816947,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0840",
-      "lat": 55.75955,
-      "lon": 37.843721,
-      "operator": "Россети",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -10383,42 +9735,6 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0866",
-      "lat": 55.895495,
-      "lon": 37.480695,
-      "operator": "Plug Me",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0867",
-      "lat": 55.906041,
-      "lon": 37.481518,
-      "operator": "МОСОБЛЭНЕРГО",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0868",
-      "lat": 55.893606,
-      "lon": 37.478936,
-      "operator": "Plug Me",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0869",
       "lat": 55.889171,
       "lon": 37.476615,
@@ -10615,30 +9931,6 @@
       "lat": 55.863904,
       "lon": 37.46335,
       "operator": "E-Tron",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0886",
-      "lat": 55.878612,
-      "lon": 37.424895,
-      "operator": "МОСОБЛЭНЕРГО",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0887",
-      "lat": 55.878196,
-      "lon": 37.422449,
-      "operator": "МосОблЭнерго",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -11007,48 +10299,12 @@
       "source_detail": "yandex"
     },
     {
-      "id": "S-0918",
-      "lat": 55.821262,
-      "lon": 37.376841,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 3,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
       "id": "S-0919",
       "lat": 55.820725,
       "lon": 37.386782,
       "operator": "Скорость света",
       "P_kW": 60,
       "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0920",
-      "lat": 55.767068,
-      "lon": 37.367715,
-      "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0921",
-      "lat": 55.766559,
-      "lon": 37.367508,
-      "operator": "Porsche",
-      "P_kW": 60,
-      "posts": 1,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -11145,18 +10401,6 @@
       "operator": "Яндекс Заправки",
       "P_kW": 60,
       "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex"
-    },
-    {
-      "id": "S-0930",
-      "lat": 55.720999,
-      "lon": 37.379605,
-      "operator": "Скорость света",
-      "P_kW": 120,
-      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
