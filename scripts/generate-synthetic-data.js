@@ -5,8 +5,17 @@
 // настоящих файлов от Бори и Сони (задача на вторник).
 //
 // Запуск: node scripts/generate-synthetic-data.js
+//
+// По умолчанию пишет ТОЛЬКО решётку cells.json (слои и округа в ней -
+// заглушки, после генератора: assign:districts + assign:demand-layers).
+// stations.json и centers.json давно реальные (OSM + Яндекс.Карты) - их
+// синтетические версии пишутся только с явным флагом --all, иначе один
+// случайный запуск молча затирал 984 реальные станции и 227 подстанций.
+// q (ближайший центр питания) считается по реальному data/centers.json,
+// если он есть, а не по синтетическим 48 точкам (раньше q указывал на
+// случайную подстанцию в среднем в 21км от ячейки, см. journal.md 23.09).
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -82,10 +91,17 @@ for (let i = 0; i < N_CENTERS; i++) {
   });
 }
 
+const WRITE_ALL = process.argv.includes('--all');
+const REAL_CENTERS_PATH = join(DATA_DIR, 'centers.json');
+const centersForQ =
+  !WRITE_ALL && existsSync(REAL_CENTERS_PATH)
+    ? JSON.parse(readFileSync(REAL_CENTERS_PATH, 'utf8')).centers
+    : centers;
+
 function nearestCenter(lat, lon) {
   let best = null;
   let bestD = Infinity;
-  for (const c of centers) {
+  for (const c of centersForQ) {
     const d = distKm({ lat, lon }, c);
     if (d < bestD) {
       bestD = d;
@@ -199,6 +215,7 @@ writeFileSync(
   join(DATA_DIR, 'cells.json'),
   JSON.stringify({ source: 'синтетика (генератор), заменить на OSM + mos.ru', date: today, cells }, null, 2)
 );
+if (WRITE_ALL) {
 writeFileSync(
   join(DATA_DIR, 'stations.json'),
   JSON.stringify(
@@ -211,5 +228,8 @@ writeFileSync(
   join(DATA_DIR, 'centers.json'),
   JSON.stringify({ source: 'синтетика (генератор), заменить на карту Россети МР', date: today, centers }, null, 2)
 );
-
 console.log(`cells: ${cells.length}, stations: ${stations.length} (active ${N_ACTIVE} + planned ${N_PLANNED}), centers: ${centers.length}`);
+} else {
+  console.log(`cells: ${cells.length} (q по ${centersForQ.length} реальным центрам); stations/centers не тронуты (--all чтобы перезаписать синтетикой)`);
+  console.log('дальше: npm run assign:districts && npm run assign:demand-layers');
+}

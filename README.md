@@ -30,7 +30,7 @@ data/
   params.json                  все параметры модели (раздел 11 + каталог 8.1); не синтетика — перенесено из спецификации, D0 откалиброван под реальные станции
   reference-equilibria.json    опорные равновесия сети без кандидата (сценарий base, 2026/2030 x зима/лето x будни/выходной) — посчитаны офлайн, во фронтенд пока не подключены (браузер считает и кэширует их сам)
 scripts/
-  generate-synthetic-data.js       генератор исходной решётки cells.json (после него обязательно assign:districts + assign:demand-layers; centers/stations уже заменены на реальные)
+  generate-synthetic-data.js       генератор исходной решётки cells.json (после него обязательно assign:districts + assign:demand-layers); синтетические stations/centers — только с --all
   fetch-buildings-tiled.js         OSM-здания плитками 8.5x8.5 км → data-sources/osm-buildings-moscow-compact.json (27/36 плиток, см. journal.md)
   assign-real-demand-layers.js     здания/POI/дороги из OSM → слои res/work/poi/road/taxi в data/cells.json
   fetch-real-stations.js           OSM (Overpass) → базовый data/stations.json, см. docs/journal.md
@@ -55,7 +55,7 @@ tests/
 ## Запуск
 
 ```bash
-npm run generate:data        # ОСТОРОЖНО: перезаписывает синтетикой ВСЕ три файла (cells/stations/centers) — после него заново fetch:stations, merge:yandex, fetch:centers, assign:districts, assign:demand-layers
+npm run generate:data        # пересоздать решётку cells.json (q — по реальным центрам); stations/centers не трогает (синтетика всех трёх — только с -- --all)
 npm run assign:districts     # реальные границы округов → district в cells.json
 npm run fetch:buildings      # здания OSM плитками (кэш) — только если нужно обновить данные
 npm run assign:demand-layers # реальные слои спроса из OSM → cells.json (из кэша; --refresh для нового запроса POI/дорог)
