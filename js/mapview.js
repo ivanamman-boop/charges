@@ -32,6 +32,7 @@ export function initMap() {
   const stationsClusterSource = new ol.source.Cluster({ distance: STATION_CLUSTER_DISTANCE_PX, source: stationsSource });
   const neighborsSource = new ol.source.Vector();
   const candidateSource = new ol.source.Vector();
+  const portfolioSource = new ol.source.Vector();
 
   // Спрос - шестиугольные зоны как на карте спроса у таксистов (Яндекс Про):
   // дискретные ступени фиолетового вместо размытого heatmap, стиль у каждой
@@ -43,12 +44,13 @@ export function initMap() {
   const stationsLayer = new ol.layer.Vector({ source: stationsClusterSource, style: stationClusterStyle });
   const neighborsLayer = new ol.layer.Vector({ source: neighborsSource });
   const candidateLayer = new ol.layer.Vector({ source: candidateSource });
+  const portfolioLayer = new ol.layer.Vector({ source: portfolioSource, zIndex: 5 });
 
   const map = new ol.Map({
     target: 'map',
     // className - чтобы CSS обесцветил только подложку (.basemap), а не
     // слои поверх: на серой карте фиолетовые зоны спроса читаются лучше.
-    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, centersLayer, stationsLayer, neighborsLayer, candidateLayer],
+    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer],
     view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10 }),
   });
 
@@ -78,7 +80,7 @@ export function initMap() {
     }
   });
 
-  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource };
+  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource };
 }
 
 // Клик по карте (app.js) должен отличать клик по кластеру (несколько
@@ -336,4 +338,67 @@ export function renderNeighbors({ neighborsSource, stations, neighborDeltas }) {
     features.push(f);
   }
   neighborsSource.addFeatures(features);
+}
+
+// Модуль 8: рекомендованные моделью площадки (фиолетовые пины с номером
+// шага жадного выбора) и выбор традиционным способом (серые квадраты) -
+// для наглядного сравнения, где разошлись подходы.
+// Уровень "ставить" - золотая обводка; "если сеть подтвердит дешёвое
+// присоединение" - светлее, с белой обводкой.
+function portfolioPinStyle(rank, conditional) {
+  return [
+    new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 14,
+        fill: new ol.style.Fill({ color: conditional ? '#8b5cf6' : '#6d28d9' }),
+        stroke: new ol.style.Stroke({ color: conditional ? '#fff' : '#fbbf24', width: 3 }),
+      }),
+      text: new ol.style.Text({ text: String(rank), font: '700 12px system-ui, sans-serif', fill: new ol.style.Fill({ color: '#fff' }) }),
+    }),
+  ];
+}
+
+function traditionalPinStyle(rank) {
+  return new ol.style.Style({
+    image: new ol.style.RegularShape({
+      points: 4,
+      radius: 12,
+      angle: Math.PI / 4,
+      fill: new ol.style.Fill({ color: 'rgba(82, 81, 78, 0.9)' }),
+      stroke: new ol.style.Stroke({ color: '#fff', width: 2 }),
+    }),
+    text: new ol.style.Text({ text: String(rank), font: '600 11px system-ui, sans-serif', fill: new ol.style.Fill({ color: '#fff' }) }),
+  });
+}
+
+const fmtMln = (rub) => (rub === null || rub === undefined ? '—' : `${(rub / 1e6).toFixed(1)} млн ₽`);
+
+export function renderPortfolio({ portfolioSource, portfolio, showModel = true, showTraditional = false }) {
+  portfolioSource.clear();
+  if (!portfolio) return;
+  const features = [];
+  if (showTraditional) {
+    (portfolio.traditional?.picks || []).forEach((p, k) => {
+      const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(p.lat, p.lon)) });
+      f.setStyle(traditionalPinStyle(k + 1));
+      f.set('hint', `Традиционный выбор №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\nDC60-1 · ${p.S_2026} сессий/сут · NPV ${fmtMln(p.NPV_low_rub)}`);
+      f.set('portfolioPick', p);
+      features.push(f);
+    });
+  }
+  if (showModel) {
+    (portfolio.model?.picks || []).forEach((p, k) => {
+      const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(p.lat, p.lon)) });
+      const conditional = p.tier && p.tier !== 'ставить';
+      f.setStyle(portfolioPinStyle(k + 1, conditional));
+      f.set('hint', `Рекомендация модели №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\n${p.omega} · ${p.S_2026} сессий/сут\nNPV ${fmtMln(p.NPV_low_rub)} … ${fmtMln(p.NPV_high_rub)}${conditional ? '\nокупается при дешёвом присоединении' : ''}\nклик — полный паспорт`);
+      f.set('portfolioPick', p);
+      features.push(f);
+    });
+  }
+  portfolioSource.addFeatures(features);
+}
+
+export function portfolioPickAtPixel(map, pixel) {
+  return map.forEachFeatureAtPixel(pixel, (f) => f.get('portfolioPick') || null) || null;
 }

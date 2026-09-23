@@ -3,10 +3,11 @@
 import { SEGMENTS } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidate } from './equipment.js';
-import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel } from './mapview.js';
+import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel } from './mapview.js';
 import { renderPassport, renderEquipmentEconomics } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
+import { dist04FromKnownTp } from './grid.js';
 
 const DATA_FILES = ['cells', 'stations', 'centers', 'params'];
 
@@ -52,6 +53,8 @@ const state = {
   candidateListNextId: 1,
   candidateListSort: { key: 'composite', dir: 'desc' },
   activeListId: null,
+  tp04: null, // data/tp04.json - известные ТП 0.4 кВ для класса подключения (7.2)
+  portfolio: null, // data/portfolio.json (модуль 8, считается офлайн: npm run compute:portfolio)
 };
 
 function readControls() {
@@ -233,6 +236,7 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
     centers: state.centers,
     params: state.preciseParams,
     getBaseline,
+    dist04Meters: state.tp04 ? dist04FromKnownTp(lat, lon, state.tp04) : null,
   });
   console.log(`подбор оборудования: ${Math.round(performance.now() - t0)} мс`);
   if (state.candidate === candidate) {
@@ -411,6 +415,11 @@ async function main() {
       state.layers.map.getView().fit(extent, { padding: [60, 60, 60, 60], maxZoom: 16, duration: 300 });
       return;
     }
+    const pick = portfolioPickAtPixel(state.layers.map, evt.pixel);
+    if (pick) {
+      placeCandidateAndShowPassport(pick.lat, pick.lon);
+      return;
+    }
     onMapClick(coordToLatLng(evt.coordinate));
   });
 
@@ -428,6 +437,11 @@ async function main() {
   document.getElementById('run-tests-btn').addEventListener('click', runTests);
   document.getElementById('add-to-list-btn').addEventListener('click', addCurrentCandidateToList);
   wireCandidateListSorting();
+  loadPortfolio();
+  fetch('data/tp04.json')
+    .then((r) => r.json())
+    .then((d) => (state.tp04 = d.points))
+    .catch(() => {});
 
   // Фоновый прогрев остальных 7 опорных равновесий убран: на 779 реальных
   // станциях один расчёт равновесия занимает секунды, а не миллисекунды, и
@@ -438,6 +452,93 @@ async function main() {
   // откладывается на десятки секунд). getBaseline() ниже и так кэширует
   // результат по ключу год|сезон|деньТипа - смена сценария просто считает
   // равновесие один раз при первом обращении, без фонового прогрева.
+}
+
+// --- Модуль 8: рекомендации, где ставить (data/portfolio.json) ---
+const fmtMlnRub = (rub) => (rub === null || rub === undefined ? '—' : `${rub < 0 ? '−' : ''}${Math.abs(rub / 1e6).toFixed(1)} млн ₽`);
+const fmtPct = (x) => (x === null || x === undefined ? '—' : `${(x * 100).toFixed(1)}%`);
+const fmtYears = (y) => (y === null || y === undefined || !isFinite(y) ? 'больше 10 лет' : `${y.toFixed(1)} года`);
+const escapeHtml = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+async function loadPortfolio() {
+  try {
+    const res = await fetch(`data/portfolio.json?v=${Date.now()}`);
+    if (!res.ok) return;
+    state.portfolio = await res.json();
+  } catch {
+    return;
+  }
+  document.getElementById('portfolio-section').hidden = false;
+  const redraw = () =>
+    renderPortfolio({
+      portfolioSource: state.layers.portfolioSource,
+      portfolio: state.portfolio,
+      showModel: document.getElementById('toggle-model').checked,
+      showTraditional: document.getElementById('toggle-trad').checked,
+    });
+  document.getElementById('toggle-model').addEventListener('change', redraw);
+  document.getElementById('toggle-trad').addEventListener('change', redraw);
+  redraw();
+  renderPortfolioPanel();
+}
+
+function renderPortfolioPanel() {
+  const pf = state.portfolio;
+  const modelPicks = pf.model?.picks || [];
+  const running = pf.status !== 'done';
+  document.getElementById('portfolio-subtitle').textContent =
+    `${modelPicks.length} площадок, выбранных моделью из ${pf.N ? `пула 300 реальных мест (парковки, ТЦ, АЗС, бизнес-центры, гостиницы)` : 'пула'}: по шагу за раз, с пересчётом всей сети после каждой — следующая точка учитывает уже поставленные.` +
+    (running ? ' Расчёт ещё идёт — обновите страницу позже.' : '');
+
+  const m = pf.metrics;
+  const compare = document.getElementById('portfolio-compare');
+  if (m) {
+    const rows = [
+      ['Средняя загрузка новых станций', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean >= m.traditional.U_new_mean],
+      ['Новых станций с загрузкой < 20%', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 <= m.traditional.share_new_U_below_20],
+      ['NPV новых станций: дорогое подключение', fmtMlnRub(m.traditional.NPV_low_total_rub), fmtMlnRub(m.model.NPV_low_total_rub), m.model.NPV_low_total_rub >= m.traditional.NPV_low_total_rub],
+      ['NPV новых станций: дешёвое подключение', fmtMlnRub(m.traditional.NPV_high_total_rub), fmtMlnRub(m.model.NPV_high_total_rub), (m.model.NPV_high_total_rub ?? 0) >= (m.traditional.NPV_high_total_rub ?? 0)],
+      ['CAPEX (у традиционного — с потерянными затратами)', fmtMlnRub(m.traditional.CAPEX_total_rub), fmtMlnRub(m.model.CAPEX_total_rub), m.model.CAPEX_total_rub <= m.traditional.CAPEX_total_rub],
+      ['Средняя загрузка всей сети', fmtPct(m.traditional.U_network_mean), fmtPct(m.model.U_network_mean), m.model.U_network_mean >= m.traditional.U_network_mean],
+    ];
+    compare.innerHTML = `
+      <div class="compare-card compare-labels"><div class="compare-title">2028 год, базовый сценарий</div>${rows.map((r) => `<div class="compare-cell">${r[0]}</div>`).join('')}</div>
+      <div class="compare-card"><div class="compare-title"><span class="pin pin-trad">■</span> Традиционный подход</div>${rows.map((r) => `<div class="compare-cell num">${r[1]}</div>`).join('')}</div>
+      <div class="compare-card compare-model"><div class="compare-title"><span class="pin pin-model">★</span> По модели</div>${rows.map((r) => `<div class="compare-cell num ${r[3] && m.model.n > 0 && r[2] !== '—' ? 'better' : ''}">${r[2]}</div>`).join('')}</div>`;
+  } else {
+    compare.innerHTML = '';
+  }
+
+  document.getElementById('portfolio-body').innerHTML = modelPicks
+    .map(
+      (p, k) => `<tr data-k="${k}">
+        <td><span class="pin pin-model">${k + 1}</span></td>
+        <td><div class="site-kind">${escapeHtml(p.kind)}</div>${p.name ? `<div class="site-name">${escapeHtml(p.name)}</div>` : ''}</td>
+        <td>${escapeHtml(p.district || '—')}</td>
+        <td><strong>${escapeHtml(p.omega)}</strong></td>
+        <td class="num">${p.S_2026} → ${p.S_2030}</td>
+        <td class="num"><span class="${p.NPV_low_rub >= 0 ? 'pos' : 'neg'}">${fmtMlnRub(p.NPV_low_rub)}</span><div class="npv-range">до ${fmtMlnRub(p.NPV_high_rub)} при дешёвом</div></td>
+        <td class="num">${fmtYears(p.payback_years)}</td>
+        <td><span class="verdict ${p.tier && p.tier !== 'ставить' ? 'verdict-cond' : 'verdict-go'}">${p.tier && p.tier !== 'ставить' ? 'если подключение дешёвое' : 'ставить'}</span><div class="npv-range">класс ${escapeHtml(p.cls || '—')}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
+      </tr>`
+    )
+    .join('');
+  document.querySelectorAll('#portfolio-body tr').forEach((tr) =>
+    tr.addEventListener('click', () => {
+      const p = modelPicks[Number(tr.dataset.k)];
+      state.layers.map.getView().animate({ center: ol.proj.fromLonLat([p.lon, p.lat]), zoom: 14, duration: 500 });
+      document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      placeCandidateAndShowPassport(p.lat, p.lon);
+    })
+  );
+
+  const trad = pf.traditional;
+  document.getElementById('portfolio-footnote').textContent =
+    (pf.model?.stoppedReason ? `Модель остановилась раньше N=${pf.N}: ${pf.model.stoppedReason}. ` : '') +
+    (trad?.dropped?.length ? `Традиционный подход потерял ${trad.dropped.length} площадк(и) на позднем выяснении класса подключения В (+${fmtMlnRub(trad.sunk_rub)} потерянных затрат). ` : '') +
+    'NPV за 10 лет — при дорогой оценке подключения, ниже — при дешёвой. Класс А — известная ТП 0.4 кВ ближе 200 м (OSM); «А|Б» — ТП в данных нет, считаем консервативно как Б. ' +
+    ((pf.model?.picks || []).some((p) => p.acc_2030_below_target) ? 'К 2030 все станции в модели перегружены (парк ЭМ растёт ×14, а будущие станции сети неизвестны), поэтому конфигурация выбрана по отдаче на рубль, без требования доступности 90% в 2030. ' : '') +
+    'Клик по строке — полный паспорт площадки.';
 }
 
 main().catch((err) => {

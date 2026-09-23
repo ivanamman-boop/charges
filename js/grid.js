@@ -12,6 +12,22 @@ export function freeCenterCapacityKW({ center, portfolioLoadKW = 0, params }) {
   return raw * (1 - kRes);
 }
 
+// Расстояние до ближайшей известной ТП 0.4 кВ (data/tp04.json), м - только
+// если она ближе 200 м: это доказывает класс А. Более дальняя известная ТП
+// ничего не доказывает (в OSM размечена лишь часть ТП города), поэтому
+// тогда возвращаем null - класс "А|Б", считается консервативно как Б.
+export function dist04FromKnownTp(lat, lon, tpPoints, maxM = 200) {
+  const kLon = Math.cos((lat * Math.PI) / 180);
+  let best = Infinity;
+  for (const [la, lo] of tpPoints) {
+    const dy = (la - lat) * 111320;
+    if (Math.abs(dy) > maxM) continue;
+    const d = Math.hypot(dy, (lo - lon) * 111320 * kLon);
+    if (d < best) best = d;
+  }
+  return best <= maxM ? Math.round(best) : null;
+}
+
 // 7.2. Класс подключения.
 export function gridClass({ Preq, dist04Meters, RqFreeKW }) {
   if (RqFreeKW < Preq) return 'В';
