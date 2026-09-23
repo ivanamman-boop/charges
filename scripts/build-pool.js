@@ -87,7 +87,8 @@ async function main() {
   const m8 = params.M8_portfolio;
   const POOL_SIZE = m8.pool_size_max.value;
   const MIN_TO_EXISTING_KM = m8.min_distance_to_existing_m.value / 1000;
-  const stations = JSON.parse(readFileSync(join(DATA, 'stations.json'), 'utf8')).stations;
+  // Только действующие: у плановых (add-planned-stations.js) место - оценка.
+  const stations = JSON.parse(readFileSync(join(DATA, 'stations.json'), 'utf8')).stations.filter((s) => s.status !== 'planned');
   const ring = JSON.parse(readFileSync(join(DATA, 'mkad.json'), 'utf8')).ring;
   const insideMkad = (lat, lon) => {
     let inside = false;

@@ -13,6 +13,18 @@
 // Итог: суммарная по городу кривая - реальная, разбивка по сегментам -
 // по-прежнему допущение ТЗ.
 //
+// Те же данные дают и календарные множители спроса (3.4), тоже придуманные
+// в ТЗ: сезон ζ (зима/лето) и тип дня m (будни/выходные). Лог-линейная
+// регрессия числа сессий за день: log n = a + b·t + c·[зима] + e·[выходной],
+// где тренд b обязателен - в Dundee сессий на хаб со временем меньше
+// (сеть растёт), без него сезонность смазалась бы трендом.
+//  - ζ: отношение зима/лето = exp(c), нормировка ТЗ (5ζ_зима + 7ζ_лето)/12 = 1.
+//  - m: сегментная форма ТЗ (C в выходные 0, у частников выходные выше)
+//    сохраняется, общий множитель k к выходным подбирается так, чтобы
+//    отношение выходные/будни по городу = exp(e); у каждого сегмента
+//    (5m_буд + 2m_вых)/7 = 1.
+// Dundee теплее Москвы - зимний эффект оттуда скорее нижняя граница.
+//
 // Запуск: npm run fit:hourly-profile  (--refresh - перекачать CSV Dundee)
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -54,6 +66,7 @@ async function fetchHourlyCounts() {
   }
   const counts = { weekday: new Array(24).fill(0), weekend: new Array(24).fill(0) };
   const days = { weekday: new Set(), weekend: new Set() };
+  const daily = {}; // "yyyy-mm-dd" -> число DC-сессий
   const sites = new Set();
   for (const [label, id] of Object.entries(DATASETS)) {
     const res = await fetch(`https://www.arcgis.com/sharing/rest/content/items/${id}/data`);
@@ -73,6 +86,7 @@ async function fetchHourlyCounts() {
       const key = date.getUTCDay() === 0 || date.getUTCDay() === 6 ? 'weekend' : 'weekday';
       counts[key][+m[4]]++;
       days[key].add(`${m[3]}-${m[2]}-${m[1]}`);
+      daily[`${m[3]}-${m[2]}-${m[1]}`] = (daily[`${m[3]}-${m[2]}-${m[1]}`] || 0) + 1;
       sites.add(row[iSite]);
       n++;
     }
@@ -87,6 +101,7 @@ async function fetchHourlyCounts() {
     sites: sites.size,
     days: { weekday: days.weekday.size, weekend: days.weekend.size },
     counts,
+    daily,
   };
   writeFileSync(CACHE_PATH, JSON.stringify(data, null, 1));
   return data;
@@ -115,9 +130,85 @@ function mixture(dayType, params) {
 
 const fmt = (arr) => arr.map((x) => (100 * x).toFixed(1).padStart(4)).join(' ');
 
+// Решение нормальных уравнений (XᵀX)β = XᵀY методом Гаусса - 4 параметра.
+function leastSquares(X, Y) {
+  const k = X[0].length;
+  const A = Array.from({ length: k }, (_, i) => [...Array.from({ length: k }, (_, j) => X.reduce((s, row) => s + row[i] * row[j], 0)), X.reduce((s, row, n) => s + row[i] * Y[n], 0)]);
+  for (let i = 0; i < k; i++) {
+    for (let r = i + 1; r < k; r++) {
+      const f = A[r][i] / A[i][i];
+      for (let c = i; c <= k; c++) A[r][c] -= f * A[i][c];
+    }
+  }
+  const beta = new Array(k).fill(0);
+  for (let i = k - 1; i >= 0; i--) beta[i] = (A[i][k] - A[i].slice(i + 1, k).reduce((s, a, j) => s + a * beta[i + 1 + j], 0)) / A[i][i];
+  return beta;
+}
+
+const WINTER = new Set([11, 12, 1, 2, 3]); // как в economics.js (3.4)
+
+function fitCalendar(data, params) {
+  const dates = Object.keys(data.daily).sort();
+  const t0 = Date.parse(dates[0]);
+  const X = [];
+  const Y = [];
+  for (const d of dates) {
+    const n = data.daily[d];
+    if (n < 20) continue; // дни со сбоем выгрузки/ремонтом хабов
+    const date = new Date(d + 'T00:00:00Z');
+    X.push([1, (Date.parse(d) - t0) / (365 * 864e5), WINTER.has(date.getUTCMonth() + 1) ? 1 : 0, date.getUTCDay() === 0 || date.getUTCDay() === 6 ? 1 : 0]);
+    Y.push(Math.log(n));
+  }
+  const [, trend, cWinter, eWeekend] = leastSquares(X, Y);
+  const winterRatio = Math.exp(cWinter);
+  const weekendRatio = Math.exp(eWeekend);
+  const src = `Dundee, ${X.length} дней DC-сессий 2024-2025, регрессия log n = a + тренд + зима + выходной (scripts/fit-hourly-profile.js)`;
+
+  const m1 = params.M1_demand;
+  const summer = 12 / (5 * winterRatio + 7);
+  m1.zeta_season.winter = { ...m1.zeta_season.winter, value: Number((winterRatio * summer).toFixed(4)), tag: 'Р', source: `${src}: зима/лето = ${winterRatio.toFixed(3)}, нормировка (5ζз+7ζл)/12=1. Dundee теплее Москвы - скорее нижняя граница` };
+  m1.zeta_season.summer = { ...m1.zeta_season.summer, value: Number(summer.toFixed(4)), tag: 'Р', source: m1.zeta_season.winter.source };
+
+  // Тип дня: исходная сегментная форма ТЗ хранится в shape_weekend (при
+  // первом запуске берётся из текущих value_weekend), чтобы повторные
+  // запуски не накапливали множитель.
+  const mw = m1.m_weekday_weekend;
+  for (const g of Object.values(mw)) if (g.shape_weekend === undefined) g.shape_weekend = g.value_weekend;
+  const apply = (k) => {
+    for (const g of Object.values(mw)) {
+      g.value_weekend = Math.min(3.5, g.shape_weekend * k); // (5m_буд+2m_вых)/7=1 требует m_вых <= 3.5
+      g.value_weekday = (7 - 2 * g.value_weekend) / 5;
+    }
+  };
+  const aggRatio = () => {
+    const wk = segmentWeights('weekend', params);
+    const wd = segmentWeights('weekday', params);
+    return Object.values(wk).reduce((a, b) => a + b, 0) / Object.values(wd).reduce((a, b) => a + b, 0);
+  };
+  let lo = 0.1;
+  let hi = 3;
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2;
+    apply(mid);
+    if (aggRatio() < weekendRatio) lo = mid;
+    else hi = mid;
+  }
+  apply((lo + hi) / 2);
+  for (const g of Object.values(mw)) {
+    g.value_weekday = Number(g.value_weekday.toFixed(4));
+    g.value_weekend = Number(g.value_weekend.toFixed(4));
+    g.tag = 'Р';
+    g.source = `${src}: выходные/будни по городу = ${weekendRatio.toFixed(3)}; сегментная форма ТЗ (shape_weekend) сохранена, общий множитель подогнан`;
+  }
+  console.log(`календарь: тренд ${((Math.exp(trend) - 1) * 100).toFixed(1)}%/год, зима/лето ${winterRatio.toFixed(3)} → ζ зима ${m1.zeta_season.winter.value}, лето ${m1.zeta_season.summer.value}; выходные/будни ${weekendRatio.toFixed(3)} →`, Object.fromEntries(Object.entries(mw).map(([k, g]) => [k, `${g.value_weekday}/${g.value_weekend}`])));
+}
+
 async function main() {
   const data = await fetchHourlyCounts();
   const params = JSON.parse(readFileSync(PARAMS_PATH, 'utf8'));
+  if (!data.daily) throw new Error('в кэше нет посуточных данных - запустите с --refresh');
+  // Календарь раньше профиля: веса сегментов в смеси профиля зависят от m.
+  fitCalendar(data, params);
   for (const dayType of ['weekday', 'weekend']) {
     const key = `hourly_correction_${dayType}`;
     const total = data.counts[dayType].reduce((a, b) => a + b, 0);

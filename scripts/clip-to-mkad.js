@@ -13,7 +13,7 @@
 // файлы, повторный clip идемпотентен.
 //
 // Запуск: npm run clip:mkad
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -36,7 +36,9 @@ const NOTE = ' | Обрезано по МКАД (scripts/clip-to-mkad.js, data/m
 for (const [file, key] of [
   ['cells.json', 'cells'],
   ['stations.json', 'stations'],
+  ['stations-slow.json', 'stations'],
 ]) {
+  if (!existsSync(join(DATA, file))) continue;
   const raw = read(file);
   const before = raw[key].length;
   raw[key] = raw[key].filter((x) => insideMkad(x.lat, x.lon));

@@ -25,6 +25,7 @@
     "build:tp04": "node scripts/build-tp04.js",
     "build:mkad": "node scripts/build-mkad.js",
     "clip:mkad": "node scripts/clip-to-mkad.js",
+    "add:planned": "node scripts/add-planned-stations.js",
     "build:pool": "node scripts/build-pool.js",
     "compute:portfolio": "node scripts/compute-portfolio.js",
     "calibrate:d0": "node scripts/calibrate-d0.js --write",
