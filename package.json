@@ -18,6 +18,8 @@
     "fetch:stations": "node scripts/fetch-real-stations.js",
     "fetch:centers": "node scripts/fetch-real-centers.js",
     "assign:districts": "node scripts/assign-real-districts.js",
+    "fetch:buildings": "node scripts/fetch-buildings-tiled.js",
+    "assign:demand-layers": "node scripts/assign-real-demand-layers.js",
     "merge:yandex": "node scripts/merge-yandex-stations.js",
     "calibrate:d0": "node scripts/calibrate-d0.js --write",
     "reference:equilibria": "node scripts/compute-reference-equilibria.js",
