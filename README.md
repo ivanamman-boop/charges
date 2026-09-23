@@ -38,6 +38,7 @@ scripts/
   fetch-buildings-tiled.js         OSM-здания плитками 8.5x8.5 км → data-sources/osm-buildings-moscow-compact.json (все 36 плиток; --fill-missing докачивает упавшие)
   assign-real-demand-layers.js     здания/POI/дороги из OSM → слои res/work/poi/road/taxi в data/cells.json
   fetch-real-stations.js           OSM (Overpass) → базовый data/stations.json, см. docs/journal.md
+  import-yandex-har.js             HAR объезда Яндекс.Карт → компактный файл станций (только рубрика «Станция зарядки электромобилей»)
   merge-yandex-stations.js         + данные Яндекс.Карт поверх OSM-базы
   fetch-real-centers.js            OSM (Overpass, power=substation) → data/centers.json, координаты реальные, резерв — оценка
   data-sources/                    сырые ответы Overpass (станции + подстанции) + компактные кэши OSM (здания, POI, дороги) + компактный файл станций с Яндекс.Карт
@@ -71,6 +72,7 @@ npm run fetch:buildings      # здания OSM плитками (кэш) — т
 npm run assign:demand-layers # реальные слои спроса из OSM → cells.json (из кэша; --refresh для нового запроса POI/дорог)
 npm run fit:hourly-profile   # подогнать суточный профиль p(h) под реальные DC-сессии Dundee → params.json (перед calibrate:d0)
 npm run fetch:stations       # базовый data/stations.json из OSM (кэш) - добавить --refresh для нового запроса к Overpass
+npm run import:yandex -- ~/Downloads/файл.har ...  # новый объезд Яндекс.Карт → компактный файл (фильтр по рубрике)
 npm run merge:yandex         # довносит данные Яндекс.Карт поверх OSM-базы
 npm run calibrate:d0         # пересчитать D0 и записать в data/params.json
 npm run reference:equilibria # пересчитать data/reference-equilibria.json

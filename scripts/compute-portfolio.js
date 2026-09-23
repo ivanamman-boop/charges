@@ -219,7 +219,10 @@ function objective(e, tier = 'low') {
 // accFlag, чтобы на сайте это было видно, а не спрятано.
 function bestConfig(ev, tier, budgetLeft) {
   const alpha = params.M3_queue.alpha_accessibility.value;
-  const withEco = ev.evaluated.filter((e) => e.scenarios && !e.cfg.costUnknown && e.scenarios[tier].CAPEXrub <= budgetLeft);
+  // Бюджет - всегда по дорогой границе присоединения (как CAPEX в метриках),
+  // даже для уровня "если присоединение дешёвое": иначе портфель мог
+  // "уложиться" в бюджет только при оптимистичной цене.
+  const withEco = ev.evaluated.filter((e) => e.scenarios && !e.cfg.costUnknown && e.scenarios.low.CAPEXrub <= budgetLeft);
   const ok = withEco.filter((e) => e.minAcc >= alpha);
   const set = ok.length ? ok : withEco;
   if (!set.length) return { e: null, accFlag: false };
@@ -313,7 +316,7 @@ function modelStrategy(budget, onStep) {
     pick.verdict = tier === 'low' ? `Ставить ${bestE.e.cfg.omega}` : `Запросить у сети точную стоимость присоединения (${bestE.e.cfg.omega})`;
     pick.npv_per_rub = Number(bestObj.toFixed(3));
     picks.push(pick);
-    spent += bestE.e.scenarios[tier].CAPEXrub;
+    spent += bestE.e.scenarios.low.CAPEXrub;
     console.log(`  #${m} ${pick.id} ${pick.kind} ${pick.district} ${pick.omega} (класс ${pick.cls}): S26=${pick.S_2026} NPV=${(pick.NPV_low_rub / 1e6).toFixed(2)} млн, NPV/CAPEX=${pick.npv_per_rub}; точных оценок ${exact}, ${elapsed()}`);
     onStep({ picks, stoppedReason, shortlist: screened.slice(0, 30).map((s) => ({ id: s.l.id, screen: Number(s.screen.toFixed(3)) })) });
   }
