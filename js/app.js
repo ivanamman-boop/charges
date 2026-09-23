@@ -73,6 +73,22 @@ function totalDemandPerCellAtHour(demand, nCells, hour) {
   return arr;
 }
 
+// Час с максимальным суммарным спросом по городу - по нему фиксируется
+// шкала зон спроса на карте (см. renderDemandLayer).
+function peakDemandHour(demand, nCells) {
+  let best = 0;
+  let bestSum = -1;
+  for (let h = 0; h < 24; h++) {
+    let sum = 0;
+    for (const s of SEGMENTS) for (let i = 0; i < nCells; i++) sum += demand[s][i * 24 + h];
+    if (sum > bestSum) {
+      bestSum = sum;
+      best = h;
+    }
+  }
+  return best;
+}
+
 function rerenderMapForHour() {
   const { hour } = readControls();
   document.getElementById('hour-label').textContent = `${String(hour).padStart(2, '0')}:00`;
@@ -92,7 +108,10 @@ function rerenderMapForHour() {
     demandSource: state.layers.demandSource,
     cells,
     totalDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, hour),
+    scaleDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, peakDemandHour(fullResult.demand, cells.length)),
   });
+  const dayLabel = readControls().dayType === 'weekend' ? 'выходной' : 'будни';
+  document.getElementById('map-legend-time').textContent = `${String(hour).padStart(2, '0')}:00 · ${dayLabel}`;
 }
 
 // Опорное равновесие для equipment.js (module 6, до 8 комбинаций год x сезон

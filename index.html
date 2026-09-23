@@ -9,11 +9,12 @@
 </head>
 <body>
   <header>
+    <div class="eyebrow">МТПС · Проблема №03 · Росатом Сеть зарядных станций</div>
     <h1>Модель размещения быстрых ЭЗС</h1>
-    <p class="subtitle">Прототип, МТПС, проблема №03. Клик по карте — паспорт площадки: спрос, очередь, равновесие, соседи, подключение, экономика (модули 1-7). Станции — реальные (OSM + Яндекс.Карты, 984 шт.), центры питания — реальные координаты (OSM, 227 шт., резерв мощности — оценка), спрос по ячейкам — из OSM (здания, POI, дороги), суточный профиль — по реальным DC-сессиям (Dundee; московских открытых данных нет).</p>
+    <p class="subtitle">Клик по карте — паспорт площадки: спрос, очередь, равновесие, соседи, подключение, экономика (модули 1-7). Станции — реальные (OSM + Яндекс.Карты, 984 шт.), центры питания — реальные координаты (OSM, 227 шт., резерв мощности — оценка), спрос по ячейкам — из OSM (здания, POI, дороги), суточный профиль — по реальным DC-сессиям (Dundee; московских открытых данных нет).</p>
   </header>
 
-  <details id="glossary" open>
+  <details id="glossary">
     <summary>Как читать эту страницу — обозначения и переменные</summary>
 
     <div class="glossary-body">
@@ -23,7 +24,7 @@
           <div><dt><span class="swatch swatch-gradient"></span> Цвет станции</dt><dd>загрузка станции U(h) в выбранный час — от зелёного (низкая, ~0%) до красного (высокая, ≥40%)</dd></div>
           <div><dt><span class="swatch swatch-size"></span> Размер кружка станции</dt><dd>число зарядных постов на станции — больше постов, крупнее кружок</dd></div>
           <div><dt><span class="swatch swatch-star">⚡</span> Молния</dt><dd>центр питания (подстанция) — координаты реальные (OSM), резерв мощности в МВА — оценка по классу напряжения, не измеренные данные Россетей</dd></div>
-          <div><dt><span class="swatch swatch-heat"></span> Оранжево-красная подложка</dt><dd>тепловая карта спроса — плотность заявок на зарядку по ячейкам сетки в выбранный час</dd></div>
+          <div><dt><span class="swatch swatch-heat"></span> Фиолетовые зоны</dt><dd>спрос на зарядку в выбранный час, как на карте спроса у таксистов: чем темнее шестиугольник, тем больше заявок на км². Шкала привязана к пиковому часу дня — ночью зоны гаснут, в пик загораются. Не закрашено — спрос ниже обычного</dd></div>
           <div><dt><span class="swatch swatch-star">★</span> Жёлтая звезда</dt><dd>точка-кандидат — место, куда вы кликнули на карте</dd></div>
           <div><dt><span class="swatch swatch-neighbor-red"></span>/<span class="swatch swatch-neighbor-blue"></span> Красные/синие кружки</dt><dd>появляются после клика: соседние станции, теряющие (красный) или получающие (синий) сессии из-за нового кандидата; размер ∝ величине изменения ΔS</dd></div>
         </dl>
@@ -132,7 +133,20 @@
           <span id="recompute-status"></span>
           <button id="run-tests-btn">Проверить модель</button>
         </div>
-        <div id="map"></div>
+        <div class="map-wrap">
+          <div id="map"></div>
+          <div id="map-legend" aria-label="Легенда карты">
+            <div class="legend-time" id="map-legend-time">12:00 · будни</div>
+            <div class="legend-title">Спрос на зарядку</div>
+            <div class="legend-scale">
+              <span style="background: rgba(196, 181, 253, 0.75)"></span><span style="background: rgba(167, 139, 250, 0.82)"></span><span style="background: rgba(139, 92, 246, 0.88)"></span><span style="background: rgba(118, 56, 230, 0.92)"></span><span style="background: rgba(84, 30, 170, 0.96)"></span>
+            </div>
+            <div class="legend-ends"><span>выше обычного</span><span>пик</span></div>
+            <div class="legend-row"><span class="legend-dot legend-dot-u"></span>станция, цвет — загрузка</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-cluster">5</span>группа станций</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-center">⚡</span>центр питания (при приближении)</div>
+          </div>
+        </div>
         <p class="hint">Клик по карте — поставить кандидата (DC60-1) и посчитать черновик паспорта. Цвет станций — загрузка U(h) в выбранный час.</p>
         <div id="test-results" hidden></div>
       </div>
