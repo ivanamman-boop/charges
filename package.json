@@ -16,6 +16,8 @@
     "test": "npm run test:t1 && npm run test:t2 && npm run test:t3 && npm run test:t4 && npm run test:t5 && npm run test:t6 && npm run test:t7 && npm run test:t8",
     "generate:data": "node scripts/generate-synthetic-data.js",
     "fetch:stations": "node scripts/fetch-real-stations.js",
+    "fetch:centers": "node scripts/fetch-real-centers.js",
+    "assign:districts": "node scripts/assign-real-districts.js",
     "merge:yandex": "node scripts/merge-yandex-stations.js",
     "calibrate:d0": "node scripts/calibrate-d0.js --write",
     "reference:equilibria": "node scripts/compute-reference-equilibria.js",

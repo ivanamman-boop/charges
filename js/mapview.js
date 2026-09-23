@@ -183,13 +183,36 @@ export function renderStationsLayer({ stationsSource, stations, activeStations, 
   stationsSource.addFeatures(features);
 }
 
+// ⚡ ("High Voltage Sign" в Unicode) - визуально отличает центры питания
+// от станций (кружки по загрузке U(h)) и кандидата (звезда). Раньше были
+// еле заметные серые точки без объяснения, что это. У эмодзи свой фиксированный
+// жёлто-чёрный цвет (CSS fill/color на цветные эмодзи-глифы не действует),
+// на светлых тайлах (бежевые/жёлтые дороги OSM) он терялся - поэтому
+// кружок-подложка тёмного цвета под ним, как у обычных пинов на картах,
+// а не одна лишь текстовая глифа.
+const CENTER_ICON_STYLE = [
+  new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 9,
+      fill: new ol.style.Fill({ color: '#2b2540' }),
+      stroke: new ol.style.Stroke({ color: '#fff', width: 1.5 }),
+    }),
+  }),
+  new ol.style.Style({
+    text: new ol.style.Text({
+      text: '⚡',
+      font: '12px sans-serif',
+    }),
+  }),
+];
+
 export function renderCentersLayer({ centersSource, centers }) {
   centersSource.clear();
   const features = [];
   for (const c of centers) {
     const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(c.lat, c.lon)) });
-    f.setStyle(circleStyle({ radiusPx: 3, fillColor: '#ccc', strokeColor: '#666' }));
-    f.set('hint', `${c.id}\nрезерв ${c.reserve_MVA} МВА`);
+    f.setStyle(CENTER_ICON_STYLE);
+    f.set('hint', `⚡ ${c.id} (центр питания)\nрезерв ${c.reserve_MVA} МВА (оценка)`);
     features.push(f);
   }
   centersSource.addFeatures(features);
