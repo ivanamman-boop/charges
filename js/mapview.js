@@ -33,6 +33,7 @@ export function initMap() {
   const neighborsSource = new ol.source.Vector();
   const candidateSource = new ol.source.Vector();
   const portfolioSource = new ol.source.Vector();
+  const mkadSource = new ol.source.Vector();
 
   // Спрос - шестиугольные зоны как на карте спроса у таксистов (Яндекс Про):
   // дискретные ступени фиолетового вместо размытого heatmap, стиль у каждой
@@ -45,13 +46,18 @@ export function initMap() {
   const neighborsLayer = new ol.layer.Vector({ source: neighborsSource });
   const candidateLayer = new ol.layer.Vector({ source: candidateSource });
   const portfolioLayer = new ol.layer.Vector({ source: portfolioSource, zIndex: 5 });
+  // Граница модели: всё считается для Москвы внутри МКАД (data/mkad.json).
+  const mkadLayer = new ol.layer.Vector({
+    source: mkadSource,
+    style: new ol.style.Style({ stroke: new ol.style.Stroke({ color: 'rgba(76, 29, 149, 0.55)', width: 2, lineDash: [8, 6] }) }),
+  });
 
   const map = new ol.Map({
     target: 'map',
     // className - чтобы CSS обесцветил только подложку (.basemap), а не
     // слои поверх: на серой карте фиолетовые зоны спроса читаются лучше.
-    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer],
-    view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10 }),
+    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, mkadLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer],
+    view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10.4 }),
   });
 
   // Общий тултип по наведению (аналог bindTooltip/hintContent).
@@ -80,7 +86,7 @@ export function initMap() {
     }
   });
 
-  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource };
+  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource };
 }
 
 // Клик по карте (app.js) должен отличать клик по кластеру (несколько
@@ -401,4 +407,11 @@ export function renderPortfolio({ portfolioSource, portfolio, showModel = true, 
 
 export function portfolioPickAtPixel(map, pixel) {
   return map.forEachFeatureAtPixel(pixel, (f) => f.get('portfolioPick') || null) || null;
+}
+
+export function renderMkad({ mkadSource, ring }) {
+  mkadSource.clear();
+  const coords = ring.map(([lat, lon]) => toMapCoord(lat, lon));
+  coords.push(coords[0]);
+  mkadSource.addFeature(new ol.Feature({ geometry: new ol.geom.LineString(coords) }));
 }

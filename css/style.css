@@ -917,3 +917,10 @@ header .eyebrow {
   background: #fdf3d7;
   color: #8a6508;
 }
+
+.legend-line {
+  width: 16px;
+  height: 0;
+  border-top: 2px dashed rgba(76, 29, 149, 0.7);
+  flex-shrink: 0;
+}

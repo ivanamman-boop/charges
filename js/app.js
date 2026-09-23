@@ -3,7 +3,7 @@
 import { SEGMENTS } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidate } from './equipment.js';
-import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel } from './mapview.js';
+import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad } from './mapview.js';
 import { renderPassport, renderEquipmentEconomics } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
@@ -53,6 +53,7 @@ const state = {
   candidateListNextId: 1,
   candidateListSort: { key: 'composite', dir: 'desc' },
   activeListId: null,
+  mkadRing: null, // data/mkad.json - граница модели
   tp04: null, // data/tp04.json - известные ТП 0.4 кВ для класса подключения (7.2)
   portfolio: null, // data/portfolio.json (модуль 8, считается офлайн: npm run compute:portfolio)
 };
@@ -244,7 +245,29 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
   }
 }
 
+function insideMkad(lat, lon) {
+  const ring = state.mkadRing;
+  if (!ring) return true;
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [ai, bi] = ring[i];
+    const [aj, bj] = ring[j];
+    if (ai > lat !== aj > lat && lon < ((bj - bi) * (lat - ai)) / (aj - ai) + bi) inside = !inside;
+  }
+  return inside;
+}
+
 function onMapClick(latlng) {
+  // За МКАДом нет ни ячеек спроса, ни полных данных о станциях (модель
+  // обрезана по МКАД, scripts/clip-to-mkad.js) - паспорт там показал бы
+  // ложные "0 сессий".
+  if (!insideMkad(latlng.lat, latlng.lng)) {
+    document.getElementById('passport').hidden = true;
+    const ph = document.getElementById('passport-placeholder');
+    ph.hidden = false;
+    ph.textContent = 'Точка за МКАДом — вне модели: за кольцом не собраны данные о станциях, поэтому спрос и сеть там не считаются. Кликните внутри МКАД.';
+    return;
+  }
   placeCandidateAndShowPassport(latlng.lat, latlng.lng, null);
 }
 
@@ -438,6 +461,13 @@ async function main() {
   document.getElementById('add-to-list-btn').addEventListener('click', addCurrentCandidateToList);
   wireCandidateListSorting();
   loadPortfolio();
+  fetch('data/mkad.json')
+    .then((r) => r.json())
+    .then((d) => {
+      state.mkadRing = d.ring;
+      renderMkad({ mkadSource: state.layers.mkadSource, ring: d.ring });
+    })
+    .catch(() => {});
   fetch('data/tp04.json')
     .then((r) => r.json())
     .then((d) => (state.tp04 = d.points))
@@ -487,7 +517,7 @@ function renderPortfolioPanel() {
   const modelPicks = pf.model?.picks || [];
   const running = pf.status !== 'done';
   document.getElementById('portfolio-subtitle').textContent =
-    `${modelPicks.length} площадок, выбранных моделью из ${pf.N ? `пула 300 реальных мест (парковки, ТЦ, АЗС, бизнес-центры, гостиницы)` : 'пула'}: по шагу за раз, с пересчётом всей сети после каждой — следующая точка учитывает уже поставленные.` +
+    `${modelPicks.length} площадок внутри МКАД, выбранных моделью из ${pf.N ? `пула 300 реальных мест (парковки, ТЦ, АЗС, бизнес-центры, гостиницы)` : 'пула'}: по шагу за раз, с пересчётом всей сети после каждой — следующая точка учитывает уже поставленные.` +
     (running ? ' Расчёт ещё идёт — обновите страницу позже.' : '');
 
   const m = pf.metrics;

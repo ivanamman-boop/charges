@@ -4,6 +4,8 @@
 // точки ближе 150 м к действующим станциям, отбираем 300 случайно с
 // фиксированным seed и стратификацией по округам (пропорционально числу
 // объектов в округе). data/pool.json одинаков для обеих стратегий.
+// Только внутри МКАД (data/mkad.json): за МКАДом станции собраны неполно,
+// модель считается для Москвы внутри МКАД (см. scripts/clip-to-mkad.js).
 //
 // Запуск: npm run build:pool   (--refresh - перезапросить Overpass)
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
@@ -86,6 +88,16 @@ async function main() {
   const POOL_SIZE = m8.pool_size_max.value;
   const MIN_TO_EXISTING_KM = m8.min_distance_to_existing_m.value / 1000;
   const stations = JSON.parse(readFileSync(join(DATA, 'stations.json'), 'utf8')).stations;
+  const ring = JSON.parse(readFileSync(join(DATA, 'mkad.json'), 'utf8')).ring;
+  const insideMkad = (lat, lon) => {
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [ai, bi] = ring[i];
+      const [aj, bj] = ring[j];
+      if (ai > lat !== aj > lat && lon < ((bj - bi) * (lat - ai)) / (aj - ai) + bi) inside = !inside;
+    }
+    return inside;
+  };
   const cells = JSON.parse(readFileSync(join(DATA, 'cells.json'), 'utf8')).cells;
 
   // Округ - по ближайшей ячейке (у ячеек округ из реальных границ OSM).
@@ -127,10 +139,10 @@ async function main() {
     const k = `${Math.round(lat * 2000)},${Math.round(lon * 1100)}`;
     if (seen.has(k)) continue;
     seen.add(k);
-    if (nearExisting(lat, lon)) continue;
+    if (!insideMkad(lat, lon) || nearExisting(lat, lon)) continue;
     eligible.push({ lat, lon, kind, name });
   }
-  console.log(`объектов OSM: ${objects.length}, после дедупликации и фильтра 150 м от станций: ${eligible.length}`);
+  console.log(`объектов OSM: ${objects.length}, внутри МКАД, после дедупликации и фильтра 150 м от станций: ${eligible.length}`);
 
   const byDistrict = new Map();
   for (const o of eligible) {
@@ -160,7 +172,7 @@ async function main() {
     join(DATA, 'pool.json'),
     JSON.stringify(
       {
-        source: `Раздел 10.1: ${pool.length} площадок из ${eligible.length} реальных объектов OSM (парковки, ТЦ, АЗС, бизнес-центры, гостиницы), не ближе ${m8.min_distance_to_existing_m.value} м к действующим станциям, случайный отбор seed=20260924 со стратификацией по округам`,
+        source: `Раздел 10.1: ${pool.length} площадок из ${eligible.length} реальных объектов OSM внутри МКАД (парковки, ТЦ, АЗС, бизнес-центры, гостиницы), не ближе ${m8.min_distance_to_existing_m.value} м к действующим станциям, случайный отбор seed=20260924 со стратификацией по округам`,
         date: new Date().toISOString().slice(0, 10),
         pool,
       },
