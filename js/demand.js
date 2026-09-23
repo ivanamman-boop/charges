@@ -54,10 +54,14 @@ function circularDelta(h, mu) {
 }
 
 // 3.3. Профиль по часам p_{s,d}(h), нормированный на сумму по часам = 1.
+// r(h) - общий для всех сегментов множитель, подогнанный под реальный
+// суточный профиль DC-сессий (scripts/fit-hourly-profile.js); без него
+// (T6 с плоским профилем) - чистая параметрическая форма из ТЗ.
 export function hourlyProfile(segment, dayType, params) {
   const table =
     dayType === 'weekend' ? params.M1_demand.hourly_profile_weekend : params.M1_demand.hourly_profile_weekday;
   const cfg = table[segment];
+  const r = params.M1_demand[`hourly_correction_${dayType === 'weekend' ? 'weekend' : 'weekday'}`]?.value;
   const raw = new Float64Array(24);
   let sum = 0;
   for (let h = 0; h < 24; h++) {
@@ -66,6 +70,7 @@ export function hourlyProfile(segment, dayType, params) {
       const delta = circularDelta(h, peak.mu);
       v += peak.A * Math.exp(-(delta * delta) / (2 * peak.sigma * peak.sigma));
     }
+    if (r) v *= r[h];
     raw[h] = v;
     sum += v;
   }
