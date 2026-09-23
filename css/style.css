@@ -7,11 +7,11 @@
   --border: #e5e4de;
   --border-strong: #cfcec5;
 
-  --accent: #2a78d6;
-  --accent-dark: #1c5cab;
-  --accent-darker: #184f95;
-  --accent-soft: #eaf2fc;
-  --accent-soft-2: #cde2fb;
+  --accent: #7c3aed;
+  --accent-dark: #6127c9;
+  --accent-darker: #4c1d95;
+  --accent-soft: #f3eefe;
+  --accent-soft-2: #e4d8fd;
 
   --good: #0ca30c;
   --warning: #b8860b;
@@ -165,7 +165,8 @@ header h1 {
 }
 
 .swatch-heat {
-  background: linear-gradient(90deg, #fff2cc, #e69138, #990000);
+  border-radius: 2px;
+  background: linear-gradient(90deg, #c4b5fd, #8b5cf6, #541eaa);
 }
 
 .swatch-star {
@@ -309,22 +310,152 @@ button:active {
 
 #recompute-status {
   font-size: 0.8rem;
-  color: var(--critical);
+  color: var(--ink-muted);
+}
+
+header .eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.map-wrap {
+  position: relative;
 }
 
 #map {
-  height: 560px;
+  height: 620px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   overflow: hidden;
+  background: #eceae6;
+}
+
+/* Серая приглушённая подложка: фиолетовые зоны спроса и цвет станций -
+   единственное цветное на карте. */
+.basemap canvas {
+  filter: grayscale(1) contrast(0.92) brightness(1.06);
+}
+
+#map-legend {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  width: 196px;
+  padding: 0.7rem 0.8rem 0.6rem;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(30, 22, 48, 0.16);
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+  pointer-events: none;
+}
+
+#map-legend .legend-time {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.45rem;
+}
+
+#map-legend .legend-title {
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+#map-legend .legend-scale {
+  display: flex;
+  gap: 2px;
+}
+
+#map-legend .legend-scale span {
+  flex: 1;
+  height: 10px;
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+}
+
+#map-legend .legend-ends {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.2rem 0 0.5rem;
+  color: var(--ink-muted);
+}
+
+#map-legend .legend-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+}
+
+.legend-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.legend-dot-u {
+  background: linear-gradient(135deg, rgb(40, 160, 40) 50%, rgb(220, 30, 40) 50%);
+  border: 1px solid #333;
+  width: 12px;
+  height: 12px;
+  margin: 0 2px;
+}
+
+.legend-dot-cluster {
+  background: rgba(30, 22, 48, 0.9);
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 1px rgba(30, 22, 48, 0.25);
+}
+
+.legend-dot-center {
+  background: #2b2540;
+  font-size: 9px;
+}
+
+.ol-zoom {
+  top: 12px;
+  left: auto;
+  right: 12px;
+}
+
+.ol-zoom button {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: var(--ink) !important;
+  border-radius: 8px !important;
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 1.1rem !important;
+  box-shadow: 0 2px 8px rgba(30, 22, 48, 0.15);
+  margin: 0 0 4px !important;
+}
+
+.ol-control {
+  background: none !important;
 }
 
 .ol-tooltip {
-  background: rgba(20, 22, 28, 0.85);
+  background: rgba(30, 22, 48, 0.92);
   color: #fff;
-  padding: 0.3rem 0.5rem;
-  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(30, 22, 48, 0.25);
   font-size: 0.75rem;
   white-space: pre-line;
   pointer-events: none;
@@ -362,7 +493,7 @@ button:active {
   color: #fff;
   font-weight: 600;
   border: none;
-  box-shadow: 0 1px 2px rgba(42, 120, 214, 0.3);
+  box-shadow: 0 1px 2px rgba(124, 58, 237, 0.35), 0 4px 14px rgba(124, 58, 237, 0.18);
 }
 
 #add-to-list-btn:hover:not(:disabled) {
