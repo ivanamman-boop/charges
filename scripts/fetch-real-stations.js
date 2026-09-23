@@ -64,6 +64,17 @@ function parsePowerKW(tags) {
   return m ? Number(m[1]) : null;
 }
 
+// Быстрая (DC) или медленная (AC) - модель про быстрые станции (задание),
+// медленные 7-22 кВт уходят в data/stations-slow.json (merge-yandex-stations.js).
+const DC_SOCKETS = ['type2_combo', 'chademo', 'gb_dc', 'nacs', 'tesla_supercharger'];
+const AC_SOCKETS = ['type2', 'type2_cable', 'type1', 'schuko', 'gb_ac'];
+function kindOf(tags, powerKW) {
+  if (powerKW) return { kind: powerKW >= 40 ? 'fast' : 'slow', kind_source: 'мощность' };
+  if (DC_SOCKETS.some((t) => tags[`socket:${t}`])) return { kind: 'fast', kind_source: 'разъёмы' };
+  if (AC_SOCKETS.some((t) => tags[`socket:${t}`])) return { kind: 'slow', kind_source: 'разъёмы' };
+  return { kind: 'unknown', kind_source: null };
+}
+
 function tierFor(powerKW) {
   const p = powerKW ?? 60; // нет тега мощности -> дефолт 60 (самая частая конфигурация по спецификации)
   return CATALOG_TIERS.find((t) => p <= t.max);
@@ -92,6 +103,8 @@ async function main() {
       P_kW: tier.P_kW,
       posts,
       P_post_kW: tier.P_post_kW,
+      P_known: powerKW !== null,
+      ...kindOf(tags, powerKW),
       status: 'active',
       year_open: 2024, // OSM не даёт дату открытия - консервативное допущение "уже работает"
       osm_id: n.id, // для сверки с источником, не используется расчётом

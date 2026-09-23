@@ -69,19 +69,19 @@ function isFeedingSubstation(tags) {
   return type === 'transmission' || type === 'distribution' || maxVoltage(tags) >= 35000;
 }
 
-function uniform(a, b) {
-  return a + Math.random() * (b - a);
-}
-
 // Резерв - НЕ измеренная величина (см. комментарий выше), грубая оценка по
 // классу напряжения: чем выше класс, тем крупнее обычно подстанция и тем
 // больше у неё установленная мощность (это общее свойство сетей, не
 // специфика Москвы) - но именно РЕЗЕРВ (свободная мощность) зависит от
 // текущей загрузки, которую без данных Россетей узнать нельзя.
+// Берём НИЖНЮЮ границу диапазона класса (раньше - случайное число внутри
+// диапазона без seed: значения менялись при каждом запуске, а от них зависят
+// класс подключения В и выбор площадок модулем 8; аудит 24.09). Нижняя
+// граница - консервативно и воспроизводимо.
 function estimateReserveMVA(voltageV) {
-  if (voltageV >= 220000) return uniform(40, 120);
-  if (voltageV >= 110000) return uniform(10, 40);
-  return uniform(2, 15); // 35кВ и ниже, либо класс напряжения неизвестен
+  if (voltageV >= 220000) return 40; // диапазон 40-120
+  if (voltageV >= 110000) return 10; // 10-40
+  return 2; // 2-15: 35 кВ и ниже, либо класс напряжения неизвестен
 }
 
 async function main() {
@@ -107,7 +107,7 @@ async function main() {
       lat: Number(lat.toFixed(5)),
       lon: Number(lon.toFixed(5)),
       reserve_MVA: Number(estimateReserveMVA(voltageV).toFixed(2)),
-      bus_planned_kW: Math.random() < 0.15 ? Math.round(uniform(150, 600) / 10) * 10 : 0,
+      bus_planned_kW: 0, // планируемые электробусные зарядки - данных нет (раньше - случайные у 15% подстанций)
       reserve_date: new Date().toISOString().slice(0, 10),
       name: tags.name || null, // справочно, расчётом не используется
       voltage_kV: voltageV ? voltageV / 1000 : null, // справочно
@@ -119,7 +119,7 @@ async function main() {
     OUTPUT_PATH,
     JSON.stringify(
       {
-        source: `OpenStreetMap (Overpass API, power=substation, класс transmission/distribution либо напряжение >=35кВ), area=Москва. Координаты реальные, ${centers.length} подстанций. reserve_MVA/bus_planned_kW - ОЦЕНКА по классу напряжения (не измеренные данные Россетей: публичная "карта питающих центров" на 2026-09-23 недоступна, см. docs/journal.md) - заменить при появлении официальных данных.`,
+        source: `OpenStreetMap (Overpass API, power=substation, класс transmission/distribution либо напряжение >=35кВ), area=Москва. Координаты реальные, ${centers.length} подстанций. reserve_MVA - ОЦЕНКА: нижняя граница диапазона по классу напряжения (220 кВ - 40, 110 кВ - 10, прочие - 2 МВА), bus_planned_kW - 0 (данных нет) (не измеренные данные Россетей: публичная "карта питающих центров" на 2026-09-23 недоступна, см. docs/journal.md) - заменить при появлении официальных данных.`,
         date: new Date().toISOString().slice(0, 10),
         centers,
       },
