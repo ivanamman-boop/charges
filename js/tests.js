@@ -186,6 +186,7 @@ async function testT5({ params }) {
     for (let hh = 0; hh < 24; hh++) {
       let v = cfg.b;
       for (const peak of cfg.peaks) { const delta = circularDeltaIndep(hh, peak.mu); v += peak.A * Math.exp(-(delta * delta) / (2 * peak.sigma * peak.sigma)); }
+      if (d1.hourly_correction_weekday) v *= d1.hourly_correction_weekday.value[hh];
       sum += v;
       if (hh === h) atH = v;
     }
@@ -265,6 +266,8 @@ function testT6({ cells, stations, params, year }) {
   for (const dayKey of ['hourly_profile_weekday', 'hourly_profile_weekend']) {
     for (const s of SEGMENTS) flatParams.M1_demand[dayKey][s] = { b: 1, peaks: [] };
   }
+  delete flatParams.M1_demand.hourly_correction_weekday; // иначе r(h) снова делает профиль неплоским
+  delete flatParams.M1_demand.hourly_correction_weekend;
   const rand = mulberry32(606 + year);
   const lats = cells.map((c) => c.lat), lons = cells.map((c) => c.lon);
   const latMin = Math.min(...lats), latMax = Math.max(...lats), lonMin = Math.min(...lons), lonMax = Math.max(...lons);

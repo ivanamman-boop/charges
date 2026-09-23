@@ -49,6 +49,7 @@ function hourlyProfileIndep(segment, h) {
       const delta = circularDeltaIndep(hh, peak.mu);
       v += peak.A * Math.exp(-(delta * delta) / (2 * peak.sigma * peak.sigma));
     }
+    if (d1.hourly_correction_weekday) v *= d1.hourly_correction_weekday.value[hh];
     sum += v;
     if (hh === h) atH = v;
   }

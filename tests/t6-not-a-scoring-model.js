@@ -28,6 +28,8 @@ const flatParams = JSON.parse(JSON.stringify(params));
 for (const dayKey of ['hourly_profile_weekday', 'hourly_profile_weekend']) {
   for (const s of SEGMENTS) flatParams.M1_demand[dayKey][s] = { b: 1, peaks: [] };
 }
+delete flatParams.M1_demand.hourly_correction_weekday; // иначе r(h) снова делает профиль неплоским
+delete flatParams.M1_demand.hourly_correction_weekend;
 
 function mulberry32(seed) {
   let a = seed;

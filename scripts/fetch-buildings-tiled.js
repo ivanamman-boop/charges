@@ -29,11 +29,24 @@ function kmToLon(km) {
 
 async function fetchTile(minLat, minLon, maxLat, maxLon, attempt = 1) {
   const query = `[out:json][timeout:60];(way["building"](${minLat},${minLon},${maxLat},${maxLon}););out center tags;`;
-  const res = await fetch('https://overpass-api.de/api/interpreter', {
-    method: 'POST',
-    headers: { 'User-Agent': 'charges-prototype-research/1.0', 'Content-Type': 'application/x-www-form-urlencoded', Accept: '*/*' },
-    body: 'data=' + encodeURIComponent(query),
-  });
+  // Таймаут на запрос + ретрай сетевых ошибок: без них один зависший
+  // запрос (зеркало overpass.kumi.systems 23.09 просто не отвечало) вешал
+  // весь скрипт навсегда, а обрыв соединения ("fetch failed") сразу
+  // терял плитку без повтора.
+  let res;
+  try {
+    res = await fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST',
+      headers: { 'User-Agent': 'charges-prototype-research/1.0', 'Content-Type': 'application/x-www-form-urlencoded', Accept: '*/*' },
+      body: 'data=' + encodeURIComponent(query),
+      signal: AbortSignal.timeout(90000),
+    });
+  } catch (err) {
+    if (attempt >= 4) throw err;
+    console.log(`  (${err.message}, жду ${(5 * attempt)}с, попытка ${attempt + 1})`);
+    await new Promise((r) => setTimeout(r, 5000 * attempt));
+    return fetchTile(minLat, minLon, maxLat, maxLon, attempt + 1);
+  }
   if (res.status === 429 || res.status === 504) {
     if (attempt >= 4) throw new Error(`Overpass вернул ${res.status} (после ${attempt} попыток)`);
     const waitMs = 5000 * attempt; // нарастающая пауза: 5с, 10с, 15с
@@ -50,13 +63,19 @@ async function fetchTile(minLat, minLon, maxLat, maxLon, attempt = 1) {
 }
 
 async function main() {
-  if (existsSync(OUT_PATH) && !process.argv.includes('--refresh')) {
-    console.log('уже есть закэшированный файл:', OUT_PATH, '(--refresh для повтора)');
+  // --fill-missing: докачать только плитки, по которым в кэше ноль зданий
+  // (первый прогон 23.09 потерял 9 из 36 плиток на rate limit Overpass), и
+  // дописать их в существующий кэш, не перекачивая остальные 27.
+  const fillMissing = process.argv.includes('--fill-missing');
+  if (existsSync(OUT_PATH) && !process.argv.includes('--refresh') && !fillMissing) {
+    console.log('уже есть закэшированный файл:', OUT_PATH, '(--refresh для повтора, --fill-missing докачать пустые плитки)');
     return;
   }
 
   const nTiles = Math.ceil((2 * GRID_HALF_KM) / TILE_KM);
-  const all = [];
+  const all = fillMissing && existsSync(OUT_PATH) ? JSON.parse(readFileSync(OUT_PATH, 'utf8')) : [];
+  const inTile = (b, minLat, minLon, maxLat, maxLon) => b[0] >= minLat && b[0] <= maxLat && b[1] >= minLon && b[1] <= maxLon;
+  let failed = 0;
   let tileNum = 0;
   for (let iy = 0; iy < nTiles; iy++) {
     for (let ix = 0; ix < nTiles; ix++) {
@@ -69,11 +88,16 @@ async function main() {
       const maxLat = CENTER.lat + kmToLat(yMaxKm);
       const minLon = CENTER.lon + kmToLon(xMinKm);
       const maxLon = CENTER.lon + kmToLon(xMaxKm);
+      // Порог, а не "хоть одно здание": у скачанных соседей границы bbox
+      // включительные, поэтому в пустую плитку попадают десятки зданий со
+      // стыка (18-68 шт. при типичных 5-18 тыс. в скачанной плитке).
+      if (fillMissing && all.filter((b) => inTile(b, minLat, minLon, maxLat, maxLon)).length > 200) continue;
       try {
         const buildings = await fetchTile(minLat, minLon, maxLat, maxLon);
         all.push(...buildings);
         console.log(`плитка ${tileNum}/${nTiles * nTiles}: ${buildings.length} зданий (всего накоплено ${all.length})`);
       } catch (err) {
+        failed++;
         console.log(`плитка ${tileNum}/${nTiles * nTiles}: ОШИБКА ${err.message} - пропускаю`);
       }
       // Пауза между плитками, чтобы не словить 429 (rate limit) на публичном
@@ -82,8 +106,16 @@ async function main() {
     }
   }
 
-  writeFileSync(OUT_PATH, JSON.stringify(all));
-  console.log(`\nитого зданий: ${all.length}, записано в ${OUT_PATH}`);
+  // Здания на стыке плиток приходят дважды (границы bbox включительные).
+  const seen = new Set();
+  const unique = all.filter((b) => {
+    const key = `${b[0]},${b[1]}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  writeFileSync(OUT_PATH, JSON.stringify(unique));
+  console.log(`\nитого зданий: ${unique.length} (дублей со стыков убрано: ${all.length - unique.length}), не скачалось плиток: ${failed}, записано в ${OUT_PATH}`);
 }
 
 main();
