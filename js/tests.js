@@ -1,7 +1,7 @@
-// Кнопка «Проверить модель» (спецификация, раздел 13). Браузерная версия
-// тестов Т1-Т8 — чистые функции из js/*.js, без DOM. Т6/Т8 запускаются в
-// сокращённом виде (меньше кандидатов), чтобы кнопка не висела минутами;
-// полные версии — в tests/*.js через `npm test` (Node).
+// Кнопка «Запустить тесты» (спецификация, раздел 13). Браузерная версия
+// тестов Т1-Т10 — чистые функции из js/*.js, без DOM. Т8 запускается в
+// сокращённом виде (3 кандидата), Т10 - с урезанным каталогом оборудования;
+// полные версии — в tests/*.js через `npm test` (Node). Т11 ждёт данных.
 import { SEGMENTS, segmentDemand, demandField } from './demand.js';
 import {
   haversineKm,
@@ -12,7 +12,9 @@ import {
   huff,
 } from './choice.js';
 import { queueChainCore, sessionMetrics as queueSessionMetrics } from './queue.js';
+import { evaluateCandidate } from './equipment.js';
 import {
+  buildActiveMask,
   buildNetworkContext,
   equilibrium,
   localEquilibrium,
@@ -260,15 +262,18 @@ async function testT5({ params }) {
 }
 
 // --- Т6. "Не скоринг ли это" (сокращённая выборка) ---
+// Те же 50 кандидатов и то же зерно, что в полной версии (tests/t6-*.js):
+// на 10 кандидатах тау Кендалла слишком "зернистая" и прыгала через порог
+// 0.9 от выборки к выборке (2030: 0.956 на 10 при 0.83 на 50, журнал 25.09).
 function testT6({ cells, stations, params, year }) {
-  const N = 10;
+  const N = 50;
   const flatParams = JSON.parse(JSON.stringify(params));
   for (const dayKey of ['hourly_profile_weekday', 'hourly_profile_weekend']) {
     for (const s of SEGMENTS) flatParams.M1_demand[dayKey][s] = { b: 1, peaks: [] };
   }
   delete flatParams.M1_demand.hourly_correction_weekday; // иначе r(h) снова делает профиль неплоским
   delete flatParams.M1_demand.hourly_correction_weekend;
-  const rand = mulberry32(606 + year);
+  const rand = mulberry32(606);
   // Кандидат - случайная ячейка ± ~0.5 км (после обрезки по МКАД углы bbox вне области модели).
   const nearRandomCell = () => { const c = cells[Math.floor(rand() * cells.length)]; return { lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 }; };
   const CONDITIONS = { scenario: 'base', dayType: 'weekday', season: 'summer' };
@@ -306,7 +311,7 @@ function testT6({ cells, stations, params, year }) {
     id: 'T6',
     name: `Т6: не скоринг ли это (${year}, ${N} кандидатов)`,
     pass,
-    detail: `тау(плоский профиль)=${tauB.toFixed(3)}, тау(без соседей)=${tauC.toFixed(3)}${year === 2026 ? ' — в 2026 по разделу 14 может не пройти, это ожидаемо' : ''}`,
+    detail: `тау(плоский профиль)=${tauB.toFixed(3)}, тау(без соседей)=${tauC.toFixed(3)}${year === 2026 && !pass ? ' — в 2026 по разделу 14 может не пройти, это ожидаемо' : ''}`,
     soft: year === 2026, // не блокирует общий вердикт
   };
 }
@@ -363,6 +368,85 @@ function testT8({ cells, stations, params, fullContext, fullResult }) {
   return { id: 'T8', name: `Т8: локальный пересчёт против полного (${N} кандидатов)`, pass: worst < 0.02, detail: `худшая ошибка S_new ${(worst * 100).toFixed(2)}%` };
 }
 
+// --- Т10. Монотонность (раздел 13): три свойства, которые обязана иметь
+// любая разумная модель размещения.
+//  (а) больше d^{1/2} (люди готовы ехать дальше) -> шире зона обслуживания
+//      станций: больше пар ячейка-станция с заметной вероятностью выбора;
+//  (б) больше поток λ -> ожидание W не уменьшается (очередь M/M/c/K);
+//  (в) меньше свободной мощности центра питания R'_q -> рекомендуемое
+//      оборудование не мощнее (модуль 6 не "перескакивает" вверх).
+export function testT10({ cells, stations, params, year = 2026, fast = true }) {
+  const details = [];
+
+  // (а) Зона обслуживания, сегмент P1, 12:00, без очередей (W = 0).
+  const zoneSize = (p) => {
+    const ctx = buildNetworkContext({ cells, stations, params: p });
+    const active = buildActiveMask(stations, year);
+    const m2 = p.M2_choice;
+    const beta = Math.LN2 / m2.d_half_km.P1.value;
+    const gamma = Math.LN2 / (m2.W_half_min.P.value / 60);
+    const Vi0 = -beta * m2.d0_km.value;
+    const W = new Float64Array(stations.length * 24);
+    let pairs = 0;
+    for (let i = 0; i < cells.length; i++) {
+      const { idx, d } = ctx.neighborIndex.P1[i];
+      const { P } = cellHourProbabilities({ idx, d, activeStations: active, lnAs: ctx.lnA.P1, beta, gamma, Vi0, W, hour: 12 });
+      for (let k = 0; k < idx.length; k++) if (P[k] > 0.01) pairs++;
+    }
+    return pairs;
+  };
+  const wider = JSON.parse(JSON.stringify(params));
+  for (const s of SEGMENTS) wider.M2_choice.d_half_km[s].value *= 1.5;
+  const z0 = zoneSize(params);
+  const z1 = zoneSize(wider);
+  const okA = z1 > z0;
+  details.push(`(а) радиус ×1.5: пар ячейка-станция ${z0} → ${z1}`);
+
+  // (б) W(λ) не убывает: c = 1, 2, 4 поста, λ от 0.1 до 6 машин/ч.
+  let okB = true;
+  for (const c of [1, 2, 4]) {
+    let prev = -Infinity;
+    for (let lambda = 0.1; lambda <= 6; lambda += 0.1) {
+      const w = queueChainCore({ lambda, cPrime: c, cTotal: c, Q: params.M3_queue.Q_waiting_slots.value, mu: 1.5, Pcap: 150 * c, piBar: 150, T: 10 / 60 }).W;
+      if (w < prev - 1e-12) okB = false;
+      prev = w;
+    }
+  }
+  details.push(`(б) ожидание при росте потока ${okB ? 'не убывает' : 'УБЫВАЕТ'}`);
+
+  // (в) Та же точка, резерв ЦП большой и урезанный до ~120 кВт.
+  const trimmed = JSON.parse(JSON.stringify(params));
+  if (fast) trimmed.M6_M7_equipment_economics.catalog.configs = trimmed.M6_M7_equipment_economics.catalog.configs.filter((c) => ['DC60-2', 'DC150-2', 'DC300-4'].includes(c.omega));
+  const cache = new Map();
+  const getBaseline = (y, season, dayType) => {
+    const key = `${y}|${season}|${dayType}`;
+    if (!cache.has(key)) {
+      const st = stations.filter((s) => s.year_open <= y);
+      const context = buildNetworkContext({ cells, stations: st, params: trimmed });
+      cache.set(key, { context, result: equilibrium({ cells, stations: st, params: trimmed, year: y, scenario: 'base', dayType, season, context }), stations: st });
+    }
+    return cache.get(key);
+  };
+  const c0 = cells[Math.floor(cells.length / 2)];
+  const cand = { id: 'T10', lat: c0.lat, lon: c0.lon, operator: 'РСЗС', status: 'candidate' };
+  const center = { id: 'T10-PS', lat: c0.lat + 0.001, lon: c0.lon, reserve_MVA: 40, bus_planned_kW: 0 };
+  const recBig = evaluateCandidate({ candidateBase: cand, cells, centers: [center], params: trimmed, getBaseline, dist04Meters: 100 }).recommended;
+  const recSmall = evaluateCandidate({ candidateBase: cand, cells, centers: [{ ...center, reserve_MVA: 0.13 }], params: trimmed, getBaseline, dist04Meters: 100 }).recommended;
+  const pBig = recBig?.cfg.P_cap_kW ?? 0;
+  const pSmall = recSmall?.cfg.P_cap_kW ?? 0;
+  const okC = pSmall <= pBig;
+  details.push(`(в) резерв 40 МВА → 0.13 МВА: рекомендуемая мощность ${pBig} → ${pSmall} кВт`);
+
+  return { id: 'T10', name: 'Т10: монотонность (радиус, поток, резерв мощности)', pass: okA && okB && okC, detail: details.join('; ') };
+}
+
+// --- Т11. Сверка с фактом (раздел 13) - нужны сессии по станциям от РСЗС:
+// ранговая корреляция Спирмена прогноза S_j с фактом, порог ρ_S >= 0.5
+// фиксируется в журнале до проверки. Открытых данных по станциям нет.
+export function testT11() {
+  return { id: 'T11', name: 'Т11: сверка с фактическими сессиями станций', pass: false, pending: true, detail: 'ждёт данных: нужны сессии по каждой станции от РСЗС — сравним прогноз с фактом (корреляция Спирмена, порог 0.5)' };
+}
+
 // Полный прогон. onProgress(testResult) вызывается после каждого теста -
 // удобно для живого обновления списка в UI. stations/fullContext/fullResult
 // - текущее опорное равновесие приложения (state.stations/fullContext/
@@ -388,6 +472,9 @@ export async function runAllTests({ cells, stationsAll, stations, params, fullCo
   push(testT7({ params }));
   await new Promise((r) => setTimeout(r, 0));
   push(testT8({ cells, stations, params, fullContext, fullResult }));
+  await new Promise((r) => setTimeout(r, 0));
+  push(testT10({ cells, stations: stationsAll, params }));
+  push(testT11());
 
   return results;
 }
