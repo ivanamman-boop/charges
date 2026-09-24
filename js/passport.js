@@ -5,7 +5,7 @@
 // Экономику сайт не показывает (решение команды 24.09: её считают отдельно
 // по выбранной точке) - equipment.js её по-прежнему считает внутри.
 import { SEGMENTS } from './demand.js';
-import { yearAverage } from './equipment.js';
+import { yearAverage, newClientsPerMln } from './equipment.js';
 
 const SEGMENT_LABEL = { P0: 'P0 (частник, дом. зарядка)', P1: 'P1 (частник, без дома)', T: 'Такси', C: 'Корпоративный' };
 
@@ -148,7 +148,7 @@ export function renderEquipment({ evalResult }) {
         <td>${e.cls}</td>
         <td class="num">${fmt(a.sessions, 1)} → ${fmt(b.sessions, 1)}</td>
         <td class="num">+${fmt(a.gain, 1)} → +${fmt(b.gain, 1)}</td>
-        <td class="num">${fmt((a.gain + b.gain) / 2 / e.cfg.posts, 1)}</td>
+        <td class="num">${e.scenarios ? fmt(newClientsPerMln(e), 2) : '—'}</td>
         <td class="num">${fmt(e.accDayByYear[2026] * 100, 0)}% / ${fmt(e.accDayByYear[2030] * 100, 0)}%</td>
       </tr>`;
     })
@@ -162,14 +162,14 @@ export function renderEquipment({ evalResult }) {
       rec
         ? `<div class="rec-card">
         <div class="rec-title">Рекомендуем ${rec.cfg.omega}</div>
-        <div class="rec-sub">${rec.cfg.P_cap_kW} кВт, ${rec.cfg.posts} ${rec.cfg.posts === 1 ? 'пост' : 'поста'} · больше всего новых для сети клиентов на один пост</div>
+        <div class="rec-sub">${rec.cfg.P_cap_kW} кВт, ${rec.cfg.posts} ${rec.cfg.posts === 1 ? 'пост' : 'поста'} · больше всего новых для сети клиентов на 1 млн ₽ вложений (оборудование + подключение)</div>
         <div class="rec-grow"><span>${fmt(recA.sessions, 1)}</span><span class="arrow">→</span><span>${fmt(recB.sessions, 1)}</span><span class="unit">сессий в сутки, 2026 → 2030</span></div>
         <div class="rec-sub">из них новых для сети (не переманенных у соседей): +${fmt(recA.gain, 1)} → +${fmt(recB.gain, 1)}</div>
       </div>`
         : '<p class="tbd">Нет допустимых вариантов: на ближайшем центре питания нет резерва мощности (класс В).</p>'
     }
     <table class="equip-table">
-      <thead><tr><th>Вариант</th><th>Класс</th><th>Сессий/сут<br>2026 → 2030</th><th>Новых для сети<br>2026 → 2030</th><th>Новых на пост</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
+      <thead><tr><th>Вариант</th><th>Класс</th><th>Сессий/сут<br>2026 → 2030</th><th>Новых для сети<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <p class="tbd">Средний день года. * Доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 мин. Мощнее станция — больше клиентов она перетягивает, поэтому её очередь тоже растёт: доступность почти не зависит от размера. Класс В — подключение невозможно (нет резерва на центре питания).</p>
@@ -182,6 +182,8 @@ export function renderEquipment({ evalResult }) {
     ${
       rec && rec.connRange
         ? `<div class="metric-row"><span>Класс подключения (${rec.cfg.omega})</span><span>${rec.cls}</span></div>
+    <div class="metric-row"><span>Стоимость подключения (оценка)</span><span>${fmt(rec.connRange.costLow / 1e6, 1)}–${fmt(rec.connRange.costHigh / 1e6, 1)} млн ₽</span></div>
+    <div class="metric-row"><span>Вложения в станцию: оборудование + подключение + площадка</span><span>до ${fmt(rec.scenarios.low.CAPEXrub / 1e6, 1)} млн ₽</span></div>
     <div class="metric-row"><span>Срок до запуска</span><span>${fmt(rec.connRange.monthsLow, 0)}–${fmt(rec.connRange.monthsHigh, 0)} мес.</span></div>
     ${rec.cls === 'А' ? '<p class="tbd">Класс А: известная трансформаторная подстанция 0.4 кВ ближе 200 м — льготное присоединение.</p>' : '<p class="tbd">Класс Б или не определён: в данных нет ТП 0.4 кВ ближе 200 м — нужен запрос к сетевой компании (точка, мощность, ближайшая ТП).</p>'}`
         : ''
