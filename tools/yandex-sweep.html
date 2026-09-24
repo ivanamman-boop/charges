@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Объезд Яндекс.Карт — чеклист</title>
+  <style>
+    :root { --ink:#14161c; --muted:#6b6a64; --accent:#7c3aed; --soft:#f3eefe; --done:#16a34a; --page:#f7f7f5; --line:#e5e4de; }
+    * { box-sizing: border-box; }
+    body { margin: 0 auto; max-width: 1100px; padding: 1.5rem 1rem 3rem; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--page); line-height: 1.5; }
+    h1 { font-size: 1.6rem; margin: 0 0 .3rem; }
+    .lead { color: var(--muted); margin: 0 0 1.2rem; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 1.2rem; align-items: start; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; }
+    ol { padding-left: 1.2rem; margin: .4rem 0 0; display: grid; gap: .45rem; font-size: .9rem; }
+    code { background: var(--soft); padding: 0 .3rem; border-radius: 4px; font-size: .85em; }
+    .grid { display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(10, 1fr); gap: 4px; aspect-ratio: 8 / 10; }
+    .tile { display: flex; align-items: center; justify-content: center; border-radius: 6px; background: var(--soft); border: 1.5px solid #d9ccfb; color: #4c1d95; font-weight: 700; font-size: .85rem; text-decoration: none; }
+    .tile:hover { background: #e4d8fd; }
+    .tile.next { outline: 3px solid var(--accent); outline-offset: 1px; }
+    .tile.done { background: var(--done); border-color: var(--done); color: #fff; }
+    .bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; margin: .5rem 0 .2rem; }
+    .bar i { display: block; height: 100%; background: var(--done); width: 0; transition: width .3s; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-size: .88rem; }
+    button { font: inherit; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: .35rem .7rem; cursor: pointer; }
+    .warn { margin-top: .8rem; padding: .6rem .75rem; border-radius: 10px; background: #fdf3d7; color: #7a5a07; font-size: .85rem; }
+    @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Объезд Яндекс.Карт по квадратам</h1>
+  <p class="lead">70 квадратов по 4×4 км покрывают Москву внутри МКАД. Пройдите все — и в данных не останется дыр.</p>
+  <div class="layout">
+    <div class="card">
+      <div class="grid" id="grid">
+      <a class="tile" data-n="1" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.89318&z=13.4" target="yandex-sweep" style="grid-row:1;grid-column:1">1</a>
+      <a class="tile" data-n="2" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.89318&z=13.4" target="yandex-sweep" style="grid-row:1;grid-column:2">2</a>
+      <a class="tile" data-n="3" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.89318&z=13.4" target="yandex-sweep" style="grid-row:1;grid-column:3">3</a>
+      <a class="tile" data-n="4" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.89318&z=13.4" target="yandex-sweep" style="grid-row:1;grid-column:4">4</a>
+      <a class="tile" data-n="5" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.89318&z=13.4" target="yandex-sweep" style="grid-row:1;grid-column:5">5</a>
+      <a class="tile" data-n="6" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.89318&z=13.4" target="yandex-sweep" style="grid-row:1;grid-column:6">6</a>
+      <a class="tile" data-n="7" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:7">7</a>
+      <a class="tile" data-n="8" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:6">8</a>
+      <a class="tile" data-n="9" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:5">9</a>
+      <a class="tile" data-n="10" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:4">10</a>
+      <a class="tile" data-n="11" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:3">11</a>
+      <a class="tile" data-n="12" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:2">12</a>
+      <a class="tile" data-n="13" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.85725&z=13.4" target="yandex-sweep" style="grid-row:2;grid-column:1">13</a>
+      <a class="tile" data-n="14" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:1">14</a>
+      <a class="tile" data-n="15" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:2">15</a>
+      <a class="tile" data-n="16" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:3">16</a>
+      <a class="tile" data-n="17" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:4">17</a>
+      <a class="tile" data-n="18" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:5">18</a>
+      <a class="tile" data-n="19" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:6">19</a>
+      <a class="tile" data-n="20" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:7">20</a>
+      <a class="tile" data-n="21" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.84755%2C55.82132&z=13.4" target="yandex-sweep" style="grid-row:3;grid-column:8">21</a>
+      <a class="tile" data-n="22" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.84755%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:8">22</a>
+      <a class="tile" data-n="23" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:7">23</a>
+      <a class="tile" data-n="24" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:6">24</a>
+      <a class="tile" data-n="25" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:5">25</a>
+      <a class="tile" data-n="26" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:4">26</a>
+      <a class="tile" data-n="27" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:3">27</a>
+      <a class="tile" data-n="28" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:2">28</a>
+      <a class="tile" data-n="29" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.78538&z=13.4" target="yandex-sweep" style="grid-row:4;grid-column:1">29</a>
+      <a class="tile" data-n="30" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:1">30</a>
+      <a class="tile" data-n="31" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:2">31</a>
+      <a class="tile" data-n="32" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:3">32</a>
+      <a class="tile" data-n="33" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:4">33</a>
+      <a class="tile" data-n="34" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:5">34</a>
+      <a class="tile" data-n="35" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:6">35</a>
+      <a class="tile" data-n="36" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:7">36</a>
+      <a class="tile" data-n="37" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.84755%2C55.74945&z=13.4" target="yandex-sweep" style="grid-row:5;grid-column:8">37</a>
+      <a class="tile" data-n="38" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.84755%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:8">38</a>
+      <a class="tile" data-n="39" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:7">39</a>
+      <a class="tile" data-n="40" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:6">40</a>
+      <a class="tile" data-n="41" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:5">41</a>
+      <a class="tile" data-n="42" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:4">42</a>
+      <a class="tile" data-n="43" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:3">43</a>
+      <a class="tile" data-n="44" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:2">44</a>
+      <a class="tile" data-n="45" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.71352&z=13.4" target="yandex-sweep" style="grid-row:6;grid-column:1">45</a>
+      <a class="tile" data-n="46" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.40073%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:1">46</a>
+      <a class="tile" data-n="47" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:2">47</a>
+      <a class="tile" data-n="48" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:3">48</a>
+      <a class="tile" data-n="49" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:4">49</a>
+      <a class="tile" data-n="50" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:5">50</a>
+      <a class="tile" data-n="51" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:6">51</a>
+      <a class="tile" data-n="52" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:7">52</a>
+      <a class="tile" data-n="53" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.84755%2C55.67759&z=13.4" target="yandex-sweep" style="grid-row:7;grid-column:8">53</a>
+      <a class="tile" data-n="54" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.84755%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:8">54</a>
+      <a class="tile" data-n="55" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:7">55</a>
+      <a class="tile" data-n="56" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:6">56</a>
+      <a class="tile" data-n="57" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:5">57</a>
+      <a class="tile" data-n="58" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:4">58</a>
+      <a class="tile" data-n="59" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:3">59</a>
+      <a class="tile" data-n="60" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.64165&z=13.4" target="yandex-sweep" style="grid-row:8;grid-column:2">60</a>
+      <a class="tile" data-n="61" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.46456%2C55.60572&z=13.4" target="yandex-sweep" style="grid-row:9;grid-column:2">61</a>
+      <a class="tile" data-n="62" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.60572&z=13.4" target="yandex-sweep" style="grid-row:9;grid-column:3">62</a>
+      <a class="tile" data-n="63" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.60572&z=13.4" target="yandex-sweep" style="grid-row:9;grid-column:4">63</a>
+      <a class="tile" data-n="64" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.60572&z=13.4" target="yandex-sweep" style="grid-row:9;grid-column:5">64</a>
+      <a class="tile" data-n="65" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.60572&z=13.4" target="yandex-sweep" style="grid-row:9;grid-column:6">65</a>
+      <a class="tile" data-n="66" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.78372%2C55.60572&z=13.4" target="yandex-sweep" style="grid-row:9;grid-column:7">66</a>
+      <a class="tile" data-n="67" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.71988%2C55.56979&z=13.4" target="yandex-sweep" style="grid-row:10;grid-column:6">67</a>
+      <a class="tile" data-n="68" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.65605%2C55.56979&z=13.4" target="yandex-sweep" style="grid-row:10;grid-column:5">68</a>
+      <a class="tile" data-n="69" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.59222%2C55.56979&z=13.4" target="yandex-sweep" style="grid-row:10;grid-column:4">69</a>
+      <a class="tile" data-n="70" href="https://yandex.ru/maps/213/moscow/search/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8/?ll=37.52839%2C55.56979&z=13.4" target="yandex-sweep" style="grid-row:10;grid-column:3">70</a>
+      </div>
+      <div class="row" style="margin-top:.8rem"><span id="progress-text"></span><button id="reset">Сбросить отметки</button></div>
+      <div class="bar"><i id="progress-bar"></i></div>
+    </div>
+    <div class="card">
+      <b>Как проходить</b>
+      <ol>
+        <li>Кликните квадрат <b>1</b> — откроется вторая вкладка с Яндекс.Картами и поиском «Электрозаправки».</li>
+        <li>В этой вкладке откройте DevTools (<code>Cmd+Option+I</code>) → <b>Network</b>, включите <b>Preserve log</b>, фильтр <b>Fetch/XHR</b>. Затем обновите страницу (<code>Cmd+R</code>).</li>
+        <li><b>Главное:</b> в списке результатов слева <b>прокрутите до самого конца</b>, пока не перестанут подгружаться новые станции. Яндекс сразу отдаёт только 25 — остальные только при прокрутке.</li>
+        <li>Вернитесь сюда и кликните следующий квадрат — он откроется в той же вкладке, запись продолжится. Пройденные квадраты зеленеют, следующий обведён.</li>
+        <li>Когда все квадраты зелёные: во вкладке Яндекса в Network — правой кнопкой → <b>Save all as HAR with content</b>.</li>
+        <li>Пришлите файл — или сами: <code>npm run import:yandex -- ~/Downloads/файл.har</code>.</li>
+      </ol>
+      <div class="warn">Не закрывайте вкладку Яндекса и DevTools до конца объезда — иначе запись начнётся заново. Если Яндекс попросит капчу — пройдите её и продолжайте с того же квадрата.</div>
+    </div>
+  </div>
+  <script>
+    const KEY = 'yandex-sweep-done-v1';
+    const load = () => { try { return new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch { return new Set(); } };
+    const save = (s) => { try { localStorage.setItem(KEY, JSON.stringify([...s])); } catch {} };
+    const tiles = [...document.querySelectorAll('.tile')];
+    function render() {
+      const done = load();
+      let next = null;
+      for (const t of [...tiles].sort((a, b) => a.dataset.n - b.dataset.n)) {
+        t.classList.toggle('done', done.has(t.dataset.n));
+        t.classList.remove('next');
+        if (!next && !done.has(t.dataset.n)) next = t;
+      }
+      if (next) next.classList.add('next');
+      document.getElementById('progress-text').textContent = 'Пройдено ' + done.size + ' из ' + tiles.length;
+      document.getElementById('progress-bar').style.width = (100 * done.size / tiles.length) + '%';
+    }
+    tiles.forEach((t) => t.addEventListener('click', () => { const s = load(); s.add(t.dataset.n); save(s); setTimeout(render, 0); }));
+    document.getElementById('reset').addEventListener('click', () => { if (confirm('Сбросить все отметки?')) { save(new Set()); render(); } });
+    render();
+  </script>
+</body>
+</html>
