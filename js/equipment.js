@@ -52,13 +52,25 @@ export function candidateConfigs({ PavailKW, params }) {
 
 // Оценка одной конфигурации: 8 локальных равновесий (2 года x 2 сезона x 2
 // типа дня), экономика с диапазоном присоединения, ограничение по Acc.
-function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters }) {
+// Генератор: отдаёт управление после каждого локального равновесия, чтобы
+// браузер мог обновить полосу загрузки паспорта (evaluateCandidateAsync);
+// синхронная evaluateCandidate просто прогоняет его до конца.
+function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters }) {
   const sessionsByCombo = {}; // "year|season|dayType" -> {segment: S}
   // Новый для сети спрос (6.3): сколько сессий/сутки кандидат обслуживает
   // сверх того, что сеть обслуживала без него = −(ΔΛ_out + ΔΛ_lost).
   const netGainByCombo = {};
   let minAcc = 1;
   let worstHourAcc = null;
+  // Худшая доступность в самый тяжёлый режим (зима, будни) по годам - для
+  // выбора оборудования без экономики: что достаточно сейчас и к 2030.
+  const minAccByYear = { 2026: 1, 2030: 1 };
+  // Доступность за сутки, взвешенная по приехавшим (тот же режим): какую
+  // долю своих клиентов станция принимает без отказа и долгого ожидания.
+  // Худший час (minAcc) слишком строг для выбора оборудования: в пиковый
+  // час 90% не держит ни одна конфигурация каталога - чем мощнее станция,
+  // тем больше клиентов она перетягивает и тем длиннее её пиковая очередь.
+  const accDayByYear = { 2026: 1, 2030: 1 };
 
   for (const year of YEARS) {
     for (const season of SEASONS) {
@@ -76,6 +88,19 @@ function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, center
         }
         sessionsByCombo[`${year}|${season}|${dayType}`] = perSegment;
         netGainByCombo[`${year}|${season}|${dayType}`] = -(local.deltaLambdaOut + local.deltaLambdaLost);
+        if (season === HARDEST_CASE.season && dayType === HARDEST_CASE.dayType) {
+          let arrSum = 0;
+          let accSum = 0;
+          for (let h = 0; h < 24; h++) {
+            const k = idx * 24 + h;
+            minAccByYear[year] = Math.min(minAccByYear[year], local.qh.Acc[k]);
+            let arr = 0;
+            for (const s of SEGMENTS) arr += local.combined.bySegment[s][k];
+            arrSum += arr;
+            accSum += arr * local.qh.Acc[k];
+          }
+          accDayByYear[year] = arrSum > 0 ? accSum / arrSum : 1;
+        }
 
         if (year === HARDEST_CASE.year && season === HARDEST_CASE.season && dayType === HARDEST_CASE.dayType) {
           for (let h = 0; h < 24; h++) {
@@ -86,6 +111,7 @@ function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, center
             }
           }
         }
+        yield;
       }
     }
   }
@@ -135,7 +161,45 @@ function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, center
     breakevenInfo = breakeven({ OPEXfixYearRub, CAPEXrub: capexMid, marginBar, tauBarHours: tauBar, posts: cfg.posts, params });
   }
 
-  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, breakevenInfo, sessionsByCombo, netGainByCombo };
+  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, minAccByYear, accDayByYear, breakevenInfo, sessionsByCombo, netGainByCombo };
+}
+
+function runToEnd(gen) {
+  let r = gen.next();
+  while (!r.done) r = gen.next();
+  return r.value;
+}
+
+// Средний день года (сезоны 5/12 зима + 7/12 лето, 5/7 будни + 2/7 выходные):
+// всего сессий и новых для сети сессий в сутки для года 2026 или 2030.
+const SEASON_W = { winter: 5 / 12, summer: 7 / 12 };
+const DAY_W = { weekday: 5 / 7, weekend: 2 / 7 };
+export function yearAverage(e, year) {
+  let sessions = 0;
+  let gain = 0;
+  for (const season of SEASONS)
+    for (const dayType of DAY_TYPES) {
+      const w = SEASON_W[season] * DAY_W[dayType];
+      const key = `${year}|${season}|${dayType}`;
+      sessions += w * Object.values(e.sessionsByCombo[key]).reduce((a, b) => a + b, 0);
+      gain += w * e.netGainByCombo[key];
+    }
+  return { sessions, gain };
+}
+
+// Оборудование без экономики (решение команды 24.09 - экономику считают
+// отдельно по выбранной точке): рекомендуем конфигурацию с наибольшим
+// числом НОВЫХ для сети клиентов на один пост (среднее 2026 и 2030) -
+// физическая отдача оборудования, без цен. Правило "самая компактная,
+// которая держит Acc >= alpha" не годится: в равновесии мощная станция
+// перетягивает больше клиентов, и её очередь снова растёт - 90% за сутки
+// в зимний будний день не держит почти ни одна конфигурация. Класс В
+// (нет резерва на ЦП) исключён - ограничение сети.
+function recommendConfig(evaluated) {
+  const feasible = evaluated.filter((e) => e.cls !== 'В' && !e.cfg.isBal);
+  if (!feasible.length) return null;
+  const perPost = (e) => (yearAverage(e, 2026).gain + yearAverage(e, 2030).gain) / 2 / e.cfg.posts;
+  return feasible.reduce((best, e) => (perPost(e) > perPost(best) ? e : best));
 }
 
 // 8.2. Полная оценка кандидата: перебор конфигураций, выбор omega*, вердикт.
@@ -145,11 +209,39 @@ export function evaluateCandidate({ candidateBase, cells, centers, params, getBa
   const PavailKW = availablePowerKW({ RqFreeKW: centerFree, stayInClassA });
 
   const configs = candidateConfigs({ PavailKW, params });
-  const alpha = params.M3_queue.alpha_accessibility.value;
-
   const evaluated = configs.map((cfg) =>
-    evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters })
+    runToEnd(evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters }))
   );
+  return finishCandidate({ center, centerFree, PavailKW, evaluated, params });
+}
+
+// То же, что evaluateCandidate, но асинхронно: после каждого локального
+// равновесия вызывает onProgress(done, total) и отдаёт управление браузеру -
+// полоса загрузки паспорта двигается, а страница не выглядит зависшей.
+export async function evaluateCandidateAsync({ candidateBase, cells, centers, params, getBaseline, dist04Meters = null, stayInClassA = false, onProgress = () => {} }) {
+  const center = nearestCenter(candidateBase.lat, candidateBase.lon, centers);
+  const centerFree = freeCenterCapacityKW({ center, portfolioLoadKW: 0, params });
+  const PavailKW = availablePowerKW({ RqFreeKW: centerFree, stayInClassA });
+  const configs = candidateConfigs({ PavailKW, params });
+  const total = configs.length * YEARS.length * SEASONS.length * DAY_TYPES.length;
+  let done = 0;
+  const evaluated = [];
+  for (const cfg of configs) {
+    const gen = evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters });
+    let r = gen.next();
+    while (!r.done) {
+      done++;
+      onProgress(done, total);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      r = gen.next();
+    }
+    evaluated.push(r.value);
+  }
+  return finishCandidate({ center, centerFree, PavailKW, evaluated, params });
+}
+
+function finishCandidate({ center, centerFree, PavailKW, evaluated, params }) {
+  const alpha = params.M3_queue.alpha_accessibility.value;
 
   const eligible = evaluated.filter((e) => e.scenarios && e.minAcc >= alpha);
 
@@ -171,5 +263,5 @@ export function evaluateCandidate({ candidateBase, cells, centers, params, getBa
   const dc60_1 = evaluated.find((e) => e.cfg.omega === 'DC60-1');
   const dc150_2s = evaluated.find((e) => e.cfg.omega === 'DC150-2S');
 
-  return { center, centerFree, PavailKW, evaluated, eligible, omegaStar, verdict, comparison: { asAccepted: dc60_1, underSubsidy: dc150_2s } };
+  return { center, centerFree, PavailKW, evaluated, eligible, omegaStar, verdict, recommended: recommendConfig(evaluated), comparison: { asAccepted: dc60_1, underSubsidy: dc150_2s } };
 }

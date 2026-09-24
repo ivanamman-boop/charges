@@ -2,9 +2,9 @@
 // ползунок времени и черновик паспорта площадки (клик по карте).
 import { SEGMENTS } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
-import { evaluateCandidate } from './equipment.js';
-import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad } from './mapview.js';
-import { renderPassport, renderEquipmentEconomics } from './passport.js';
+import { evaluateCandidateAsync } from './equipment.js';
+import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad, renderSlowStations } from './mapview.js';
+import { renderPassport, renderEquipment } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
 import { dist04FromKnownTp } from './grid.js';
@@ -186,6 +186,10 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
 
   const { dayType, season, year, scenario } = readControls();
 
+  const loader = showLoader('Считаю спрос, очередь и соседей…', 0.03);
+  await nextFrame();
+  if (state.candidate !== candidate) return;
+
   // Быстрый черновик (М1-М4): готов почти мгновенно.
   const local = localEquilibrium({
     cells: state.cells,
@@ -216,26 +220,70 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
   // проходом, чтобы не задерживать быстрый паспорт. Актуально только для
   // сценария base (опорные равновесия по другим сценариям не кэшируем, 12.3).
   if (scenario !== 'base') {
-    document.getElementById('passport-verdict-section').innerHTML = '<h3>Вердикт и конфигурация</h3><p class="tbd">Перебор оборудования пока считается только для базового сценария.</p>';
+    document.getElementById('passport-verdict-section').innerHTML = '<h3>Оборудование и рост до 2030</h3><p class="tbd">Перебор оборудования пока считается только для базового сценария.</p>';
     document.getElementById('passport-connection-section').innerHTML = '<h3>Подключение к сети</h3><p class="tbd">—</p>';
-    document.getElementById('passport-economics-section').innerHTML = '<h3>Экономика</h3><p class="tbd">—</p>';
+    loader.done();
     return;
   }
 
-  await new Promise((r) => setTimeout(r, 0));
+  loader.set(0.08, 'Подбираю оборудование…');
+  await nextFrame();
   const t0 = performance.now();
-  const evalResult = evaluateCandidate({
-    candidateBase,
-    cells: state.cells,
-    centers: state.centers,
-    params: state.preciseParams,
-    getBaseline,
-    dist04Meters: state.tp04 ? dist04FromKnownTp(lat, lon, state.tp04) : null,
-  });
+  let evalResult;
+  try {
+    evalResult = await evaluateCandidateAsync({
+      candidateBase,
+      cells: state.cells,
+      centers: state.centers,
+      params: state.preciseParams,
+      getBaseline,
+      dist04Meters: state.tp04 ? dist04FromKnownTp(lat, lon, state.tp04) : null,
+      onProgress: (done, total) => {
+        // Новый клик по карте - старый расчёт больше не нужен.
+        if (state.candidate !== candidate) throw new Error('cancelled');
+        const nCfg = total / 8; // 8 режимов на вариант: 2 года × 2 сезона × 2 типа дня
+        loader.set(0.08 + 0.92 * (done / total), `Подбираю оборудование: вариант ${Math.min(nCfg, Math.floor((done - 1) / 8) + 1)} из ${nCfg} · 2026 и 2030, зима и лето`);
+      },
+    });
+  } catch (err) {
+    if (err.message === 'cancelled') return;
+    throw err;
+  }
   console.log(`подбор оборудования: ${Math.round(performance.now() - t0)} мс`);
   if (state.candidate === candidate) {
-    renderEquipmentEconomics({ evalResult });
+    renderEquipment({ evalResult });
+    loader.done();
   }
+}
+
+const nextFrame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+
+// Полоса загрузки паспорта (в духе загрузочного экрана Clash of Clans):
+// один экземпляр над паспортом, новый клик перезапускает её с нуля.
+function showLoader(text, fraction) {
+  const el = document.getElementById('passport-loader');
+  const fill = el.querySelector('.loader-fill');
+  const pct = el.querySelector('.loader-pct');
+  const label = el.querySelector('.loader-text');
+  el.hidden = false;
+  el.classList.remove('loader-done');
+  const set = (f, t) => {
+    const v = Math.max(0, Math.min(1, f));
+    fill.style.width = `${(v * 100).toFixed(1)}%`;
+    pct.textContent = `${Math.round(v * 100)}%`;
+    if (t) label.textContent = t;
+  };
+  set(fraction, text);
+  return {
+    set,
+    done() {
+      set(1, 'Готово');
+      el.classList.add('loader-done');
+      setTimeout(() => {
+        if (el.classList.contains('loader-done')) el.hidden = true;
+      }, 700);
+    },
+  };
 }
 
 function insideMkad(lat, lon) {
@@ -453,6 +501,14 @@ async function main() {
   document.getElementById('add-to-list-btn').addEventListener('click', addCurrentCandidateToList);
   wireCandidateListSorting();
   loadPortfolio();
+  document.getElementById('toggle-slow').addEventListener('change', async (e) => {
+    if (e.target.checked && state.layers.slowSource.getFeatures().length === 0) {
+      const d = await fetch('data/stations-slow.json').then((r) => r.json());
+      renderSlowStations({ slowSource: state.layers.slowSource, stations: d.stations });
+    }
+    state.layers.slowLayer.setVisible(e.target.checked);
+    document.getElementById('legend-slow').hidden = !e.target.checked;
+  });
   fetch('data/mkad.json')
     .then((r) => r.json())
     .then((d) => {
@@ -477,9 +533,7 @@ async function main() {
 }
 
 // --- Модуль 8: рекомендации, где ставить (data/portfolio.json) ---
-const fmtMlnRub = (rub) => (rub === null || rub === undefined ? '—' : `${rub < 0 ? '−' : ''}${Math.abs(rub / 1e6).toFixed(1)} млн ₽`);
 const fmtPct = (x) => (x === null || x === undefined ? '—' : `${(x * 100).toFixed(1)}%`);
-const fmtYears = (y) => (y === null || y === undefined || !isFinite(y) ? 'больше 10 лет' : `${y.toFixed(1)} года`);
 const escapeHtml = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 async function loadPortfolio() {
@@ -512,63 +566,52 @@ function renderPortfolioPanel() {
     `${modelPicks.length} площадок внутри МКАД, выбранных моделью из ${pf.N ? `пула 300 реальных мест (парковки, ТЦ, АЗС, бизнес-центры, гостиницы)` : 'пула'}: по шагу за раз, с пересчётом всей сети после каждой — следующая точка учитывает уже поставленные.` +
     (running ? ' Расчёт ещё идёт — обновите страницу позже.' : '');
 
-  const m = pf.metrics;
+  const my = pf.metrics_by_year;
   const compare = document.getElementById('portfolio-compare');
-  if (m) {
-    const b = m.baseline;
-    const extra = (x) => x.sessions_per_day_network - b.sessions_per_day_network;
-    const perMln = (x) => (x.CAPEX_total_rub > 0 ? extra(x) / (x.CAPEX_total_rub / 1e6) : null);
+  if (my) {
     const fmtNum = (v, d = 1) => (v === null || v === undefined || !isFinite(v) ? '—' : v.toFixed(d));
-    const fmtPp = (x, y) => `${fmtPct(x)} <span class="delta">(${y >= 0 ? '+' : '−'}${Math.abs(y * 100).toFixed(2)} п.п.)</span>`;
-    // [название, традиционный, модель, модель лучше?, группа]
+    const sign = (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}`;
+    const years = [2026, 2028, 2030].filter((y) => my[y]);
+    const ex = (y, k) => my[y][k].sessions_per_day_network - my[y].baseline.sessions_per_day_network;
+    const m = my[2028] || my[years[0]];
+    const b = m.baseline;
+    const fmtPp = (x, base) => `${fmtPct(x)} <span class="delta">(${x - base >= 0 ? '+' : '−'}${Math.abs((x - base) * 100).toFixed(2)} п.п.)</span>`;
+    // [название, традиционный, модель, модель лучше?] либо ['group', заголовок]
     const rows = [
-      ['group', 'Загрузка сети: дополнительно обслужено, сессий/сутки'],
-      ...[2026, 2028, 2030].filter((y) => pf.metrics_by_year?.[y]).map((y) => {
-        const my = pf.metrics_by_year[y];
-        const ex = (k) => my[k].sessions_per_day_network - my.baseline.sessions_per_day_network;
-        const sign = (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}`;
-        return [`${y} год — без новых станций сеть обслуживает ${fmtPct(my.baseline.served_share_of_demand)} спроса${y === 2028 ? ' (плановые станции города почти закрывают дефицит)' : ''}`, sign(ex('traditional')), sign(ex('model')), ex('model') >= ex('traditional')];
-      }),
-      ['Средняя загрузка новых станций', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean >= m.traditional.U_new_mean],
-      ['Новых станций с загрузкой < 20%', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 <= m.traditional.share_new_U_below_20],
-      ['group', 'Издержки'],
-      ['Вложения (у традиционного — с потерянными)', fmtMlnRub(m.traditional.CAPEX_total_rub), fmtMlnRub(m.model.CAPEX_total_rub), m.model.CAPEX_total_rub <= m.traditional.CAPEX_total_rub],
-      ['Доп. сессий/сутки в 2028 на 1 млн ₽ вложений', fmtNum(perMln(m.traditional), 2), fmtNum(perMln(m.model), 2), (perMln(m.model) ?? 0) >= (perMln(m.traditional) ?? 0)],
-      ['group', 'Доступность для водителей'],
-      ['Доля спроса, обслуженная сетью', fmtPp(m.traditional.served_share_of_demand, m.traditional.served_share_of_demand - b.served_share_of_demand), fmtPp(m.model.served_share_of_demand, m.model.served_share_of_demand - b.served_share_of_demand), m.model.served_share_of_demand >= m.traditional.served_share_of_demand],
+      ['group', 'Новые клиенты сети: дополнительно обслужено, сессий в сутки'],
+      ...years.map((y) => [`${y} год — без новых станций сеть обслуживает ${fmtPct(my[y].baseline.served_share_of_demand)} спроса${y === 2028 ? ' (плановые станции города почти закрывают дефицит)' : ''}`, sign(ex(y, 'traditional')), sign(ex(y, 'model')), ex(y, 'model') >= ex(y, 'traditional')]),
+      ['group', 'Загрузка новых станций (2028)'],
+      ['Средняя загрузка постов', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean >= m.traditional.U_new_mean],
+      ['Станций с загрузкой ниже 20%', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 <= m.traditional.share_new_U_below_20],
+      ['group', 'Доступность для водителей (2028)'],
+      ['Доля спроса, обслуженная сетью', fmtPp(m.traditional.served_share_of_demand, b.served_share_of_demand), fmtPp(m.model.served_share_of_demand, b.served_share_of_demand), m.model.served_share_of_demand >= m.traditional.served_share_of_demand],
       ['Отказы из-за очереди (все посты заняты)', fmtPct(m.traditional.queue_loss_share), fmtPct(m.model.queue_loss_share), m.model.queue_loss_share <= m.traditional.queue_loss_share],
       ['Среднее ожидание в пиковый час, мин', fmtNum(m.traditional.wait_min_peak), fmtNum(m.model.wait_min_peak), m.model.wait_min_peak <= m.traditional.wait_min_peak],
-      ['group', 'Экономика (дополнительно)'],
-      [`NPV за 10 лет при электроэнергии ${pf.model?.picks?.[0]?.p_el_min ?? 8}–${pf.model?.picks?.[0]?.p_el_max ?? 13} ₽/кВт·ч`, `${fmtMlnRub(m.traditional.NPV_pel_max_total_rub)} … ${fmtMlnRub(m.traditional.NPV_pel_min_total_rub)}`, `${fmtMlnRub(m.model.NPV_pel_max_total_rub)} … ${fmtMlnRub(m.model.NPV_pel_min_total_rub)}`, m.model.NPV_pel_min_total_rub >= m.traditional.NPV_pel_min_total_rub],
+      ['group', 'Подключение к сети'],
+      ['Площадок с льготным подключением (класс А)', `${pf.traditional.picks.filter((p) => p.cls === 'А').length} из ${pf.traditional.picks.length}`, `${modelPicks.filter((p) => p.cls === 'А').length} из ${modelPicks.length}`, modelPicks.filter((p) => p.cls === 'А').length / Math.max(1, modelPicks.length) >= pf.traditional.picks.filter((p) => p.cls === 'А').length / Math.max(1, pf.traditional.picks.length)],
     ];
     compare.innerHTML = `<table class="compare-table">
-      <thead><tr><th>${pf.metrics_by_year ? 'Базовый сценарий, средний день года' : '2028 год'}</th><th class="col-trad"><span class="pin pin-trad">■</span> Традиционный подход</th><th class="col-model"><span class="pin pin-model">★</span> По модели</th></tr></thead>
+      <thead><tr><th>Базовый сценарий, средний день года · ${escapeHtml(pf.equipment || 'DC150-2')} у обеих стратегий</th><th class="col-trad"><span class="pin pin-trad">■</span> Традиционный подход</th><th class="col-model"><span class="pin pin-model">★</span> По модели</th></tr></thead>
       <tbody>${rows
         .map((r) =>
           r[0] === 'group'
             ? `<tr class="group"><td colspan="3">${r[1]}</td></tr>`
-            : `<tr><td>${r[0]}</td><td class="num col-trad">${r[1]}</td><td class="num col-model ${r[3] && m.model.n > 0 ? 'better' : ''}">${r[2]}</td></tr>`
+            : `<tr><td>${r[0]}</td><td class="num col-trad">${r[1]}</td><td class="num col-model ${r[3] && modelPicks.length > 0 ? 'better' : ''}">${r[2]}</td></tr>`
         )
         .join('')}</tbody></table>`;
   } else {
     compare.innerHTML = '';
   }
 
-  const econBadge = (p) => {
-    const v = p.econ_verdict || '';
-    const cls = v.startsWith('окупается при любой') ? 'verdict-go' : v.startsWith('не окупается') ? 'verdict-no' : 'verdict-cond';
-    return `<span class="verdict ${cls}">${escapeHtml(v || '—')}</span>`;
-  };
   document.getElementById('portfolio-body').innerHTML = modelPicks
     .map(
       (p, k) => `<tr data-k="${k}">
         <td><span class="pin pin-model">${k + 1}</span></td>
         <td><div class="site-kind">${escapeHtml(p.kind)}</div>${p.name ? `<div class="site-name">${escapeHtml(p.name)}</div>` : ''}</td>
         <td>${escapeHtml(p.district || '—')}</td>
-        <td><strong>${escapeHtml(p.omega)}</strong><div class="npv-range">класс ${escapeHtml(p.cls || '—')}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
-        <td class="num"><strong>+${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}</strong><div class="npv-range">${(p.new_demand_per_mln ?? 0).toFixed(2)} в среднем на 1 млн ₽</div></td>
-        <td class="num">${p.S_2026} → ${p.S_2030}</td>
-        <td>${econBadge(p)}<div class="npv-range">NPV ${fmtMlnRub(p.NPV_pel_max_rub)} … ${fmtMlnRub(p.NPV_pel_min_rub)}</div></td>
+        <td class="num"><strong>+${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}</strong></td>
+        <td class="num">${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)}<div class="npv-range">рост ×${((p.sessions_2030 ?? 0) / Math.max(0.01, p.sessions_2026 ?? 0)).toFixed(2)}</div></td>
+        <td>${escapeHtml(p.omega)}<div class="npv-range">класс ${escapeHtml(p.cls || '—')}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
       </tr>`
     )
     .join('');
@@ -583,11 +626,9 @@ function renderPortfolioPanel() {
 
   const trad = pf.traditional;
   document.getElementById('portfolio-footnote').textContent =
-    (pf.model?.stoppedReason ? `Модель остановилась раньше N=${pf.N}: ${pf.model.stoppedReason}. ` : '') +
-    (trad?.dropped?.length ? `Традиционный подход потерял ${trad.dropped.length} площадк(и) на позднем выяснении класса подключения В (+${fmtMlnRub(trad.sunk_rub)} потерянных затрат). ` : '') +
-    'Места выбраны по новому для сети спросу на рубль вложений: сколько сессий станция добавляет сети сверх переманенных у соседей (не по NPV — экономика дополнительно, её главный параметр, цена электроэнергии для РСЗС, неизвестен; показан диапазон). Класс А — известная ТП 0.4 кВ ближе 200 м (OSM); «А|Б» — ТП в данных нет, считаем консервативно как Б. ' +
-    ((pf.model?.picks || []).some((p) => p.acc_2030_below_target) ? 'К 2030 станции в модели перегружены: парк ЭМ по плану города растёт ×14, а сеть с плановыми станциями «Энергии Москвы» — примерно ×3, поэтому доступность 90% в зимний будний день 2030 недостижима ни на одной площадке, и конфигурация выбрана по новому спросу на рубль. ' : '') +
-    'Клик по строке — полный паспорт площадки.';
+    (pf.model?.stoppedReason ? `Модель остановилась раньше ${pf.N} станций: ${pf.model.stoppedReason}. ` : '') +
+    (pf.traditional?.dropped?.length ? `Традиционный подход потерял ${pf.traditional.dropped.length} площадк(и): класс подключения В выяснился поздно. ` : '') +
+    'Места выбраны по новым для сети клиентам — сессиям, которых без станции сеть не обслужила бы (люди уезжали без зарядки или уходили из-за очереди), без переманенных у соседей; среднее за 2026 и 2030. Оборудование одинаковое у обеих стратегий — сравнивается только место. Класс А — известная ТП 0.4 кВ ближе 200 м (OSM); «А|Б» — ТП в данных нет. Клик по строке — полный паспорт площадки.';
 }
 
 main().catch((err) => {
