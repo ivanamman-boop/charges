@@ -70,17 +70,6 @@ async function fetchObjects(attempt = 1) {
   return { objects };
 }
 
-function mulberry32(seed) {
-  let a = seed;
-  return function () {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 async function main() {
   const { objects } = await fetchObjects();
   const params = JSON.parse(readFileSync(join(DATA, 'params.json'), 'utf8'));
@@ -152,15 +141,20 @@ async function main() {
     byDistrict.get(o.district).push(o);
   }
 
-  const rand = mulberry32(20260924);
+  // Стабильный отбор: порядок внутри округа задаёт хэш координат самой
+  // площадки (с фиксированной солью), а не перетасовка всего списка. Раньше
+  // любое изменение станций (новый объезд Яндекса) сдвигало перетасовку, и
+  // пул менялся почти целиком - проверенные вручную точки "убегали". Теперь
+  // площадка остаётся в пуле, пока она подходит (не ближе 150 м к станции).
+  const hashUnit = (lat, lon) => {
+    let h = 2166136261;
+    for (const ch of `20260924|${lat.toFixed(6)}|${lon.toFixed(6)}`) h = Math.imul(h ^ ch.codePointAt(0), 16777619);
+    return (h >>> 0) / 4294967296;
+  };
   const pool = [];
   for (const [district, list] of [...byDistrict].sort()) {
     const quota = Math.max(1, Math.round((POOL_SIZE * list.length) / eligible.length));
-    const shuffled = [...list];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(rand() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
+    const shuffled = [...list].sort((a, b) => hashUnit(a.lat, a.lon) - hashUnit(b.lat, b.lon));
     pool.push(...shuffled.slice(0, quota));
     console.log(`  ${district}: ${list.length} объектов → ${Math.min(quota, list.length)} в пул`);
   }
@@ -173,7 +167,7 @@ async function main() {
     join(DATA, 'pool.json'),
     JSON.stringify(
       {
-        source: `Раздел 10.1: ${pool.length} площадок из ${eligible.length} реальных объектов OSM внутри МКАД (парковки, ТЦ, АЗС, бизнес-центры, гостиницы), не ближе ${m8.min_distance_to_existing_m.value} м к действующим станциям, случайный отбор seed=20260924 со стратификацией по округам`,
+        source: `Раздел 10.1: ${pool.length} площадок из ${eligible.length} реальных объектов OSM внутри МКАД (парковки, ТЦ, АЗС, бизнес-центры, гостиницы), не ближе ${m8.min_distance_to_existing_m.value} м к действующим станциям, стабильный отбор по хэшу координат (соль 20260924) со стратификацией по округам`,
         date: new Date().toISOString().slice(0, 10),
         pool,
       },

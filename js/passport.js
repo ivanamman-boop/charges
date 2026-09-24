@@ -1,9 +1,11 @@
 // Паспорт площадки (спецификация, раздел 12.2). renderPassport - быстрая
 // часть (М1-М4: спрос, выбор, очередь, равновесие, соседи), готова почти
-// мгновенно. renderEquipmentEconomics - медленная часть (М5-М7: подбор
-// оборудования, подключение, экономика), заполняется отдельным проходом
-// после перебора конфигураций (до 5 секунд, раздел 12.3).
+// мгновенно. renderEquipment - медленная часть (М5-М6: варианты
+// оборудования и подключение), заполняется после перебора конфигураций.
+// Экономику сайт не показывает (решение команды 24.09: её считают отдельно
+// по выбранной точке) - equipment.js её по-прежнему считает внутри.
 import { SEGMENTS } from './demand.js';
+import { yearAverage } from './equipment.js';
 
 const SEGMENT_LABEL = { P0: 'P0 (частник, дом. зарядка)', P1: 'P1 (частник, без дома)', T: 'Такси', C: 'Корпоративный' };
 
@@ -74,7 +76,7 @@ export function renderPassport({ container, local, baselineS, candidate, station
 
   container.innerHTML = `
     <h2>Черновик паспорта площадки</h2>
-    <p class="tbd">Быстрый черновик ниже всегда считает DC60-1. Настоящий вердикт и ω* — в разделе «Вердикт и конфигурация» под таблицей соседей (считается отдельным, более медленным проходом).</p>
+    <p class="tbd">Черновик ниже — для одного поста DC60-1 в выбранных условиях. Все варианты оборудования и рост до 2030 — в разделе «Оборудование и рост» ниже (считается отдельным проходом).</p>
 
     <section>
       <h3>Кандидат</h3>
@@ -113,7 +115,7 @@ export function renderPassport({ container, local, baselineS, candidate, station
     </section>
 
     <section id="passport-verdict-section">
-      <h3>Вердикт и конфигурация (раздел 8.2)</h3>
+      <h3>Оборудование и рост до 2030</h3>
       <p class="tbd">Считаю варианты оборудования…</p>
     </section>
 
@@ -121,76 +123,68 @@ export function renderPassport({ container, local, baselineS, candidate, station
       <h3>Подключение к сети</h3>
       <p class="tbd">Считаю…</p>
     </section>
-
-    <section id="passport-economics-section">
-      <h3>Экономика</h3>
-      <p class="tbd">Считаю…</p>
-    </section>
   `;
 
   return { neighbors, cannibalizationShare, newDemandShare };
 }
 
-// Заполняет секции вердикта/подключения/экономики после того, как модуль 6
-// (equipment.js) закончит перебор конфигураций - это медленнее, чем
-// базовый М1-М4 паспорт, поэтому рендерится отдельным проходом.
-export function renderEquipmentEconomics({ evalResult }) {
+// Заполняет секции оборудования и подключения после перебора конфигураций
+// (модуль 6, equipment.js) - медленнее базового паспорта, отдельным проходом.
+export function renderEquipment({ evalResult }) {
   const verdictEl = document.getElementById('passport-verdict-section');
   const connEl = document.getElementById('passport-connection-section');
-  const econEl = document.getElementById('passport-economics-section');
-  if (!verdictEl || !connEl || !econEl) return;
+  if (!verdictEl || !connEl) return;
 
+  const rec = evalResult.recommended;
   const rows = evalResult.evaluated
+    .filter((e) => !e.cfg.isBal)
     .map((e) => {
-      const npvLow = e.scenarios ? fmt(e.scenarios.low.NPVrub / 1e6) : '—';
-      const npvHigh = e.scenarios ? fmt(e.scenarios.high.NPVrub / 1e6) : '—';
-      const acc = fmt(e.minAcc * 100, 0);
-      const isStar = evalResult.omegaStar && e.cfg.omega === evalResult.omegaStar.cfg.omega;
-      return `<tr style="${isStar ? 'font-weight:bold' : ''}"><td>${e.cfg.omega}${e.cfg.costUnknown ? ' (стоимость c_bal неизвестна)' : ''}</td><td>${e.cls}</td><td>${acc}%</td><td>${npvLow}</td><td>${npvHigh}</td></tr>`;
+      const a = yearAverage(e, 2026);
+      const b = yearAverage(e, 2030);
+      const isRec = rec && e.cfg.omega === rec.cfg.omega;
+      const blocked = e.cls === 'В';
+      return `<tr class="${isRec ? 'rec' : ''} ${blocked ? 'blocked' : ''}">
+        <td>${e.cfg.omega}</td>
+        <td>${e.cls}</td>
+        <td class="num">${fmt(a.sessions, 1)} → ${fmt(b.sessions, 1)}</td>
+        <td class="num">+${fmt(a.gain, 1)} → +${fmt(b.gain, 1)}</td>
+        <td class="num">${fmt((a.gain + b.gain) / 2 / e.cfg.posts, 1)}</td>
+        <td class="num">${fmt(e.accDayByYear[2026] * 100, 0)}% / ${fmt(e.accDayByYear[2030] * 100, 0)}%</td>
+      </tr>`;
     })
     .join('');
 
+  const recA = rec && yearAverage(rec, 2026);
+  const recB = rec && yearAverage(rec, 2030);
   verdictEl.innerHTML = `
-    <h3>Вердикт и конфигурация (раздел 8.2)</h3>
-    <div class="metric-row"><span>Вердикт</span><span>${evalResult.verdict}</span></div>
-    <table>
-      <thead><tr><th>ω</th><th>Класс</th><th>min Acc (2030, зима, будни)</th><th>NPV_low, М₽</th><th>NPV_high, М₽</th></tr></thead>
+    <h3>Оборудование и рост до 2030</h3>
+    ${
+      rec
+        ? `<div class="rec-card">
+        <div class="rec-title">Рекомендуем ${rec.cfg.omega}</div>
+        <div class="rec-sub">${rec.cfg.P_cap_kW} кВт, ${rec.cfg.posts} ${rec.cfg.posts === 1 ? 'пост' : 'поста'} · больше всего новых для сети клиентов на один пост</div>
+        <div class="rec-grow"><span>${fmt(recA.sessions, 1)}</span><span class="arrow">→</span><span>${fmt(recB.sessions, 1)}</span><span class="unit">сессий в сутки, 2026 → 2030</span></div>
+        <div class="rec-sub">из них новых для сети (не переманенных у соседей): +${fmt(recA.gain, 1)} → +${fmt(recB.gain, 1)}</div>
+      </div>`
+        : '<p class="tbd">Нет допустимых вариантов: на ближайшем центре питания нет резерва мощности (класс В).</p>'
+    }
+    <table class="equip-table">
+      <thead><tr><th>Вариант</th><th>Класс</th><th>Сессий/сут<br>2026 → 2030</th><th>Новых для сети<br>2026 → 2030</th><th>Новых на пост</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <p class="tbd">Жирным — рекомендуемая ω*. min Acc считается по самому тяжёлому случаю (8.2): будний зимний день 2030.</p>
+    <p class="tbd">Средний день года. * Доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 мин. Мощнее станция — больше клиентов она перетягивает, поэтому её очередь тоже растёт: доступность почти не зависит от размера. Класс В — подключение невозможно (нет резерва на центре питания).</p>
   `;
 
-  const star = evalResult.omegaStar;
   connEl.innerHTML = `
     <h3>Подключение к сети</h3>
-    <div class="metric-row"><span>Центр питания</span><span>${evalResult.center.id}</span></div>
-    <div class="metric-row"><span>Свободная мощность ЦП</span><span>${fmt(evalResult.centerFree)} кВт</span></div>
-    <div class="metric-row"><span>Предел для модуля 6 (P^avail)</span><span>${fmt(evalResult.PavailKW)} кВт</span></div>
+    <div class="metric-row"><span>Центр питания</span><span>${evalResult.center.id}${evalResult.center.name ? ` «${evalResult.center.name}»` : ''}</span></div>
+    <div class="metric-row"><span>Свободная мощность (оценка)</span><span>${fmt(evalResult.centerFree / 1000, 1)} МВт</span></div>
     ${
-      star && star.connRange
-        ? `
-    <div class="metric-row"><span>Класс подключения (${star.cfg.omega})</span><span>${star.cls}</span></div>
-    <div class="metric-row"><span>Стоимость присоединения</span><span>${fmt(star.connRange.costLow / 1e6)}–${fmt(star.connRange.costHigh / 1e6)} М₽</span></div>
-    <div class="metric-row"><span>Срок до запуска</span><span>${fmt(star.connRange.monthsLow, 0)}–${fmt(star.connRange.monthsHigh, 0)} мес.</span></div>
-    ${star.cls === 'А|Б' || star.cls === 'Б' ? '<p class="tbd">Класс Б или неопределён — нужен запрос к сетевой компании: точка, мощность, категория надёжности, ближайшая ТП.</p>' : ''}
-    `
-        : '<p class="tbd">Нет данных по выбранной конфигурации.</p>'
-    }
-  `;
-
-  econEl.innerHTML = `
-    <h3>Экономика</h3>
-    ${
-      star && star.scenarios
-        ? `
-    <div class="metric-row"><span>CAPEX (дёшево/дорого)</span><span>${fmt(star.scenarios.high.CAPEXrub / 1e6)}–${fmt(star.scenarios.low.CAPEXrub / 1e6)} М₽</span></div>
-    <div class="metric-row"><span>NPV (10 лет)</span><span>от ${fmt(star.scenarios.low.NPVrub / 1e6)} до ${fmt(star.scenarios.high.NPVrub / 1e6)} М₽</span></div>
-    <div class="metric-row"><span>Срок окупаемости (простой)</span><span>${star.scenarios.high.Tpb ? fmt(star.scenarios.high.Tpb, 1) + ' лет' : 'больше 10 лет'}</span></div>
-    <div class="metric-row"><span>Срок окупаемости (дисконт.)</span><span>${star.scenarios.high.TpbDisc ? fmt(star.scenarios.high.TpbDisc, 1) + ' лет' : 'больше 10 лет'}</span></div>
-    <div class="metric-row"><span>U* (замыкающая формула 9.5)</span><span>${star.breakevenInfo ? fmt(star.breakevenInfo.Ustar * 100, 1) + '%' : '—'}</span></div>
-    <p class="tbd">Субсидия выключена по умолчанию (раздел 7.5). NPV_low — дорогая граница присоединения (пессимистично), NPV_high — дешёвая.</p>
-    `
-        : '<p class="tbd">Экономика не посчитана для ω* (класс В или неизвестна стоимость балансировки).</p>'
+      rec && rec.connRange
+        ? `<div class="metric-row"><span>Класс подключения (${rec.cfg.omega})</span><span>${rec.cls}</span></div>
+    <div class="metric-row"><span>Срок до запуска</span><span>${fmt(rec.connRange.monthsLow, 0)}–${fmt(rec.connRange.monthsHigh, 0)} мес.</span></div>
+    ${rec.cls === 'А' ? '<p class="tbd">Класс А: известная трансформаторная подстанция 0.4 кВ ближе 200 м — льготное присоединение.</p>' : '<p class="tbd">Класс Б или не определён: в данных нет ТП 0.4 кВ ближе 200 м — нужен запрос к сетевой компании (точка, мощность, ближайшая ТП).</p>'}`
+        : ''
     }
   `;
 }

@@ -25,6 +25,14 @@ const MOSCOW_CENTER_LONLAT = [37.618, 55.751]; // OL: [lon, lat]
 // ol.source.Cluster просто перегруппировывает то, что в нём есть).
 const STATION_CLUSTER_DISTANCE_PX = 40;
 
+const SLOW_STYLE = new ol.style.Style({
+  image: new ol.style.Circle({
+    radius: 3.5,
+    fill: new ol.style.Fill({ color: 'rgba(110, 108, 100, 0.85)' }),
+    stroke: new ol.style.Stroke({ color: '#fff', width: 1 }),
+  }),
+});
+
 export function initMap() {
   const demandSource = new ol.source.Vector();
   const centersSource = new ol.source.Vector();
@@ -34,6 +42,7 @@ export function initMap() {
   const candidateSource = new ol.source.Vector();
   const portfolioSource = new ol.source.Vector();
   const mkadSource = new ol.source.Vector();
+  const slowSource = new ol.source.Vector();
 
   // Спрос - шестиугольные зоны как на карте спроса у таксистов (Яндекс Про):
   // дискретные ступени фиолетового вместо размытого heatmap, стиль у каждой
@@ -46,6 +55,9 @@ export function initMap() {
   const neighborsLayer = new ol.layer.Vector({ source: neighborsSource });
   const candidateLayer = new ol.layer.Vector({ source: candidateSource });
   const portfolioLayer = new ol.layer.Vector({ source: portfolioSource, zIndex: 5 });
+  // Медленные AC-станции (data/stations-slow.json) - в модель не входят,
+  // показываются по галочке для справки; по умолчанию скрыты.
+  const slowLayer = new ol.layer.Vector({ source: slowSource, visible: false, style: SLOW_STYLE });
   // Граница модели: всё считается для Москвы внутри МКАД (data/mkad.json).
   const mkadLayer = new ol.layer.Vector({
     source: mkadSource,
@@ -56,7 +68,7 @@ export function initMap() {
     target: 'map',
     // className - чтобы CSS обесцветил только подложку (.basemap), а не
     // слои поверх: на серой карте фиолетовые зоны спроса читаются лучше.
-    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, mkadLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer],
+    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, mkadLayer, slowLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer],
     view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10.4 }),
   });
 
@@ -86,7 +98,7 @@ export function initMap() {
     }
   });
 
-  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource };
+  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource, slowSource, slowLayer };
 }
 
 // Клик по карте (app.js) должен отличать клик по кластеру (несколько
@@ -377,7 +389,6 @@ function traditionalPinStyle(rank) {
   });
 }
 
-const fmtMln = (rub) => (rub === null || rub === undefined ? '—' : `${(rub / 1e6).toFixed(1)} млн ₽`);
 
 export function renderPortfolio({ portfolioSource, portfolio, showModel = true, showTraditional = false }) {
   portfolioSource.clear();
@@ -387,7 +398,7 @@ export function renderPortfolio({ portfolioSource, portfolio, showModel = true, 
     (portfolio.traditional?.picks || []).forEach((p, k) => {
       const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(p.lat, p.lon)) });
       f.setStyle(traditionalPinStyle(k + 1));
-      f.set('hint', `Традиционный выбор №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\nDC60-1 · ${p.S_2026} сессий/сут · NPV ${fmtMln(p.NPV_low_rub)}`);
+      f.set('hint', `Традиционный выбор №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\n${p.omega} · ${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)} сессий/сут (2026 → 2030)\nновых для сети: +${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}`);
       f.set('portfolioPick', p);
       features.push(f);
     });
@@ -395,9 +406,8 @@ export function renderPortfolio({ portfolioSource, portfolio, showModel = true, 
   if (showModel) {
     (portfolio.model?.picks || []).forEach((p, k) => {
       const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(p.lat, p.lon)) });
-      const conditional = p.tier && p.tier !== 'ставить';
-      f.setStyle(portfolioPinStyle(k + 1, conditional));
-      f.set('hint', `Рекомендация модели №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\n${p.omega} · ${p.S_2026} сессий/сут\nNPV ${fmtMln(p.NPV_low_rub)} … ${fmtMln(p.NPV_high_rub)}${conditional ? '\nокупается при дешёвом присоединении' : ''}\nклик — полный паспорт`);
+      f.setStyle(portfolioPinStyle(k + 1, false));
+      f.set('hint', `Рекомендация модели №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\n${p.omega} · ${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)} сессий/сут (2026 → 2030)\nновых для сети: +${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}\nклик — полный паспорт`);
       f.set('portfolioPick', p);
       features.push(f);
     });
@@ -414,4 +424,15 @@ export function renderMkad({ mkadSource, ring }) {
   const coords = ring.map(([lat, lon]) => toMapCoord(lat, lon));
   coords.push(coords[0]);
   mkadSource.addFeature(new ol.Feature({ geometry: new ol.geom.LineString(coords) }));
+}
+
+export function renderSlowStations({ slowSource, stations }) {
+  slowSource.clear();
+  slowSource.addFeatures(
+    stations.map((st) => {
+      const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(st.lat, st.lon)) });
+      f.set('hint', `Медленная зарядка (AC) · ${st.operator}\nв модель не входит: другой сценарий — машина стоит часами`);
+      return f;
+    })
+  );
 }
