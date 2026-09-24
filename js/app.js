@@ -523,33 +523,60 @@ function renderPortfolioPanel() {
   const m = pf.metrics;
   const compare = document.getElementById('portfolio-compare');
   if (m) {
+    const b = m.baseline;
+    const extra = (x) => x.sessions_per_day_network - b.sessions_per_day_network;
+    const perMln = (x) => (x.CAPEX_total_rub > 0 ? extra(x) / (x.CAPEX_total_rub / 1e6) : null);
+    const fmtNum = (v, d = 1) => (v === null || v === undefined || !isFinite(v) ? '—' : v.toFixed(d));
+    const fmtPp = (x, y) => `${fmtPct(x)} <span class="delta">(${y >= 0 ? '+' : '−'}${Math.abs(y * 100).toFixed(2)} п.п.)</span>`;
+    // [название, традиционный, модель, модель лучше?, группа]
     const rows = [
+      ['group', 'Загрузка сети: дополнительно обслужено, сессий/сутки'],
+      ...[2026, 2028, 2030].filter((y) => pf.metrics_by_year?.[y]).map((y) => {
+        const my = pf.metrics_by_year[y];
+        const ex = (k) => my[k].sessions_per_day_network - my.baseline.sessions_per_day_network;
+        const sign = (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}`;
+        return [`${y} год — без новых станций сеть обслуживает ${fmtPct(my.baseline.served_share_of_demand)} спроса${y === 2028 ? ' (плановые станции города почти закрывают дефицит)' : ''}`, sign(ex('traditional')), sign(ex('model')), ex('model') >= ex('traditional')];
+      }),
       ['Средняя загрузка новых станций', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean >= m.traditional.U_new_mean],
       ['Новых станций с загрузкой < 20%', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 <= m.traditional.share_new_U_below_20],
-      ['NPV новых станций: дорогое подключение', fmtMlnRub(m.traditional.NPV_low_total_rub), fmtMlnRub(m.model.NPV_low_total_rub), m.model.NPV_low_total_rub >= m.traditional.NPV_low_total_rub],
-      ['NPV новых станций: дешёвое подключение', fmtMlnRub(m.traditional.NPV_high_total_rub), fmtMlnRub(m.model.NPV_high_total_rub), (m.model.NPV_high_total_rub ?? 0) >= (m.traditional.NPV_high_total_rub ?? 0)],
-      ['CAPEX (у традиционного — с потерянными затратами)', fmtMlnRub(m.traditional.CAPEX_total_rub), fmtMlnRub(m.model.CAPEX_total_rub), m.model.CAPEX_total_rub <= m.traditional.CAPEX_total_rub],
-      ['Средняя загрузка всей сети', fmtPct(m.traditional.U_network_mean), fmtPct(m.model.U_network_mean), m.model.U_network_mean >= m.traditional.U_network_mean],
+      ['group', 'Издержки'],
+      ['Вложения (у традиционного — с потерянными)', fmtMlnRub(m.traditional.CAPEX_total_rub), fmtMlnRub(m.model.CAPEX_total_rub), m.model.CAPEX_total_rub <= m.traditional.CAPEX_total_rub],
+      ['Доп. сессий/сутки в 2028 на 1 млн ₽ вложений', fmtNum(perMln(m.traditional), 2), fmtNum(perMln(m.model), 2), (perMln(m.model) ?? 0) >= (perMln(m.traditional) ?? 0)],
+      ['group', 'Доступность для водителей'],
+      ['Доля спроса, обслуженная сетью', fmtPp(m.traditional.served_share_of_demand, m.traditional.served_share_of_demand - b.served_share_of_demand), fmtPp(m.model.served_share_of_demand, m.model.served_share_of_demand - b.served_share_of_demand), m.model.served_share_of_demand >= m.traditional.served_share_of_demand],
+      ['Отказы из-за очереди (все посты заняты)', fmtPct(m.traditional.queue_loss_share), fmtPct(m.model.queue_loss_share), m.model.queue_loss_share <= m.traditional.queue_loss_share],
+      ['Среднее ожидание в пиковый час, мин', fmtNum(m.traditional.wait_min_peak), fmtNum(m.model.wait_min_peak), m.model.wait_min_peak <= m.traditional.wait_min_peak],
+      ['group', 'Экономика (дополнительно)'],
+      [`NPV за 10 лет при электроэнергии ${pf.model?.picks?.[0]?.p_el_min ?? 8}–${pf.model?.picks?.[0]?.p_el_max ?? 13} ₽/кВт·ч`, `${fmtMlnRub(m.traditional.NPV_pel_max_total_rub)} … ${fmtMlnRub(m.traditional.NPV_pel_min_total_rub)}`, `${fmtMlnRub(m.model.NPV_pel_max_total_rub)} … ${fmtMlnRub(m.model.NPV_pel_min_total_rub)}`, m.model.NPV_pel_min_total_rub >= m.traditional.NPV_pel_min_total_rub],
     ];
-    compare.innerHTML = `
-      <div class="compare-card compare-labels"><div class="compare-title">2028 год, базовый сценарий</div>${rows.map((r) => `<div class="compare-cell">${r[0]}</div>`).join('')}</div>
-      <div class="compare-card"><div class="compare-title"><span class="pin pin-trad">■</span> Традиционный подход</div>${rows.map((r) => `<div class="compare-cell num">${r[1]}</div>`).join('')}</div>
-      <div class="compare-card compare-model"><div class="compare-title"><span class="pin pin-model">★</span> По модели</div>${rows.map((r) => `<div class="compare-cell num ${r[3] && m.model.n > 0 && r[2] !== '—' ? 'better' : ''}">${r[2]}</div>`).join('')}</div>`;
+    compare.innerHTML = `<table class="compare-table">
+      <thead><tr><th>${pf.metrics_by_year ? 'Базовый сценарий, средний день года' : '2028 год'}</th><th class="col-trad"><span class="pin pin-trad">■</span> Традиционный подход</th><th class="col-model"><span class="pin pin-model">★</span> По модели</th></tr></thead>
+      <tbody>${rows
+        .map((r) =>
+          r[0] === 'group'
+            ? `<tr class="group"><td colspan="3">${r[1]}</td></tr>`
+            : `<tr><td>${r[0]}</td><td class="num col-trad">${r[1]}</td><td class="num col-model ${r[3] && m.model.n > 0 ? 'better' : ''}">${r[2]}</td></tr>`
+        )
+        .join('')}</tbody></table>`;
   } else {
     compare.innerHTML = '';
   }
 
+  const econBadge = (p) => {
+    const v = p.econ_verdict || '';
+    const cls = v.startsWith('окупается при любой') ? 'verdict-go' : v.startsWith('не окупается') ? 'verdict-no' : 'verdict-cond';
+    return `<span class="verdict ${cls}">${escapeHtml(v || '—')}</span>`;
+  };
   document.getElementById('portfolio-body').innerHTML = modelPicks
     .map(
       (p, k) => `<tr data-k="${k}">
         <td><span class="pin pin-model">${k + 1}</span></td>
         <td><div class="site-kind">${escapeHtml(p.kind)}</div>${p.name ? `<div class="site-name">${escapeHtml(p.name)}</div>` : ''}</td>
         <td>${escapeHtml(p.district || '—')}</td>
-        <td><strong>${escapeHtml(p.omega)}</strong></td>
+        <td><strong>${escapeHtml(p.omega)}</strong><div class="npv-range">класс ${escapeHtml(p.cls || '—')}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
+        <td class="num"><strong>+${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}</strong><div class="npv-range">${(p.new_demand_per_mln ?? 0).toFixed(2)} в среднем на 1 млн ₽</div></td>
         <td class="num">${p.S_2026} → ${p.S_2030}</td>
-        <td class="num"><span class="${p.NPV_low_rub >= 0 ? 'pos' : 'neg'}">${fmtMlnRub(p.NPV_low_rub)}</span><div class="npv-range">до ${fmtMlnRub(p.NPV_high_rub)} при дешёвом</div></td>
-        <td class="num">${fmtYears(p.payback_years)}</td>
-        <td><span class="verdict ${p.tier && p.tier !== 'ставить' ? 'verdict-cond' : 'verdict-go'}">${p.tier && p.tier !== 'ставить' ? 'если подключение дешёвое' : 'ставить'}</span><div class="npv-range">класс ${escapeHtml(p.cls || '—')}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
+        <td>${econBadge(p)}<div class="npv-range">NPV ${fmtMlnRub(p.NPV_pel_max_rub)} … ${fmtMlnRub(p.NPV_pel_min_rub)}</div></td>
       </tr>`
     )
     .join('');
@@ -566,8 +593,8 @@ function renderPortfolioPanel() {
   document.getElementById('portfolio-footnote').textContent =
     (pf.model?.stoppedReason ? `Модель остановилась раньше N=${pf.N}: ${pf.model.stoppedReason}. ` : '') +
     (trad?.dropped?.length ? `Традиционный подход потерял ${trad.dropped.length} площадк(и) на позднем выяснении класса подключения В (+${fmtMlnRub(trad.sunk_rub)} потерянных затрат). ` : '') +
-    'NPV за 10 лет — при дорогой оценке подключения, ниже — при дешёвой. Класс А — известная ТП 0.4 кВ ближе 200 м (OSM); «А|Б» — ТП в данных нет, считаем консервативно как Б. ' +
-    ((pf.model?.picks || []).some((p) => p.acc_2030_below_target) ? 'К 2030 станции в модели перегружены: парк ЭМ по плану города растёт ×14, а сеть с плановыми станциями «Энергии Москвы» — примерно ×3, поэтому доступность 90% в зимний будний день 2030 недостижима ни на одной площадке, и конфигурация выбрана по отдаче на рубль. ' : '') +
+    'Места выбраны по новому для сети спросу на рубль вложений: сколько сессий станция добавляет сети сверх переманенных у соседей (не по NPV — экономика дополнительно, её главный параметр, цена электроэнергии для РСЗС, неизвестен; показан диапазон). Класс А — известная ТП 0.4 кВ ближе 200 м (OSM); «А|Б» — ТП в данных нет, считаем консервативно как Б. ' +
+    ((pf.model?.picks || []).some((p) => p.acc_2030_below_target) ? 'К 2030 станции в модели перегружены: парк ЭМ по плану города растёт ×14, а сеть с плановыми станциями «Энергии Москвы» — примерно ×3, поэтому доступность 90% в зимний будний день 2030 недостижима ни на одной площадке, и конфигурация выбрана по новому спросу на рубль. ' : '') +
     'Клик по строке — полный паспорт площадки.';
 }
 
