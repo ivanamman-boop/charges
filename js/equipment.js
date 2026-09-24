@@ -54,6 +54,9 @@ export function candidateConfigs({ PavailKW, params }) {
 // типа дня), экономика с диапазоном присоединения, ограничение по Acc.
 function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters }) {
   const sessionsByCombo = {}; // "year|season|dayType" -> {segment: S}
+  // Новый для сети спрос (6.3): сколько сессий/сутки кандидат обслуживает
+  // сверх того, что сеть обслуживала без него = −(ΔΛ_out + ΔΛ_lost).
+  const netGainByCombo = {};
   let minAcc = 1;
   let worstHourAcc = null;
 
@@ -72,6 +75,7 @@ function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, center
           perSegment[s] = sum;
         }
         sessionsByCombo[`${year}|${season}|${dayType}`] = perSegment;
+        netGainByCombo[`${year}|${season}|${dayType}`] = -(local.deltaLambdaOut + local.deltaLambdaLost);
 
         if (year === HARDEST_CASE.year && season === HARDEST_CASE.season && dayType === HARDEST_CASE.dayType) {
           for (let h = 0; h < 24; h++) {
@@ -131,7 +135,7 @@ function evaluateConfig({ cfg, candidateBase, cells, params, getBaseline, center
     breakevenInfo = breakeven({ OPEXfixYearRub, CAPEXrub: capexMid, marginBar, tauBarHours: tauBar, posts: cfg.posts, params });
   }
 
-  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, breakevenInfo, sessionsByCombo };
+  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, breakevenInfo, sessionsByCombo, netGainByCombo };
 }
 
 // 8.2. Полная оценка кандидата: перебор конфигураций, выбор omega*, вердикт.
