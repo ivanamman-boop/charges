@@ -25,11 +25,14 @@ const MOSCOW_CENTER_LONLAT = [37.618, 55.751]; // OL: [lon, lat]
 // ol.source.Cluster просто перегруппировывает то, что в нём есть).
 const STATION_CLUSTER_DISTANCE_PX = 40;
 
+// Бирюзовый - чтобы медленные не сливались ни с фиолетовыми зонами спроса,
+// ни с быстрыми станциями (зелёный→красный по загрузке). Серые 3.5 px на
+// фиолетовом фоне пользователь не видел вовсе (25.09).
 const SLOW_STYLE = new ol.style.Style({
   image: new ol.style.Circle({
-    radius: 3.5,
-    fill: new ol.style.Fill({ color: 'rgba(110, 108, 100, 0.85)' }),
-    stroke: new ol.style.Stroke({ color: '#fff', width: 1 }),
+    radius: 5,
+    fill: new ol.style.Fill({ color: '#0d9488' }),
+    stroke: new ol.style.Stroke({ color: '#fff', width: 1.5 }),
   }),
 });
 
@@ -57,7 +60,7 @@ export function initMap() {
   const portfolioLayer = new ol.layer.Vector({ source: portfolioSource, zIndex: 5 });
   // Медленные AC-станции (data/stations-slow.json) - в модель не входят,
   // показываются по галочке для справки; по умолчанию скрыты.
-  const slowLayer = new ol.layer.Vector({ source: slowSource, visible: false, style: SLOW_STYLE });
+  const slowLayer = new ol.layer.Vector({ source: slowSource, visible: false, style: SLOW_STYLE, zIndex: 3 });
   // Граница модели: всё считается для Москвы внутри МКАД (data/mkad.json).
   const mkadLayer = new ol.layer.Vector({
     source: mkadSource,
