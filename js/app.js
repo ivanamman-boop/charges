@@ -24,13 +24,6 @@ async function loadData() {
   };
 }
 
-async function renderFooter(raw) {
-  const footer = document.getElementById('data-footer');
-  const lines = DATA_FILES.map((name) => `<div>${name}.json — ${raw[name === 'params' ? 'params' : name + 'Raw'].source} (${raw[name === 'params' ? 'params' : name + 'Raw'].date})</div>`);
-  lines.push('<div>Версия модели: v1 (прототип, М1-М7 + локальный пересчёт) · Спецификация: docs/spec.txt</div>');
-  footer.innerHTML = lines.join('\n');
-}
-
 function setStatus(msg) {
   document.getElementById('recompute-status').textContent = msg;
 }
@@ -426,7 +419,6 @@ async function main() {
   const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
   Object.assign(state, { cells, stationsAll, centers, params, preciseParams });
 
-  renderFooter({ cellsRaw: raw.cellsRaw, stationsRaw: raw.stationsRaw, centersRaw: raw.centersRaw, params: raw.params });
 
   state.layers = initMap();
   renderCentersLayer({ centersSource: state.layers.centersSource, centers: state.centers });
