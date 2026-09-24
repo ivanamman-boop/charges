@@ -6,12 +6,17 @@
 // (её команда считает отдельно по выбранной точке). Поэтому:
 //  - оборудование одинаковое у обеих стратегий - DC150-2 (стандарт плана
 //    «Энергии Москвы»: 150 кВт), сравнивается только МЕСТО;
-//  - цель - новые для сети клиенты: G = −(ΔΛ_out + ΔΛ_lost) (6.3) - сессии,
-//    которые сеть с новой станцией обслуживает сверх сети без неё, без
-//    переманенных у соседей; средний день года (5/12 зима + 7/12 лето,
-//    5/7 будни + 2/7 выходные), среднее за 2026 и 2030 (оба года точно;
-//    интерполяции на 2028 нет - дефицит сети по годам не монотонен, см.
-//    журнал 24.09);
+//  - цель - новые для сети клиенты на 1 млн ₽ вложений: G = −(ΔΛ_out +
+//    ΔΛ_lost) (6.3) - сессии, которые сеть с новой станцией обслуживает
+//    сверх сети без неё, без переманенных у соседей; средний день года (5/12
+//    зима + 7/12 лето, 5/7 будни + 2/7 выходные), среднее за 2026 и 2030 (оба
+//    года точно; интерполяции на 2028 нет - дефицит сети по годам не
+//    монотонен, см. журнал 24.09). Вложения = оборудование + присоединение +
+//    площадка (дорогая граница класса) - без тарифов и цены электроэнергии.
+//    Оборудование одинаковое, поэтому по сути это цена присоединения: класс А
+//    (ТП 0.4 кВ ближе 200 м, ~5-10 тыс. ₽/кВт) против Б (~50-80 тыс. ₽/кВт) -
+//    место рядом с сетью Россетей обгоняет такое же место вдали от неё
+//    (решение команды 24.09: стоимость подключения - фактор выбора);
 //  - ограничения сети остаются (задание: модель "без учёта ограничений
 //    энергосистемы" не подходит): класс В (нет резерва на центре питания)
 //    исключён, резерв ЦП уменьшается на уже выбранные станции, класс А/Б по
@@ -112,7 +117,9 @@ function evaluateSite(l, getBaseline, centers) {
   if (!e || e.cls === 'В') return null;
   const y26 = yearAverage(e, 2026);
   const y30 = yearAverage(e, 2030);
-  return { e, y26, y30, objective: (y26.gain + y30.gain) / 2 };
+  const capexRub = e.scenarios?.low.CAPEXrub;
+  if (!capexRub) return null;
+  return { e, y26, y30, capexRub, objective: (y26.gain + y30.gain) / 2 / (capexRub / 1e6) };
 }
 
 function summarize(l, r) {
@@ -135,6 +142,12 @@ function summarize(l, r) {
     new_demand_2030: Number(r.y30.gain.toFixed(2)),
     acc_day_2026: Number(r.e.accDayByYear[2026].toFixed(3)),
     acc_day_2030: Number(r.e.accDayByYear[2030].toFixed(3)),
+    conn_cost_low_rub: Math.round(r.e.connRange.costLow),
+    conn_cost_high_rub: Math.round(r.e.connRange.costHigh),
+    conn_months_low: r.e.connRange.monthsLow,
+    conn_months_high: r.e.connRange.monthsHigh,
+    capex_rub: Math.round(r.capexRub),
+    new_per_mln: Number(r.objective.toFixed(3)),
   };
 }
 
@@ -190,13 +203,16 @@ function modelStrategy(onStep) {
     const { context, result, stations } = getBaseline(2026, 'summer', 'weekday');
     const centers = centersWithLoad(picks);
 
-    // Быстрый отбор: новые клиенты (будни, лето, 2026) для EQUIPMENT.
+    // Быстрый отбор: новые клиенты (будни, лето, 2026) на рубль оборудования +
+    // присоединения по классу (А при известной ТП ближе 200 м, иначе Б).
     const free = pool.filter((l) => !picks.some((p) => haversineKm(p.lat, p.lon, l.lat, l.lon) < MIN_BETWEEN_NEW_KM));
+    const g = params.M5_grid;
     const screened = free
       .map((l) => {
         const cand = { ...asStation(l, 'CAND'), id: 'CAND' };
         const local = localEquilibrium({ cells, stations, candidate: cand, params, year: 2026, scenario: 'base', dayType: 'weekday', season: 'summer', fullContext: context, fullResult: result });
-        return { l, screen: -(local.deltaLambdaOut + local.deltaLambdaLost) };
+        const connRub = (l.dist04_m !== null ? g.c_A_rub_per_kW.max : g.c_B_rub_per_kW.max) * CFG.P_cap_kW;
+        return { l, screen: -(local.deltaLambdaOut + local.deltaLambdaLost) / (CFG.C_eq_mln_rub * 1e6 + connRub) };
       })
       .sort((a, b) => b.screen - a.screen);
     const shortlist = screened.slice(0, TOP_N);
@@ -218,7 +234,7 @@ function modelStrategy(onStep) {
     }
     const pick = summarize(best.l, best);
     picks.push(pick);
-    console.log(`  #${m} ${pick.id} ${pick.kind} ${pick.district} (класс ${pick.cls}): новых ${pick.new_demand_2026} → ${pick.new_demand_2030}, всего ${pick.sessions_2026} → ${pick.sessions_2030} сес/сут; точных оценок ${exact}, ${elapsed()}`);
+    console.log(`  #${m} ${pick.id} ${pick.kind} ${pick.district} (класс ${pick.cls}): новых ${pick.new_demand_2026} → ${pick.new_demand_2030}, всего ${pick.sessions_2026} → ${pick.sessions_2030} сес/сут, ${pick.new_per_mln} на млн ₽; точных оценок ${exact}, ${elapsed()}`);
     onStep({ picks, stoppedReason });
   }
   return { picks, stoppedReason };
@@ -284,7 +300,7 @@ function metrics(picks, tag, year) {
 
 const save = (out) => writeFileSync(OUT_PATH, JSON.stringify(out, null, 1));
 const out = {
-  source: `Модуль 8, scripts/compute-portfolio.js: N=${N}, оборудование ${EQUIPMENT} у обеих стратегий, пул ${pool.length} площадок внутри МКАД, цель - новые для сети клиенты (без экономики)`,
+  source: `Модуль 8, scripts/compute-portfolio.js: N=${N}, оборудование ${EQUIPMENT} у обеих стратегий, пул ${pool.length} площадок внутри МКАД, цель - новые для сети клиенты на 1 млн ₽ вложений (оборудование + подключение), без тарифов`,
   date: new Date().toISOString().slice(0, 10),
   status: 'running',
   N,

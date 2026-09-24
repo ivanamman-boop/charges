@@ -575,6 +575,8 @@ function renderPortfolioPanel() {
     const ex = (y, k) => my[y][k].sessions_per_day_network - my[y].baseline.sessions_per_day_network;
     const m = my[2028] || my[years[0]];
     const b = m.baseline;
+    const capex = (picks) => picks.reduce((a, p) => a + (p.capex_rub || 0), 0);
+    const perMln = (picks) => picks.reduce((a, p) => a + ((p.new_demand_2026 || 0) + (p.new_demand_2030 || 0)) / 2, 0) / Math.max(1e-9, capex(picks) / 1e6);
     const fmtPp = (x, base) => `${fmtPct(x)} <span class="delta">(${x - base >= 0 ? '+' : '−'}${Math.abs((x - base) * 100).toFixed(2)} п.п.)</span>`;
     // [название, традиционный, модель, модель лучше?] либо ['group', заголовок]
     const rows = [
@@ -587,7 +589,9 @@ function renderPortfolioPanel() {
       ['Доля спроса, обслуженная сетью', fmtPp(m.traditional.served_share_of_demand, b.served_share_of_demand), fmtPp(m.model.served_share_of_demand, b.served_share_of_demand), m.model.served_share_of_demand >= m.traditional.served_share_of_demand],
       ['Отказы из-за очереди (все посты заняты)', fmtPct(m.traditional.queue_loss_share), fmtPct(m.model.queue_loss_share), m.model.queue_loss_share <= m.traditional.queue_loss_share],
       ['Среднее ожидание в пиковый час, мин', fmtNum(m.traditional.wait_min_peak), fmtNum(m.model.wait_min_peak), m.model.wait_min_peak <= m.traditional.wait_min_peak],
-      ['group', 'Подключение к сети'],
+      ['group', 'Вложения и подключение к сети'],
+      ['Вложения: оборудование + подключение + площадка', `${fmtNum(capex(pf.traditional.picks) / 1e6)} млн ₽`, `${fmtNum(capex(modelPicks) / 1e6)} млн ₽`, capex(modelPicks) <= capex(pf.traditional.picks)],
+      ['Новых клиентов сети в сутки на 1 млн ₽ (среднее 2026 и 2030)', fmtNum(perMln(pf.traditional.picks), 2), fmtNum(perMln(modelPicks), 2), perMln(modelPicks) >= perMln(pf.traditional.picks)],
       ['Площадок с льготным подключением (класс А)', `${pf.traditional.picks.filter((p) => p.cls === 'А').length} из ${pf.traditional.picks.length}`, `${modelPicks.filter((p) => p.cls === 'А').length} из ${modelPicks.length}`, modelPicks.filter((p) => p.cls === 'А').length / Math.max(1, modelPicks.length) >= pf.traditional.picks.filter((p) => p.cls === 'А').length / Math.max(1, pf.traditional.picks.length)],
     ];
     compare.innerHTML = `<table class="compare-table">
@@ -611,7 +615,7 @@ function renderPortfolioPanel() {
         <td>${escapeHtml(p.district || '—')}</td>
         <td class="num"><strong>+${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}</strong></td>
         <td class="num">${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)}<div class="npv-range">рост ×${((p.sessions_2030 ?? 0) / Math.max(0.01, p.sessions_2026 ?? 0)).toFixed(2)}</div></td>
-        <td>${escapeHtml(p.omega)}<div class="npv-range">класс ${escapeHtml(p.cls || '—')}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
+        <td>${escapeHtml(p.omega)} · класс ${escapeHtml(p.cls || '—')}<div class="npv-range">${p.conn_cost_high_rub ? `подключение ${(p.conn_cost_low_rub / 1e6).toFixed(1)}–${(p.conn_cost_high_rub / 1e6).toFixed(1)} млн ₽` : ''}${p.dist04_m ? `, ТП в ${p.dist04_m} м` : ''}</div></td>
       </tr>`
     )
     .join('');
@@ -628,7 +632,7 @@ function renderPortfolioPanel() {
   document.getElementById('portfolio-footnote').textContent =
     (pf.model?.stoppedReason ? `Модель остановилась раньше ${pf.N} станций: ${pf.model.stoppedReason}. ` : '') +
     (pf.traditional?.dropped?.length ? `Традиционный подход потерял ${pf.traditional.dropped.length} площадк(и): класс подключения В выяснился поздно. ` : '') +
-    'Места выбраны по новым для сети клиентам — сессиям, которых без станции сеть не обслужила бы (люди уезжали без зарядки или уходили из-за очереди), без переманенных у соседей; среднее за 2026 и 2030. Оборудование одинаковое у обеих стратегий — сравнивается только место. Класс А — известная ТП 0.4 кВ ближе 200 м (OSM); «А|Б» — ТП в данных нет. Клик по строке — полный паспорт площадки.';
+    'Места выбраны по новым для сети клиентам на 1 млн ₽ вложений: новые клиенты — сессии, которых без станции сеть не обслужила бы (уезжали без зарядки или уходили из-за очереди), без переманенных у соседей, среднее за 2026 и 2030; вложения — оборудование + подключение + площадка, без тарифов. Оборудование одинаковое у обеих стратегий, поэтому разница — в месте и цене подключения: класс А (ТП 0.4 кВ Россетей ближе 200 м, ~5–10 тыс. ₽/кВт) против Б (~50–80 тыс. ₽/кВт); «А|Б» — ТП в данных нет, считаем по Б. Клик по строке — полный паспорт площадки.';
 }
 
 main().catch((err) => {
