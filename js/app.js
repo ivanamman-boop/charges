@@ -432,15 +432,15 @@ async function runTests() {
   const panel = document.getElementById('test-results');
   btn.disabled = true;
   panel.hidden = false;
-  panel.innerHTML = '<p>Считаю Т1-Т8…</p>';
+  panel.innerHTML = '<p>Считаю тесты Т1–Т10 (около минуты)…</p>';
   await new Promise((r) => setTimeout(r, 0));
 
   const rows = [];
   const renderRows = () => {
     panel.innerHTML = rows
       .map((r) => {
-        const cls = r.pass ? 'pass' : r.soft ? 'soft-fail' : 'fail';
-        const mark = r.pass ? '✓' : r.soft ? '⚠' : '✗';
+        const cls = r.pass ? 'pass' : r.pending ? 'pending' : r.soft ? 'soft-fail' : 'fail';
+        const mark = r.pass ? '✓' : r.pending ? '⏳' : r.soft ? '⚠' : '✗';
         return `<div class="test-row"><span class="test-status ${cls}">${mark}</span><div><div>${r.name}</div><div class="test-detail">${r.detail}</div></div></div>`;
       })
       .join('');
@@ -459,9 +459,13 @@ async function runTests() {
         renderRows();
       },
     });
-    const hardFails = results.filter((r) => !r.pass && !r.soft);
-    const softFails = results.filter((r) => !r.pass && r.soft);
-    const summary = hardFails.length === 0 ? `Все обязательные тесты пройдены (${results.length - softFails.length}/${results.length - softFails.length}${softFails.length ? `, +${softFails.length} ожидаемо мягких` : ''})` : `${hardFails.length} тест(ов) провалено: ${hardFails.map((r) => r.id).join(', ')}`;
+    const run = results.filter((r) => !r.pending);
+    const hardFails = run.filter((r) => !r.pass && !r.soft);
+    const softFails = run.filter((r) => !r.pass && r.soft);
+    const pending = results.filter((r) => r.pending);
+    const summary =
+      (hardFails.length === 0 ? `Пройдены все проверки (${run.length - softFails.length} из ${run.length - softFails.length}${softFails.length ? `, ещё ${softFails.length} — ожидаемо мягкий результат` : ''})` : `${hardFails.length} тест(ов) провалено: ${hardFails.map((r) => r.id).join(', ')}`) +
+      (pending.length ? `. Ждут данных от заказчика: ${pending.map((r) => r.id.replace('T', 'Т')).join(', ')}` : '');
     panel.innerHTML += `<div class="test-summary" style="color:${hardFails.length ? '#c0392b' : '#2e7d32'}">${summary}</div>`;
   } catch (err) {
     console.error(err);
@@ -616,8 +620,7 @@ function renderPortfolioPanel() {
   const modelPicks = pf.model?.picks || [];
   const running = pf.status !== 'done';
   document.getElementById('portfolio-subtitle').textContent =
-    `${modelPicks.length} площадок внутри МКАД, выбранных моделью из ${pf.N ? `пула 300 реальных мест (парковки, ТЦ, АЗС, бизнес-центры, гостиницы)` : 'пула'}: по шагу за раз, с пересчётом всей сети после каждой — следующая точка учитывает уже поставленные.` +
-    (running ? ' Расчёт ещё идёт — обновите страницу позже.' : '');
+    'Модель выбрала 10 мест внутри МКАД и сравнила их с тем, как места выбирают сейчас.' + (running ? ' Расчёт ещё идёт — обновите страницу позже.' : '');
 
   const my = pf.metrics_by_year;
   const compare = document.getElementById('portfolio-compare');
