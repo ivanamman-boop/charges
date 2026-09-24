@@ -573,18 +573,6 @@ header .eyebrow {
   min-height: 2px;
 }
 
-#data-footer {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.78rem;
-  color: var(--ink-muted);
-}
-
-#data-footer div {
-  margin-bottom: 0.15rem;
-}
-
 #candidate-list-section {
   margin-top: 1.75rem;
   padding: 1rem 1.15rem;
