@@ -539,6 +539,7 @@ async function main() {
     if (e.target.checked && state.layers.slowSource.getFeatures().length === 0) {
       const d = await fetch('data/stations-slow.json').then((r) => r.json());
       renderSlowStations({ slowSource: state.layers.slowSource, stations: d.stations });
+      document.getElementById('slow-count').textContent = ` (${d.stations.length})`;
     }
     state.layers.slowLayer.setVisible(e.target.checked);
     document.getElementById('legend-slow').hidden = !e.target.checked;
