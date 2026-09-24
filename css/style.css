@@ -1206,3 +1206,702 @@ header .eyebrow {
   line-height: 1.2;
   vertical-align: bottom;
 }
+
+/* =====================================================================
+   Редизайн 25.09: понятность. Перекрывает раскладку выше.
+   ===================================================================== */
+body {
+  max-width: 1520px;
+  padding: 0 1.5rem 3rem;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- Шапка --- */
+header.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+  padding: 1.6rem 0 1.3rem;
+  border-bottom: none;
+  margin-bottom: 0.4rem;
+}
+
+header.hero h1 {
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0.2rem 0 0.6rem;
+}
+
+header.hero .lead {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+  margin: 0;
+  max-width: 60ch;
+}
+
+.hero-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.hero-kpis .kpi {
+  padding: 0.85rem 0.9rem;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.hero-kpis .kpi:first-child {
+  background: linear-gradient(160deg, #6d28d9, #4c1d95);
+  border-color: transparent;
+  color: #fff;
+}
+
+.kpi-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-darker);
+}
+
+.hero-kpis .kpi:first-child .kpi-value {
+  color: #fff;
+}
+
+.kpi-label {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--ink-secondary);
+}
+
+.kpi-label span {
+  color: var(--ink-muted);
+}
+
+.hero-kpis .kpi:first-child .kpi-label,
+.hero-kpis .kpi:first-child .kpi-label span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.kpi-cta {
+  grid-column: 1 / -1;
+  justify-self: end;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.kpi-cta:hover {
+  text-decoration: underline;
+}
+
+/* --- Загрузка страницы --- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  font-style: normal;
+  padding: 5rem 1rem;
+}
+
+.loading-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 4px solid var(--accent-soft-2);
+  border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Раскладка: карта + паспорт --- */
+#layout:not([hidden]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 430px;
+  gap: 1.1rem;
+  align-items: start;
+}
+
+#map-col {
+  min-width: 0;
+}
+
+/* --- Панель управления над картой --- */
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.9rem 1.2rem;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.7rem;
+}
+
+#controls .ctl-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+#controls .ctl-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+#controls .ctl-label b {
+  color: var(--ink);
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#controls .ctl-slider input {
+  width: 150px;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--page);
+  border: 1px solid var(--border);
+}
+
+.segmented button {
+  border: none;
+  background: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-secondary);
+}
+
+.segmented button:hover {
+  color: var(--ink);
+}
+
+.segmented button.active {
+  background: var(--surface);
+  color: var(--accent-darker);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(30, 22, 48, 0.12);
+}
+
+#controls .ctl-row {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+#controls label.chip-toggle {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem 0.3rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--page);
+  font-size: 0.8rem;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+#controls label.chip-toggle:has(input:checked) {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft-2);
+}
+
+#controls label.chip-toggle input {
+  accent-color: var(--accent);
+  margin: 0;
+}
+
+#controls label.chip-toggle .pin {
+  min-width: 18px;
+  height: 18px;
+  font-size: 0.62rem;
+}
+
+#recompute-status {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+#recompute-status[data-kind="busy"]::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  border: 2px solid var(--accent-soft-2);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+  vertical-align: -1px;
+}
+
+#recompute-status[data-kind="ok"]::before {
+  content: "✓ ";
+  color: var(--good);
+}
+
+#recompute-status[data-kind="warn"] {
+  color: var(--warning);
+}
+
+/* --- Карта --- */
+#map {
+  height: max(560px, calc(100vh - 250px));
+}
+
+.map-hint {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(30, 22, 48, 0.88);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(30, 22, 48, 0.25);
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.4s ease;
+}
+
+.map-hint.gone {
+  opacity: 0;
+}
+
+/* --- Колонка паспорта --- */
+#passport-col {
+  position: sticky;
+  top: 12px;
+  min-width: 0;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  padding: 1rem 1.05rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#passport-placeholder {
+  color: var(--ink-secondary);
+  font-size: 0.88rem;
+}
+
+.empty-title {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+
+.empty-steps {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.6rem;
+  line-height: 1.45;
+}
+
+.empty-steps li::marker {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.empty-note {
+  margin-top: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  font-size: 0.8rem;
+  color: var(--accent-darker);
+}
+
+.notice {
+  margin-bottom: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: #fdf3d7;
+  color: #7a5a07;
+  font-size: 0.82rem;
+}
+
+#add-to-list-btn {
+  order: 10;
+  margin: 0.9rem 0 0;
+  background: var(--surface);
+  color: var(--accent-dark);
+  border: 1.5px solid var(--accent);
+  box-shadow: none;
+}
+
+#add-to-list-btn:hover:not(:disabled) {
+  background: var(--accent-soft);
+}
+
+#add-to-list-btn:disabled {
+  display: none;
+}
+
+/* --- Паспорт --- */
+.pp-head {
+  margin-bottom: 0.9rem;
+}
+
+.pp-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.pp-where {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 0.15rem;
+}
+
+.pp-cond {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-top: 0.1rem;
+}
+
+#passport h3 {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.pp-note {
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  margin: 0.35rem 0 0.5rem;
+}
+
+.pp-sentence {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+  margin: 0.2rem 0 0.6rem;
+}
+
+.pp-sentence b {
+  color: var(--ink);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.tile {
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px;
+  background: var(--page);
+  border: 1px solid var(--border);
+}
+
+.tile-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.tile-label {
+  font-size: 0.74rem;
+  color: var(--ink-secondary);
+  margin-top: 0.1rem;
+}
+
+.bar-chart {
+  height: 90px;
+  gap: 3px;
+  margin-top: 0.4rem;
+}
+
+.bar-chart .bar {
+  background: var(--accent-soft-2);
+  border-radius: 3px 3px 0 0;
+}
+
+.bar-chart .bar.bar-peak {
+  background: #a78bfa;
+}
+
+.bar-chart .bar.bar-now {
+  background: var(--accent);
+}
+
+.bar-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  margin-top: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.nb-list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nb-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.nb-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.nb-name small {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+}
+
+.nb-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--page);
+  overflow: hidden;
+}
+
+.nb-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #e8837a;
+}
+
+.nb-val {
+  font-weight: 700;
+  color: var(--critical);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+}
+
+.nb-more summary,
+.equip-details summary,
+details.tech summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  margin: 0.5rem 0 0.3rem;
+}
+
+details.tech {
+  margin-top: 0.4rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+details.tech .metric-row {
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+}
+
+.skeleton {
+  height: 110px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--page) 0%, #efedf6 50%, var(--page) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton.short {
+  height: 54px;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* --- Секции под картой --- */
+.card-section {
+  margin-top: 1.5rem;
+  padding: 1.3rem 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card-section h2 {
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+  margin: 0.15rem 0 0.35rem;
+}
+
+.section-lead {
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  max-width: 80ch;
+  margin: 0;
+}
+
+.table-title {
+  font-size: 1rem;
+  margin: 1.4rem 0 0.4rem;
+}
+
+.table-title .hint {
+  font-weight: 400;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.info-card {
+  padding: 0.9rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  align-self: start;
+}
+
+.info-card summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+  list-style: none;
+}
+
+.info-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.info-card summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 1.1em;
+  color: var(--accent);
+  transition: transform 0.15s ease;
+}
+
+.info-card[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.how-list,
+.data-list {
+  margin: 0.8rem 0 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+.info-card .term-list {
+  margin-top: 0.8rem;
+  font-size: 0.84rem;
+}
+
+#tests-card #run-tests-btn {
+  margin: 0.4rem 0 0;
+}
+
+@media (max-width: 1100px) {
+  header.hero {
+    grid-template-columns: 1fr;
+  }
+  #layout:not([hidden]) {
+    grid-template-columns: 1fr;
+  }
+  #passport-col {
+    position: static;
+    max-height: none;
+  }
+  #map {
+    height: 60vh;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 0 1rem 2rem;
+  }
+  header.hero h1 {
+    font-size: 1.5rem;
+  }
+  .hero-kpis {
+    grid-template-columns: 1fr;
+  }
+  .map-hint {
+    white-space: normal;
+    width: 85%;
+    text-align: center;
+  }
+  #map-legend {
+    display: none;
+  }
+}
+
+.loading[hidden] {
+  display: none;
+}
