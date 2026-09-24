@@ -24,8 +24,10 @@ async function loadData() {
   };
 }
 
-function setStatus(msg) {
-  document.getElementById('recompute-status').textContent = msg;
+function setStatus(msg, kind = 'ok') {
+  const el = document.getElementById('recompute-status');
+  el.textContent = msg;
+  el.dataset.kind = kind;
 }
 
 const state = {
@@ -126,7 +128,7 @@ function getBaseline(year, season, dayType) {
 }
 
 async function recomputeFullEquilibrium() {
-  setStatus('считаю…');
+  setStatus('Пересчитываю сеть…', 'busy');
   await new Promise((r) => setTimeout(r, 0)); // дать браузеру отрисовать статус
 
   const { dayType, season, year, scenario } = readControls();
@@ -153,16 +155,15 @@ async function recomputeFullEquilibrium() {
   }
 
   const ms = Math.round(performance.now() - t0);
-  setStatus(`готово за ${ms} мс, ${state.fullResult.it} итераций${state.fullResult.converged ? '' : ' (не сошлось!)'}`);
+  console.log(`равновесие сети: ${ms} мс, ${state.fullResult.it} итераций`);
+  setStatus(state.fullResult.converged ? 'Сеть пересчитана' : 'Расчёт не сошёлся — результат приблизительный', state.fullResult.converged ? 'ok' : 'warn');
 
   rerenderMapForHour();
 
+  // Выбранная точка остаётся выбранной - её прогноз пересчитывается под
+  // новые условия (день, сезон, год, сценарий), а не сбрасывается.
   if (state.candidate) {
-    document.getElementById('passport').hidden = true;
-    document.getElementById('passport-placeholder').hidden = false;
-    document.getElementById('passport-placeholder').textContent = 'Условия сети изменились — кликните по карте ещё раз.';
-    state.candidate = null;
-    document.getElementById('add-to-list-btn').disabled = true;
+    placeCandidateAndShowPassport(state.candidate.lat, state.candidate.lon, state.activeListId);
   }
 
   // Баллы списка считаются на условиях момента добавления (спрос/сеть) -
@@ -206,9 +207,14 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
   state.localResult = local;
 
   document.getElementById('passport-placeholder').hidden = true;
+  document.querySelector('#passport-placeholder .notice')?.remove();
   const passportEl = document.getElementById('passport');
   passportEl.hidden = false;
-  const { neighbors } = renderPassport({ container: passportEl, local, baselineS: state.baselineS, candidate, stations: state.stations });
+  const { hour } = readControls();
+  const nearestCell = state.cells.reduce((best, c) => ((c.lat - lat) ** 2 + ((c.lon - lon) * 0.56) ** 2 < (best.lat - lat) ** 2 + ((best.lon - lon) * 0.56) ** 2 ? c : best));
+  const scenarioLabel = { base: 'базовый рост', conservative: 'медленный рост', optimistic: 'быстрый рост' }[scenario];
+  const conditions = `${dayType === 'weekend' ? 'Выходные' : 'Будни'} · ${season === 'winter' ? 'зима' : 'лето'} · ${year} · ${scenarioLabel}`;
+  const { neighbors } = renderPassport({ container: passportEl, local, baselineS: state.baselineS, candidate, stations: state.stations, district: nearestCell.district, hour, conditions });
 
   renderNeighbors({
     neighborsSource: state.layers.neighborsSource,
@@ -306,7 +312,10 @@ function onMapClick(latlng) {
     document.getElementById('passport').hidden = true;
     const ph = document.getElementById('passport-placeholder');
     ph.hidden = false;
-    ph.textContent = 'Точка за МКАДом — вне модели: за кольцом не собраны данные о станциях, поэтому спрос и сеть там не считаются. Кликните внутри МКАД.';
+    ph.querySelector('.notice')?.remove();
+    ph.insertAdjacentHTML('afterbegin', '<div class="notice">Эта точка за МКАДом. Там не собраны данные о станциях, поэтому модель её не считает — кликните внутри пунктирного кольца.</div>');
+    state.candidate = null;
+    document.getElementById('add-to-list-btn').disabled = true;
     return;
   }
   placeCandidateAndShowPassport(latlng.lat, latlng.lng, null);
@@ -471,6 +480,7 @@ async function main() {
   state.layers = initMap();
   renderCentersLayer({ centersSource: state.layers.centersSource, centers: state.centers });
   state.layers.map.on('singleclick', (evt) => {
+    document.getElementById('map-hint').classList.add('gone');
     // Клик по кластеру станций (несколько под курсором на текущем зуме) -
     // приближаем карту к его границам вместо постановки кандидата.
     const extent = clusterExtentAtPixel(state.layers.map, state.layers.stationsLayer, evt.pixel);
@@ -496,7 +506,27 @@ async function main() {
   document.getElementById('year-slider').addEventListener('input', () => {
     document.getElementById('year-label').textContent = document.getElementById('year-slider').value;
   });
-  document.getElementById('recompute-btn').addEventListener('click', recomputeFullEquilibrium);
+  // Сегменты (Будни/Выходные, Лето/Зима, рост ЭМ) управляют скрытыми
+  // <select>, которые читает readControls(); смена условий сразу
+  // пересчитывает сеть - отдельной кнопки больше нет.
+  document.querySelectorAll('.segmented').forEach((seg) => {
+    const select = document.getElementById(seg.dataset.target);
+    seg.querySelectorAll('button').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        if (select.value === btn.dataset.value) return;
+        seg.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b === btn));
+        select.value = btn.dataset.value;
+        select.dispatchEvent(new Event('change'));
+      })
+    );
+  });
+  let recomputeTimer = null;
+  const scheduleRecompute = () => {
+    clearTimeout(recomputeTimer);
+    recomputeTimer = setTimeout(recomputeFullEquilibrium, 120);
+  };
+  ['day-type-select', 'season-select', 'scenario-select'].forEach((id) => document.getElementById(id).addEventListener('change', scheduleRecompute));
+  document.getElementById('year-slider').addEventListener('change', scheduleRecompute);
   document.getElementById('run-tests-btn').addEventListener('click', runTests);
   document.getElementById('add-to-list-btn').addEventListener('click', addCurrentCandidateToList);
   wireCandidateListSorting();
@@ -556,6 +586,29 @@ async function loadPortfolio() {
   document.getElementById('toggle-trad').addEventListener('change', redraw);
   redraw();
   renderPortfolioPanel();
+  renderHeroKpis();
+}
+
+// Три главные цифры результата в шапке - из data/portfolio.json, чтобы после
+// пересчёта рекомендаций они обновлялись сами.
+function renderHeroKpis() {
+  const pf = state.portfolio;
+  const my = pf.metrics_by_year?.[2026];
+  if (!my || !pf.model?.picks?.length) return;
+  const ex = (k) => my[k].sessions_per_day_network - my.baseline.sessions_per_day_network;
+  const capex = (picks) => picks.reduce((a, p) => a + (p.capex_rub || 0), 0);
+  const perMln = (picks) => picks.reduce((a, p) => a + ((p.new_demand_2026 || 0) + (p.new_demand_2030 || 0)) / 2, 0) / Math.max(1e-9, capex(picks) / 1e6);
+  const mPicks = pf.model.picks;
+  const tPicks = pf.traditional.picks;
+  const ratio = perMln(tPicks) > 0 ? perMln(mPicks) / perMln(tPicks) : null;
+  const clsA = mPicks.filter((p) => p.cls === 'А').length;
+  const el = document.getElementById('hero-kpis');
+  el.innerHTML = `
+    <div class="kpi"><div class="kpi-value">+${Math.round(ex('model'))}</div><div class="kpi-label">новых клиентов в сутки дают ${mPicks.length} станций модели<br><span>при традиционном выборе мест — ${ex('traditional') >= 0 ? '+' : '−'}${Math.abs(Math.round(ex('traditional')))}</span></div></div>
+    <div class="kpi"><div class="kpi-value">${ratio ? `×${ratio.toFixed(1)}` : '—'}</div><div class="kpi-label">больше новых клиентов на каждый вложенный рубль<br><span>${(capex(mPicks) / 1e6).toFixed(0)} млн ₽ вместо ${(capex(tPicks) / 1e6).toFixed(0)} млн ₽</span></div></div>
+    <div class="kpi"><div class="kpi-value">${clsA}/${mPicks.length}</div><div class="kpi-label">мест с дешёвым подключением к сетям Россетей<br><span>подстанция 0.4 кВ ближе 200 м</span></div></div>
+    <a class="kpi-cta" href="#portfolio-section">Смотреть рекомендованные места ↓</a>`;
+  el.hidden = false;
 }
 
 function renderPortfolioPanel() {
@@ -581,18 +634,18 @@ function renderPortfolioPanel() {
     // [название, традиционный, модель, модель лучше?] либо ['group', заголовок]
     const rows = [
       ['group', 'Новые клиенты сети: дополнительно обслужено, сессий в сутки'],
-      ...years.map((y) => [`${y} год — без новых станций сеть обслуживает ${fmtPct(my[y].baseline.served_share_of_demand)} спроса${y === 2028 ? ' (плановые станции города почти закрывают дефицит)' : ''}`, sign(ex(y, 'traditional')), sign(ex(y, 'model')), ex(y, 'model') >= ex(y, 'traditional')]),
+      ...years.map((y) => [`${y} год — без новых станций сеть обслуживает ${fmtPct(my[y].baseline.served_share_of_demand)} спроса${y === 2028 ? ' (плановые станции города почти закрывают дефицит)' : ''}`, sign(ex(y, 'traditional')), sign(ex(y, 'model')), ex(y, 'model') > ex(y, 'traditional')]),
       ['group', 'Загрузка новых станций (2028)'],
-      ['Средняя загрузка постов', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean >= m.traditional.U_new_mean],
-      ['Станций с загрузкой ниже 20%', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 <= m.traditional.share_new_U_below_20],
+      ['Средняя загрузка постов', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean > m.traditional.U_new_mean],
+      ['Станций с загрузкой ниже 20%', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 < m.traditional.share_new_U_below_20],
       ['group', 'Доступность для водителей (2028)'],
-      ['Доля спроса, обслуженная сетью', fmtPp(m.traditional.served_share_of_demand, b.served_share_of_demand), fmtPp(m.model.served_share_of_demand, b.served_share_of_demand), m.model.served_share_of_demand >= m.traditional.served_share_of_demand],
-      ['Отказы из-за очереди (все посты заняты)', fmtPct(m.traditional.queue_loss_share), fmtPct(m.model.queue_loss_share), m.model.queue_loss_share <= m.traditional.queue_loss_share],
-      ['Среднее ожидание в пиковый час, мин', fmtNum(m.traditional.wait_min_peak), fmtNum(m.model.wait_min_peak), m.model.wait_min_peak <= m.traditional.wait_min_peak],
+      ['Доля спроса, обслуженная сетью', fmtPp(m.traditional.served_share_of_demand, b.served_share_of_demand), fmtPp(m.model.served_share_of_demand, b.served_share_of_demand), m.model.served_share_of_demand > m.traditional.served_share_of_demand],
+      ['Отказы из-за очереди (все посты заняты)', fmtPct(m.traditional.queue_loss_share), fmtPct(m.model.queue_loss_share), m.model.queue_loss_share < m.traditional.queue_loss_share - 0.0005],
+      ['Среднее ожидание в пиковый час, мин', fmtNum(m.traditional.wait_min_peak), fmtNum(m.model.wait_min_peak), m.model.wait_min_peak < m.traditional.wait_min_peak - 0.05],
       ['group', 'Вложения и подключение к сети'],
-      ['Вложения: оборудование + подключение + площадка', `${fmtNum(capex(pf.traditional.picks) / 1e6)} млн ₽`, `${fmtNum(capex(modelPicks) / 1e6)} млн ₽`, capex(modelPicks) <= capex(pf.traditional.picks)],
-      ['Новых клиентов сети в сутки на 1 млн ₽ (среднее 2026 и 2030)', fmtNum(perMln(pf.traditional.picks), 2), fmtNum(perMln(modelPicks), 2), perMln(modelPicks) >= perMln(pf.traditional.picks)],
-      ['Площадок с льготным подключением (класс А)', `${pf.traditional.picks.filter((p) => p.cls === 'А').length} из ${pf.traditional.picks.length}`, `${modelPicks.filter((p) => p.cls === 'А').length} из ${modelPicks.length}`, modelPicks.filter((p) => p.cls === 'А').length / Math.max(1, modelPicks.length) >= pf.traditional.picks.filter((p) => p.cls === 'А').length / Math.max(1, pf.traditional.picks.length)],
+      ['Вложения: оборудование + подключение + площадка', `${fmtNum(capex(pf.traditional.picks) / 1e6)} млн ₽`, `${fmtNum(capex(modelPicks) / 1e6)} млн ₽`, capex(modelPicks) < capex(pf.traditional.picks)],
+      ['Новых клиентов сети в сутки на 1 млн ₽ (среднее 2026 и 2030)', fmtNum(perMln(pf.traditional.picks), 2), fmtNum(perMln(modelPicks), 2), perMln(modelPicks) > perMln(pf.traditional.picks)],
+      ['Площадок с льготным подключением (класс А)', `${pf.traditional.picks.filter((p) => p.cls === 'А').length} из ${pf.traditional.picks.length}`, `${modelPicks.filter((p) => p.cls === 'А').length} из ${modelPicks.length}`, modelPicks.filter((p) => p.cls === 'А').length / Math.max(1, modelPicks.length) > pf.traditional.picks.filter((p) => p.cls === 'А').length / Math.max(1, pf.traditional.picks.length)],
     ];
     compare.innerHTML = `<table class="compare-table">
       <thead><tr><th>Базовый сценарий, средний день года · ${escapeHtml(pf.equipment || 'DC150-2')} у обеих стратегий</th><th class="col-trad"><span class="pin pin-trad">■</span> Традиционный подход</th><th class="col-model"><span class="pin pin-model">★</span> По модели</th></tr></thead>
@@ -632,7 +685,7 @@ function renderPortfolioPanel() {
   document.getElementById('portfolio-footnote').textContent =
     (pf.model?.stoppedReason ? `Модель остановилась раньше ${pf.N} станций: ${pf.model.stoppedReason}. ` : '') +
     (pf.traditional?.dropped?.length ? `Традиционный подход потерял ${pf.traditional.dropped.length} площадк(и): класс подключения В выяснился поздно. ` : '') +
-    'Места выбраны по новым для сети клиентам на 1 млн ₽ вложений: новые клиенты — сессии, которых без станции сеть не обслужила бы (уезжали без зарядки или уходили из-за очереди), без переманенных у соседей, среднее за 2026 и 2030; вложения — оборудование + подключение + площадка, без тарифов. Оборудование одинаковое у обеих стратегий, поэтому разница — в месте и цене подключения: класс А (ТП 0.4 кВ Россетей ближе 200 м, ~5–10 тыс. ₽/кВт) против Б (~50–80 тыс. ₽/кВт); «А|Б» — ТП в данных нет, считаем по Б. Клик по строке — полный паспорт площадки.';
+    'Места выбраны по новым для сети клиентам на 1 млн ₽ вложений: новые клиенты — сессии, которых без станции сеть не обслужила бы (уезжали без зарядки или уходили из-за очереди), без переманенных у соседей, среднее за 2026 и 2030; вложения — оборудование + подключение + площадка, без тарифов. Оборудование одинаковое у обеих стратегий (DC150-2), поэтому разница — в месте и цене подключения; в прогнозе отдельной точки модель ещё и подбирает для неё лучший вариант оборудования — он может отличаться. Класс подключения: класс А (ТП 0.4 кВ Россетей ближе 200 м, ~5–10 тыс. ₽/кВт) против Б (~50–80 тыс. ₽/кВт); «А|Б» — ТП в данных нет, считаем по Б. Клик по строке — полный паспорт площадки.';
 }
 
 main().catch((err) => {

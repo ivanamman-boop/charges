@@ -3,135 +3,78 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Модель размещения быстрых ЭЗС — прототип</title>
+  <title>Где ставить быстрые зарядки — Москва</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@10.10.0/ol.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <div class="eyebrow">МТПС · Проблема №03 · Росатом Сеть зарядных станций</div>
-    <h1>Модель размещения быстрых ЭЗС</h1>
-    <p class="subtitle">Москва внутри МКАД. Клик по карте — паспорт площадки: спрос, очередь, соседи, оборудование, подключение и рост до 2030. Станции — реальные быстрые (OSM + Яндекс.Карты, 417 шт. внутри МКАД; медленные AC 22 кВт в модель не входят) + 800 плановых городских к 2030, центры питания — реальные координаты (OSM, 227 шт., резерв мощности — оценка), спрос по ячейкам — из OSM (здания, POI, дороги), суточный профиль — по реальным DC-сессиям (Dundee; московских открытых данных нет).</p>
+  <header class="hero">
+    <div class="hero-text">
+      <div class="eyebrow">МТПС · Проблема №03 · Росатом Сеть зарядных станций</div>
+      <h1>Где ставить быстрые зарядки в Москве</h1>
+      <p class="lead">Модель считает, сколько <b>новых клиентов</b> получит станция в любой точке внутри МКАД — с учётом соседних станций, времени суток, роста числа электромобилей до 2030 года и подключения к сетям Россетей.</p>
+    </div>
+    <div class="hero-kpis" id="hero-kpis" hidden></div>
   </header>
 
-  <details id="glossary">
-    <summary>Как читать эту страницу — обозначения и переменные</summary>
-
-    <div class="glossary-body">
-      <section>
-        <h3>Карта</h3>
-        <dl class="term-list">
-          <div><dt><span class="swatch swatch-gradient"></span> Цвет станции</dt><dd>загрузка станции U(h) в выбранный час — от зелёного (низкая, ~0%) до красного (высокая, ≥40%)</dd></div>
-          <div><dt><span class="swatch swatch-size"></span> Размер кружка станции</dt><dd>число зарядных постов на станции — больше постов, крупнее кружок</dd></div>
-          <div><dt><span class="swatch swatch-star">⚡</span> Молния</dt><dd>центр питания (подстанция) — координаты реальные (OSM), резерв мощности в МВА — оценка по классу напряжения, не измеренные данные Россетей</dd></div>
-          <div><dt><span class="swatch swatch-heat"></span> Фиолетовые зоны</dt><dd>спрос на зарядку в выбранный час, как на карте спроса у таксистов: чем темнее шестиугольник, тем больше заявок на км². Шкала привязана к пиковому часу дня — ночью зоны гаснут, в пик загораются. Не закрашено — спрос ниже обычного</dd></div>
-          <div><dt><span class="swatch swatch-star">★</span> Жёлтая звезда</dt><dd>точка-кандидат — место, куда вы кликнули на карте</dd></div>
-          <div><dt><span class="swatch swatch-neighbor-red"></span>/<span class="swatch swatch-neighbor-blue"></span> Красные/синие кружки</dt><dd>появляются после клика: соседние станции, теряющие (красный) или получающие (синий) сессии из-за нового кандидата; размер ∝ величине изменения ΔS</dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h3>Панель управления</h3>
-        <dl class="term-list">
-          <div><dt>Час</dt><dd>в какой час суток показывается карта и паспорт — загрузка станций сильно меняется в течение дня</dd></div>
-          <div><dt>Тип дня</dt><dd>будни или выходной — у них разный суточный профиль спроса</dd></div>
-          <div><dt>Сезон</dt><dd>лето/зима — зимой заряд обычно тратится быстрее (холод), спрос на зарядку выше</dd></div>
-          <div><dt>Год</dt><dd>2026-2030 — спрос растёт по мере роста парка электромобилей</dd></div>
-          <div><dt>Сценарий</dt><dd>базовый/консервативный/оптимистичный темп роста спроса (только для базового считается полный подбор оборудования)</dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h3>Паспорт площадки — кандидат</h3>
-        <dl class="term-list">
-          <div><dt>S_new</dt><dd>сколько зарядных сессий в сутки соберёт станция-кандидат в равновесии сети (модуль 4)</dd></div>
-          <div><dt>Доля уехавших (p_K)</dt><dd>доля машин, приехавших к станции, которые развернулись не заряжаясь — все посты заняты, очередь переполнена (модуль 3, M/M/c/K)</dd></div>
-          <div><dt>Acc (доступность)</dt><dd>1 − p_K — вероятность того, что машину примут без отказа</dd></div>
-          <div><dt>W</dt><dd>среднее время ожидания в очереди перед свободным постом, минуты</dd></div>
-          <div><dt>U</dt><dd>загрузка постов станции — доля времени, когда посты заняты</dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h3>Суточный профиль</h3>
-        <dl class="term-list">
-          <div><dt>λ^srv</dt><dd>фактически обслуженный спрос (сессий/час) по часам суток — уже за вычетом отказов из-за очереди</dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h3>Влияние на соседей (раздел 6.3)</h3>
-        <dl class="term-list">
-          <div><dt>Каннибализация</dt><dd>доля новых сессий кандидата, которая на самом деле "отжата" у существующих станций сети — не новый спрос, а перераспределённый</dd></div>
-          <div><dt>Новый спрос</dt><dd>доля сессий, которых раньше в сети вообще не было (клиент уезжал без зарядки или заряжался вне сети) — кандидат их создаёт</dd></div>
-          <div><dt>ΔS</dt><dd>изменение числа сессий у конкретной соседней станции: плюс — станция выигрывает, минус — теряет спрос кандидату</dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h3>Оборудование и подключение</h3>
-        <dl class="term-list">
-          <div><dt>Вариант оборудования</dt><dd>мощность станции × число постов из каталога (DC60-1 … DC300-4); рекомендуем тот, что даёт больше всего новых для сети клиентов на 1 млн ₽ вложений (оборудование + подключение + площадка)</dd></div>
-          <div><dt>Новые для сети клиенты</dt><dd>сессии, которых без этой станции сеть не обслужила бы (люди уезжали без зарядки или уходили из-за очереди), — без переманенных у соседей</dd></div>
-          <div><dt>Рост 2026 → 2030</dt><dd>сессий в сутки сейчас и к 2030 по прогнозу: парк электромобилей растёт, а город добавляет плановые станции</dd></div>
-          <div><dt>Принимает быстро</dt><dd>доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 минут</dd></div>
-          <div><dt>Класс подключения А/Б/В</dt><dd>насколько дорого и долго подключиться к сетям Россетей. А — трансформаторная подстанция 0.4 кВ ближе 200 м: ~5–10 тыс. ₽ за кВт, 6–9 мес.; Б — дальше или неизвестно: ~50–80 тыс. ₽ за кВт, 9–12 мес.; В — на центре питания нет резерва, подключить нельзя</dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h3>Список площадок (справа снизу)</h3>
-        <dl class="term-list">
-          <div><dt>Балл</dt><dd>среднее трёх критериев ниже, 0-100</dd></div>
-          <div><dt>Мощность</dt><dd>свободная мощность ближайшего центра питания (0-300 кВт → 0-100 баллов)</dd></div>
-          <div><dt>Трафик</dt><dd>спрос в радиусе 2 км от площадки; нормализован на максимум внутри текущего списка — сравнимо только между строками одного списка</dd></div>
-          <div><dt>Конкуренция</dt><dd>чем больше уже действующих станций в радиусе 1.5 км, тем ниже балл (−8 за каждую)</dd></div>
-          <div><dt>Район</dt><dd>ближайшая ячейка сетки спроса (административный округ)</dd></div>
-        </dl>
-      </section>
-    </div>
-  </details>
-
   <main id="app">
-    <div id="loading" class="loading">Считаю опорное равновесие сети…</div>
+    <div id="loading" class="loading">
+      <div class="loading-spinner"></div>
+      Считаю, как клиенты распределяются по станциям Москвы…
+    </div>
 
     <div id="layout" hidden>
       <div id="map-col">
         <div id="controls">
-          <label>
-            Час: <span id="hour-label">12:00</span>
-            <input id="hour-slider" type="range" min="0" max="23" value="12" step="1" />
-          </label>
-          <label>
-            Тип дня:
-            <select id="day-type-select">
+          <div class="ctl-group">
+            <span class="ctl-label">День</span>
+            <div class="segmented" data-target="day-type-select">
+              <button data-value="weekday" class="active">Будни</button>
+              <button data-value="weekend">Выходные</button>
+            </div>
+            <select id="day-type-select" class="visually-hidden" tabindex="-1" aria-hidden="true">
               <option value="weekday">будни</option>
               <option value="weekend">выходной</option>
             </select>
-          </label>
-          <label>
-            Сезон:
-            <select id="season-select">
+          </div>
+          <div class="ctl-group">
+            <span class="ctl-label">Сезон</span>
+            <div class="segmented" data-target="season-select">
+              <button data-value="summer" class="active">Лето</button>
+              <button data-value="winter">Зима</button>
+            </div>
+            <select id="season-select" class="visually-hidden" tabindex="-1" aria-hidden="true">
               <option value="summer">лето</option>
               <option value="winter">зима</option>
             </select>
-          </label>
-          <label>
-            Год: <span id="year-label">2026</span>
-            <input id="year-slider" type="range" min="2026" max="2030" value="2026" step="1" />
-          </label>
-          <label>
-            Сценарий:
-            <select id="scenario-select">
+          </div>
+          <div class="ctl-group ctl-slider">
+            <span class="ctl-label">Год <b id="year-label">2026</b></span>
+            <input id="year-slider" type="range" min="2026" max="2030" value="2026" step="1" aria-label="Год прогноза" />
+          </div>
+          <div class="ctl-group ctl-slider">
+            <span class="ctl-label">Время <b id="hour-label">12:00</b></span>
+            <input id="hour-slider" type="range" min="0" max="23" value="12" step="1" aria-label="Час суток" />
+          </div>
+          <div class="ctl-group">
+            <span class="ctl-label">Рост числа электромобилей</span>
+            <div class="segmented" data-target="scenario-select">
+              <button data-value="conservative">Медленный</button>
+              <button data-value="base" class="active">Базовый</button>
+              <button data-value="optimistic">Быстрый</button>
+            </div>
+            <select id="scenario-select" class="visually-hidden" tabindex="-1" aria-hidden="true">
               <option value="base">базовый</option>
               <option value="conservative">консервативный</option>
               <option value="optimistic">оптимистичный</option>
             </select>
-          </label>
-          <label class="toggle-inline"><input type="checkbox" id="toggle-slow" /> Медленные зарядки (AC)</label>
-          <button id="recompute-btn">Пересчитать равновесие</button>
-          <span id="recompute-status"></span>
-          <button id="run-tests-btn">Проверить модель</button>
+          </div>
+          <div class="ctl-row">
+            <label class="chip-toggle"><input type="checkbox" id="toggle-model" checked /><span class="pin pin-model">1</span> Рекомендации модели</label>
+            <label class="chip-toggle"><input type="checkbox" id="toggle-trad" /><span class="pin pin-trad">1</span> Традиционный подход</label>
+            <label class="chip-toggle"><input type="checkbox" id="toggle-slow" /><span class="legend-dot legend-dot-slow"></span> Медленные зарядки</label>
+            <span id="recompute-status" aria-live="polite"></span>
+          </div>
         </div>
         <div class="map-wrap">
           <div id="map"></div>
@@ -142,70 +85,126 @@
               <span style="background: rgba(196, 181, 253, 0.75)"></span><span style="background: rgba(167, 139, 250, 0.82)"></span><span style="background: rgba(139, 92, 246, 0.88)"></span><span style="background: rgba(118, 56, 230, 0.92)"></span><span style="background: rgba(84, 30, 170, 0.96)"></span>
             </div>
             <div class="legend-ends"><span>выше обычного</span><span>пик</span></div>
-            <div class="legend-row"><span class="legend-dot legend-dot-u"></span>станция, цвет — загрузка</div>
-            <div class="legend-row"><span class="legend-dot legend-dot-cluster">5</span>группа станций</div>
-            <div class="legend-row"><span class="legend-dot legend-dot-center">⚡</span>центр питания (при приближении)</div>
-            <div class="legend-row"><span class="legend-dot legend-dot-pick">1</span>рекомендованная площадка</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-u"></span>станция: зелёная — свободна, красная — загружена</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-cluster">5</span>несколько станций рядом</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-pick">1</span>рекомендация модели</div>
             <div class="legend-row" id="legend-slow" hidden><span class="legend-dot legend-dot-slow"></span>медленная зарядка (в модель не входит)</div>
-            <div class="legend-row"><span class="legend-line"></span>МКАД — граница модели</div>
+            <div class="legend-row"><span class="legend-dot legend-dot-center">⚡</span>подстанция (видна при приближении)</div>
+            <div class="legend-row"><span class="legend-line"></span>МКАД — граница расчёта</div>
           </div>
+          <div class="map-hint" id="map-hint">Кликните в любое место внутри МКАД — посчитаем прогноз для станции там</div>
         </div>
-        <div id="test-results" hidden></div>
       </div>
 
       <aside id="passport-col">
-        <button id="add-to-list-btn" disabled>Добавить в список площадок</button>
         <div id="passport-loader" hidden>
           <div class="loader-text">Считаю…</div>
           <div class="loader-bar"><div class="loader-fill"></div><span class="loader-pct">0%</span></div>
         </div>
-        <div id="passport-placeholder">Кликните по карте, чтобы поставить кандидата и увидеть черновик паспорта площадки.</div>
+        <div id="passport-placeholder">
+          <div class="empty-title">Как пользоваться</div>
+          <ol class="empty-steps">
+            <li><b>Кликните по карте</b> в любом месте внутри МКАД — или по фиолетовой точке с номером, это места, которые советует модель.</li>
+            <li><b>Смотрите прогноз</b>: сколько клиентов в сутки получит станция сейчас и к 2030 году, сколько из них новых, а сколько она заберёт у соседей.</li>
+            <li><b>Сравнивайте</b>: добавьте несколько точек в сравнение или посмотрите готовые рекомендации под картой.</li>
+          </ol>
+          <div class="empty-note">Фиолетовые шестиугольники — где больше всего спроса на зарядку в выбранный час. Подвигайте ползунок «Время».</div>
+        </div>
         <div id="passport" hidden></div>
+        <button id="add-to-list-btn" disabled>Добавить точку в сравнение</button>
       </aside>
     </div>
 
-    <section id="portfolio-section" hidden>
+    <section id="portfolio-section" class="card-section" hidden>
       <div class="portfolio-head">
         <div>
-          <div class="eyebrow">Модуль 8 · решение задачи</div>
-          <h2>Где ставить новые станции</h2>
-          <p class="hint" id="portfolio-subtitle"></p>
-        </div>
-        <div class="portfolio-toggles">
-          <label><input type="checkbox" id="toggle-model" checked /> <span class="pin pin-model">1</span> рекомендации модели</label>
-          <label><input type="checkbox" id="toggle-trad" /> <span class="pin pin-trad">1</span> традиционный подход</label>
+          <div class="eyebrow">Ответ на задачу</div>
+          <h2>Где ставить 10 новых станций</h2>
+          <p class="section-lead" id="portfolio-subtitle"></p>
         </div>
       </div>
       <div id="portfolio-compare" class="compare-grid"></div>
-      <table id="portfolio-table">
-        <thead>
-          <tr><th>#</th><th>Площадка</th><th>Округ</th><th>Новые клиенты сети<br><span class="th-sub">сессий/сут, 2026 → 2030</span></th><th>Всего сессий/сут<br><span class="th-sub">2026 → 2030</span></th><th>Оборудование<br><span class="th-sub">и подключение</span></th></tr>
-        </thead>
-        <tbody id="portfolio-body"></tbody>
-      </table>
+      <h3 class="table-title">Рекомендованные места <span class="hint">— клик по строке открывает прогноз</span></h3>
+      <div class="table-scroll">
+        <table id="portfolio-table">
+          <thead>
+            <tr><th>#</th><th>Место</th><th>Округ</th><th>Новых клиентов в сутки<br><span class="th-sub">2026 → 2030</span></th><th>Всего клиентов в сутки<br><span class="th-sub">2026 → 2030</span></th><th>Оборудование и подключение</th></tr>
+          </thead>
+          <tbody id="portfolio-body"></tbody>
+        </table>
+      </div>
       <p class="hint" id="portfolio-footnote"></p>
     </section>
 
-    <section id="candidate-list-section" hidden>
-      <h2>Список площадок</h2>
-      <p class="hint">Балл — среднее по трём критериям (доступность мощности / трафик спроса в радиусе 2 км / конкуренция в радиусе 1.5 км). Трафик считается относительно других строк списка. Клик по строке — открыть полный паспорт этой площадки.</p>
-      <table id="candidate-list-table">
-        <thead>
-          <tr>
-            <th data-sort="index">#</th>
-            <th data-sort="composite">Балл</th>
-            <th data-sort="powerScore">Мощность</th>
-            <th data-sort="trafficScore">Трафик</th>
-            <th data-sort="competitionScore">Конкуренция</th>
-            <th data-sort="district">Район</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="candidate-list-body"></tbody>
-      </table>
+    <section id="candidate-list-section" class="card-section" hidden>
+      <h2>Сравнение точек</h2>
+      <p class="hint">Точки, которые вы добавили из прогноза. Балл 0–100 — среднее трёх оценок: свободная мощность ближайшей подстанции, спрос в радиусе 2 км, конкуренция в радиусе 1.5 км (спрос сравнивается только между строками этого списка). Клик по строке — снова открыть прогноз.</p>
+      <div class="table-scroll">
+        <table id="candidate-list-table">
+          <thead>
+            <tr>
+              <th data-sort="index">#</th>
+              <th data-sort="composite">Балл</th>
+              <th data-sort="powerScore">Мощность</th>
+              <th data-sort="trafficScore">Спрос</th>
+              <th data-sort="competitionScore">Конкуренция</th>
+              <th data-sort="district">Округ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="candidate-list-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="info-grid">
+      <details class="info-card" id="how-it-works">
+        <summary>Как работает модель</summary>
+        <ol class="how-list">
+          <li><b>Спрос.</b> Москва внутри МКАД разбита на ячейки 1×1 км. Спрос в каждой — из реальных данных OpenStreetMap: жильё, офисы, магазины и кафе, крупные дороги. Разбит на четыре типа клиентов: частник с домашней зарядкой, частник без неё, такси, корпоративный транспорт. Меняется по часам суток, будням и выходным, сезону и году.</li>
+          <li><b>Выбор станции.</b> Каждый клиент выбирает станцию с учётом расстояния, мощности и очереди: далёкую или переполненную выбирают реже, а часть людей уезжает без зарядки.</li>
+          <li><b>Очередь.</b> Для каждой станции и каждого часа считается, сколько машин ждут, сколько уезжают, не дождавшись, и насколько загружены посты.</li>
+          <li><b>Равновесие.</b> Выбор и очередь влияют друг на друга, поэтому модель пересчитывает их, пока всё не устоится. Так видно, сколько клиентов новая станция действительно добавит, а сколько заберёт у соседей.</li>
+          <li><b>Сеть Россетей.</b> Для каждой точки — ближайшая подстанция и её свободная мощность, класс подключения (цена и срок). Где мощности нет, станцию не ставим.</li>
+          <li><b>Рекомендации.</b> Из 300 реальных мест (парковки, ТЦ, АЗС, бизнес-центры, гостиницы) модель по одной выбирает те, что дают больше всего новых клиентов на рубль вложений, после каждого шага пересчитывая сеть.</li>
+        </ol>
+      </details>
+
+      <details class="info-card" id="glossary">
+        <summary>Словарь</summary>
+        <dl class="term-list">
+          <div><dt>Новые клиенты</dt><dd>зарядки, которых без этой станции не было бы: люди уезжали без зарядки или уходили из-за очереди. Клиенты, переманенные у соседних станций, сюда не входят.</dd></div>
+          <div><dt>Забирает у соседей</dt><dd>сколько зарядок в сутки новая станция отнимет у существующих станций рядом.</dd></div>
+          <div><dt>Загрузка поста</dt><dd>доля времени, когда зарядный пост занят машиной.</dd></div>
+          <div><dt>Уезжают из-за очереди</dt><dd>доля приехавших, которые не смогли зарядиться: все посты и места ожидания заняты.</dd></div>
+          <div><dt>Принимает быстро</dt><dd>доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 минут.</dd></div>
+          <div><dt>Класс подключения</dt><dd>цена и срок подключения к сетям Россетей. А — подстанция 0.4 кВ ближе 200 м: ~5–10 тыс. ₽ за кВт, 6–9 мес. Б — дальше или неизвестно: ~50–80 тыс. ₽ за кВт, 9–12 мес. В — свободной мощности нет, подключить нельзя.</dd></div>
+          <div><dt>DC60-1, DC150-2 …</dt><dd>оборудование: мощность станции в кВт и число постов (DC150-2 — 150 кВт, 2 поста).</dd></div>
+          <div><dt>Традиционный подход</dt><dd>как выбирают места сейчас: много магазинов и кафе рядом, крупные дороги, мало загруженных соседей.</dd></div>
+          <div><dt>Плановые станции</dt><dd>станции, которые город поставит до 2030 года по программе «Энергия Москвы» (~500 точек в год). Их точные места не публикуются, модель расставляет их по спросу.</dd></div>
+        </dl>
+      </details>
+
+      <details class="info-card" id="about-data">
+        <summary>Откуда данные</summary>
+        <ul class="data-list">
+          <li><b>Станции</b> — 401 быстрая станция внутри МКАД: Яндекс.Карты (три объезда вручную) и OpenStreetMap. Медленные AC-зарядки (~22 кВт) показываются отдельно и в расчёт не входят.</li>
+          <li><b>Спрос</b> — OpenStreetMap: ~380 тыс. зданий, ~145 тыс. магазинов и кафе, дорожная сеть.</li>
+          <li><b>Время суток, будни и выходные, сезоны</b> — реальные сессии быстрых зарядок (~122 тыс., открытые данные горсовета Данди, Шотландия): московских почасовых данных в открытом доступе нет.</li>
+          <li><b>Рост</b> — парк электромобилей Москвы (Автостат) и план города 320 тыс. к 2030; плановые станции «Энергии Москвы».</li>
+          <li><b>Сеть</b> — подстанции и ~4 тыс. трансформаторных подстанций 0.4 кВ из OpenStreetMap. Свободная мощность подстанций — консервативная оценка: официальной карты резерва Россетей в открытом доступе нет.</li>
+          <li><b>Средняя загрузка</b> — 4.1 сессии в сутки на быструю станцию (данные задачи), модель откалибрована под неё.</li>
+        </ul>
+      </details>
+
+      <details class="info-card" id="tests-card">
+        <summary>Проверка модели</summary>
+        <p class="hint">Восемь автоматических тестов из спецификации: сохранение спроса, корректность вероятностей выбора, очередь против формулы Эрланга, баланс при добавлении станции, сверка с ручным расчётом, «не сводится ли модель к простому скорингу», формула окупаемости, точность быстрого пересчёта.</p>
+        <button id="run-tests-btn">Запустить тесты</button>
+        <div id="test-results" hidden></div>
+      </details>
     </section>
   </main>
-
 
   <script src="https://cdn.jsdelivr.net/npm/ol@10.10.0/dist/ol.js"></script>
   <script type="module" src="js/app.js"></script>

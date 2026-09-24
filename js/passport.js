@@ -13,32 +13,18 @@ function fmt(x, digits = 2) {
   return Number.isFinite(x) ? x.toFixed(digits) : '—';
 }
 
-export function renderPassport({ container, local, baselineS, candidate, stations }) {
+export function renderPassport({ container, local, baselineS, candidate, stations, district = null, hour = 12, conditions = '' }) {
   const idx = local.candidateLocalIdx;
-  const localStations = local.localStations;
 
-  // Суточный профиль λ^srv по сегментам + U(h) для кандидата.
-  const hourlySegments = SEGMENTS.map((s) => {
-    const arr = new Array(24);
-    for (let h = 0; h < 24; h++) {
-      const total = local.combined.bySegment[s][idx * 24 + h];
-      const L = local.qh.L[idx * 24 + h];
-      arr[h] = total * (1 - L);
-    }
-    return { segment: s, values: arr };
-  });
+  // Суточный профиль обслуженных сессий по часам + загрузка/ожидание/доступность.
+  const hourlyTotals = Array.from({ length: 24 }, (_, h) => SEGMENTS.reduce((acc, s) => acc + local.combined.bySegment[s][idx * 24 + h] * (1 - local.qh.L[idx * 24 + h]), 0));
   const Uh = Array.from({ length: 24 }, (_, h) => local.qh.U[idx * 24 + h]);
   const Wh = Array.from({ length: 24 }, (_, h) => local.qh.W[idx * 24 + h]);
   const Acch = Array.from({ length: 24 }, (_, h) => local.qh.Acc[idx * 24 + h]);
-
   let worstHour = 0;
-  let worstAcc = 1;
-  for (let h = 0; h < 24; h++) {
-    if (Acch[h] < worstAcc) {
-      worstAcc = Acch[h];
-      worstHour = h;
-    }
-  }
+  for (let h = 0; h < 24; h++) if (Acch[h] < Acch[worstHour]) worstHour = h;
+  let peakHour = 0;
+  for (let h = 0; h < 24; h++) if (hourlyTotals[h] > hourlyTotals[peakHour]) peakHour = h;
 
   const Snew = local.S_local[idx];
   let totalArrival = 0;
@@ -53,79 +39,102 @@ export function renderPassport({ container, local, baselineS, candidate, station
   const neighbors = [];
   local.affectedStationIdx.forEach((globalJ, localJ) => {
     const deltaS = local.S_local[localJ] - baselineS[globalJ];
-    if (Math.abs(deltaS) >= 0.05) {
-      neighbors.push({ globalJ, station: stations[globalJ], S0: baselineS[globalJ], deltaS });
-    }
+    if (Math.abs(deltaS) >= 0.05) neighbors.push({ globalJ, station: stations[globalJ], S0: baselineS[globalJ], deltaS });
   });
   neighbors.sort((a, b) => a.deltaS - b.deltaS);
 
   const cannibalization = neighbors.filter((n) => n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
   const cannibalizationShare = Snew > 0 ? cannibalization / Snew : 0;
-  const newDemandShare = Snew > 0 ? (-local.deltaLambdaOut - local.deltaLambdaLost) / Snew : 0;
+  const newDemand = -local.deltaLambdaOut - local.deltaLambdaLost;
+  const newDemandShare = Snew > 0 ? newDemand / Snew : 0;
+  const ownLoss = neighbors.filter((n) => n.station.operator === candidate.operator && n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
 
-  const own = neighbors.filter((n) => n.station.operator === candidate.operator);
-  const foreign = neighbors.filter((n) => n.station.operator !== candidate.operator);
-  const ownLoss = own.filter((n) => n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
-  const foreignLoss = foreign.filter((n) => n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
-
-  const hourlyTotals = Array.from({ length: 24 }, (_, h) => hourlySegments.reduce((acc, s) => acc + s.values[h], 0));
   const maxBar = Math.max(1e-6, ...hourlyTotals);
   const barsHtml = hourlyTotals
-    .map((total, h) => `<div class="bar" style="height:${(total / maxBar) * 100}%" title="${h}:00 — ${fmt(total, 2)} сессий"></div>`)
+    .map((total, h) => `<div class="bar ${h === hour ? 'bar-now' : ''} ${h === peakHour ? 'bar-peak' : ''}" style="height:${Math.max(2, (total / maxBar) * 100)}%" title="${h}:00 — ${fmt(total, 2)} клиентов в час"></div>`)
     .join('');
 
+  const losers = neighbors.filter((n) => n.deltaS < 0);
+  const maxLoss = Math.max(1e-6, ...losers.map((n) => -n.deltaS));
+  const neighborRows = (list) =>
+    list
+      .map(
+        (n) => `<div class="nb-row"><span class="nb-name">${escapeHtml(stationLabel(n.station))}<small>было ${fmt(n.S0, 1)} клиентов в сутки</small></span><span class="nb-bar"><i style="width:${(-n.deltaS / maxLoss) * 100}%"></i></span><span class="nb-val">−${fmt(-n.deltaS, 2)}</span></div>`
+      )
+      .join('');
+
   container.innerHTML = `
-    <h2>Черновик паспорта площадки</h2>
-    <p class="tbd">Черновик ниже — для одного поста DC60-1 в выбранных условиях. Все варианты оборудования и рост до 2030 — в разделе «Оборудование и рост» ниже (считается отдельным проходом).</p>
-
-    <section>
-      <h3>Кандидат</h3>
-      <div class="metric-row"><span>Координаты</span><span>${candidate.lat.toFixed(4)}, ${candidate.lon.toFixed(4)}</span></div>
-      <div class="metric-row"><span>Конфигурация</span><span>DC60-1 (60 кВт, 1 пост) — заглушка</span></div>
-      <div class="metric-row"><span>S_new (сессий/сутки)</span><span>${fmt(Snew)}</span></div>
-      <div class="metric-row"><span>Доля уехавших (p_K, за сутки)</span><span>${fmt(shareLost * 100, 1)}%</span></div>
-      <div class="metric-row"><span>Худший час по Acc</span><span>${worstHour}:00 — Acc=${fmt(Acch[worstHour] * 100, 1)}%, W=${fmt(Wh[worstHour] * 60, 1)} мин, U=${fmt(Uh[worstHour] * 100, 1)}%</span></div>
-    </section>
-
-    <section>
-      <h3>Суточный профиль λ^srv (сессий/час)</h3>
-      <div class="bar-chart">${barsHtml}</div>
-      <div class="metric-row" style="font-size:0.7rem;color:#999"><span>0:00</span><span>12:00</span><span>23:00</span></div>
-    </section>
-
-    <section>
-      <h3>Влияние на соседей (раздел 6.3)</h3>
-      <div class="metric-row"><span>Доля каннибализации</span><span>${fmt(cannibalizationShare * 100, 1)}%</span></div>
-      <div class="metric-row"><span>Доля нового спроса</span><span>${fmt(newDemandShare * 100, 1)}%</span></div>
-      <div class="metric-row"><span>Потери "своих" (тот же оператор)</span><span>${fmt(ownLoss, 2)} сессий/сутки</span></div>
-      <div class="metric-row"><span>Потери "чужих"</span><span>${fmt(foreignLoss, 2)} сессий/сутки</span></div>
-      <table>
-        <thead><tr><th>Станция</th><th>Оператор</th><th>S⁰</th><th>ΔS</th></tr></thead>
-        <tbody>
-          ${neighbors
-            .slice(0, 15)
-            .map(
-              (n) =>
-                `<tr><td>${n.station.id}</td><td>${n.station.operator}</td><td>${fmt(n.S0)}</td><td style="color:${n.deltaS < 0 ? '#c0392b' : '#2980b9'}">${n.deltaS > 0 ? '+' : ''}${fmt(n.deltaS)}</td></tr>`
-            )
-            .join('')}
-        </tbody>
-      </table>
-      ${neighbors.length > 15 ? `<p class="tbd">и ещё ${neighbors.length - 15}…</p>` : ''}
-    </section>
+    <div class="pp-head">
+      <div class="pp-kicker">Прогноз для точки</div>
+      <div class="pp-where">${district ? `${escapeHtml(district)} · ` : ''}${candidate.lat.toFixed(4)}, ${candidate.lon.toFixed(4)}</div>
+      <div class="pp-cond">${escapeHtml(conditions)}</div>
+    </div>
 
     <section id="passport-verdict-section">
       <h3>Оборудование и рост до 2030</h3>
-      <p class="tbd">Считаю варианты оборудования…</p>
+      <div class="skeleton"></div>
+    </section>
+
+    <section>
+      <h3>Спрос в этой точке</h3>
+      <p class="pp-note">Для одного поста на 60 кВт в выбранных условиях — чтобы сравнивать точки между собой.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile-value">${fmt(Snew, 1)}</div><div class="tile-label">клиентов в сутки</div></div>
+        <div class="tile"><div class="tile-value">${fmt(Math.max(0, newDemandShare) * 100, 0)}%</div><div class="tile-label">из них новые для сети</div></div>
+        <div class="tile"><div class="tile-value">${fmt(shareLost * 100, 0)}%</div><div class="tile-label">уезжают из-за очереди</div></div>
+        <div class="tile"><div class="tile-value">${fmt(Wh[peakHour] * 60, 0)} мин</div><div class="tile-label">ожидание в пиковый час</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Когда приезжают клиенты</h3>
+      <div class="bar-chart">${barsHtml}</div>
+      <div class="bar-axis"><span>0:00</span><span>6:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+      <p class="pp-note">Пик — ${peakHour}:00. Выделен выбранный час (${hour}:00): загрузка поста ${fmt(Uh[hour] * 100, 0)}%, ожидание ${fmt(Wh[hour] * 60, 0)} мин.</p>
+    </section>
+
+    <section>
+      <h3>Кого заденет</h3>
+      <p class="pp-sentence">Из ${fmt(Snew, 1)} клиентов в сутки <b>${fmt(Math.max(0, newDemand), 1)} — новые</b> для сети, <b>${fmt(cannibalization, 1)}</b> станция заберёт у ${losers.length} ${plural(losers.length, 'соседней станции', 'соседних станций', 'соседних станций')}.</p>
+      ${losers.length ? `<div class="nb-list">${neighborRows(losers.slice(0, 6))}</div>` : '<p class="pp-note">Рядом нет станций, у которых новая заметно заберёт клиентов.</p>'}
+      ${losers.length > 6 ? `<details class="nb-more"><summary>ещё ${losers.length - 6}</summary><div class="nb-list">${neighborRows(losers.slice(6))}</div></details>` : ''}
     </section>
 
     <section id="passport-connection-section">
       <h3>Подключение к сети</h3>
-      <p class="tbd">Считаю…</p>
+      <div class="skeleton short"></div>
     </section>
+
+    <details class="tech">
+      <summary>Технические детали</summary>
+      <div class="metric-row"><span>Обслужено сессий в сутки, S_new</span><span>${fmt(Snew)}</span></div>
+      <div class="metric-row"><span>Доля отказов за сутки, p_K</span><span>${fmt(shareLost * 100, 1)}%</span></div>
+      <div class="metric-row"><span>Худший час по доступности, Acc</span><span>${worstHour}:00 — ${fmt(Acch[worstHour] * 100, 1)}%</span></div>
+      <div class="metric-row"><span>Каннибализация</span><span>${fmt(cannibalizationShare * 100, 1)}%</span></div>
+      <div class="metric-row"><span>Потери станций того же оператора</span><span>${fmt(ownLoss, 2)} в сутки</span></div>
+      <div class="metric-row"><span>Изменение «уехали без зарядки», ΔΛ_out</span><span>${fmt(local.deltaLambdaOut, 2)}</span></div>
+      <div class="metric-row"><span>Изменение «ушли из-за очереди», ΔΛ_lost</span><span>${fmt(local.deltaLambdaLost, 2)}</span></div>
+    </details>
   `;
 
   return { neighbors, cannibalizationShare, newDemandShare };
+}
+
+function stationLabel(st) {
+  if (st.status === 'planned') return 'Плановая станция города';
+  return !st.operator || st.operator === 'независимый' ? 'Станция без сети' : st.operator;
+}
+
+function plural(n, one, few, many) {
+  const m10 = n % 10;
+  const m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+
+function escapeHtml(t) {
+  return String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 }
 
 // Заполняет секции оборудования и подключения после перебора конфигураций
@@ -163,16 +172,17 @@ export function renderEquipment({ evalResult }) {
         ? `<div class="rec-card">
         <div class="rec-title">Рекомендуем ${rec.cfg.omega}</div>
         <div class="rec-sub">${rec.cfg.P_cap_kW} кВт, ${rec.cfg.posts} ${rec.cfg.posts === 1 ? 'пост' : 'поста'} · больше всего новых для сети клиентов на 1 млн ₽ вложений (оборудование + подключение)</div>
-        <div class="rec-grow"><span>${fmt(recA.sessions, 1)}</span><span class="arrow">→</span><span>${fmt(recB.sessions, 1)}</span><span class="unit">сессий в сутки, 2026 → 2030</span></div>
-        <div class="rec-sub">из них новых для сети (не переманенных у соседей): +${fmt(recA.gain, 1)} → +${fmt(recB.gain, 1)}</div>
+        <div class="rec-grow"><span>${fmt(recA.sessions, 1)}</span><span class="arrow">→</span><span>${fmt(recB.sessions, 1)}</span><span class="unit">клиентов в сутки<br>2026 → 2030</span></div>
+        <div class="rec-sub">из них новых для сети (не переманенных у соседей): <b>+${fmt(recA.gain, 1)} → +${fmt(recB.gain, 1)}</b></div>
       </div>`
-        : '<p class="tbd">Нет допустимых вариантов: на ближайшем центре питания нет резерва мощности (класс В).</p>'
+        : '<p class="pp-note">Нет допустимых вариантов: на ближайшем центре питания нет резерва мощности (класс В).</p>'
     }
-    <table class="equip-table">
-      <thead><tr><th>Вариант</th><th>Класс</th><th>Сессий/сут<br>2026 → 2030</th><th>Новых для сети<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
+    <details class="equip-details"><summary>Все варианты оборудования</summary><table class="equip-table">
+      <thead><tr><th>Вариант</th><th>Класс</th><th>Клиентов в сутки<br>2026 → 2030</th><th>Из них новых<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <p class="tbd">Средний день года. * Доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 мин. Мощнее станция — больше клиентов она перетягивает, поэтому её очередь тоже растёт: доступность почти не зависит от размера. Класс В — подключение невозможно (нет резерва на центре питания).</p>
+    <p class="pp-note">Средний день года. * Доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 мин. Мощнее станция — больше клиентов она перетягивает, поэтому её очередь тоже растёт: доступность почти не зависит от размера. Класс В — подключение невозможно (нет резерва на центре питания).</p>
+    </details>
   `;
 
   connEl.innerHTML = `
@@ -185,7 +195,7 @@ export function renderEquipment({ evalResult }) {
     <div class="metric-row"><span>Стоимость подключения (оценка)</span><span>${fmt(rec.connRange.costLow / 1e6, 1)}–${fmt(rec.connRange.costHigh / 1e6, 1)} млн ₽</span></div>
     <div class="metric-row"><span>Вложения в станцию: оборудование + подключение + площадка</span><span>до ${fmt(rec.scenarios.low.CAPEXrub / 1e6, 1)} млн ₽</span></div>
     <div class="metric-row"><span>Срок до запуска</span><span>${fmt(rec.connRange.monthsLow, 0)}–${fmt(rec.connRange.monthsHigh, 0)} мес.</span></div>
-    ${rec.cls === 'А' ? '<p class="tbd">Класс А: известная трансформаторная подстанция 0.4 кВ ближе 200 м — льготное присоединение.</p>' : '<p class="tbd">Класс Б или не определён: в данных нет ТП 0.4 кВ ближе 200 м — нужен запрос к сетевой компании (точка, мощность, ближайшая ТП).</p>'}`
+    ${rec.cls === 'А' ? '<p class="pp-note">Класс А: известная трансформаторная подстанция 0.4 кВ ближе 200 м — льготное присоединение.</p>' : '<p class="pp-note">Класс Б или не определён: в данных нет ТП 0.4 кВ ближе 200 м — нужен запрос к сетевой компании (точка, мощность, ближайшая ТП).</p>'}`
         : ''
     }
   `;
