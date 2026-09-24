@@ -21,6 +21,7 @@
     "assign:districts": "node scripts/assign-real-districts.js",
     "fetch:buildings": "node scripts/fetch-buildings-tiled.js",
     "assign:demand-layers": "node scripts/assign-real-demand-layers.js",
+    "build:sweep": "node scripts/build-sweep.js",
     "import:yandex": "node scripts/import-yandex-har.js",
     "merge:yandex": "node scripts/merge-yandex-stations.js",
     "fit:hourly-profile": "node scripts/fit-hourly-profile.js",
