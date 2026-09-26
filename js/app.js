@@ -1,6 +1,6 @@
 // Точка входа статического сайта. Оркестрирует загрузку данных, карту,
 // ползунок времени и черновик паспорта площадки (клик по карте).
-import { SEGMENTS } from './demand.js';
+import { SEGMENTS, demandField } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidateAsync } from './equipment.js';
 import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad, renderSlowStations } from './mapview.js';
@@ -88,6 +88,31 @@ function peakDemandHour(demand, nCells) {
   return best;
 }
 
+// Суммарный спрос по городу в пиковый час - для абсолютной насыщенности
+// карты спроса и подписи в легенде.
+function cityPeakDemand(demand, nCells) {
+  const h = peakDemandHour(demand, nCells);
+  let sum = 0;
+  for (const s of SEGMENTS) for (let i = 0; i < nCells; i++) sum += demand[s][i * 24 + h];
+  return sum;
+}
+
+// Границы шкалы насыщенности: самая слабая комбинация (2026, лето, выходной)
+// и самая сильная (2030, зима, будни) в текущем сценарии. Считается один раз
+// на сценарий - demandField дешёвый, без равновесия.
+function demandBounds(scenario) {
+  state.demandBoundsCache ??= new Map();
+  if (!state.demandBoundsCache.has(scenario)) {
+    const peak = (o) => cityPeakDemand(demandField({ cells: state.cells, params: state.preciseParams, scenario, ...o }), state.cells.length);
+    state.demandBoundsCache.set(scenario, {
+      lo: peak({ year: 2026, season: 'summer', dayType: 'weekend' }),
+      hi: peak({ year: 2030, season: 'winter', dayType: 'weekday' }),
+      base2026: peak({ year: 2026, season: 'winter', dayType: 'weekday' }),
+    });
+  }
+  return state.demandBoundsCache.get(scenario);
+}
+
 function rerenderMapForHour() {
   const { hour } = readControls();
   document.getElementById('hour-label').textContent = `${String(hour).padStart(2, '0')}:00`;
@@ -103,14 +128,21 @@ function rerenderMapForHour() {
     Uarr,
     onClickStation: null,
   });
+  const bounds = demandBounds(readControls().scenario);
+  const cityPeak = cityPeakDemand(fullResult.demand, cells.length);
+  const intensity = Math.log(cityPeak / bounds.lo) / Math.log(bounds.hi / bounds.lo);
   renderDemandLayer({
     demandSource: state.layers.demandSource,
     cells,
     totalDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, hour),
     scaleDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, peakDemandHour(fullResult.demand, cells.length)),
+    intensity,
   });
   const dayLabel = readControls().dayType === 'weekend' ? 'выходной' : 'будни';
   document.getElementById('map-legend-time').textContent = `${String(hour).padStart(2, '0')}:00 · ${dayLabel}`;
+  const k = cityPeak / bounds.base2026;
+  document.getElementById('map-legend-volume').textContent =
+    `в пик по городу ${Math.round(cityPeak).toLocaleString('ru-RU')} заявок/ч` + (Math.abs(k - 1) > 0.05 ? ` · ×${k < 10 ? k.toFixed(1).replace('.', ',') : Math.round(k)} к зиме 2026` : '');
 }
 
 // Опорное равновесие для equipment.js (module 6, до 8 комбинаций год x сезон
