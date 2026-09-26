@@ -748,11 +748,15 @@ function renderHeroKpis() {
   el.hidden = false;
 }
 
-// Пример в разделе "Как модель решает" - на рекомендации №7 (выбор
-// пользователя), цифры из portfolio.json, чтобы текст не устаревал после пересчёта.
-const HOW_EXAMPLE_RANK = 7;
+// Пример в разделе "Как это работает" - бизнес-центр в ЮЗАО (L-286, выбор
+// пользователя), по id площадки, а не по месту в списке: место меняется при
+// пересчёте. Цифры и номер рекомендации - из portfolio.json.
+const HOW_EXAMPLE_ID = 'L-286';
 function renderHowExample() {
-  const p = state.portfolio?.model?.picks?.[HOW_EXAMPLE_RANK - 1];
+  const picks = state.portfolio?.model?.picks || [];
+  const rank = picks.findIndex((x) => x.id === HOW_EXAMPLE_ID);
+  const p = picks[rank >= 0 ? rank : 0];
+  document.getElementById('how-example-title').textContent = `Пример: рекомендация №${rank >= 0 ? rank + 1 : 1}`;
   if (!p || p.sessions_2026 == null || p.new_demand_2026 == null) return;
   const f1 = (v) => v.toFixed(1).replace('.', ',');
   const stolen = Math.max(0, p.sessions_2026 - p.new_demand_2026);
