@@ -1,6 +1,6 @@
 {
- "source": "Яндекс.Карты, поиск \"Электрозаправки\" по Москве, вручную собрано через DevTools (Network) пользователем 2026-09-20 - как ответы отдельных XHR-запросов, так и экспорт HAR (Save all as HAR with content) после объезда карты + второй объезд 2026-09-23 (файл yandex.22ru.har), 270 новых записей после дедупликации по id (2025 сырых записей из перекрывающихся области карты -> 519 уникальных в новом файле -> 270 реально новых) | 2026-09-24: import-yandex-har.js (yandex44444.har) - фильтр по рубрике \"Станция зарядки электромобилей\": −0 не-станций, +137 новых",
- "date": "2026-09-24",
+ "source": "Яндекс.Карты, поиск \"Электрозаправки\" по Москве, вручную собрано через DevTools (Network) пользователем 2026-09-20 - как ответы отдельных XHR-запросов, так и экспорт HAR (Save all as HAR with content) после объезда карты + второй объезд 2026-09-23 (файл yandex.22ru.har), 270 новых записей после дедупликации по id (2025 сырых записей из перекрывающихся области карты -> 519 уникальных в новом файле -> 270 реально новых) | 2026-09-26: import-yandex-har.js (neeeeeeew.har) - фильтр по рубрике \"Станция зарядки электромобилей\": −0 не-станций, +59 новых",
+ "date": "2026-09-26",
  "items": [
   {
    "id": "177629325101",
@@ -38856,6 +38856,2775 @@
       {
        "id": "ccs_combo",
        "name": "CCS Combo 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "fast",
+       "name": "быстрая"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "244498679093",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.577168,
+    55.664352
+   ],
+   "address": "Москва, Болотниковская улица",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "27494521006",
+   "title": "Зарядная станция",
+   "chainName": null,
+   "coordinates": [
+    37.598346,
+    55.649215
+   ],
+   "address": "Москва, Азовская улица",
+   "features": []
+  },
+  {
+   "id": "138804612957",
+   "title": "Electro. cars",
+   "chainName": "Electro. cars",
+   "coordinates": [
+    37.597857,
+    55.664359
+   ],
+   "address": "Одесская ул., 2, корп. С",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "gbt_dc",
+       "name": "GB/T DC"
+      },
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "fast",
+       "name": "быстрая"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "120 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "172097571492",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.5714,
+    55.660276
+   ],
+   "address": "Перекопская ул., 17, корп. 3, стр. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "58306735613",
+   "title": "Punkt E",
+   "chainName": "Punkt E",
+   "coordinates": [
+    37.567015,
+    55.668183
+   ],
+   "address": "Новочерёмушкинская ул., 59, корп. 1, стр. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "gbt_ac",
+       "name": "GB/T AC"
+      },
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "parking_type",
+     "value": [
+      {
+       "id": "outdoor_parking_1",
+       "name": "открытая"
+      }
+     ],
+     "name": "вид парковки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    },
+    {
+     "id": "electric_charging_station_app",
+     "value": [
+      {
+       "id": "punkt_e_app",
+       "name": "Punkt E"
+      }
+     ],
+     "name": "приложение",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "number_of_parking_spaces",
+     "value": "2",
+     "name": "количество парковочных мест",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "210735569324",
+   "title": "DC60",
+   "chainName": null,
+   "coordinates": [
+    37.582597,
+    55.671897
+   ],
+   "address": "Нахимовский просп., 24",
+   "features": [
+    {
+     "id": "wheelchair_access",
+     "value": [
+      {
+       "id": "unavailable",
+       "name": "недоступно"
+      }
+     ],
+     "name": "доступность входа на инвалидной коляске",
+     "type": "enum",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "243628580386",
+   "title": "Энергия Москвы",
+   "chainName": null,
+   "coordinates": [
+    37.595144,
+    55.660145
+   ],
+   "address": "Москва, Одесская улица",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "154595752215",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.567986,
+    55.655682
+   ],
+   "address": "Севастопольский просп., 44, корп. 4, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "146965570729",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.566021,
+    55.657499
+   ],
+   "address": "ул. Каховка, 33, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "187583534473",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.597239,
+    55.659034
+   ],
+   "address": "Болотниковская ул., 28, корп. 2, стр. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "gbt_ac",
+       "name": "GB/T AC"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "154737642065",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.568288,
+    55.660122
+   ],
+   "address": "Перекопская ул., 21, корп. 2, стр. 3",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "192874965216",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.570217,
+    55.671164
+   ],
+   "address": "Новочерёмушкинская ул., 53, корп. 2, стр. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "132387718262",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.571352,
+    55.658647
+   ],
+   "address": "ул. Каховка, 18, корп. 3, стр. 3",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "44153602315",
+   "title": "Punkt E",
+   "chainName": "Punkt E",
+   "coordinates": [
+    37.567259,
+    55.668305
+   ],
+   "address": "Москва, Юго-Западный административный округ, район Черёмушки",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "gbt_ac",
+       "name": "GB/T AC"
+      },
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "parking_type",
+     "value": [
+      {
+       "id": "outdoor_parking_1",
+       "name": "открытая"
+      }
+     ],
+     "name": "вид парковки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт х2",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    },
+    {
+     "id": "electric_charging_station_app",
+     "value": [
+      {
+       "id": "punkt_e_app",
+       "name": "Punkt E"
+      }
+     ],
+     "name": "приложение",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "number_of_parking_spaces",
+     "value": "4",
+     "name": "количество парковочных мест",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "101353229104",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.565185,
+    55.678379
+   ],
+   "address": "Профсоюзная ул., 17, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "gbt_ac",
+       "name": "GB/T AC"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "149868897659",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.585074,
+    55.680712
+   ],
+   "address": "Большая Черёмушкинская ул., 26, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "214413934218",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.580114,
+    55.648406
+   ],
+   "address": "Керченская ул., 11, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "69059900889",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.59606,
+    55.680366
+   ],
+   "address": "Москва, Севастопольский проспект",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "162328600851",
+   "title": "Энергия Москвы, станция зарядки электромобилей",
+   "chainName": null,
+   "coordinates": [
+    37.594063,
+    55.65915
+   ],
+   "address": "Москва, Одесская улица",
+   "features": []
+  },
+  {
+   "id": "43948910787",
+   "title": "Станция зарядки электромобилей",
+   "chainName": null,
+   "coordinates": [
+    37.608512,
+    55.645435
+   ],
+   "address": "Москва, Черноморский бульвар",
+   "features": []
+  },
+  {
+   "id": "154289440029",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.611546,
+    55.647459
+   ],
+   "address": "Ялтинская ул., 7, корп. 2, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "202958065833",
+   "title": "Станция зарядки электромобилей",
+   "chainName": null,
+   "coordinates": [
+    37.595041,
+    55.647553
+   ],
+   "address": "Азовская ул., 24, корп. 3",
+   "features": [
+    {
+     "id": "ramp",
+     "value": true,
+     "name": "пандус",
+     "type": "bool",
+     "important": false
+    },
+    {
+     "id": "wheelchair_accessability",
+     "value": true,
+     "type": "bool",
+     "important": false
+    },
+    {
+     "id": "wheelchair_access",
+     "value": [
+      {
+       "id": "full_access",
+       "name": "доступно"
+      }
+     ],
+     "name": "доступность входа на инвалидной коляске",
+     "type": "enum",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "91352254770",
+   "title": "Розетка",
+   "chainName": null,
+   "coordinates": [
+    37.560645,
+    55.644782
+   ],
+   "address": "Москва, Юго-Западный административный округ, район Ясенево",
+   "features": []
+  },
+  {
+   "id": "243304093627",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.565941,
+    55.653266
+   ],
+   "address": "Севастопольский просп., 48, корп. 2, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "161242818980",
+   "title": "Electro. cars",
+   "chainName": "Electro. cars",
+   "coordinates": [
+    37.550685,
+    55.682485
+   ],
+   "address": "ул. Вавилова, 69/75",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "tesla_supercharger",
+       "name": "Tesla SuperCharger"
+      },
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      },
+      {
+       "id": "gbt_dc",
+       "name": "GB/T DC"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "fast",
+       "name": "быстрая"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "4",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "parking_type",
+     "value": [
+      {
+       "id": "outdoor_parking_1",
+       "name": "открытая"
+      }
+     ],
+     "name": "вид парковки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_station_power",
+     "value": "120 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    },
+    {
+     "id": "payment_method",
+     "value": [
+      {
+       "id": "payment_card",
+       "name": "оплата картой"
+      },
+      {
+       "id": "online_payment",
+       "name": "онлайн"
+      },
+      {
+       "id": "fast_payment_system",
+       "name": "СБП"
+      }
+     ],
+     "name": "способ оплаты",
+     "type": "enum",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "169148768767",
+   "title": "Electro. cars",
+   "chainName": "Electro. cars",
+   "coordinates": [
+    37.553829,
+    55.683464
+   ],
+   "address": "Москва, Зелёное кольцо",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "chademo_dcfc",
+       "name": "CHAdeMO"
+      },
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      },
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      },
+      {
+       "id": "gbt_dc",
+       "name": "GB/T DC"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "fast",
+       "name": "быстрая"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "4",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "parking_type",
+     "value": [
+      {
+       "id": "outdoor_parking_1",
+       "name": "открытая"
+      }
+     ],
+     "name": "вид парковки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22-60 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    },
+    {
+     "id": "wheelchair_accessible_vocabulary",
+     "value": [
+      {
+       "id": "wheelchair_accessible_a",
+       "name": "доступно"
+      }
+     ],
+     "name": "доступность помещения на инвалидной коляске",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "wheelchair_accessability",
+     "value": true,
+     "type": "bool",
+     "important": false
+    },
+    {
+     "id": "payment_method",
+     "value": [
+      {
+       "id": "payment_card",
+       "name": "оплата картой"
+      },
+      {
+       "id": "online_payment",
+       "name": "онлайн"
+      },
+      {
+       "id": "fast_payment_system",
+       "name": "СБП"
+      }
+     ],
+     "name": "способ оплаты",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "wheelchair_access",
+     "value": [
+      {
+       "id": "full_access",
+       "name": "доступно"
+      }
+     ],
+     "name": "доступность входа на инвалидной коляске",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "number_of_parking_spaces",
+     "value": "-18",
+     "name": "количество парковочных мест",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "58355412959",
+   "title": "Engy",
+   "chainName": null,
+   "coordinates": [
+    37.554187,
+    55.683742
+   ],
+   "address": "Нахимовский просп., 58",
+   "features": [
+    {
+     "id": "parking_type",
+     "value": [
+      {
+       "id": "outdoor_parking_1",
+       "name": "открытая"
+      }
+     ],
+     "name": "вид парковки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_station_power",
+     "value": "60",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    },
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "chademo_dcfc",
+       "name": "CHAdeMO"
+      },
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      },
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      },
+      {
+       "id": "gbt_dc",
+       "name": "GB/T DC"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_mode",
+     "value": [
+      {
+       "id": "charging_mode_4",
+       "name": "Mode 4"
+      }
+     ],
+     "name": "режим зарядки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "payment_method",
+     "value": [
+      {
+       "id": "cashless_payment",
+       "name": "безналичная"
+      }
+     ],
+     "name": "способ оплаты",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "fast",
+       "name": "быстрая"
+      }
+     ],
+     "name": "Тип зарядки",
+     "type": "enum",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "195838503513",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.545857,
+    55.68676
+   ],
+   "address": "Ломоносовский просп., 7, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "226952133524",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.550544,
+    55.689451
+   ],
+   "address": "Ленинский просп., 69, корп. 3, стр. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "65673529470",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.553283,
+    55.689113
+   ],
+   "address": "ул. Вавилова, 60, корп. 5, стр. 3",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "129171562831",
+   "title": "Зарядная станция",
+   "chainName": null,
+   "coordinates": [
+    37.565838,
+    55.690828
+   ],
+   "address": "ул. Дмитрия Ульянова, 9А, стр. 1",
+   "features": []
+  },
+  {
+   "id": "213349852497",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.563986,
+    55.686437
+   ],
+   "address": "Москва, улица Кедрова",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "157088735246",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.579548,
+    55.681649
+   ],
+   "address": "Москва, Новочерёмушкинская улица",
+   "features": []
+  },
+  {
+   "id": "73731991694",
+   "title": "Hyper",
+   "chainName": "Hyper",
+   "coordinates": [
+    37.574471,
+    55.692759
+   ],
+   "address": "просп. 60-летия Октября, 10А",
+   "features": []
+  },
+  {
+   "id": "193733172934",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.589252,
+    55.688967
+   ],
+   "address": "Новочерёмушкинская ул., 3А, корп. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "31308754005",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.573792,
+    55.702662
+   ],
+   "address": "Ленинский просп., 45, стр. 3",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "wheelchair_accessability",
+     "value": true,
+     "type": "bool",
+     "important": false
+    },
+    {
+     "id": "wheelchair_access",
+     "value": [
+      {
+       "id": "full_access",
+       "name": "доступно"
+      }
+     ],
+     "name": "доступность входа на инвалидной коляске",
+     "type": "enum",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "100354339652",
+   "title": "PlugMe",
+   "chainName": "PlugMe",
+   "coordinates": [
+    37.59136,
+    55.70354
+   ],
+   "address": "ул. Вавилова, 5, корп. 3",
+   "features": []
+  },
+  {
+   "id": "242822670958",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.6033,
+    55.680422
+   ],
+   "address": "Москва, Юго-Западный административный округ, район Котловка",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "224474613244",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.607901,
+    55.693953
+   ],
+   "address": "Москва, Загородное шоссе",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "87451690991",
+   "title": "Punkt E",
+   "chainName": "Punkt E",
+   "coordinates": [
+    37.604393,
+    55.688079
+   ],
+   "address": "Севастопольский просп., 11Е",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      },
+      {
+       "id": "chademo_dcfc",
+       "name": "CHAdeMO"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "fast",
+       "name": "быстрая"
+      }
+     ],
+     "name": "Тип зарядки",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "parking_type",
+     "value": [
+      {
+       "id": "roofed_parking",
+       "name": "крытая"
+      }
+     ],
+     "name": "вид парковки",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "charging_station_power",
+     "value": "60 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    },
+    {
+     "id": "electric_charging_station_app",
+     "value": [
+      {
+       "id": "punkt_e_app",
+       "name": "Punkt E"
+      }
+     ],
+     "name": "приложение",
+     "type": "enum",
+     "important": false
+    },
+    {
+     "id": "number_of_parking_spaces",
+     "value": "2",
+     "name": "количество парковочных мест",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "241687268761",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.632832,
+    55.677071
+   ],
+   "address": "Москва, 1-й Нагатинский проезд",
+   "features": []
+  },
+  {
+   "id": "17631583365",
+   "title": "Volt",
+   "chainName": null,
+   "coordinates": [
+    37.624833,
+    55.663592
+   ],
+   "address": "Каширское ш., 14, стр. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "wheelchair_accessability",
+     "value": true,
+     "type": "bool",
+     "important": false
+    },
+    {
+     "id": "wheelchair_access",
+     "value": [
+      {
+       "id": "full_access",
+       "name": "доступно"
+      }
+     ],
+     "name": "доступность входа на инвалидной коляске",
+     "type": "enum",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "103846635460",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.617947,
+    55.657992
+   ],
+   "address": "Варшавское ш., 70, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "153434727597",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.601265,
+    55.64371
+   ],
+   "address": "Балаклавский просп., 18А",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "131356407579",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.617423,
+    55.652662
+   ],
+   "address": "Чонгарский бул., 1, корп. 2, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "244372978185",
+   "title": "Энергия Москвы",
+   "chainName": "Энергия Москвы",
+   "coordinates": [
+    37.67356,
+    55.686505
+   ],
+   "address": "Москва, Нагатинская набережная",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "222109590410",
+   "title": "Энергия Москвы",
+   "chainName": null,
+   "coordinates": [
+    37.667758,
+    55.676775
+   ],
+   "address": "Москва, улица Новинки",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "60976142663",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.606642,
+    55.634941
+   ],
+   "address": "Сумской пр., 12, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "176182900725",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.607361,
+    55.637844
+   ],
+   "address": "Чертановская ул., 1А, корп. 1, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "45361835601",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.602166,
+    55.629918
+   ],
+   "address": "Чертановская ул., 7, корп. 1, стр. 3А",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "15807394316",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.613785,
+    55.635817
+   ],
+   "address": "Сумской пр., 4, корп. 4, стр. 4",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "140213847610",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.602775,
+    55.63136
+   ],
+   "address": "Чертановская ул., 3, корп. 1, стр. 5",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "173696046747",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.605757,
+    55.630914
+   ],
+   "address": "Чертановская ул., 3, корп. 3, стр. 4",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "236051595633",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.608389,
+    55.624363
+   ],
+   "address": "Кировоградская ул., 12, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "157788887527",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.596692,
+    55.622645
+   ],
+   "address": "Чертановская ул., 21, корп. 2, стр. 3",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "140566270071",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.610917,
+    55.646503
+   ],
+   "address": "Ялтинская ул., 11, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "131085480933",
+   "title": "Яндекс Заправки",
+   "chainName": "Яндекс Заправки",
+   "coordinates": [
+    37.608853,
+    55.630454
+   ],
+   "address": "Кировоградская ул., 4, корп. 3, стр. 2",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "charging_speed",
+     "value": [
+      {
+       "id": "slow",
+       "name": "медленная"
+      }
+     ],
+     "name": "Тип зарядки",
+     "aref": "#charging_stations",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "1",
+     "name": "количество разъёмов",
+     "aref": "#charging_stations",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "22 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "145095676220",
+   "title": "Eq Electric Intelligence, станция зарядки электромобилей",
+   "chainName": null,
+   "coordinates": [
+    37.615982,
+    55.621051
+   ],
+   "address": "Варшавское ш., 127",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ev_plug2",
+       "name": "Type 2"
+      }
+     ],
+     "name": "тип разъёма",
+     "type": "enum",
+     "important": true
+    },
+    {
+     "id": "number_of_connectors",
+     "value": "2",
+     "name": "количество разъёмов",
+     "type": "text",
+     "important": true
+    },
+    {
+     "id": "charging_station_power",
+     "value": "10 кВт",
+     "name": "мощность зарядной станции",
+     "type": "text",
+     "important": false
+    }
+   ]
+  },
+  {
+   "id": "114218507013",
+   "title": "Рн-энерго",
+   "chainName": null,
+   "coordinates": [
+    37.61208,
+    55.625187
+   ],
+   "address": "Кировоградская ул., 9, корп. 1",
+   "features": [
+    {
+     "id": "plugtype",
+     "value": [
+      {
+       "id": "ccs_combo",
+       "name": "CCS Combo 2"
+      },
+      {
+       "id": "gbt_dc",
+       "name": "GB/T DC"
       }
      ],
      "name": "тип разъёма",
