@@ -265,7 +265,7 @@ async function testT5({ params }) {
 // Те же 50 кандидатов и то же зерно, что в полной версии (tests/t6-*.js):
 // на 10 кандидатах тау Кендалла слишком "зернистая" и прыгала через порог
 // 0.9 от выборки к выборке (2030: 0.956 на 10 при 0.83 на 50, журнал 25.09).
-function testT6({ cells, stations, params, year }) {
+function testT6({ cells, stations, params, year, scenario = 'base' }) {
   const N = 50;
   const flatParams = JSON.parse(JSON.stringify(params));
   for (const dayKey of ['hourly_profile_weekday', 'hourly_profile_weekend']) {
@@ -276,7 +276,7 @@ function testT6({ cells, stations, params, year }) {
   const rand = mulberry32(606);
   // Кандидат - случайная ячейка ± ~0.5 км (после обрезки по МКАД углы bbox вне области модели).
   const nearRandomCell = () => { const c = cells[Math.floor(rand() * cells.length)]; return { lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 }; };
-  const CONDITIONS = { scenario: 'base', dayType: 'weekday', season: 'summer' };
+  const CONDITIONS = { scenario, dayType: 'weekday', season: 'summer' };
 
   const active = stations.filter((s) => s.year_open <= year);
   const fullContext = buildNetworkContext({ cells, stations: active, params });
@@ -309,10 +309,12 @@ function testT6({ cells, stations, params, year }) {
   const pass = tauB < 0.9 && tauC < 0.9;
   return {
     id: 'T6',
-    name: `Т6: не скоринг ли это (${year}, ${N} кандидатов)`,
+    name: `Т6: не скоринг ли это (${year}, ${scenario === 'optimistic' ? 'быстрый' : 'базовый'} рост, ${N} кандидатов)`,
     pass,
-    detail: `тау(плоский профиль)=${tauB.toFixed(3)}, тау(без соседей)=${tauC.toFixed(3)}${year === 2026 && !pass ? ' — в 2026 по разделу 14 может не пройти, это ожидаемо' : ''}`,
-    soft: year === 2026, // не блокирует общий вердикт
+    detail: `тау(плоский профиль)=${tauB.toFixed(3)}, тау(без соседей)=${tauC.toFixed(3)}${!pass && scenario === 'base' ? ' — при слабой загрузке сети по разделу 14 может не пройти, это ожидаемо' : ''}`,
+    // Жёстко - только 2030 при быстром росте: при базовом (30%/год) сеть
+    // 2026 и 2030 загружена слабо, и ось времени почти не влияет (26.09).
+    soft: scenario === 'base', // не блокирует общий вердикт
   };
 }
 
@@ -468,6 +470,7 @@ export async function runAllTests({ cells, stationsAll, stations, params, fullCo
   push(testT6({ cells, stations: stationsAll, params, year: 2026 }));
   await new Promise((r) => setTimeout(r, 0));
   push(testT6({ cells, stations: stationsAll, params, year: 2030 }));
+  push(testT6({ cells, stations: stationsAll, params, year: 2030, scenario: 'optimistic' }));
   await new Promise((r) => setTimeout(r, 0));
   push(testT7({ params }));
   await new Promise((r) => setTimeout(r, 0));

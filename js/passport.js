@@ -193,7 +193,7 @@ export function renderEquipment({ evalResult }) {
       rec && rec.connRange
         ? `<div class="metric-row"><span>Класс подключения</span><span>${rec.cls}</span></div>
     <div class="metric-row"><span>Стоимость подключения (оценка)</span><span>${fmt(rec.connRange.costLow / 1e6, 1)}–${fmt(rec.connRange.costHigh / 1e6, 1)} млн ₽</span></div>
-    <div class="metric-row"><span>Вложения: станция, подключение, площадка</span><span>до ${fmt(rec.scenarios.low.CAPEXrub / 1e6, 1)} млн ₽</span></div>
+    <div class="metric-row"><span>Вложения: станция, подключение, площадка (без субсидии)</span><span>до ${fmt(rec.scenarios.low.CAPEXrub / 1e6, 1)} млн ₽</span></div>
     <div class="metric-row"><span>Срок до запуска</span><span>${fmt(rec.connRange.monthsLow, 0)}–${fmt(rec.connRange.monthsHigh, 0)} мес.</span></div>
     ${rec.cls === 'А' ? '<p class="pp-note">Класс А: трансформаторная подстанция 0,4 кВ ближе 200 м, подключение дешёвое.</p>' : '<p class="pp-note">Класс Б: в данных нет трансформаторной подстанции ближе 200 м. Точную цену и срок нужно запросить у сетевой компании.</p>'}`
         : ''
