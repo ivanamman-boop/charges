@@ -1810,6 +1810,164 @@ details.tech .metric-row {
   overflow-x: auto;
 }
 
+.hero-how-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.hero-how-link:hover {
+  text-decoration: underline;
+}
+
+#how-section .section-lead {
+  max-width: 62rem;
+  line-height: 1.6;
+}
+
+.how-example {
+  margin: 1.1rem 0 0.4rem;
+  padding: 1rem 1.2rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-soft-2);
+  border-radius: var(--radius);
+  max-width: 62rem;
+}
+
+.how-example-title {
+  font-weight: 700;
+  color: var(--accent-darker);
+  margin-bottom: 0.4rem;
+}
+
+.how-example-body p {
+  margin: 0.3rem 0;
+  line-height: 1.55;
+}
+
+.how-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin: 0.6rem 0;
+}
+
+.how-split > div {
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+}
+
+.how-split b {
+  display: block;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.how-split-new b { color: var(--accent); }
+.how-split-old b { color: var(--ink-muted); }
+
+.how-subtitle {
+  margin: 1.6rem 0 0.6rem;
+  font-size: 1.05rem;
+}
+
+.how-steps {
+  list-style: none;
+  counter-reset: how;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.how-steps li {
+  counter-increment: how;
+  position: relative;
+  padding: 0.9rem 1rem 0.9rem 3.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.how-steps li::before {
+  content: counter(how);
+  position: absolute;
+  left: 0.9rem;
+  top: 0.9rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: grid;
+  place-items: center;
+}
+
+.how-step-title {
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.how-steps p {
+  margin: 0 0 0.45rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.how-steps .how-tech {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+  border-top: 1px dashed var(--border);
+  padding-top: 0.4rem;
+}
+
+.how-trust {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+.how-trust > div {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius);
+  background: var(--page);
+  border: 1px solid var(--border);
+}
+
+.how-trust-title {
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.how-trust ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .how-steps,
+  .how-trust,
+  .how-split {
+    grid-template-columns: 1fr;
+  }
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1995,4 +2153,26 @@ details.tech .metric-row {
   background: #0d9488;
   border: 1.5px solid #fff;
   box-shadow: 0 0 0 1px rgba(13, 148, 136, 0.45);
+}
+
+/* Сравнение точек: "больше - лучше" и расшифровка балла под числом */
+.score-rule {
+  margin: 0.2rem 0 0.8rem;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.score-raw {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-top: 0.1rem;
+}
+
+#candidate-list-table th .th-sub {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--ink-muted);
+  text-transform: none;
+  letter-spacing: 0;
 }

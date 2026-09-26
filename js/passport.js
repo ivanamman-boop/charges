@@ -51,7 +51,7 @@ export function renderPassport({ container, local, baselineS, candidate, station
 
   const maxBar = Math.max(1e-6, ...hourlyTotals);
   const barsHtml = hourlyTotals
-    .map((total, h) => `<div class="bar ${h === hour ? 'bar-now' : ''} ${h === peakHour ? 'bar-peak' : ''}" style="height:${Math.max(2, (total / maxBar) * 100)}%" title="${h}:00 — ${fmt(total, 2)} клиентов в час"></div>`)
+    .map((total, h) => `<div class="bar ${h === hour ? 'bar-now' : ''} ${h === peakHour ? 'bar-peak' : ''}" style="height:${Math.max(2, (total / maxBar) * 100)}%" title="${h}:00: ${fmt(total, 2)} машин в час"></div>`)
     .join('');
 
   const losers = neighbors.filter((n) => n.deltaS < 0);
@@ -59,7 +59,7 @@ export function renderPassport({ container, local, baselineS, candidate, station
   const neighborRows = (list) =>
     list
       .map(
-        (n) => `<div class="nb-row"><span class="nb-name">${escapeHtml(stationLabel(n.station))}<small>было ${fmt(n.S0, 1)} клиентов в сутки</small></span><span class="nb-bar"><i style="width:${(-n.deltaS / maxLoss) * 100}%"></i></span><span class="nb-val">−${fmt(-n.deltaS, 2)}</span></div>`
+        (n) => `<div class="nb-row"><span class="nb-name">${escapeHtml(stationLabel(n.station))}<small>сейчас ${fmt(n.S0, 1)} машин в сутки</small></span><span class="nb-bar"><i style="width:${(-n.deltaS / maxLoss) * 100}%"></i></span><span class="nb-val">−${fmt(-n.deltaS, 2)}</span></div>`
       )
       .join('');
 
@@ -71,37 +71,37 @@ export function renderPassport({ container, local, baselineS, candidate, station
     </div>
 
     <section id="passport-verdict-section">
-      <h3>Оборудование и рост до 2030</h3>
+      <h3>Какую станцию здесь ставить</h3>
       <div class="skeleton"></div>
     </section>
 
     <section>
-      <h3>Спрос в этой точке</h3>
-      <p class="pp-note">Для одного поста на 60 кВт в выбранных условиях — чтобы сравнивать точки между собой.</p>
+      <h3>Если поставить простой пост 60 кВт</h3>
+      <p class="pp-note">Все цифры ниже посчитаны для одного поста 60 кВт в выбранный день, сезон и год. Так разные места можно сравнивать при одинаковом оборудовании. Сколько машин получит рекомендованная станция, написано в блоке выше.</p>
       <div class="tiles">
-        <div class="tile"><div class="tile-value">${fmt(Snew, 1)}</div><div class="tile-label">клиентов в сутки</div></div>
-        <div class="tile"><div class="tile-value">${fmt(Math.max(0, newDemandShare) * 100, 0)}%</div><div class="tile-label">из них новые для сети</div></div>
-        <div class="tile"><div class="tile-value">${fmt(shareLost * 100, 0)}%</div><div class="tile-label">уезжают из-за очереди</div></div>
-        <div class="tile"><div class="tile-value">${fmt(Wh[peakHour] * 60, 0)} мин</div><div class="tile-label">ожидание в пиковый час</div></div>
+        <div class="tile"><div class="tile-value">${fmt(Snew, 1)}</div><div class="tile-label">машин в сутки</div></div>
+        <div class="tile"><div class="tile-value">${fmt(Math.max(0, newDemandShare) * 100, 0)}%</div><div class="tile-label">из них новые клиенты</div></div>
+        <div class="tile"><div class="tile-value">${fmt(shareLost * 100, 0)}%</div><div class="tile-label">уезжают, не дождавшись очереди</div></div>
+        <div class="tile"><div class="tile-value">${fmt(Wh[peakHour] * 60, 0)} мин</div><div class="tile-label">ожидание в самый загруженный час</div></div>
       </div>
     </section>
 
     <section>
-      <h3>Когда приезжают клиенты</h3>
+      <h3>Когда приезжают машины</h3>
       <div class="bar-chart">${barsHtml}</div>
       <div class="bar-axis"><span>0:00</span><span>6:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
-      <p class="pp-note">Пик — ${peakHour}:00. Выделен выбранный час (${hour}:00): загрузка поста ${fmt(Uh[hour] * 100, 0)}%, ожидание ${fmt(Wh[hour] * 60, 0)} мин.</p>
+      <p class="pp-note">Больше всего машин в ${peakHour}:00. Выделен выбранный час, ${hour}:00: пост занят ${fmt(Uh[hour] * 100, 0)}% времени, ожидание ${fmt(Wh[hour] * 60, 0)} мин.</p>
     </section>
 
     <section>
-      <h3>Кого заденет</h3>
-      <p class="pp-sentence">Из ${fmt(Snew, 1)} клиентов в сутки <b>${fmt(Math.max(0, newDemand), 1)} — новые</b> для сети, <b>${fmt(cannibalization, 1)}</b> станция заберёт у ${losers.length} ${plural(losers.length, 'соседней станции', 'соседних станций', 'соседних станций')}.</p>
+      <h3>У кого станция заберёт клиентов</h3>
+      <p class="pp-sentence">Из ${fmt(Snew, 1)} машин в сутки <b>${fmt(Math.max(0, newDemand), 1)}</b> будут новыми клиентами. Ещё <b>${fmt(cannibalization, 1)}</b> перейдут с ${losers.length} ${plural(losers.length, 'соседней станции', 'соседних станций', 'соседних станций')}.</p>
       ${losers.length ? `<div class="nb-list">${neighborRows(losers.slice(0, 6))}</div>` : '<p class="pp-note">Рядом нет станций, у которых новая заметно заберёт клиентов.</p>'}
       ${losers.length > 6 ? `<details class="nb-more"><summary>ещё ${losers.length - 6}</summary><div class="nb-list">${neighborRows(losers.slice(6))}</div></details>` : ''}
     </section>
 
     <section id="passport-connection-section">
-      <h3>Подключение к сети</h3>
+      <h3>Подключение к электросети</h3>
       <div class="skeleton short"></div>
     </section>
 
@@ -166,36 +166,36 @@ export function renderEquipment({ evalResult }) {
   const recA = rec && yearAverage(rec, 2026);
   const recB = rec && yearAverage(rec, 2030);
   verdictEl.innerHTML = `
-    <h3>Оборудование и рост до 2030</h3>
+    <h3>Какую станцию здесь ставить</h3>
     ${
       rec
         ? `<div class="rec-card">
-        <div class="rec-title">Рекомендуем ${rec.cfg.omega}</div>
-        <div class="rec-sub">${rec.cfg.P_cap_kW} кВт, ${rec.cfg.posts} ${rec.cfg.posts === 1 ? 'пост' : 'поста'} · больше всего новых для сети клиентов на 1 млн ₽ вложений (оборудование + подключение)</div>
-        <div class="rec-grow"><span>${fmt(recA.sessions, 1)}</span><span class="arrow">→</span><span>${fmt(recB.sessions, 1)}</span><span class="unit">клиентов в сутки<br>2026 → 2030</span></div>
-        <div class="rec-sub">из них новых для сети (не переманенных у соседей): <b>+${fmt(recA.gain, 1)} → +${fmt(recB.gain, 1)}</b></div>
+        <div class="rec-title">${rec.cfg.omega}: ${rec.cfg.P_cap_kW} кВт, ${rec.cfg.posts} ${rec.cfg.posts === 1 ? 'пост' : 'поста'}</div>
+        <div class="rec-sub">Из всех вариантов этот даёт больше всего новых клиентов на каждый вложенный миллион рублей (станция и подключение).</div>
+        <div class="rec-grow"><span>${fmt(recA.sessions, 1)}</span><span class="arrow">→</span><span>${fmt(recB.sessions, 1)}</span><span class="unit">машин в сутки<br>в 2026 и 2030</span></div>
+        <div class="rec-sub">Из них новых клиентов: <b>${fmt(recA.gain, 1)} в 2026 году, ${fmt(recB.gain, 1)} в 2030 году</b>. Остальные перейдут с соседних станций.</div>
       </div>`
-        : '<p class="pp-note">Нет допустимых вариантов: на ближайшем центре питания нет резерва мощности (класс В).</p>'
+        : '<p class="pp-note">Здесь станцию поставить нельзя: у ближайшей подстанции нет свободной мощности (класс В).</p>'
     }
     <details class="equip-details"><summary>Все варианты оборудования</summary><table class="equip-table">
-      <thead><tr><th>Вариант</th><th>Класс</th><th>Клиентов в сутки<br>2026 → 2030</th><th>Из них новых<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
+      <thead><tr><th>Станция</th><th>Класс</th><th>Машин в сутки<br>2026 → 2030</th><th>Из них новых<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>Принимает быстро*<br>2026 / 2030</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <p class="pp-note">Средний день года. * Доля приехавших в зимний будний день, которых станция принимает без отказа и ожидания дольше 10 мин. Мощнее станция — больше клиентов она перетягивает, поэтому её очередь тоже растёт: доступность почти не зависит от размера. Класс В — подключение невозможно (нет резерва на центре питания).</p>
+    <p class="pp-note">Средний день года. * Доля водителей, которых станция в зимний будний день принимает без отказа и без ожидания дольше 10 минут. Более мощная станция привлекает больше машин, поэтому очередь у неё тоже растёт, и эта доля почти не зависит от мощности. Класс В: у подстанции нет свободной мощности, подключить нельзя.</p>
     </details>
   `;
 
   connEl.innerHTML = `
-    <h3>Подключение к сети</h3>
-    <div class="metric-row"><span>Центр питания</span><span>${evalResult.center.id}${evalResult.center.name ? ` «${evalResult.center.name}»` : ''}</span></div>
+    <h3>Подключение к электросети</h3>
+    <div class="metric-row"><span>Питающая подстанция</span><span>${evalResult.center.id}${evalResult.center.name ? ` «${evalResult.center.name}»` : ''}</span></div>
     <div class="metric-row"><span>Свободная мощность (оценка)</span><span>${fmt(evalResult.centerFree / 1000, 1)} МВт</span></div>
     ${
       rec && rec.connRange
-        ? `<div class="metric-row"><span>Класс подключения (${rec.cfg.omega})</span><span>${rec.cls}</span></div>
+        ? `<div class="metric-row"><span>Класс подключения</span><span>${rec.cls}</span></div>
     <div class="metric-row"><span>Стоимость подключения (оценка)</span><span>${fmt(rec.connRange.costLow / 1e6, 1)}–${fmt(rec.connRange.costHigh / 1e6, 1)} млн ₽</span></div>
-    <div class="metric-row"><span>Вложения в станцию: оборудование + подключение + площадка</span><span>до ${fmt(rec.scenarios.low.CAPEXrub / 1e6, 1)} млн ₽</span></div>
+    <div class="metric-row"><span>Вложения: станция, подключение, площадка</span><span>до ${fmt(rec.scenarios.low.CAPEXrub / 1e6, 1)} млн ₽</span></div>
     <div class="metric-row"><span>Срок до запуска</span><span>${fmt(rec.connRange.monthsLow, 0)}–${fmt(rec.connRange.monthsHigh, 0)} мес.</span></div>
-    ${rec.cls === 'А' ? '<p class="pp-note">Класс А: известная трансформаторная подстанция 0.4 кВ ближе 200 м — льготное присоединение.</p>' : '<p class="pp-note">Класс Б или не определён: в данных нет ТП 0.4 кВ ближе 200 м — нужен запрос к сетевой компании (точка, мощность, ближайшая ТП).</p>'}`
+    ${rec.cls === 'А' ? '<p class="pp-note">Класс А: трансформаторная подстанция 0,4 кВ ближе 200 м, подключение дешёвое.</p>' : '<p class="pp-note">Класс Б: в данных нет трансформаторной подстанции ближе 200 м. Точную цену и срок нужно запросить у сетевой компании.</p>'}`
         : ''
     }
   `;

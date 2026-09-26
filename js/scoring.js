@@ -58,6 +58,7 @@ export function scoreCandidateRaw({ candidate, cells, stations, centers, params,
   return {
     powerScore,
     pAvailKW,
+    centerFreeKW,
     trafficRaw,
     nearbyCount,
     competitionScore,
