@@ -159,6 +159,93 @@ function getBaseline(year, season, dayType) {
   return entry;
 }
 
+// Итоги сети для карточки "Что изменилось": после каждого переключения
+// дня/сезона/года/роста пользователь видит, что именно поменялось, а не
+// только перекрашенную карту.
+function networkSnapshot() {
+  const { fullResult, cells, stations } = state;
+  let demand = 0;
+  for (const s of SEGMENTS) {
+    const d = fullResult.demand[s];
+    for (let i = 0; i < cells.length * 24; i++) demand += d[i];
+  }
+  let served = 0;
+  let uSum = 0;
+  let uN = 0;
+  let active = 0;
+  for (let j = 0; j < stations.length; j++) {
+    if (!fullResult.activeStations[j]) continue;
+    active++;
+    for (let h = 0; h < 24; h++) {
+      served += fullResult.qh.lambdaSrv[j * 24 + h];
+      uSum += fullResult.qh.U[j * 24 + h];
+      uN++;
+    }
+  }
+  return { controls: readControls(), demand, served, active, meanU: uN ? uSum / uN : 0, lostShare: demand > 0 ? Math.max(0, 1 - served / demand) : 0 };
+}
+
+const SCENARIO_NAME = { conservative: 'медленный рост спроса (15% в год)', base: 'базовый рост спроса (30% в год)', optimistic: 'быстрый рост спроса (80% в год)' };
+
+function describeControlChange(a, b) {
+  const parts = [];
+  if (a.dayType !== b.dayType) parts.push(b.dayType === 'weekend' ? 'Выходные вместо будней' : 'Будни вместо выходных');
+  if (a.season !== b.season) parts.push(b.season === 'winter' ? 'Зима вместо лета' : 'Лето вместо зимы');
+  if (a.year !== b.year) parts.push(`${b.year} год вместо ${a.year}`);
+  if (a.scenario !== b.scenario) parts.push(`${SCENARIO_NAME[b.scenario][0].toUpperCase()}${SCENARIO_NAME[b.scenario].slice(1)} вместо ${SCENARIO_NAME[a.scenario].replace(' спроса', '')}`);
+  return parts;
+}
+
+let changeToastTimer = null;
+function showChangeToast() {
+  const cur = networkSnapshot();
+  const prev = state.lastSnapshot;
+  state.lastSnapshot = cur;
+  const el = document.getElementById('change-toast');
+  if (!prev || !el) return;
+  const parts = describeControlChange(prev.controls, cur.controls);
+  if (parts.length === 0) return;
+  const num = (v) => Math.round(v).toLocaleString('ru-RU');
+  const pct = (v) => `${(v * 100).toFixed(1).replace('.', ',')}%`;
+  const rel = (a, b) => {
+    if (a <= 0) return '';
+    const r = (b / a - 1) * 100;
+    if (Math.abs(r) < 0.5) return '<span class="ct-same">без изменений</span>';
+    return `<span class="${r > 0 ? 'ct-up' : 'ct-down'}">${r > 0 ? '+' : '−'}${Math.abs(r) >= 100 ? `в ${(b / a).toFixed(1).replace('.', ',')} раза` : `${Math.abs(r).toFixed(0)}%`}</span>`;
+  };
+  const pp = (a, b) => {
+    const d = (b - a) * 100;
+    if (Math.abs(d) < 0.05) return '<span class="ct-same">без изменений</span>';
+    return `<span class="${d > 0 ? 'ct-up' : 'ct-down'}">${d > 0 ? '+' : '−'}${Math.abs(d).toFixed(1).replace('.', ',')} пункта</span>`;
+  };
+  const row = (label, a, b, delta) => `<tr><td>${label}</td><td class="num">${a}</td><td class="ct-arrow">→</td><td class="num"><b>${b}</b></td><td>${delta}</td></tr>`;
+  const newStations = cur.active - prev.active;
+  el.innerHTML = `
+    <button class="ct-close" aria-label="Закрыть">✕</button>
+    <div class="ct-kicker">Что изменилось</div>
+    <div class="ct-title">${parts.join(' · ')}</div>
+    <table>
+      ${row('Хотят зарядиться за сутки', num(prev.demand), num(cur.demand), rel(prev.demand, cur.demand))}
+      ${row('Работает быстрых станций', num(prev.active), num(cur.active), newStations ? `<span class="${newStations > 0 ? 'ct-up' : 'ct-down'}">${newStations > 0 ? '+' : '−'}${Math.abs(newStations)} городских</span>` : '<span class="ct-same">без изменений</span>')}
+      ${row('Зарядок за сутки по всей сети', num(prev.served), num(cur.served), rel(prev.served, cur.served))}
+      ${row('Пост занят в среднем', pct(prev.meanU), pct(cur.meanU), pp(prev.meanU, cur.meanU))}
+      ${row('Не смогли зарядиться', pct(prev.lostShare), pct(cur.lostShare), pp(prev.lostShare, cur.lostShare))}
+    </table>
+    <div class="ct-note">Карта спроса и цвета станций уже пересчитаны${state.candidate ? ', прогноз для выбранной точки тоже обновится' : ''}.</div>`;
+  el.hidden = false;
+  el.classList.remove('ct-hide');
+  el.querySelector('.ct-close').addEventListener('click', () => (el.hidden = true));
+  clearTimeout(changeToastTimer);
+  changeToastTimer = setTimeout(() => el.classList.add('ct-hide'), 12000);
+  el.onmouseenter = () => {
+    clearTimeout(changeToastTimer);
+    el.classList.remove('ct-hide');
+  };
+  el.onmouseleave = () => {
+    changeToastTimer = setTimeout(() => el.classList.add('ct-hide'), 6000);
+  };
+}
+
 async function recomputeFullEquilibrium() {
   setStatus('Пересчитываю сеть…', 'busy');
   await new Promise((r) => setTimeout(r, 0)); // дать браузеру отрисовать статус
@@ -191,6 +278,7 @@ async function recomputeFullEquilibrium() {
   setStatus(state.fullResult.converged ? 'Сеть пересчитана' : 'Расчёт не сошёлся — результат приблизительный', state.fullResult.converged ? 'ok' : 'warn');
 
   rerenderMapForHour();
+  showChangeToast();
 
   // Выбранная точка остаётся выбранной - её прогноз пересчитывается под
   // новые условия (день, сезон, год, сценарий), а не сбрасывается.
@@ -258,7 +346,7 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
   // проходом, чтобы не задерживать быстрый паспорт. Актуально только для
   // сценария base (опорные равновесия по другим сценариям не кэшируем, 12.3).
   if (scenario !== 'base') {
-    document.getElementById('passport-verdict-section').innerHTML = '<h3>Какую станцию здесь ставить</h3><p class="tbd">Подбор станции считается только для базового роста числа электромобилей. Переключите «Рост числа электромобилей» на «Базовый».</p>';
+    document.getElementById('passport-verdict-section').innerHTML = '<h3>Какую станцию здесь ставить</h3><p class="tbd">Подбор станции считается только для базового роста спроса. Переключите «Рост спроса на зарядку» на «Базовый».</p>';
     document.getElementById('passport-connection-section').innerHTML = '<h3>Подключение к электросети</h3><p class="tbd">Считается вместе с подбором станции, только для базового роста.</p>';
     loader.done();
     return;
@@ -507,7 +595,7 @@ async function runTests() {
     const uniq = (list) => [...new Set(list.map((r) => r.id))];
     const failedIds = uniq(hardFails);
     const summary =
-      (hardFails.length === 0 ? `Пройдены все ${uniq(run).length} тестов (Т6 проверен для 2026 и 2030 годов)${softFails.length ? `, ещё ${uniq(softFails).length} — ожидаемо мягкий результат` : ''}` : `Не пройдено: ${failedIds.map((id) => id.replace('T', 'Т')).join(', ')}`) +
+      (hardFails.length === 0 ? `Пройдены все ${uniq(run).length} тестов${softFails.length ? `. Ожидаемо мягкий результат: ${softFails.map((r) => r.name.replace(/^Т\d+: /, '')).join('; ')} — при слабой загрузке сети время суток почти не влияет на выбор (раздел 14 спецификации)` : ''}` : `Не пройдено: ${failedIds.map((id) => id.replace('T', 'Т')).join(', ')}`) +
       (pending.length ? `. Ждут данных от заказчика: ${pending.map((r) => r.id.replace('T', 'Т')).join(', ')}` : '');
     panel.innerHTML += `<div class="test-summary" style="color:${hardFails.length ? '#c0392b' : '#2e7d32'}">${summary}</div>`;
   } catch (err) {
@@ -675,7 +763,7 @@ function renderHowExample() {
       <div class="how-split-new"><b>${f1(p.new_demand_2026)}</b> новые клиенты: раньше они уезжали без зарядки или не дожидались очереди</div>
       <div class="how-split-old"><b>${f1(stolen)}</b> перешли с соседних станций, для сети в целом это не прибавка</div>
     </div>
-    <p>К 2030 году новых клиентов у этой станции станет ${f1(p.new_demand_2030)}. Модель выбирает места по числу новых клиентов в 2026 и 2030 годах.${conn}</p>`;
+    <p>${p.new_demand_2030 < p.new_demand_2026 / 2 ? `К 2030 году новых клиентов у этой станции почти не останется (${f1(p.new_demand_2030)} в сутки): город поставит свои станции, и водителей без зарядки станет мало. Поэтому ставить станцию выгодно сейчас, пока этих станций нет.` : `К 2030 году новых клиентов у этой станции станет ${f1(p.new_demand_2030)}.`} Модель выбирает места по числу новых клиентов в 2026 и 2030 годах.${conn}</p>`;
   document.getElementById('how-example').hidden = false;
 }
 
@@ -690,7 +778,7 @@ function renderPortfolioPanel() {
   const compare = document.getElementById('portfolio-compare');
   if (my) {
     const fmtNum = (v, d = 1) => (v === null || v === undefined || !isFinite(v) ? '—' : v.toFixed(d));
-    const sign = (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}`;
+    const sign = (v) => (Math.abs(v) < 0.5 ? '0' : `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}`);
     const years = [2026, 2028, 2030].filter((y) => my[y]);
     const ex = (y, k) => my[y][k].sessions_per_day_network - my[y].baseline.sessions_per_day_network;
     const m = my[2028] || my[years[0]];
@@ -734,7 +822,7 @@ function renderPortfolioPanel() {
         <td><div class="site-kind">${escapeHtml(p.kind)}</div>${p.name ? `<div class="site-name">${escapeHtml(p.name)}</div>` : ''}</td>
         <td>${escapeHtml(p.district || '—')}</td>
         <td class="num"><strong>+${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}</strong></td>
-        <td class="num">${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)}<div class="npv-range">рост ×${((p.sessions_2030 ?? 0) / Math.max(0.01, p.sessions_2026 ?? 0)).toFixed(2)}</div></td>
+        <td class="num">${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)}<div class="npv-range">к 2030 году ×${((p.sessions_2030 ?? 0) / Math.max(0.01, p.sessions_2026 ?? 0)).toFixed(2).replace('.', ',')}</div></td>
         <td>${escapeHtml(p.omega)} · класс ${escapeHtml(p.cls || '—')}<div class="npv-range">${p.conn_cost_high_rub ? `подключение ${(p.conn_cost_low_rub / 1e6).toFixed(1)}–${(p.conn_cost_high_rub / 1e6).toFixed(1)} млн ₽` : ''}${p.dist04_m ? `, подстанция в ${p.dist04_m} м` : ''}</div></td>
       </tr>`
     )
@@ -752,7 +840,7 @@ function renderPortfolioPanel() {
   document.getElementById('portfolio-footnote').textContent =
     (pf.model?.stoppedReason ? `Модель остановилась раньше ${pf.N} станций: ${pf.model.stoppedReason}. ` : '') +
     (pf.traditional?.dropped?.length ? `Традиционный подход потерял ${pf.traditional.dropped.length} площадк(и): класс подключения В выяснился поздно. ` : '') +
-    'Места выбраны по числу новых клиентов на 1 млн ₽ вложений, в среднем за 2026 и 2030 годы. Новые клиенты это зарядки, которых без станции не было бы: водители уезжали без зарядки или не дожидались очереди. Клиенты, перешедшие с соседних станций, не считаются. Вложения включают станцию, подключение и площадку, без платы за электричество. У обоих подходов одинаковые станции DC150-2, поэтому разница только в месте и цене подключения. В прогнозе для отдельной точки модель подбирает оборудование заново, и оно может отличаться. Класс А: трансформаторная подстанция ближе 200 м, подключение примерно 5–10 тыс. ₽ за кВт. Класс Б: дальше, примерно 50–80 тыс. ₽ за кВт. «А|Б»: подстанции нет в данных, считаем как Б.';
+    'Места выбраны по числу новых клиентов на 1 млн ₽ вложений, в среднем за 2026 и 2030 годы. Новые клиенты это зарядки, которых без станции не было бы: водители уезжали без зарядки или не дожидались очереди. Клиенты, перешедшие с соседних станций, не считаются. Вложения включают станцию, подключение и площадку, без платы за электричество и без государственной субсидии. У обоих подходов одинаковые станции DC150-2, поэтому разница только в месте и цене подключения. В прогнозе для отдельной точки модель подбирает оборудование заново, и оно может отличаться. Класс А: трансформаторная подстанция ближе 200 м, подключение примерно 5–10 тыс. ₽ за кВт. Класс Б: дальше, примерно 50–80 тыс. ₽ за кВт. «А|Б»: подстанции нет в данных, считаем как Б.';
 }
 
 main().catch((err) => {

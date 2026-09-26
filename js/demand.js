@@ -19,7 +19,7 @@ export function segmentDemand(segment, year, scenario, params) {
   }
   let g;
   if (GROWTH_GROUP[segment] === 'taxi') {
-    g = scenario === 'conservative' ? d1.g_taxi.conservative.value : d1.g_taxi.base_and_optimistic.value;
+    g = d1.g_taxi[scenario].value;
   } else {
     g = d1.g_private[scenario].value;
   }
