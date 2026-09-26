@@ -372,6 +372,13 @@ header .eyebrow {
   margin-bottom: 0.3rem;
 }
 
+#map-legend .legend-volume {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+  margin: -0.15rem 0 0.35rem;
+}
+
 #map-legend .legend-scale {
   display: flex;
   gap: 2px;

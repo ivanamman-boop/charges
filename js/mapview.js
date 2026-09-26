@@ -198,7 +198,6 @@ export const DEMAND_LEVELS = [
   { q: 0.95, fill: 'rgba(84, 30, 170, 0.74)', label: 'пиковый' },
 ];
 const HEX_STROKE = new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.75)', width: 1 });
-const HEX_STYLES = DEMAND_LEVELS.map((l) => new ol.style.Style({ fill: new ol.style.Fill({ color: l.fill }), stroke: HEX_STROKE }));
 
 // pointy-top шестиугольники, осевые координаты (q, r) - стандартная схема
 // с округлением в кубических координатах.
@@ -253,7 +252,21 @@ function hexDensities(index, perCell) {
 // пиковый час того же дня. Пороги ступеней считаются по пиковому часу и
 // держатся весь день: ночью зоны гаснут, в пик загораются. Если пороги
 // считать заново каждый час, картинка была бы одинаковой в любое время.
-export function renderDemandLayer({ demandSource, cells, totalDemandPerCell, scaleDemandPerCell = totalDemandPerCell }) {
+// Цвета зон - относительные (где спрос выше внутри текущей комбинации), а
+// общая насыщенность intensity (0..1) - абсолютная: год и сезон умножают спрос
+// одинаково во всех зонах, и при чисто относительной шкале 2026 и 2030
+// выглядели одинаково, хотя спрос отличается в 12 раз (26.09).
+const hexStyleCache = new Map();
+function hexStyle(level, intensity) {
+  const key = `${level}|${intensity.toFixed(2)}`;
+  if (!hexStyleCache.has(key)) {
+    const fill = DEMAND_LEVELS[level].fill.replace(/[\d.]+\)$/, (a) => `${(parseFloat(a) * (0.35 + 0.65 * intensity)).toFixed(3)})`);
+    hexStyleCache.set(key, new ol.style.Style({ fill: new ol.style.Fill({ color: fill }), stroke: HEX_STROKE }));
+  }
+  return hexStyleCache.get(key);
+}
+
+export function renderDemandLayer({ demandSource, cells, totalDemandPerCell, scaleDemandPerCell = totalDemandPerCell, intensity = 1 }) {
   demandSource.clear();
   const index = hexIndex(cells);
   const scale = hexDensities(index, scaleDemandPerCell).filter((v) => v > 0).sort((a, b) => a - b);
@@ -268,7 +281,7 @@ export function renderDemandLayer({ demandSource, cells, totalDemandPerCell, sca
     for (let l = 0; l < thresholds.length; l++) if (v >= thresholds[l]) level = l;
     if (level < 0) return;
     const f = new ol.Feature({ geometry: hex.geometry });
-    f.setStyle(HEX_STYLES[level]);
+    f.setStyle(hexStyle(level, Math.max(0, Math.min(1, intensity))));
     const perKm2 = v; // ячейка = 1 км², v - среднее по ячейкам зоны
     f.set('hint', `Спрос на зарядку: ${perKm2.toFixed(2)} заявок/ч на км²\n${(v / cityMean).toFixed(1)}× от среднего по городу в пик`);
     features.push(f);
