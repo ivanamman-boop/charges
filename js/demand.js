@@ -26,6 +26,47 @@ export function segmentDemand(segment, year, scenario, params) {
   return theta * D0 * Math.pow(1 + g, year - Y0);
 }
 
+// Спрос по городу в году y относительно 2026 (сумма сегментов, сценарий k).
+export function demandMultiplier(year, scenario, params) {
+  let now = 0;
+  let base = 0;
+  for (const s of SEGMENTS) {
+    now += segmentDemand(s, year, scenario, params);
+    base += segmentDemand(s, Y0, scenario, params);
+  }
+  return base > 0 ? now / base : 1;
+}
+
+// Сколько городских станций внутри МКАД открывается в году y при сценарии k
+// (26.09). План «Энергии Москвы» (params.planned_network) рассчитан под
+// базовый рост: 200 станций в год внутри МКАД. Город строит под спрос,
+// поэтому при другом сценарии годовая квота пропорциональна приросту спроса
+// за этот год относительно базового: медленный рост - меньше станций,
+// быстрый - больше. Иначе при медленном росте город ставил бы станции,
+// которым некого обслуживать, и новые станции к 2030 теряли бы клиентов.
+export function plannedStationsPerYear(year, scenario, params) {
+  const plan = params.planned_network;
+  const perYear = Math.round((plan.points_per_year.value / plan.posts_per_station.value) * plan.share_inside_mkad.value);
+  if (scenario === 'base') return perYear;
+  const inc = (k) => demandMultiplier(year, k, params) - demandMultiplier(year - 1, k, params);
+  const b = inc('base');
+  return b > 0 ? Math.round((perYear * inc(scenario)) / b) : perYear;
+}
+
+// Работает ли станция в году y при сценарии k. Городская (status planned)
+// открывается, только если её номер в очереди своего года (plan_rank)
+// меньше квоты этого года: add-planned-stations.js расставляет запас под
+// быстрый сценарий, в базовом и медленном строятся первые по очереди.
+export function isStationActive(station, year, scenario, params) {
+  if (station.year_open > year) return false;
+  if (station.status !== 'planned' || station.plan_rank === undefined || !params) return true;
+  return station.plan_rank < plannedStationsPerYear(station.year_open, scenario, params);
+}
+
+export function stationsActiveIn(stations, year, scenario, params) {
+  return stations.filter((s) => isStationActive(s, year, scenario, params));
+}
+
 // 3.2. Веса ячеек w_{s,i} по слоям cells.json, нормированные на сумму = 1.
 export function cellWeights(cells, params) {
   const weights = params.M1_demand.layer_weights;

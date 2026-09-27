@@ -11,6 +11,12 @@
 // точка - в пределах ячейки, не ближе min_distance_m к действующим и уже
 // поставленным плановым. Фиксированный seed - результат воспроизводим.
 //
+// С 26.09 число городских станций зависит от сценария роста спроса
+// (js/demand.js, plannedStationsPerYear): здесь на каждый год ставится запас
+// под самый быстрый сценарий, у каждой станции plan_rank - номер в очереди
+// своего года. В базовом сценарии открываются первые 200, в медленном меньше.
+// Очередь случайная ∝ спросу, поэтому любая её начальная часть тоже ∝ спросу.
+//
 // Последний шаг цепочки данных (после clip:mkad). Идемпотентен: прежние
 // плановые станции удаляются перед генерацией.
 //
@@ -18,7 +24,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { cellWeights, segmentDemand, SEGMENTS } from '../js/demand.js';
+import { cellWeights, segmentDemand, SEGMENTS, plannedStationsPerYear } from '../js/demand.js';
 import { haversineKm } from '../js/choice.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -60,10 +66,12 @@ const pickCell = () => {
 };
 
 const minKm = plan.min_distance_m.value / 1000;
-const perYear = Math.round((plan.points_per_year.value / plan.posts_per_station.value) * plan.share_inside_mkad.value);
+const SCENARIOS = ['conservative', 'base', 'optimistic'];
 const placed = [];
 const all = [...existing];
 for (let year = plan.first_year.value; year <= plan.last_year.value; year++) {
+  const quotas = Object.fromEntries(SCENARIOS.map((k) => [k, plannedStationsPerYear(year, k, params)]));
+  const perYear = Math.max(...Object.values(quotas));
   let n = 0;
   let tries = 0;
   while (n < perYear && tries < perYear * 200) {
@@ -82,16 +90,17 @@ for (let year = plan.first_year.value; year <= plan.last_year.value; year++) {
       P_post_kW: plan.P_kW.value,
       status: 'planned',
       year_open: year,
+      plan_rank: n,
     };
     placed.push(st);
     all.push(st);
     n++;
   }
-  console.log(`${year}: +${n} плановых станций`);
+  console.log(`${year}: расставлено ${n}; открываются по сценариям: медленный ${quotas.conservative}, базовый ${quotas.base}, быстрый ${quotas.optimistic}`);
 }
 
 raw.stations = [...existing, ...placed];
-const NOTE = ' | + плановые станции города (scripts/add-planned-stations.js): количество по плану «Энергии Москвы», места — оценка ∝ спросу, status "planned".';
+const NOTE = ' | + плановые станции города (scripts/add-planned-stations.js): количество по плану «Энергии Москвы» для базового роста, в других сценариях пропорционально спросу (plan_rank), места — оценка ∝ спросу, status "planned".';
 if (!raw.source.includes('плановые станции города')) raw.source += NOTE;
 writeFileSync(join(DATA, 'stations.json'), JSON.stringify(raw, null, 2));
-console.log(`действующих ${existing.length}, плановых ${placed.length} (по ${perYear}/год внутри МКАД)`);
+console.log(`действующих ${existing.length}, городских мест в запасе ${placed.length}`);

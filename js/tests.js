@@ -2,7 +2,7 @@
 // тестов Т1-Т10 — чистые функции из js/*.js, без DOM. Т8 запускается в
 // сокращённом виде (3 кандидата), Т10 - с урезанным каталогом оборудования;
 // полные версии — в tests/*.js через `npm test` (Node). Т11 ждёт данных.
-import { SEGMENTS, segmentDemand, demandField } from './demand.js';
+import { SEGMENTS, segmentDemand, demandField, stationsActiveIn } from './demand.js';
 import {
   haversineKm,
   assignStationsToCells,
@@ -278,7 +278,7 @@ function testT6({ cells, stations, params, year, scenario = 'base' }) {
   const nearRandomCell = () => { const c = cells[Math.floor(rand() * cells.length)]; return { lat: c.lat + (rand() - 0.5) * 0.009, lon: c.lon + (rand() - 0.5) * 0.016 }; };
   const CONDITIONS = { scenario, dayType: 'weekday', season: 'summer' };
 
-  const active = stations.filter((s) => s.year_open <= year);
+  const active = stationsActiveIn(stations, year, scenario, params);
   const fullContext = buildNetworkContext({ cells, stations: active, params });
   const fullResult = equilibrium({ cells, stations: active, params, year, ...CONDITIONS, context: fullContext });
 
@@ -309,12 +309,10 @@ function testT6({ cells, stations, params, year, scenario = 'base' }) {
   const pass = tauB < 0.9 && tauC < 0.9;
   return {
     id: 'T6',
-    name: `Т6: не скоринг ли это (${year}, ${scenario === 'optimistic' ? 'быстрый' : 'базовый'} рост, ${N} кандидатов)`,
+    name: `Т6: не скоринг ли это (${year}, ${N} кандидатов)`,
     pass,
-    detail: `тау(плоский профиль)=${tauB.toFixed(3)}, тау(без соседей)=${tauC.toFixed(3)}${!pass && scenario === 'base' ? ' — при слабой загрузке сети по разделу 14 может не пройти, это ожидаемо' : ''}`,
-    // Жёстко - только 2030 при быстром росте: при базовом (30%/год) сеть
-    // 2026 и 2030 загружена слабо, и ось времени почти не влияет (26.09).
-    soft: scenario === 'base', // не блокирует общий вердикт
+    detail: `тау(плоский профиль)=${tauB.toFixed(3)}, тау(без соседей)=${tauC.toFixed(3)}${year === 2026 && !pass ? ' — в 2026 по разделу 14 может не пройти, это ожидаемо' : ''}`,
+    soft: year === 2026, // не блокирует общий вердикт
   };
 }
 
@@ -383,7 +381,7 @@ export function testT10({ cells, stations, params, year = 2026, fast = true }) {
   // (а) Зона обслуживания, сегмент P1, 12:00, без очередей (W = 0).
   const zoneSize = (p) => {
     const ctx = buildNetworkContext({ cells, stations, params: p });
-    const active = buildActiveMask(stations, year);
+    const active = buildActiveMask(stations, year, 'base', p);
     const m2 = p.M2_choice;
     const beta = Math.LN2 / m2.d_half_km.P1.value;
     const gamma = Math.LN2 / (m2.W_half_min.P.value / 60);
@@ -423,7 +421,7 @@ export function testT10({ cells, stations, params, year = 2026, fast = true }) {
   const getBaseline = (y, season, dayType) => {
     const key = `${y}|${season}|${dayType}`;
     if (!cache.has(key)) {
-      const st = stations.filter((s) => s.year_open <= y);
+      const st = stationsActiveIn(stations, y, 'base', trimmed);
       const context = buildNetworkContext({ cells, stations: st, params: trimmed });
       cache.set(key, { context, result: equilibrium({ cells, stations: st, params: trimmed, year: y, scenario: 'base', dayType, season, context }), stations: st });
     }
@@ -470,7 +468,6 @@ export async function runAllTests({ cells, stationsAll, stations, params, fullCo
   push(testT6({ cells, stations: stationsAll, params, year: 2026 }));
   await new Promise((r) => setTimeout(r, 0));
   push(testT6({ cells, stations: stationsAll, params, year: 2030 }));
-  push(testT6({ cells, stations: stationsAll, params, year: 2030, scenario: 'optimistic' }));
   await new Promise((r) => setTimeout(r, 0));
   push(testT7({ params }));
   await new Promise((r) => setTimeout(r, 0));

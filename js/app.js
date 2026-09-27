@@ -1,6 +1,6 @@
 // Точка входа статического сайта. Оркестрирует загрузку данных, карту,
 // ползунок времени и черновик паспорта площадки (клик по карте).
-import { SEGMENTS, demandField } from './demand.js';
+import { SEGMENTS, demandField, stationsActiveIn } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidateAsync } from './equipment.js';
 import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad, renderSlowStations } from './mapview.js';
@@ -151,7 +151,7 @@ function rerenderMapForHour() {
 function getBaseline(year, season, dayType) {
   const key = `${year}|${season}|${dayType}`;
   if (state.baselineCache.has(key)) return state.baselineCache.get(key);
-  const stations = state.stationsAll.filter((s) => s.year_open <= year);
+  const stations = stationsActiveIn(state.stationsAll, year, 'base', state.preciseParams);
   const context = buildNetworkContext({ cells: state.cells, stations, params: state.preciseParams });
   const result = equilibrium({ cells: state.cells, stations, params: state.preciseParams, year, scenario: 'base', dayType, season, context });
   const entry = { context, result, stations };
@@ -185,14 +185,15 @@ function networkSnapshot() {
   return { controls: readControls(), demand, served, active, meanU: uN ? uSum / uN : 0, lostShare: demand > 0 ? Math.max(0, 1 - served / demand) : 0 };
 }
 
-const SCENARIO_NAME = { conservative: 'медленный рост спроса (15% в год)', base: 'базовый рост спроса (30% в год)', optimistic: 'быстрый рост спроса (80% в год)' };
+const SCENARIO_GEN = { conservative: 'медленного (30% в год)', base: 'базового (80% в год)', optimistic: 'быстрого (93% в год)' };
+const SCENARIO_NAME = { conservative: 'медленный рост спроса (30% в год)', base: 'базовый рост спроса (80% в год)', optimistic: 'быстрый рост спроса (93% в год)' };
 
 function describeControlChange(a, b) {
   const parts = [];
   if (a.dayType !== b.dayType) parts.push(b.dayType === 'weekend' ? 'Выходные вместо будней' : 'Будни вместо выходных');
   if (a.season !== b.season) parts.push(b.season === 'winter' ? 'Зима вместо лета' : 'Лето вместо зимы');
   if (a.year !== b.year) parts.push(`${b.year} год вместо ${a.year}`);
-  if (a.scenario !== b.scenario) parts.push(`${SCENARIO_NAME[b.scenario][0].toUpperCase()}${SCENARIO_NAME[b.scenario].slice(1)} вместо ${SCENARIO_NAME[a.scenario].replace(' спроса', '')}`);
+  if (a.scenario !== b.scenario) parts.push(`${SCENARIO_NAME[b.scenario][0].toUpperCase()}${SCENARIO_NAME[b.scenario].slice(1)} вместо ${SCENARIO_GEN[a.scenario]}`);
   return parts;
 }
 
@@ -253,7 +254,7 @@ async function recomputeFullEquilibrium() {
   const { dayType, season, year, scenario } = readControls();
   const t0 = performance.now();
 
-  state.stations = state.stationsAll.filter((s) => s.year_open <= year);
+  state.stations = stationsActiveIn(state.stationsAll, year, scenario, state.preciseParams);
   state.fullContext = buildNetworkContext({ cells: state.cells, stations: state.stations, params: state.preciseParams });
   state.fullResult = equilibrium({
     cells: state.cells,

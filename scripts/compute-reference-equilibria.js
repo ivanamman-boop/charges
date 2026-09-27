@@ -10,6 +10,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { buildNetworkContext, equilibrium, dailySessions } from '../js/equilibrium.js';
+import { stationsActiveIn } from '../js/demand.js';
 
 const DATA_DIR = new URL('../data/', import.meta.url);
 const cells = JSON.parse(readFileSync(new URL('cells.json', DATA_DIR))).cells;
@@ -23,8 +24,8 @@ const SCENARIO = 'base';
 
 const combos = [];
 for (const year of YEARS) {
-  // сеть года y: действуют все станции с year_open <= y (3.1)
-  const stations = stationsAll.filter((s) => s.year_open <= year);
+  // сеть года y: действующие + городские станции, открытые к y в этом сценарии (3.1)
+  const stations = stationsActiveIn(stationsAll, year, SCENARIO, params);
   const context = buildNetworkContext({ cells, stations, params });
 
   for (const season of SEASONS) {

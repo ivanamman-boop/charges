@@ -43,6 +43,7 @@ import { dirname, join } from 'node:path';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions, totalArrivalPerStationHour } from '../js/equilibrium.js';
 import { evaluateCandidate, yearAverage } from '../js/equipment.js';
 import { haversineKm } from '../js/choice.js';
+import { stationsActiveIn } from '../js/demand.js';
 import { dist04FromKnownTp } from '../js/grid.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -80,7 +81,7 @@ function makeBaselines(extra) {
   return function getBaseline(year, season, dayType) {
     const key = `${year}|${season}|${dayType}`;
     if (cache.has(key)) return cache.get(key);
-    const stations = [...baseStations.filter((s) => s.year_open <= year), ...extra];
+    const stations = [...stationsActiveIn(baseStations, year, 'base', params), ...extra];
     const context = buildNetworkContext({ cells, stations, params });
     const result = equilibrium({ cells, stations, params, year, scenario: 'base', dayType, season, context });
     const entry = { context, result, stations };
@@ -249,7 +250,7 @@ function metrics(picks, tag, year) {
   let stations = null;
   for (const season of ['summer', 'winter'])
     for (const dayType of ['weekday', 'weekend']) {
-      stations = [...baseStations.filter((s) => s.year_open <= year), ...extra];
+      stations = [...stationsActiveIn(baseStations, year, 'base', params), ...extra];
       const context = buildNetworkContext({ cells, stations, params });
       const res = equilibrium({ cells, stations, params, year, scenario: 'base', dayType, season, context });
       const w = SEASON_W[season] * DAY_W[dayType];

@@ -1,5 +1,5 @@
 // Модуль 4. Равновесие сети (спецификация, раздел 6.1). Чистые функции.
-import { SEGMENTS, demandField } from './demand.js';
+import { SEGMENTS, demandField, isStationActive } from './demand.js';
 import { assignStationsToCells, buildNeighborIndex, buildLnAttractiveness, haversineKm, huff } from './choice.js';
 import { sessionMetrics as queueSessionMetrics, hourlyAverages, queueHour } from './queue.js';
 
@@ -12,9 +12,9 @@ export function buildNetworkContext({ cells, stations, params }) {
   return { homeCell, neighborIndex, lnA };
 }
 
-export function buildActiveMask(stations, year) {
+export function buildActiveMask(stations, year, scenario = 'base', params = null) {
   const mask = new Uint8Array(stations.length);
-  for (let j = 0; j < stations.length; j++) mask[j] = stations[j].year_open <= year ? 1 : 0;
+  for (let j = 0; j < stations.length; j++) mask[j] = isStationActive(stations[j], year, scenario, params) ? 1 : 0;
   return mask;
 }
 
@@ -86,7 +86,7 @@ export function computeQueueForAllStations({ stations, params, lam, sessionMetri
 // 6.1. Неподвижная точка Хафф <-> Очередь с демпфированием.
 export function equilibrium({ cells, stations, params, year, scenario, dayType, season, context }) {
   const { neighborIndex, lnA } = context;
-  const activeStations = buildActiveMask(stations, year);
+  const activeStations = buildActiveMask(stations, year, scenario ?? 'base', params);
   const demand = demandField({ cells, params, year, scenario, dayType, season });
   const sessionMetrics = buildSessionMetrics({ stations, params, season });
 
