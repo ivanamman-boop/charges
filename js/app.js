@@ -4,7 +4,7 @@ import { SEGMENTS, demandField, stationsActiveIn } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidateAsync } from './equipment.js';
 import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad, renderSlowStations } from './mapview.js';
-import { renderPassport, renderEquipment } from './passport.js';
+import { renderPassport, renderEquipment, updatePassportHour } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
 import { dist04FromKnownTp } from './grid.js';
@@ -138,6 +138,7 @@ function rerenderMapForHour() {
     scaleDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, peakDemandHour(fullResult.demand, cells.length)),
     intensity,
   });
+  if (!document.getElementById('passport').hidden) updatePassportHour(hour);
   const dayLabel = readControls().dayType === 'weekend' ? 'выходной' : 'будни';
   document.getElementById('map-legend-time').textContent = `${String(hour).padStart(2, '0')}:00 · ${dayLabel}`;
   const k = cityPeak / bounds.base2026;
@@ -287,11 +288,14 @@ async function recomputeFullEquilibrium() {
     placeCandidateAndShowPassport(state.candidate.lat, state.candidate.lon, state.activeListId);
   }
 
-  // Баллы списка считаются на условиях момента добавления (спрос/сеть) -
-  // при смене условий список теряет сопоставимость, поэтому очищаем.
+  // Баллы списка зависят от условий (спрос, сеть года) - при смене условий
+  // пересчитываем их для всех точек, а не очищаем список (27.09: раньше
+  // таблица молча пропадала при переключении сезона).
   if (state.candidateList.length > 0) {
-    state.candidateList = [];
-    state.activeListId = null;
+    state.candidateList = state.candidateList.map((c) => ({
+      ...c,
+      ...scoreCandidateRaw({ candidate: { lat: c.lat, lon: c.lon }, cells: state.cells, stations: state.stations, centers: state.centers, params: state.preciseParams, demand: state.fullResult.demand, tp04: state.tp04 }),
+    }));
     renderCandidateListTable();
   }
 }
@@ -304,7 +308,7 @@ async function placeCandidateAndShowPassport(lat, lon, listId = null) {
   const candidate = { ...candidateBase, P_kW: 60, posts: 1, P_post_kW: 60, year_open: readControls().year };
   state.candidate = candidate;
   renderCandidate({ candidateSource: state.layers.candidateSource, candidate });
-  document.getElementById('add-to-list-btn').disabled = false;
+  syncAddButton();
 
   const { dayType, season, year, scenario } = readControls();
 
@@ -461,8 +465,21 @@ function scoreBadgeColor(score) {
   return `rgb(${r},${g},70)`;
 }
 
+const sameSpot = (c, lat, lon) => Math.abs(c.lat - lat) < 1e-7 && Math.abs(c.lon - lon) < 1e-7;
+
+// Кнопка «Добавить точку в сравнение»: уже добавленную точку второй раз
+// не добавляем (27.09: в таблице появлялись одинаковые строки).
+function syncAddButton() {
+  const btn = document.getElementById('add-to-list-btn');
+  const c = state.candidate;
+  const inList = c && state.candidateList.some((x) => sameSpot(x, c.lat, c.lon));
+  btn.disabled = !c || inList;
+  btn.textContent = inList ? 'Точка уже в сравнении' : 'Добавить точку в сравнение';
+}
+
 function addCurrentCandidateToList() {
   if (!state.candidate) return;
+  if (state.candidateList.some((x) => sameSpot(x, state.candidate.lat, state.candidate.lon))) return syncAddButton();
   const raw = scoreCandidateRaw({
     candidate: state.candidate,
     cells: state.cells,
@@ -470,6 +487,7 @@ function addCurrentCandidateToList() {
     centers: state.centers,
     params: state.preciseParams,
     demand: state.fullResult.demand,
+    tp04: state.tp04,
   });
   state.candidateList.push({
     listId: state.candidateListNextId++,
@@ -478,16 +496,19 @@ function addCurrentCandidateToList() {
     ...raw,
   });
   renderCandidateListTable();
+  syncAddButton();
 }
 
 function removeFromList(listId) {
   state.candidateList = state.candidateList.filter((c) => c.listId !== listId);
   if (state.activeListId === listId) state.activeListId = null;
   renderCandidateListTable();
+  syncAddButton();
 }
 
 function sortCandidateList(items) {
-  const { key, dir } = state.candidateListSort;
+  const { key: rawKey, dir } = state.candidateListSort;
+  const key = rawKey === 'index' ? 'listId' : rawKey; // «#» - порядок добавления
   const sorted = [...items].sort((a, b) => {
     const av = a[key];
     const bv = b[key];
@@ -515,7 +536,7 @@ function renderCandidateListTable() {
       return `<tr${active} data-list-id="${c.listId}">
         <td>${i + 1}</td>
         <td><span class="score-badge" style="background:${scoreBadgeColor(c.composite)}">${c.composite.toFixed(0)}</span></td>
-        <td><b>${c.powerScore.toFixed(0)}</b><div class="score-raw">${(c.centerFreeKW / 1000).toFixed(1).replace('.', ',')} МВт свободно на подстанции</div></td>
+        <td><b>${c.powerScore.toFixed(0)}</b><div class="score-raw">${c.pAvailKW < 150 ? 'нет свободной мощности' : c.dist04 !== null ? `подстанция в ${c.dist04} м, класс А` : 'подстанции ближе 200 м нет, класс Б'}</div></td>
         <td><b>${c.trafficScore.toFixed(0)}</b><div class="score-raw">≈ ${Math.round(c.trafficRaw)} в сутки</div></td>
         <td><b>${c.competitionScore.toFixed(0)}</b><div class="score-raw">${c.nearbyCount} ${plural(c.nearbyCount, 'станция', 'станции', 'станций')} рядом</div></td>
         <td>${c.district}</td>
@@ -611,6 +632,8 @@ async function main() {
   const { cells, stationsAll, centers, params, raw } = await loadData();
   const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
   Object.assign(state, { cells, stationsAll, centers, params, preciseParams });
+  // Число действующих быстрых станций в «Откуда данные» - из данных, а не текстом.
+  document.getElementById('stations-count').textContent = String(stationsAll.filter((st) => st.status !== 'planned').length);
 
 
   state.layers = initMap();

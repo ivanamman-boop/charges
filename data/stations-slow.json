@@ -1,6 +1,6 @@
 {
   "source": "Медленные (AC, до ~22 кВт) станции из тех же источников, что data/stations.json - в модель не входят (задание про быстрые ЭЗС), для справки | Обрезано по МКАД (scripts/clip-to-mkad.js, data/mkad.json): модель считается для Москвы внутри МКАД, где станции собраны полно.",
-  "date": "2026-09-26",
+  "date": "2026-09-29",
   "stations": [
     {
       "id": "S-0002",
@@ -72,25 +72,10 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 57% быстрых у оператора",
+      "kind_source": "оценка: 40% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 4714015491
-    },
-    {
-      "id": "S-0015",
-      "lat": 55.711742,
-      "lon": 37.6202195,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора",
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 4776464381
     },
     {
       "id": "S-0016",
@@ -117,10 +102,25 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора",
+      "kind_source": "оценка: 40% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 5773235095
+    },
+    {
+      "id": "S-0027",
+      "lat": 55.761067,
+      "lon": 37.646263,
+      "operator": "Мосэнерго",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0032",
@@ -147,7 +147,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора",
+      "kind_source": "оценка: 71% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 6473962980
@@ -162,10 +162,25 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 71% быстрых у оператора",
+      "kind_source": "оценка: 67% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 6473962981
+    },
+    {
+      "id": "S-0038",
+      "lat": 55.747345,
+      "lon": 37.629114,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 40% быстрых у оператора"
     },
     {
       "id": "S-0043",
@@ -177,7 +192,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора",
+      "kind_source": "оценка: 63% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 7063367761
@@ -192,7 +207,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 63% быстрых у оператора",
+      "kind_source": "оценка: 59% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 7063367766
@@ -243,36 +258,6 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0061",
-      "lat": 55.788152,
-      "lon": 37.639961,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "мощность"
-    },
-    {
-      "id": "S-0065",
-      "lat": 55.7044254,
-      "lon": 37.6576289,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "мощность",
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 9067369754
-    },
-    {
       "id": "S-0068",
       "lat": 55.8875181,
       "lon": 37.6358449,
@@ -297,7 +282,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 68% быстрых у оператора",
+      "kind_source": "оценка: 65% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 9364492029
@@ -364,18 +349,18 @@
     },
     {
       "id": "S-0079",
-      "lat": 55.712251,
-      "lon": 37.619683,
+      "lat": 55.712253000000004,
+      "lon": 37.619593,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 4,
+      "P_kW": 120,
+      "posts": 5,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "мощность"
     },
     {
       "id": "S-0081",
@@ -465,7 +450,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0089",
@@ -510,7 +495,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора"
     },
     {
       "id": "S-0093",
@@ -559,11 +544,11 @@
     },
     {
       "id": "S-0099",
-      "lat": 55.73631,
-      "lon": 37.65551,
+      "lat": 55.7362605,
+      "lon": 37.655559,
       "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
+      "P_kW": 120,
+      "posts": 4,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -630,7 +615,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора"
     },
     {
       "id": "S-0111",
@@ -672,7 +657,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 68% быстрых у оператора",
+      "kind_source": "оценка: 66% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 11150207098
@@ -705,7 +690,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора"
     },
     {
       "id": "S-0123",
@@ -717,7 +702,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 64% быстрых у оператора",
+      "kind_source": "оценка: 61% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 11508682238
@@ -732,7 +717,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 62% быстрых у оператора",
+      "kind_source": "оценка: 59% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 11638562132
@@ -889,18 +874,18 @@
     },
     {
       "id": "S-0154",
-      "lat": 55.7363542,
-      "lon": 37.639509,
-      "operator": "Мосэнерго",
+      "lat": 55.736317,
+      "lon": 37.639534,
+      "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11841227567
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "разъёмы"
     },
     {
       "id": "S-0156",
@@ -915,7 +900,22 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 50% быстрых у оператора"
+      "kind_source": "оценка: 56% быстрых у оператора"
+    },
+    {
+      "id": "S-0158",
+      "lat": 55.794768,
+      "lon": 37.619117,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 40% быстрых у оператора"
     },
     {
       "id": "S-0162",
@@ -1002,7 +1002,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 61% быстрых у оператора",
+      "kind_source": "оценка: 59% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12212647087
@@ -1035,30 +1035,30 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0183",
-      "lat": 55.7610283,
-      "lon": 37.6071413,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора",
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 12429496328
-    },
-    {
-      "id": "S-0184",
       "lat": 55.760839,
       "lon": 37.606838,
       "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 41% быстрых у оператора"
+    },
+    {
+      "id": "S-0184",
+      "lat": 55.760933,
+      "lon": 37.607015,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1077,7 +1077,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 59% быстрых у оператора",
+      "kind_source": "оценка: 57% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12460407601
@@ -1092,7 +1092,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 58% быстрых у оператора",
+      "kind_source": "оценка: 56% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12467446699
@@ -1152,7 +1152,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем",
+      "kind_source": "оценка: 44% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12799921060
@@ -1182,7 +1182,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем",
+      "kind_source": "оценка: 44% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12883077831
@@ -1197,31 +1197,31 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем",
+      "kind_source": "оценка: 44% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12922626733
     },
     {
       "id": "S-0204",
-      "lat": 55.815936,
-      "lon": 37.723147,
-      "operator": "Punkt E",
+      "lat": 55.815981,
+      "lon": 37.723086,
+      "operator": "Artis",
       "P_kW": 60,
-      "posts": 2,
+      "posts": 1,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "мощность"
     },
     {
       "id": "S-0205",
-      "lat": 55.651069,
-      "lon": 37.478486,
-      "operator": "Розетка",
+      "lat": 55.651223,
+      "lon": 37.478704,
+      "operator": "IT Charge, станция зарядки электромобилей",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -1242,7 +1242,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 57% быстрых у оператора",
+      "kind_source": "оценка: 55% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 13049552026
@@ -1275,7 +1275,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0215",
@@ -1354,8 +1354,8 @@
     },
     {
       "id": "S-0230",
-      "lat": 55.702375,
-      "lon": 37.777794,
+      "lat": 55.702149,
+      "lon": 37.777961,
       "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
@@ -1410,7 +1410,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0241",
@@ -1470,7 +1470,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора"
     },
     {
       "id": "S-0251",
@@ -1482,25 +1482,10 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора",
+      "kind_source": "оценка: 42% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 13528886913
-    },
-    {
-      "id": "S-0255",
-      "lat": 55.7618666,
-      "lon": 37.6316413,
-      "operator": "независимый",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 56% быстрых у оператора",
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 13673769855
     },
     {
       "id": "S-0256",
@@ -1530,7 +1515,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0259",
@@ -1605,22 +1590,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0273",
-      "lat": 55.7834445,
-      "lon": 37.6764187,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора",
-      "status": "active",
-      "year_open": 2024,
-      "osm_id": 14008077269
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0275",
@@ -1629,21 +1599,6 @@
       "operator": "Яндекс Заправки",
       "P_kW": 60,
       "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "мощность"
-    },
-    {
-      "id": "S-0276",
-      "lat": 55.750079,
-      "lon": 37.726823,
-      "operator": "Electro. cars",
-      "P_kW": 60,
-      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1677,7 +1632,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 55% быстрых у оператора",
+      "kind_source": "оценка: 54% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 14112572672
@@ -1692,7 +1647,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 53% быстрых у оператора",
+      "kind_source": "оценка: 52% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
       "osm_id": 14179827633
@@ -1725,15 +1680,15 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
       "id": "S-0290",
-      "lat": 55.733981,
-      "lon": 37.578912,
+      "lat": 55.733948,
+      "lon": 37.5789655,
       "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1744,11 +1699,11 @@
     },
     {
       "id": "S-0295",
-      "lat": 55.74258,
-      "lon": 37.613188,
+      "lat": 55.742577250000004,
+      "lon": 37.6131865,
       "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 240,
+      "posts": 5,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1803,7 +1758,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0302",
+      "id": "S-0303",
       "lat": 55.744312,
       "lon": 37.64818,
       "operator": "Фора",
@@ -1818,7 +1773,7 @@
       "kind_source": "разъёмы"
     },
     {
-      "id": "S-0303",
+      "id": "S-0304",
       "lat": 55.764467,
       "lon": 37.667507,
       "operator": "Энергия Москвы",
@@ -1830,10 +1785,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора"
     },
     {
       "id": "S-0305",
+      "lat": 55.748167,
+      "lon": 37.625642,
+      "operator": "Evlink",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0306",
       "lat": 55.754548,
       "lon": 37.654579,
       "operator": "Энергия Москвы, станция зарядки электромобилей",
@@ -1845,10 +1815,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0306",
+      "id": "S-0307",
       "lat": 55.73741,
       "lon": 37.652605,
       "operator": "Яндекс Заправки",
@@ -1863,7 +1833,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0307",
+      "id": "S-0308",
       "lat": 55.738425,
       "lon": 37.612621,
       "operator": "Electro. cars",
@@ -1878,7 +1848,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0310",
+      "id": "S-0311",
+      "lat": 55.744568,
+      "lon": 37.568542,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 42% быстрых у оператора"
+    },
+    {
+      "id": "S-0312",
       "lat": 55.744683,
       "lon": 37.568885,
       "operator": "Энергия Москвы",
@@ -1893,7 +1878,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0313",
+      "id": "S-0316",
       "lat": 55.743397,
       "lon": 37.55494,
       "operator": "Punkt E",
@@ -1908,7 +1893,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0316",
+      "id": "S-0319",
+      "lat": 55.767821,
+      "lon": 37.568382,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 42% быстрых у оператора"
+    },
+    {
+      "id": "S-0320",
       "lat": 55.762905,
       "lon": 37.595627,
       "operator": "Энергия Москвы",
@@ -1920,10 +1920,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора"
     },
     {
-      "id": "S-0317",
+      "id": "S-0321",
       "lat": 55.777493,
       "lon": 37.57286,
       "operator": "Энергия Москвы",
@@ -1938,7 +1938,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0318",
+      "id": "S-0322",
       "lat": 55.781101,
       "lon": 37.596632,
       "operator": "Sitronics Electro",
@@ -1953,7 +1953,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0320",
+      "id": "S-0324",
       "lat": 55.781161,
       "lon": 37.588613,
       "operator": "Яндекс Заправки",
@@ -1968,7 +1968,52 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0323",
+      "id": "S-0327",
+      "lat": 55.780119,
+      "lon": 37.589934,
+      "operator": "Яндекс Заправки",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "мощность"
+    },
+    {
+      "id": "S-0328",
+      "lat": 55.782286,
+      "lon": 37.5941,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 41% быстрых у оператора"
+    },
+    {
+      "id": "S-0330",
+      "lat": 55.776877,
+      "lon": 37.607053,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 41% быстрых у оператора"
+    },
+    {
+      "id": "S-0332",
       "lat": 55.780281,
       "lon": 37.590156,
       "operator": "Яндекс Заправки",
@@ -1983,9 +2028,9 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0324",
-      "lat": 55.782286,
-      "lon": 37.5941,
+      "id": "S-0335",
+      "lat": 55.777531,
+      "lon": 37.608459,
       "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
@@ -1995,25 +2040,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора"
     },
     {
-      "id": "S-0326",
-      "lat": 55.776877,
-      "lon": 37.607053,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0333",
+      "id": "S-0340",
       "lat": 55.77513,
       "lon": 37.625692,
       "operator": "Яндекс Заправки",
@@ -2028,7 +2058,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0334",
+      "id": "S-0341",
       "lat": 55.77523,
       "lon": 37.630478,
       "operator": "Энергия Москвы",
@@ -2040,10 +2070,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора"
     },
     {
-      "id": "S-0335",
+      "id": "S-0342",
       "lat": 55.778488,
       "lon": 37.633584,
       "operator": "Яндекс Заправки",
@@ -2058,7 +2088,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0337",
+      "id": "S-0344",
       "lat": 55.779224,
       "lon": 37.631336,
       "operator": "Electra 2",
@@ -2070,25 +2100,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0338",
-      "lat": 55.785998,
-      "lon": 37.638064,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0339",
+      "id": "S-0346",
       "lat": 55.78413,
       "lon": 37.6369,
       "operator": "Энергия Москвы",
@@ -2103,7 +2118,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0340",
+      "id": "S-0347",
       "lat": 55.776556,
       "lon": 37.633767,
       "operator": "Ростелеком",
@@ -2115,10 +2130,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0343",
+      "id": "S-0350",
       "lat": 55.784519,
       "lon": 37.64061,
       "operator": "Яндекс Заправки",
@@ -2133,7 +2148,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0344",
+      "id": "S-0351",
       "lat": 55.775663,
       "lon": 37.644256,
       "operator": "Яндекс Заправки",
@@ -2148,7 +2163,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0346",
+      "id": "S-0353",
       "lat": 55.784965,
       "lon": 37.655434,
       "operator": "Avtocharge",
@@ -2160,10 +2175,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0348",
+      "id": "S-0355",
       "lat": 55.774624,
       "lon": 37.675535,
       "operator": "Яндекс Заправки",
@@ -2178,7 +2193,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0349",
+      "id": "S-0356",
       "lat": 55.767126,
       "lon": 37.672101,
       "operator": "Яндекс Заправки",
@@ -2193,7 +2208,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0353",
+      "id": "S-0359",
+      "lat": 55.751872,
+      "lon": 37.668945,
+      "operator": "Green Drive",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0361",
       "lat": 55.745534,
       "lon": 37.68446,
       "operator": "Яндекс Заправки",
@@ -2208,7 +2238,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0354",
+      "id": "S-0362",
       "lat": 55.743135,
       "lon": 37.683016,
       "operator": "Яндекс Заправки",
@@ -2223,7 +2253,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0355",
+      "id": "S-0363",
       "lat": 55.742771,
       "lon": 37.67381,
       "operator": "Яндекс Заправки",
@@ -2238,7 +2268,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0356",
+      "id": "S-0364",
       "lat": 55.741915,
       "lon": 37.673951,
       "operator": "Яндекс Заправки",
@@ -2253,22 +2283,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0357",
-      "lat": 55.744487,
-      "lon": 37.656036,
-      "operator": "Webasto",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0359",
+      "id": "S-0367",
       "lat": 55.734672,
       "lon": 37.674858,
       "operator": "Яндекс Заправки",
@@ -2283,7 +2298,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0360",
+      "id": "S-0368",
       "lat": 55.736681,
       "lon": 37.653461,
       "operator": "Яндекс Заправки",
@@ -2298,22 +2313,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0361",
-      "lat": 55.733607,
-      "lon": 37.664736,
-      "operator": "ЭлектроАвто",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0362",
+      "id": "S-0370",
       "lat": 55.738167,
       "lon": 37.676559,
       "operator": "Яндекс Заправки",
@@ -2328,7 +2328,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0363",
+      "id": "S-0371",
       "lat": 55.728732,
       "lon": 37.675011,
       "operator": "Яндекс Заправки",
@@ -2343,7 +2343,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0364",
+      "id": "S-0372",
       "lat": 55.721219,
       "lon": 37.651672,
       "operator": "Sitronics Electro",
@@ -2358,7 +2358,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0367",
+      "id": "S-0374",
+      "lat": 55.724051,
+      "lon": 37.649304,
+      "operator": "МОЭСК Россети, ПС Павелецкая",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0375",
       "lat": 55.724927,
       "lon": 37.639279,
       "operator": "Punkt E",
@@ -2373,7 +2388,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0368",
+      "id": "S-0376",
       "lat": 55.719741,
       "lon": 37.66215,
       "operator": "Яндекс Заправки",
@@ -2388,7 +2403,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0369",
+      "id": "S-0377",
       "lat": 55.72227,
       "lon": 37.63923,
       "operator": "Зарядная станция",
@@ -2403,7 +2418,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0370",
+      "id": "S-0378",
       "lat": 55.718882,
       "lon": 37.628631,
       "operator": "Electrifly",
@@ -2418,7 +2433,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0373",
+      "id": "S-0381",
       "lat": 55.718059,
       "lon": 37.614906,
       "operator": "Яндекс Заправки",
@@ -2433,7 +2448,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0374",
+      "id": "S-0382",
       "lat": 55.716308,
       "lon": 37.609619,
       "operator": "Яндекс Заправки",
@@ -2448,7 +2463,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0376",
+      "id": "S-0384",
       "lat": 55.733931,
       "lon": 37.588848,
       "operator": "Яндекс Заправки",
@@ -2463,9 +2478,9 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0380",
-      "lat": 55.739907,
-      "lon": 37.57384,
+      "id": "S-0395",
+      "lat": 55.740608,
+      "lon": 37.576933,
       "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
@@ -2475,10 +2490,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора"
     },
     {
-      "id": "S-0387",
+      "id": "S-0396",
       "lat": 55.743449,
       "lon": 37.582501,
       "operator": "Яндекс Заправки",
@@ -2493,7 +2508,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0389",
+      "id": "S-0397",
+      "lat": 55.747429,
+      "lon": 37.58129,
+      "operator": "Energy by Тесла центр",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0399",
       "lat": 55.743758,
       "lon": 37.576616,
       "operator": "Яндекс Заправки",
@@ -2508,7 +2538,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0391",
+      "id": "S-0403",
       "lat": 55.789215,
       "lon": 37.596245,
       "operator": "Яндекс Заправки",
@@ -2523,7 +2553,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0393",
+      "id": "S-0405",
       "lat": 55.789732,
       "lon": 37.584925,
       "operator": "IT Charge",
@@ -2538,7 +2568,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0395",
+      "id": "S-0407",
       "lat": 55.7947,
       "lon": 37.594026,
       "operator": "Punkt E",
@@ -2553,7 +2583,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0397",
+      "id": "S-0409",
       "lat": 55.78823,
       "lon": 37.631833,
       "operator": "Яндекс Заправки",
@@ -2568,7 +2598,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0400",
+      "id": "S-0412",
       "lat": 55.791388,
       "lon": 37.629238,
       "operator": "Энергия Москвы",
@@ -2583,7 +2613,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0401",
+      "id": "S-0413",
+      "lat": 55.788152,
+      "lon": 37.639961,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "мощность"
+    },
+    {
+      "id": "S-0414",
       "lat": 55.790278,
       "lon": 37.637799,
       "operator": "Яндекс Заправки",
@@ -2598,7 +2643,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0405",
+      "id": "S-0418",
       "lat": 55.777746,
       "lon": 37.687619,
       "operator": "Яндекс Заправки",
@@ -2613,7 +2658,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0407",
+      "id": "S-0421",
       "lat": 55.762228,
       "lon": 37.714116,
       "operator": "Яндекс Заправки",
@@ -2628,7 +2673,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0408",
+      "id": "S-0423",
       "lat": 55.744646,
       "lon": 37.702836,
       "operator": "Яндекс Заправки",
@@ -2643,7 +2688,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0409",
+      "id": "S-0424",
       "lat": 55.734898,
       "lon": 37.703999,
       "operator": "Яндекс Заправки",
@@ -2658,10 +2703,10 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0412",
-      "lat": 55.715059,
-      "lon": 37.714966,
-      "operator": "EVlink",
+      "id": "S-0430",
+      "lat": 55.727637,
+      "lon": 37.679773,
+      "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -2670,10 +2715,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 42% быстрых у оператора"
     },
     {
-      "id": "S-0417",
+      "id": "S-0435",
       "lat": 55.69989,
       "lon": 37.642475,
       "operator": "Electro. cars",
@@ -2688,37 +2733,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0418",
-      "lat": 55.708351,
-      "lon": 37.638501,
-      "operator": "Hyper",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0419",
-      "lat": 55.704925,
-      "lon": 37.656631,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0420",
+      "id": "S-0438",
       "lat": 55.709972,
       "lon": 37.625208,
       "operator": "РСЗС",
@@ -2733,10 +2748,10 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0421",
-      "lat": 55.708783,
-      "lon": 37.625038,
-      "operator": "Star Charge",
+      "id": "S-0440",
+      "lat": 55.712341,
+      "lon": 37.619602,
+      "operator": "Яндекс Заправки",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -2745,10 +2760,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 0% быстрых у оператора"
     },
     {
-      "id": "S-0423",
+      "id": "S-0445",
       "lat": 55.712035,
       "lon": 37.621369,
       "operator": "Энергия Москвы",
@@ -2760,10 +2775,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора"
     },
     {
-      "id": "S-0424",
+      "id": "S-0446",
       "lat": 55.72265,
       "lon": 37.561181,
       "operator": "Electro. cars",
@@ -2778,7 +2793,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0427",
+      "id": "S-0449",
       "lat": 55.732479,
       "lon": 37.541117,
       "operator": "Станция зарядки электромобилей",
@@ -2793,7 +2808,7 @@
       "kind_source": "оценка: 50% быстрых у оператора"
     },
     {
-      "id": "S-0429",
+      "id": "S-0451",
       "lat": 55.740449,
       "lon": 37.541827,
       "operator": "Мосэнерго",
@@ -2808,12 +2823,27 @@
       "kind_source": "оценка: 40% быстрых у оператора"
     },
     {
-      "id": "S-0431",
-      "lat": 55.750486,
-      "lon": 37.535718,
-      "operator": "Punkt E",
+      "id": "S-0452",
+      "lat": 55.747157,
+      "lon": 37.537694,
+      "operator": "Evlink",
       "P_kW": 60,
       "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0453",
+      "lat": 55.750486,
+      "lon": 37.535718,
+      "operator": "Sitronics Electro",
+      "P_kW": 60,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -2823,7 +2853,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0433",
+      "id": "S-0454",
+      "lat": 55.749633,
+      "lon": 37.537434,
+      "operator": "Итайгер",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0455",
       "lat": 55.753585,
       "lon": 37.521765,
       "operator": "Яндекс Заправки",
@@ -2838,7 +2883,37 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0438",
+      "id": "S-0456",
+      "lat": 55.75201,
+      "lon": 37.533942,
+      "operator": "Яндекс зарядки",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0459",
+      "lat": 55.758696,
+      "lon": 37.526578,
+      "operator": "Electrocars",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0462",
       "lat": 55.762594,
       "lon": 37.52771,
       "operator": "Зарядная станция Борисхоф",
@@ -2853,7 +2928,7 @@
       "kind_source": "разъёмы"
     },
     {
-      "id": "S-0439",
+      "id": "S-0463",
       "lat": 55.766313,
       "lon": 37.522775,
       "operator": "Electro. cars",
@@ -2868,7 +2943,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0440",
+      "id": "S-0464",
       "lat": 55.766214,
       "lon": 37.524996,
       "operator": "Electro. cars",
@@ -2883,37 +2958,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0441",
-      "lat": 55.774595,
-      "lon": 37.537721,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0442",
-      "lat": 55.774274,
-      "lon": 37.545932,
-      "operator": "Artis",
-      "P_kW": 60,
-      "posts": 1,
+      "id": "S-0466",
+      "lat": 55.7742755,
+      "lon": 37.545957,
+      "operator": "Punkt E",
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0445",
+      "id": "S-0469",
       "lat": 55.784673,
       "lon": 37.539302,
       "operator": "Энергия Москвы",
@@ -2925,10 +2985,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 43% быстрых у оператора"
     },
     {
-      "id": "S-0452",
+      "id": "S-0476",
       "lat": 55.793419,
       "lon": 37.55956,
       "operator": "Volt",
@@ -2943,7 +3003,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0453",
+      "id": "S-0477",
       "lat": 55.793041,
       "lon": 37.567726,
       "operator": "Яндекс Заправки",
@@ -2958,7 +3018,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0455",
+      "id": "S-0479",
       "lat": 55.795574,
       "lon": 37.573546,
       "operator": "Энергия Москвы",
@@ -2973,7 +3033,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0456",
+      "id": "S-0480",
       "lat": 55.794671,
       "lon": 37.566231,
       "operator": "Яндекс Заправки",
@@ -2988,7 +3048,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0457",
+      "id": "S-0482",
       "lat": 55.801114,
       "lon": 37.574327,
       "operator": "Яндекс Заправки",
@@ -3003,7 +3063,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0458",
+      "id": "S-0483",
       "lat": 55.79529,
       "lon": 37.586373,
       "operator": "Яндекс Заправки",
@@ -3018,7 +3078,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0460",
+      "id": "S-0485",
       "lat": 55.802831,
       "lon": 37.570725,
       "operator": "Яндекс Заправки",
@@ -3033,7 +3093,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0462",
+      "id": "S-0487",
       "lat": 55.796846,
       "lon": 37.600675,
       "operator": "Evlink",
@@ -3045,10 +3105,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0464",
+      "id": "S-0489",
       "lat": 55.80149,
       "lon": 37.61438,
       "operator": "Энергия Москвы",
@@ -3063,7 +3123,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0466",
+      "id": "S-0492",
       "lat": 55.795553,
       "lon": 37.611222,
       "operator": "Яндекс Заправки",
@@ -3078,7 +3138,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0467",
+      "id": "S-0493",
       "lat": 55.79446,
       "lon": 37.624815,
       "operator": "Яндекс Заправки",
@@ -3093,7 +3153,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0470",
+      "id": "S-0494",
+      "lat": 55.801537,
+      "lon": 37.637575,
+      "operator": "Electro. cars",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 85% быстрых у оператора"
+    },
+    {
+      "id": "S-0496",
       "lat": 55.785818,
       "lon": 37.688426,
       "operator": "Яндекс Заправки",
@@ -3108,7 +3183,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0471",
+      "id": "S-0497",
       "lat": 55.779855,
       "lon": 37.71106,
       "operator": "Punkt E",
@@ -3123,7 +3198,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0472",
+      "id": "S-0498",
       "lat": 55.766277,
       "lon": 37.728664,
       "operator": "Яндекс Заправки",
@@ -3138,7 +3213,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0473",
+      "id": "S-0499",
       "lat": 55.773696,
       "lon": 37.736737,
       "operator": "Яндекс Заправки",
@@ -3153,7 +3228,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0474",
+      "id": "S-0500",
       "lat": 55.760958,
       "lon": 37.732156,
       "operator": "Яндекс Заправки",
@@ -3168,7 +3243,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0475",
+      "id": "S-0501",
       "lat": 55.766305,
       "lon": 37.741705,
       "operator": "Яндекс Заправки",
@@ -3183,7 +3258,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0476",
+      "id": "S-0504",
+      "lat": 55.750079,
+      "lon": 37.726823,
+      "operator": "Electro. cars",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "мощность"
+    },
+    {
+      "id": "S-0505",
       "lat": 55.741789,
       "lon": 37.769491,
       "operator": "Яндекс Заправки",
@@ -3198,7 +3288,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0478",
+      "id": "S-0507",
       "lat": 55.747331,
       "lon": 37.785833,
       "operator": "Яндекс Заправки",
@@ -3213,7 +3303,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0479",
+      "id": "S-0508",
       "lat": 55.842329,
       "lon": 37.567931,
       "operator": "Яндекс Заправки",
@@ -3228,7 +3318,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0485",
+      "id": "S-0516",
       "lat": 55.816851,
       "lon": 37.568327,
       "operator": "Artis",
@@ -3243,7 +3333,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0489",
+      "id": "S-0517",
+      "lat": 55.827292,
+      "lon": 37.522046,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых у оператора"
+    },
+    {
+      "id": "S-0520",
       "lat": 55.823575,
       "lon": 37.52996,
       "operator": "Яндекс Заправки",
@@ -3258,7 +3363,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0490",
+      "id": "S-0521",
       "lat": 55.807612,
       "lon": 37.540594,
       "operator": "Яндекс Заправки",
@@ -3273,7 +3378,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0491",
+      "id": "S-0522",
       "lat": 55.808183,
       "lon": 37.562618,
       "operator": "Энергия Москвы",
@@ -3288,7 +3393,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0493",
+      "id": "S-0525",
       "lat": 55.824598,
       "lon": 37.522679,
       "operator": "Энергия Москвы",
@@ -3300,10 +3405,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0494",
+      "id": "S-0526",
       "lat": 55.821578,
       "lon": 37.527972,
       "operator": "Яндекс Заправки",
@@ -3318,7 +3423,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0499",
+      "id": "S-0533",
       "lat": 55.797726,
       "lon": 37.508999,
       "operator": "Яндекс Заправки",
@@ -3333,22 +3438,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0500",
-      "lat": 55.791533,
-      "lon": 37.506644,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0501",
+      "id": "S-0535",
       "lat": 55.778967,
       "lon": 37.522342,
       "operator": "Яндекс Заправки",
@@ -3363,7 +3453,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0502",
+      "id": "S-0536",
       "lat": 55.789344,
       "lon": 37.501777,
       "operator": "Punkt E",
@@ -3378,7 +3468,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0504",
+      "id": "S-0537",
+      "lat": 55.767123,
+      "lon": 37.524346,
+      "operator": "Зарядная станция",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 67% быстрых у оператора"
+    },
+    {
+      "id": "S-0538",
       "lat": 55.766887,
       "lon": 37.523414,
       "operator": "Зарядная станция",
@@ -3390,10 +3495,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора"
+      "kind_source": "оценка: 62% быстрых у оператора"
     },
     {
-      "id": "S-0506",
+      "id": "S-0541",
       "lat": 55.765295,
       "lon": 37.492343,
       "operator": "Яндекс Заправки",
@@ -3408,7 +3513,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0507",
+      "id": "S-0542",
       "lat": 55.774189,
       "lon": 37.49439,
       "operator": "Яндекс Заправки",
@@ -3423,7 +3528,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0508",
+      "id": "S-0543",
       "lat": 55.754934,
       "lon": 37.508663,
       "operator": "Энергия Москвы",
@@ -3435,10 +3540,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0509",
+      "id": "S-0544",
       "lat": 55.759205,
       "lon": 37.519947,
       "operator": "Яндекс Заправки",
@@ -3453,7 +3558,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0510",
+      "id": "S-0545",
       "lat": 55.755917,
       "lon": 37.520271,
       "operator": "Яндекс Заправки",
@@ -3468,7 +3573,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0511",
+      "id": "S-0546",
       "lat": 55.750696,
       "lon": 37.505227,
       "operator": "Яндекс Заправки",
@@ -3483,7 +3588,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0513",
+      "id": "S-0548",
       "lat": 55.778421,
       "lon": 37.466718,
       "operator": "Яндекс Заправки",
@@ -3498,7 +3603,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0514",
+      "id": "S-0549",
       "lat": 55.740535,
       "lon": 37.4792,
       "operator": "Яндекс Заправки",
@@ -3513,7 +3618,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0517",
+      "id": "S-0552",
       "lat": 55.736415,
       "lon": 37.481647,
       "operator": "Яндекс Заправки",
@@ -3528,7 +3633,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0520",
+      "id": "S-0556",
       "lat": 55.726209,
       "lon": 37.494423,
       "operator": "Розетка",
@@ -3540,25 +3645,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0521",
-      "lat": 55.737309,
-      "lon": 37.514464,
-      "operator": "Глобус",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0522",
+      "id": "S-0558",
       "lat": 55.736014,
       "lon": 37.484635,
       "operator": "Яндекс Заправки",
@@ -3573,7 +3663,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0523",
+      "id": "S-0559",
       "lat": 55.733545,
       "lon": 37.521014,
       "operator": "Яндекс Заправки",
@@ -3588,7 +3678,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0524",
+      "id": "S-0560",
       "lat": 55.738814,
       "lon": 37.52077,
       "operator": "Яндекс Заправки",
@@ -3603,7 +3693,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0525",
+      "id": "S-0561",
       "lat": 55.746083,
       "lon": 37.500008,
       "operator": "Яндекс Заправки",
@@ -3618,22 +3708,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0526",
-      "lat": 55.728168,
-      "lon": 37.523949,
+      "id": "S-0562",
+      "lat": 55.728154,
+      "lon": 37.52399,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "мощность"
     },
     {
-      "id": "S-0527",
+      "id": "S-0563",
       "lat": 55.717198,
       "lon": 37.520186,
       "operator": "Яндекс Заправки",
@@ -3648,7 +3738,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0528",
+      "id": "S-0564",
       "lat": 55.723507,
       "lon": 37.526195,
       "operator": "Яндекс Заправки",
@@ -3663,7 +3753,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0529",
+      "id": "S-0565",
       "lat": 55.725636,
       "lon": 37.526749,
       "operator": "Энергия Москвы",
@@ -3678,7 +3768,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0530",
+      "id": "S-0566",
       "lat": 55.717553,
       "lon": 37.521048,
       "operator": "Яндекс Заправки",
@@ -3693,7 +3783,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0531",
+      "id": "S-0567",
       "lat": 55.707629,
       "lon": 37.507955,
       "operator": "Яндекс Заправки",
@@ -3708,7 +3798,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0533",
+      "id": "S-0568",
+      "lat": 55.725853,
+      "lon": 37.516025,
+      "operator": "Ekf, станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0569",
       "lat": 55.710787,
       "lon": 37.478713,
       "operator": "Яндекс Заправки",
@@ -3723,7 +3828,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0535",
+      "id": "S-0572",
       "lat": 55.712772,
       "lon": 37.480399,
       "operator": "Яндекс Заправки",
@@ -3738,7 +3843,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0537",
+      "id": "S-0574",
       "lat": 55.707075,
       "lon": 37.475768,
       "operator": "Яндекс Заправки",
@@ -3753,7 +3858,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0538",
+      "id": "S-0575",
       "lat": 55.714406,
       "lon": 37.474268,
       "operator": "Энергия Москвы",
@@ -3768,7 +3873,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0539",
+      "id": "S-0576",
       "lat": 55.706978,
       "lon": 37.47178,
       "operator": "Яндекс Заправки",
@@ -3783,7 +3888,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0540",
+      "id": "S-0577",
       "lat": 55.70645,
       "lon": 37.507073,
       "operator": "Яндекс Заправки",
@@ -3798,7 +3903,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0541",
+      "id": "S-0578",
       "lat": 55.734071,
       "lon": 37.486828,
       "operator": "Яндекс Заправки",
@@ -3813,7 +3918,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0544",
+      "id": "S-0581",
       "lat": 55.722141,
       "lon": 37.461985,
       "operator": "Энергия Москвы",
@@ -3828,7 +3933,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0546",
+      "id": "S-0583",
       "lat": 55.698751,
       "lon": 37.489586,
       "operator": "Яндекс Заправки",
@@ -3843,7 +3948,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0547",
+      "id": "S-0584",
       "lat": 55.706268,
       "lon": 37.461172,
       "operator": "Яндекс Заправки",
@@ -3858,7 +3963,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0549",
+      "id": "S-0586",
       "lat": 55.717667,
       "lon": 37.457494,
       "operator": "Яндекс Заправки",
@@ -3873,7 +3978,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0550",
+      "id": "S-0587",
       "lat": 55.707607,
       "lon": 37.459801,
       "operator": "Яндекс Заправки",
@@ -3888,7 +3993,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0551",
+      "id": "S-0588",
       "lat": 55.702589,
       "lon": 37.460789,
       "operator": "Яндекс Заправки",
@@ -3903,7 +4008,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0555",
+      "id": "S-0592",
       "lat": 55.731948,
       "lon": 37.465131,
       "operator": "Яндекс Заправки",
@@ -3918,7 +4023,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0556",
+      "id": "S-0593",
       "lat": 55.732937,
       "lon": 37.448863,
       "operator": "Яндекс Заправки",
@@ -3933,7 +4038,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0557",
+      "id": "S-0594",
       "lat": 55.736974,
       "lon": 37.462746,
       "operator": "Яндекс Заправки",
@@ -3948,7 +4053,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0559",
+      "id": "S-0596",
       "lat": 55.724005,
       "lon": 37.44468,
       "operator": "Яндекс Заправки",
@@ -3963,7 +4068,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0561",
+      "id": "S-0598",
       "lat": 55.725257,
       "lon": 37.437657,
       "operator": "Яндекс Заправки",
@@ -3978,7 +4083,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0563",
+      "id": "S-0600",
+      "lat": 55.757867,
+      "lon": 37.4438,
+      "operator": "Яндекс Заправки",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "скорость (Яндекс)"
+    },
+    {
+      "id": "S-0602",
       "lat": 55.757875,
       "lon": 37.44377,
       "operator": "Touch",
@@ -3990,10 +4110,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0567",
+      "id": "S-0606",
       "lat": 55.799902,
       "lon": 37.404288,
       "operator": "Энергия Москвы",
@@ -4008,22 +4128,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0568",
-      "lat": 55.801595,
-      "lon": 37.382985,
-      "operator": "Розетка",
+      "id": "S-0612",
+      "lat": 55.817729,
+      "lon": 37.387871,
+      "operator": "Зарядная станция",
       "P_kW": 60,
-      "posts": 1,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "slow",
-      "kind_source": "оценка: 60% быстрых у оператора"
+      "kind_source": "мощность"
     },
     {
-      "id": "S-0573",
+      "id": "S-0614",
       "lat": 55.817739,
       "lon": 37.387556,
       "operator": "IT Charge",
@@ -4038,7 +4158,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0575",
+      "id": "S-0615",
       "lat": 55.815935,
       "lon": 37.382165,
       "operator": "МОСОБЛЭНЕРГО",
@@ -4053,7 +4173,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0577",
+      "id": "S-0617",
       "lat": 55.818139,
       "lon": 37.382442,
       "operator": "МОСОБЛЭНЕРГО",
@@ -4068,7 +4188,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0583",
+      "id": "S-0624",
       "lat": 55.847453,
       "lon": 37.426495,
       "operator": "Яндекс Заправки",
@@ -4083,7 +4203,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0584",
+      "id": "S-0625",
       "lat": 55.848247,
       "lon": 37.427688,
       "operator": "Яндекс Заправки",
@@ -4098,7 +4218,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0588",
+      "id": "S-0629",
       "lat": 55.860236,
       "lon": 37.445177,
       "operator": "Яндекс Заправки",
@@ -4113,7 +4233,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0590",
+      "id": "S-0631",
       "lat": 55.847161,
       "lon": 37.445223,
       "operator": "Яндекс Заправки",
@@ -4128,7 +4248,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0591",
+      "id": "S-0632",
       "lat": 55.84463,
       "lon": 37.444948,
       "operator": "Яндекс Заправки",
@@ -4143,22 +4263,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0592",
-      "lat": 55.850246,
-      "lon": 37.44399,
-      "operator": "Тесла центр",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0594",
+      "id": "S-0635",
       "lat": 55.850965,
       "lon": 37.450237,
       "operator": "Яндекс Заправки",
@@ -4173,10 +4278,10 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0596",
-      "lat": 55.865481,
-      "lon": 37.464125,
-      "operator": "Energo",
+      "id": "S-0636",
+      "lat": 55.850246,
+      "lon": 37.44399,
+      "operator": "Тесла центр",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -4185,13 +4290,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0599",
-      "lat": 55.85822,
-      "lon": 37.483463,
-      "operator": "РСЗС",
+      "id": "S-0643",
+      "lat": 55.866775,
+      "lon": 37.481202,
+      "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -4200,10 +4305,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 98% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0603",
+      "id": "S-0644",
+      "lat": 55.862131,
+      "lon": 37.466772,
+      "operator": "Розетка",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 83% быстрых у оператора"
+    },
+    {
+      "id": "S-0646",
       "lat": 55.863843,
       "lon": 37.466009,
       "operator": "Яндекс Заправки",
@@ -4218,7 +4338,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0605",
+      "id": "S-0648",
       "lat": 55.860782,
       "lon": 37.493691,
       "operator": "Яндекс Заправки",
@@ -4233,7 +4353,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0609",
+      "id": "S-0649",
+      "lat": 55.859177,
+      "lon": 37.492779,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых у оператора"
+    },
+    {
+      "id": "S-0652",
       "lat": 55.867005,
       "lon": 37.523381,
       "operator": "Яндекс Заправки",
@@ -4248,7 +4383,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0610",
+      "id": "S-0654",
       "lat": 55.889232,
       "lon": 37.482052,
       "operator": "МОСОБЛЭНЕРГО",
@@ -4263,7 +4398,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0611",
+      "id": "S-0655",
       "lat": 55.89571,
       "lon": 37.526243,
       "operator": "Розетка, станция зарядки электромобилей",
@@ -4275,10 +4410,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0612",
+      "id": "S-0656",
       "lat": 55.877021,
       "lon": 37.52033,
       "operator": "Яндекс Заправки",
@@ -4293,7 +4428,67 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0625",
+      "id": "S-0660",
+      "lat": 55.878176,
+      "lon": 37.543145,
+      "operator": "Caready",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0664",
+      "lat": 55.885637,
+      "lon": 37.565043,
+      "operator": "Энергия Москвы, станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0666",
+      "lat": 55.895765,
+      "lon": 37.587673,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых у оператора"
+    },
+    {
+      "id": "S-0668",
+      "lat": 55.884704,
+      "lon": 37.587456,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых у оператора"
+    },
+    {
+      "id": "S-0671",
       "lat": 55.881528,
       "lon": 37.602723,
       "operator": "Sitronics Electro",
@@ -4308,7 +4503,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0627",
+      "id": "S-0673",
       "lat": 55.908205,
       "lon": 37.599592,
       "operator": "Автодом Станция зарядки электромобилей",
@@ -4320,10 +4515,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0630",
+      "id": "S-0676",
       "lat": 55.878014,
       "lon": 37.630261,
       "operator": "Яндекс Заправки",
@@ -4338,7 +4533,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0632",
+      "id": "S-0677",
+      "lat": 55.874715,
+      "lon": 37.608427,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых у оператора"
+    },
+    {
+      "id": "S-0678",
       "lat": 55.877387,
       "lon": 37.633613,
       "operator": "Яндекс Заправки",
@@ -4353,7 +4563,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0633",
+      "id": "S-0679",
       "lat": 55.875135,
       "lon": 37.628431,
       "operator": "Яндекс Заправки",
@@ -4368,7 +4578,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0634",
+      "id": "S-0680",
       "lat": 55.873921,
       "lon": 37.635647,
       "operator": "IT Charge",
@@ -4383,7 +4593,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0636",
+      "id": "S-0683",
       "lat": 55.872166,
       "lon": 37.641452,
       "operator": "Яндекс Заправки",
@@ -4398,7 +4608,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0637",
+      "id": "S-0685",
       "lat": 55.882617,
       "lon": 37.649298,
       "operator": "Яндекс Заправки",
@@ -4413,7 +4623,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0638",
+      "id": "S-0686",
       "lat": 55.888786,
       "lon": 37.647657,
       "operator": "Яндекс Заправки",
@@ -4428,7 +4638,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0640",
+      "id": "S-0689",
       "lat": 55.885529,
       "lon": 37.655709,
       "operator": "Яндекс Заправки",
@@ -4443,7 +4653,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0641",
+      "id": "S-0690",
       "lat": 55.886504,
       "lon": 37.658529,
       "operator": "Яндекс Заправки",
@@ -4458,7 +4668,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0642",
+      "id": "S-0691",
       "lat": 55.893068,
       "lon": 37.658595,
       "operator": "Яндекс Заправки",
@@ -4473,7 +4683,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0643",
+      "id": "S-0692",
       "lat": 55.89172,
       "lon": 37.654835,
       "operator": "Яндекс Заправки",
@@ -4488,7 +4698,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0644",
+      "id": "S-0693",
       "lat": 55.890209,
       "lon": 37.655928,
       "operator": "Яндекс Заправки",
@@ -4503,7 +4713,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0645",
+      "id": "S-0694",
       "lat": 55.893907,
       "lon": 37.66166,
       "operator": "Яндекс Заправки",
@@ -4518,7 +4728,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0646",
+      "id": "S-0695",
       "lat": 55.892223,
       "lon": 37.672309,
       "operator": "Яндекс Заправки",
@@ -4533,7 +4743,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0647",
+      "id": "S-0696",
       "lat": 55.873258,
       "lon": 37.676826,
       "operator": "Яндекс Заправки",
@@ -4548,7 +4758,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0648",
+      "id": "S-0697",
       "lat": 55.876427,
       "lon": 37.674783,
       "operator": "Яндекс Заправки",
@@ -4563,7 +4773,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0649",
+      "id": "S-0698",
       "lat": 55.868582,
       "lon": 37.66698,
       "operator": "Яндекс Заправки",
@@ -4578,7 +4788,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0650",
+      "id": "S-0699",
       "lat": 55.866659,
       "lon": 37.685271,
       "operator": "Яндекс Заправки",
@@ -4593,7 +4803,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0652",
+      "id": "S-0701",
       "lat": 55.867364,
       "lon": 37.670389,
       "operator": "Яндекс Заправки",
@@ -4608,7 +4818,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0654",
+      "id": "S-0704",
       "lat": 55.874521,
       "lon": 37.707923,
       "operator": "Яндекс Заправки",
@@ -4623,7 +4833,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0655",
+      "id": "S-0705",
       "lat": 55.859318,
       "lon": 37.700278,
       "operator": "Яндекс Заправки",
@@ -4638,7 +4848,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0658",
+      "id": "S-0709",
       "lat": 55.861184,
       "lon": 37.688383,
       "operator": "Яндекс Заправки",
@@ -4653,7 +4863,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0659",
+      "id": "S-0710",
       "lat": 55.855381,
       "lon": 37.686968,
       "operator": "Яндекс Заправки",
@@ -4668,7 +4878,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0661",
+      "id": "S-0712",
       "lat": 55.862151,
       "lon": 37.665497,
       "operator": "Яндекс Заправки",
@@ -4683,7 +4893,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0662",
+      "id": "S-0714",
       "lat": 55.818061,
       "lon": 37.769277,
       "operator": "Punkt E",
@@ -4698,7 +4908,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0663",
+      "id": "S-0715",
       "lat": 55.812047,
       "lon": 37.782773,
       "operator": "Яндекс Заправки",
@@ -4713,7 +4923,37 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0666",
+      "id": "S-0716",
+      "lat": 55.809545,
+      "lon": 37.7409515,
+      "operator": "Розетка",
+      "P_kW": 120,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 75% быстрых у оператора"
+    },
+    {
+      "id": "S-0717",
+      "lat": 55.810724,
+      "lon": 37.800109,
+      "operator": "Станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 50% быстрых у оператора"
+    },
+    {
+      "id": "S-0718",
       "lat": 55.800068,
       "lon": 37.721646,
       "operator": "Яндекс Заправки",
@@ -4728,7 +4968,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0668",
+      "id": "S-0719",
+      "lat": 55.815936,
+      "lon": 37.723147,
+      "operator": "Punkt E",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "скорость (Яндекс)"
+    },
+    {
+      "id": "S-0721",
       "lat": 55.798687,
       "lon": 37.738163,
       "operator": "Яндекс Заправки",
@@ -4743,7 +4998,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0669",
+      "id": "S-0722",
       "lat": 55.82404,
       "lon": 37.809578,
       "operator": "Яндекс Заправки",
@@ -4758,7 +5013,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0671",
+      "id": "S-0724",
       "lat": 55.802108,
       "lon": 37.785054,
       "operator": "Яндекс Заправки",
@@ -4773,7 +5028,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0672",
+      "id": "S-0725",
       "lat": 55.803403,
       "lon": 37.790031,
       "operator": "Яндекс Заправки",
@@ -4788,7 +5043,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0673",
+      "id": "S-0726",
       "lat": 55.817322,
       "lon": 37.734857,
       "operator": "Россети",
@@ -4800,10 +5055,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0675",
+      "id": "S-0728",
       "lat": 55.801961,
       "lon": 37.792016,
       "operator": "Яндекс Заправки",
@@ -4818,7 +5073,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0676",
+      "id": "S-0729",
       "lat": 55.819933,
       "lon": 37.757126,
       "operator": "Яндекс Заправки",
@@ -4833,7 +5088,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0677",
+      "id": "S-0730",
       "lat": 55.801784,
       "lon": 37.823242,
       "operator": "Яндекс Заправки",
@@ -4848,7 +5103,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0678",
+      "id": "S-0731",
       "lat": 55.820925,
       "lon": 37.818628,
       "operator": "Яндекс Заправки",
@@ -4863,7 +5118,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0681",
+      "id": "S-0734",
       "lat": 55.75936,
       "lon": 37.796416,
       "operator": "Яндекс Заправки",
@@ -4878,7 +5133,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0682",
+      "id": "S-0735",
       "lat": 55.751935,
       "lon": 37.807127,
       "operator": "Яндекс Заправки",
@@ -4893,7 +5148,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0683",
+      "id": "S-0736",
       "lat": 55.75784,
       "lon": 37.779767,
       "operator": "Яндекс Заправки",
@@ -4908,7 +5163,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0686",
+      "id": "S-0739",
       "lat": 55.746648,
       "lon": 37.813719,
       "operator": "Яндекс Заправки",
@@ -4923,7 +5178,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0687",
+      "id": "S-0740",
       "lat": 55.748448,
       "lon": 37.827,
       "operator": "Яндекс Заправки",
@@ -4938,7 +5193,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0690",
+      "id": "S-0743",
       "lat": 55.74228,
       "lon": 37.820419,
       "operator": "E-Way",
@@ -4953,7 +5208,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0691",
+      "id": "S-0744",
       "lat": 55.789166,
       "lon": 37.749716,
       "operator": "Станция зарядки электромобилей",
@@ -4968,7 +5223,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0692",
+      "id": "S-0745",
       "lat": 55.736132,
       "lon": 37.824698,
       "operator": "Яндекс Заправки",
@@ -4983,7 +5238,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0693",
+      "id": "S-0746",
       "lat": 55.755207,
       "lon": 37.80284,
       "operator": "Яндекс Заправки",
@@ -4998,7 +5253,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0694",
+      "id": "S-0747",
       "lat": 55.74448,
       "lon": 37.78954,
       "operator": "Яндекс Заправки",
@@ -5013,7 +5268,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0695",
+      "id": "S-0748",
       "lat": 55.727288,
       "lon": 37.77705,
       "operator": "Яндекс Заправки",
@@ -5028,7 +5283,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0698",
+      "id": "S-0751",
       "lat": 55.703302,
       "lon": 37.793094,
       "operator": "Энергия Москвы",
@@ -5043,7 +5298,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0699",
+      "id": "S-0752",
       "lat": 55.701173,
       "lon": 37.756069,
       "operator": "Энергия Москвы",
@@ -5058,7 +5313,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0700",
+      "id": "S-0753",
       "lat": 55.707333,
       "lon": 37.815312,
       "operator": "Яндекс Заправки",
@@ -5073,7 +5328,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0701",
+      "id": "S-0754",
       "lat": 55.711481,
       "lon": 37.814758,
       "operator": "Яндекс Заправки",
@@ -5088,7 +5343,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0702",
+      "id": "S-0755",
       "lat": 55.721643,
       "lon": 37.827427,
       "operator": "Яндекс Заправки",
@@ -5103,7 +5358,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0703",
+      "id": "S-0756",
       "lat": 55.723525,
       "lon": 37.827742,
       "operator": "Яндекс Заправки",
@@ -5118,7 +5373,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0704",
+      "id": "S-0757",
       "lat": 55.718879,
       "lon": 37.830488,
       "operator": "Яндекс Заправки",
@@ -5133,10 +5388,10 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0705",
-      "lat": 55.708684,
-      "lon": 37.751093,
-      "operator": "Zeekr",
+      "id": "S-0758",
+      "lat": 55.708553,
+      "lon": 37.751661,
+      "operator": "Яндекс Заправки",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -5148,7 +5403,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0706",
+      "id": "S-0759",
       "lat": 55.724549,
       "lon": 37.831758,
       "operator": "Яндекс Заправки",
@@ -5163,22 +5418,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0707",
-      "lat": 55.696753,
-      "lon": 37.740543,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора"
-    },
-    {
-      "id": "S-0708",
+      "id": "S-0761",
       "lat": 55.702957,
       "lon": 37.742579,
       "operator": "Яндекс Заправки",
@@ -5193,7 +5433,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0711",
+      "id": "S-0763",
+      "lat": 55.701901,
+      "lon": 37.794374,
+      "operator": "PlugMe",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0764",
       "lat": 55.694464,
       "lon": 37.749605,
       "operator": "Яндекс Заправки",
@@ -5208,7 +5463,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0712",
+      "id": "S-0765",
       "lat": 55.697936,
       "lon": 37.762761,
       "operator": "Яндекс Заправки",
@@ -5223,7 +5478,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0714",
+      "id": "S-0768",
       "lat": 55.706776,
       "lon": 37.724906,
       "operator": "IT Charge",
@@ -5238,7 +5493,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0715",
+      "id": "S-0769",
       "lat": 55.71372,
       "lon": 37.719201,
       "operator": "Станция зарядки электромобилей",
@@ -5250,25 +5505,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 56% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0717",
-      "lat": 55.731822,
-      "lon": 37.685338,
+      "id": "S-0771",
+      "lat": 55.7318465,
+      "lon": 37.68534,
       "operator": "Порше",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0719",
+      "id": "S-0773",
       "lat": 55.741944,
       "lon": 37.688067,
       "operator": "Яндекс Заправки",
@@ -5283,22 +5538,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0720",
-      "lat": 55.73983,
-      "lon": 37.693617,
-      "operator": "Зарядная станция",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 71% быстрых у оператора"
-    },
-    {
-      "id": "S-0721",
+      "id": "S-0776",
       "lat": 55.738569,
       "lon": 37.686907,
       "operator": "Яндекс Заправки",
@@ -5313,7 +5553,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0722",
+      "id": "S-0777",
       "lat": 55.735843,
       "lon": 37.682272,
       "operator": "Яндекс Заправки",
@@ -5328,7 +5568,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0723",
+      "id": "S-0778",
       "lat": 55.727476,
       "lon": 37.661593,
       "operator": "Яндекс Заправки",
@@ -5343,7 +5583,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0725",
+      "id": "S-0783",
       "lat": 55.614242,
       "lon": 37.751052,
       "operator": "Энергия Москвы",
@@ -5358,7 +5598,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0726",
+      "id": "S-0784",
       "lat": 55.632379,
       "lon": 37.745836,
       "operator": "Энергия Москвы",
@@ -5370,10 +5610,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0729",
+      "id": "S-0785",
+      "lat": 55.651071333333334,
+      "lon": 37.745489,
+      "operator": "Punkt E",
+      "P_kW": 180,
+      "posts": 3,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 75% быстрых у оператора"
+    },
+    {
+      "id": "S-0787",
       "lat": 55.650384,
       "lon": 37.770921,
       "operator": "Punkt E",
@@ -5388,7 +5643,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0730",
+      "id": "S-0788",
       "lat": 55.655574,
       "lon": 37.754287,
       "operator": "Electro. cars",
@@ -5403,7 +5658,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0731",
+      "id": "S-0790",
       "lat": 55.655639,
       "lon": 37.761104,
       "operator": "Энергия Москвы",
@@ -5418,7 +5673,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0734",
+      "id": "S-0793",
       "lat": 55.660574,
       "lon": 37.751777,
       "operator": "Энергия Москвы",
@@ -5433,7 +5688,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0737",
+      "id": "S-0794",
+      "lat": 55.656496,
+      "lon": 37.760077,
+      "operator": "Станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 40% быстрых у оператора"
+    },
+    {
+      "id": "S-0796",
       "lat": 55.6514,
       "lon": 37.706779,
       "operator": "Станция зарядки электробусов",
@@ -5445,10 +5715,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0740",
+      "id": "S-0799",
       "lat": 55.618003,
       "lon": 37.711689,
       "operator": "Яндекс Заправки",
@@ -5463,7 +5733,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0741",
+      "id": "S-0800",
       "lat": 55.6168,
       "lon": 37.706734,
       "operator": "Яндекс Заправки",
@@ -5478,7 +5748,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0744",
+      "id": "S-0803",
       "lat": 55.666607,
       "lon": 37.753437,
       "operator": "Энергия Москвы",
@@ -5493,7 +5763,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0745",
+      "id": "S-0804",
       "lat": 55.668764,
       "lon": 37.767372,
       "operator": "Энергия Москвы",
@@ -5508,7 +5778,22 @@
       "kind_source": "разъёмы"
     },
     {
-      "id": "S-0762",
+      "id": "S-0810",
+      "lat": 55.64446,
+      "lon": 37.821185,
+      "operator": "IT Charge",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 75% быстрых у оператора"
+    },
+    {
+      "id": "S-0822",
       "lat": 55.677677,
       "lon": 37.772164,
       "operator": "Яндекс Заправки",
@@ -5523,7 +5808,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0763",
+      "id": "S-0823",
       "lat": 55.67663,
       "lon": 37.772583,
       "operator": "Яндекс Заправки",
@@ -5538,7 +5823,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0764",
+      "id": "S-0824",
       "lat": 55.67462,
       "lon": 37.758059,
       "operator": "Punkt E",
@@ -5550,10 +5835,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 76% быстрых у оператора"
+      "kind_source": "оценка: 74% быстрых у оператора"
     },
     {
-      "id": "S-0765",
+      "id": "S-0825",
+      "lat": 55.702375,
+      "lon": 37.777794,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых у оператора"
+    },
+    {
+      "id": "S-0826",
       "lat": 55.678162,
       "lon": 37.756448,
       "operator": "Яндекс Заправки",
@@ -5568,7 +5868,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0766",
+      "id": "S-0827",
       "lat": 55.685133,
       "lon": 37.736063,
       "operator": "Electro. cars",
@@ -5583,7 +5883,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0769",
+      "id": "S-0831",
       "lat": 55.676445,
       "lon": 37.751114,
       "operator": "Яндекс Заправки",
@@ -5598,7 +5898,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0770",
+      "id": "S-0832",
       "lat": 55.705018,
       "lon": 37.762626,
       "operator": "Яндекс Заправки",
@@ -5613,7 +5913,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0773",
+      "id": "S-0837",
       "lat": 55.699531,
       "lon": 37.744784,
       "operator": "Яндекс Заправки",
@@ -5628,7 +5928,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0775",
+      "id": "S-0838",
+      "lat": 55.701687,
+      "lon": 37.775405,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых у оператора"
+    },
+    {
+      "id": "S-0839",
       "lat": 55.712823,
       "lon": 37.772068,
       "operator": "Яндекс Заправки",
@@ -5643,7 +5958,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0776",
+      "id": "S-0840",
       "lat": 55.733242,
       "lon": 37.745757,
       "operator": "Яндекс Заправки",
@@ -5658,7 +5973,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0777",
+      "id": "S-0841",
       "lat": 55.716474,
       "lon": 37.781889,
       "operator": "Яндекс Заправки",
@@ -5673,7 +5988,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0778",
+      "id": "S-0842",
       "lat": 55.719707,
       "lon": 37.81511,
       "operator": "Яндекс Заправки",
@@ -5688,7 +6003,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0779",
+      "id": "S-0843",
       "lat": 55.710432,
       "lon": 37.816947,
       "operator": "Яндекс Заправки",
@@ -5703,7 +6018,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0781",
+      "id": "S-0845",
       "lat": 55.745627,
       "lon": 37.773495,
       "operator": "Яндекс Заправки",
@@ -5718,7 +6033,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0784",
+      "id": "S-0847",
+      "lat": 55.81007,
+      "lon": 37.83507,
+      "operator": "Volt",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "скорость (Яндекс)"
+    },
+    {
+      "id": "S-0848",
       "lat": 55.801869,
       "lon": 37.773242,
       "operator": "Яндекс Заправки",
@@ -5733,7 +6063,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0785",
+      "id": "S-0849",
       "lat": 55.803702,
       "lon": 37.772514,
       "operator": "Яндекс Заправки",
@@ -5748,7 +6078,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0787",
+      "id": "S-0850",
+      "lat": 55.790666,
+      "lon": 37.747175,
+      "operator": "Egine",
+      "P_kW": 60,
+      "posts": 4,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "мощность"
+    },
+    {
+      "id": "S-0856",
       "lat": 55.778088,
       "lon": 37.737485,
       "operator": "Зарядка для электромобилей",
@@ -5760,10 +6105,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0788",
+      "id": "S-0857",
       "lat": 55.795874,
       "lon": 37.77325,
       "operator": "Яндекс Заправки",
@@ -5778,7 +6123,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0789",
+      "id": "S-0859",
       "lat": 55.780314,
       "lon": 37.732286,
       "operator": "Яндекс Заправки",
@@ -5793,7 +6138,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0790",
+      "id": "S-0860",
       "lat": 55.825861,
       "lon": 37.755823,
       "operator": "Яндекс Заправки",
@@ -5808,10 +6153,10 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0791",
-      "lat": 55.823682,
-      "lon": 37.830554,
-      "operator": "Super watts",
+      "id": "S-0862",
+      "lat": 55.819985,
+      "lon": 37.699544,
+      "operator": "Энергия Москвы",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -5820,10 +6165,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0793",
+      "id": "S-0863",
       "lat": 55.85275,
       "lon": 37.689205,
       "operator": "Яндекс Заправки",
@@ -5838,7 +6183,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0796",
+      "id": "S-0867",
       "lat": 55.837702,
       "lon": 37.657287,
       "operator": "Яндекс Заправки",
@@ -5853,7 +6198,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0797",
+      "id": "S-0870",
       "lat": 55.830963,
       "lon": 37.637095,
       "operator": "Энергия Москвы",
@@ -5865,10 +6210,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0798",
+      "id": "S-0871",
       "lat": 55.8554,
       "lon": 37.641607,
       "operator": "Яндекс Заправки",
@@ -5883,7 +6228,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0801",
+      "id": "S-0874",
       "lat": 55.85789,
       "lon": 37.60762,
       "operator": "Энергия Москвы",
@@ -5898,7 +6243,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0802",
+      "id": "S-0875",
       "lat": 55.878429,
       "lon": 37.574958,
       "operator": "Яндекс Заправки",
@@ -5913,7 +6258,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0806",
+      "id": "S-0880",
       "lat": 55.889171,
       "lon": 37.476615,
       "operator": "Plug Me",
@@ -5928,7 +6273,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0807",
+      "id": "S-0881",
       "lat": 55.854737,
       "lon": 37.49814,
       "operator": "Энергия Москвы",
@@ -5943,7 +6288,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0808",
+      "id": "S-0882",
       "lat": 55.855978,
       "lon": 37.500528,
       "operator": "Яндекс Заправки",
@@ -5958,7 +6303,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0810",
+      "id": "S-0884",
       "lat": 55.850347,
       "lon": 37.521813,
       "operator": "Яндекс Заправки",
@@ -5973,7 +6318,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0811",
+      "id": "S-0885",
       "lat": 55.852341,
       "lon": 37.582964,
       "operator": "Яндекс Заправки",
@@ -5988,7 +6333,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0814",
+      "id": "S-0889",
       "lat": 55.862667,
       "lon": 37.564004,
       "operator": "Энергия Москвы",
@@ -6000,10 +6345,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0817",
+      "id": "S-0892",
       "lat": 55.837567,
       "lon": 37.488245,
       "operator": "Энергия Москвы",
@@ -6018,7 +6363,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0819",
+      "id": "S-0894",
       "lat": 55.848887,
       "lon": 37.484424,
       "operator": "Яндекс Заправки",
@@ -6033,7 +6378,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0820",
+      "id": "S-0895",
       "lat": 55.843343,
       "lon": 37.456711,
       "operator": "Яндекс Заправки",
@@ -6048,7 +6393,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0825",
+      "id": "S-0901",
       "lat": 55.83106,
       "lon": 37.44547,
       "operator": "Punkt E",
@@ -6063,7 +6408,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0826",
+      "id": "S-0902",
       "lat": 55.833883,
       "lon": 37.419958,
       "operator": "Яндекс Заправки",
@@ -6078,7 +6423,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0827",
+      "id": "S-0903",
       "lat": 55.841035,
       "lon": 37.462119,
       "operator": "Яндекс Заправки",
@@ -6093,7 +6438,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0830",
+      "id": "S-0904",
+      "lat": 55.816845,
+      "lon": 37.464029,
+      "operator": "Энергия Москвы, станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0908",
       "lat": 55.83377,
       "lon": 37.527203,
       "operator": "Яндекс Заправки",
@@ -6108,7 +6468,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0835",
+      "id": "S-0909",
+      "lat": 55.831457,
+      "lon": 37.518833,
+      "operator": "Evlink, станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0913",
       "lat": 55.798905,
       "lon": 37.50528,
       "operator": "Яндекс Заправки",
@@ -6123,7 +6498,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0837",
+      "id": "S-0915",
       "lat": 55.795238,
       "lon": 37.500159,
       "operator": "Яндекс Заправки",
@@ -6138,7 +6513,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0839",
+      "id": "S-0917",
       "lat": 55.790894,
       "lon": 37.487124,
       "operator": "Яндекс Заправки",
@@ -6153,7 +6528,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0841",
+      "id": "S-0919",
       "lat": 55.809549,
       "lon": 37.460936,
       "operator": "Энергия Москвы",
@@ -6168,7 +6543,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0842",
+      "id": "S-0920",
       "lat": 55.805681,
       "lon": 37.461805,
       "operator": "Яндекс Заправки",
@@ -6183,7 +6558,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0844",
+      "id": "S-0923",
       "lat": 55.804229,
       "lon": 37.461897,
       "operator": "Яндекс Заправки",
@@ -6198,7 +6573,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0845",
+      "id": "S-0924",
       "lat": 55.803874,
       "lon": 37.453341,
       "operator": "Яндекс Заправки",
@@ -6213,7 +6588,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0847",
+      "id": "S-0925",
+      "lat": 55.784303,
+      "lon": 37.469179,
+      "operator": "Energo",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-0926",
       "lat": 55.782239,
       "lon": 37.465096,
       "operator": "Яндекс Заправки",
@@ -6228,7 +6618,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0848",
+      "id": "S-0927",
       "lat": 55.782618,
       "lon": 37.475357,
       "operator": "Яндекс Заправки",
@@ -6243,7 +6633,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0849",
+      "id": "S-0929",
       "lat": 55.78153,
       "lon": 37.4717,
       "operator": "Энергия Москвы",
@@ -6258,22 +6648,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0850",
-      "lat": 55.79095,
-      "lon": 37.458517,
-      "operator": "Ingrad",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0851",
+      "id": "S-0931",
       "lat": 55.780857,
       "lon": 37.45618,
       "operator": "Яндекс Заправки",
@@ -6288,7 +6663,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0853",
+      "id": "S-0933",
       "lat": 55.820725,
       "lon": 37.386782,
       "operator": "Скорость света",
@@ -6303,7 +6678,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0856",
+      "id": "S-0937",
       "lat": 55.77614,
       "lon": 37.459842,
       "operator": "Яндекс Заправки",
@@ -6318,7 +6693,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0857",
+      "id": "S-0938",
       "lat": 55.774489,
       "lon": 37.475486,
       "operator": "Яндекс Заправки",
@@ -6333,7 +6708,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0859",
+      "id": "S-0940",
       "lat": 55.731177,
       "lon": 37.437363,
       "operator": "Яндекс Заправки",
@@ -6348,7 +6723,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0860",
+      "id": "S-0941",
       "lat": 55.735693,
       "lon": 37.402621,
       "operator": "Энергия Москвы",
@@ -6363,7 +6738,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0861",
+      "id": "S-0942",
       "lat": 55.738317,
       "lon": 37.411248,
       "operator": "Punkt E",
@@ -6378,7 +6753,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0862",
+      "id": "S-0943",
       "lat": 55.718489,
       "lon": 37.399499,
       "operator": "Энергия Москвы",
@@ -6393,7 +6768,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0863",
+      "id": "S-0944",
       "lat": 55.720324,
       "lon": 37.416854,
       "operator": "Яндекс Заправки",
@@ -6408,7 +6783,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0865",
+      "id": "S-0946",
       "lat": 55.720314,
       "lon": 37.443223,
       "operator": "Яндекс Заправки",
@@ -6423,7 +6798,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0867",
+      "id": "S-0948",
       "lat": 55.72575,
       "lon": 37.422457,
       "operator": "Яндекс Заправки",
@@ -6438,7 +6813,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0868",
+      "id": "S-0949",
       "lat": 55.715187,
       "lon": 37.40538,
       "operator": "Яндекс Заправки",
@@ -6453,7 +6828,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0870",
+      "id": "S-0951",
       "lat": 55.711047,
       "lon": 37.395506,
       "operator": "Яндекс Заправки",
@@ -6468,7 +6843,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0871",
+      "id": "S-0952",
       "lat": 55.710505,
       "lon": 37.447434,
       "operator": "Electro. cars",
@@ -6483,7 +6858,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0872",
+      "id": "S-0953",
       "lat": 55.722208,
       "lon": 37.434585,
       "operator": "Яндекс Заправки",
@@ -6498,7 +6873,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0876",
+      "id": "S-0957",
       "lat": 55.684331,
       "lon": 37.460344,
       "operator": "Энергия Москвы",
@@ -6513,22 +6888,7 @@
       "kind_source": "разъёмы"
     },
     {
-      "id": "S-0879",
-      "lat": 55.69558,
-      "lon": 37.460155,
-      "operator": "Бери заряд",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0880",
+      "id": "S-0962",
       "lat": 55.672911,
       "lon": 37.451754,
       "operator": "Яндекс Заправки",
@@ -6543,7 +6903,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0883",
+      "id": "S-0965",
       "lat": 55.673492,
       "lon": 37.476162,
       "operator": "Electro. cars",
@@ -6558,7 +6918,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0884",
+      "id": "S-0966",
       "lat": 55.695232,
       "lon": 37.488439,
       "operator": "Яндекс Заправки",
@@ -6573,7 +6933,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0887",
+      "id": "S-0967",
+      "lat": 55.678589,
+      "lon": 37.484606,
+      "operator": "Розетка",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 67% быстрых у оператора"
+    },
+    {
+      "id": "S-0969",
       "lat": 55.665026,
       "lon": 37.48057,
       "operator": "Энергия Москвы",
@@ -6588,7 +6963,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0888",
+      "id": "S-0970",
       "lat": 55.664784,
       "lon": 37.469815,
       "operator": "Энергия Москвы",
@@ -6603,7 +6978,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0889",
+      "id": "S-0971",
       "lat": 55.666176,
       "lon": 37.492177,
       "operator": "Яндекс Заправки",
@@ -6618,7 +6993,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0890",
+      "id": "S-0972",
       "lat": 55.696511,
       "lon": 37.494199,
       "operator": "Яндекс Заправки",
@@ -6633,7 +7008,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0891",
+      "id": "S-0975",
       "lat": 55.664329,
       "lon": 37.511856,
       "operator": "Punkt E",
@@ -6648,37 +7023,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0892",
-      "lat": 55.672403,
-      "lon": 37.516499,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0893",
-      "lat": 55.669619,
-      "lon": 37.512132,
+      "id": "S-0976",
+      "lat": 55.6696335,
+      "lon": 37.512085,
       "operator": "Plug Me",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0894",
+      "id": "S-0977",
       "lat": 55.671554,
       "lon": 37.509311,
       "operator": "Яндекс Заправки",
@@ -6693,7 +7053,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0895",
+      "id": "S-0978",
       "lat": 55.680893,
       "lon": 37.527094,
       "operator": "Яндекс Заправки",
@@ -6708,7 +7068,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0897",
+      "id": "S-0980",
       "lat": 55.683791,
       "lon": 37.531272,
       "operator": "Яндекс Заправки",
@@ -6723,7 +7083,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0900",
+      "id": "S-0982",
+      "lat": 55.708614,
+      "lon": 37.541513,
+      "operator": "Станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 42% быстрых у оператора"
+    },
+    {
+      "id": "S-0983",
       "lat": 55.666066,
       "lon": 37.526091,
       "operator": "Яндекс Заправки",
@@ -6738,7 +7113,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0901",
+      "id": "S-0984",
       "lat": 55.668309,
       "lon": 37.534435,
       "operator": "Энергия Москвы",
@@ -6750,10 +7125,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора"
     },
     {
-      "id": "S-0902",
+      "id": "S-0985",
       "lat": 55.681772,
       "lon": 37.537772,
       "operator": "Яндекс Заправки",
@@ -6768,7 +7143,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0903",
+      "id": "S-0986",
       "lat": 55.688114,
       "lon": 37.547545,
       "operator": "Яндекс Заправки",
@@ -6783,7 +7158,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0904",
+      "id": "S-0987",
       "lat": 55.685522,
       "lon": 37.526222,
       "operator": "Яндекс Заправки",
@@ -6798,7 +7173,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0905",
+      "id": "S-0988",
       "lat": 55.660644,
       "lon": 37.473002,
       "operator": "Энергия Москвы",
@@ -6813,7 +7188,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0907",
+      "id": "S-0990",
       "lat": 55.66603,
       "lon": 37.495223,
       "operator": "Яндекс Заправки",
@@ -6828,7 +7203,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0908",
+      "id": "S-0991",
       "lat": 55.68491,
       "lon": 37.529558,
       "operator": "Яндекс Заправки",
@@ -6843,7 +7218,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0909",
+      "id": "S-0994",
       "lat": 55.662901,
       "lon": 37.5368,
       "operator": "Pandora",
@@ -6855,10 +7230,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0913",
+      "id": "S-0997",
       "lat": 55.683418,
       "lon": 37.544856,
       "operator": "Яндекс Заправки",
@@ -6873,7 +7248,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0915",
+      "id": "S-0999",
+      "lat": 55.651069,
+      "lon": 37.478486,
+      "operator": "Розетка",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 60% быстрых у оператора"
+    },
+    {
+      "id": "S-1000",
       "lat": 55.634547,
       "lon": 37.510086,
       "operator": "Яндекс Заправки",
@@ -6888,7 +7278,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0916",
+      "id": "S-1001",
       "lat": 55.634314,
       "lon": 37.514841,
       "operator": "Яндекс Заправки",
@@ -6903,10 +7293,10 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0918",
-      "lat": 55.821069,
-      "lon": 37.650446,
-      "operator": "Энергия Москвы",
+      "id": "S-1003",
+      "lat": 55.798258,
+      "lon": 37.698134,
+      "operator": "Розетка",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -6915,10 +7305,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 55% быстрых у оператора"
     },
     {
-      "id": "S-0923",
+      "id": "S-1010",
       "lat": 55.61255,
       "lon": 37.713249,
       "operator": "Яндекс Заправки",
@@ -6933,7 +7323,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0924",
+      "id": "S-1011",
       "lat": 55.614413,
       "lon": 37.712353,
       "operator": "Яндекс Заправки",
@@ -6948,7 +7338,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0926",
+      "id": "S-1012",
+      "lat": 55.617778,
+      "lon": 37.716551,
+      "operator": "Заряди Авто",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-1013",
       "lat": 55.617761,
       "lon": 37.707881,
       "operator": "Яндекс Заправки",
@@ -6963,7 +7368,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0930",
+      "id": "S-1017",
       "lat": 55.6486,
       "lon": 37.66367,
       "operator": "Энергия Москвы",
@@ -6978,7 +7383,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0933",
+      "id": "S-1020",
       "lat": 55.630303,
       "lon": 37.612715,
       "operator": "Энергия Москвы",
@@ -6990,10 +7395,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
+      "kind_source": "оценка: 45% быстрых у оператора"
     },
     {
-      "id": "S-0935",
+      "id": "S-1022",
       "lat": 55.64372,
       "lon": 37.674425,
       "operator": "Яндекс Заправки",
@@ -7008,7 +7413,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0938",
+      "id": "S-1023",
+      "lat": 55.651467,
+      "lon": 37.613176,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых у оператора"
+    },
+    {
+      "id": "S-1025",
       "lat": 55.671502,
       "lon": 37.661792,
       "operator": "Энергия Москвы",
@@ -7023,7 +7443,7 @@
       "kind_source": "разъёмы"
     },
     {
-      "id": "S-0939",
+      "id": "S-1026",
       "lat": 55.64911,
       "lon": 37.612855,
       "operator": "Яндекс Заправки",
@@ -7038,7 +7458,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0940",
+      "id": "S-1027",
       "lat": 55.634213,
       "lon": 37.632315,
       "operator": "Инновационный комплекс Юг",
@@ -7050,25 +7470,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0941",
-      "lat": 55.653658,
-      "lon": 37.617956,
-      "operator": "1charge",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-0944",
+      "id": "S-1031",
       "lat": 55.622848,
       "lon": 37.49248,
       "operator": "Яндекс Заправки",
@@ -7083,7 +7488,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0945",
+      "id": "S-1032",
       "lat": 55.651118,
       "lon": 37.560757,
       "operator": "Яндекс Заправки",
@@ -7098,7 +7503,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0946",
+      "id": "S-1033",
       "lat": 55.625382,
       "lon": 37.48326,
       "operator": "Volt",
@@ -7113,7 +7518,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0947",
+      "id": "S-1034",
       "lat": 55.62029,
       "lon": 37.489647,
       "operator": "Яндекс Заправки",
@@ -7128,7 +7533,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0948",
+      "id": "S-1035",
       "lat": 55.669295,
       "lon": 37.562591,
       "operator": "Яндекс Заправки",
@@ -7143,7 +7548,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0949",
+      "id": "S-1036",
       "lat": 55.652703,
       "lon": 37.558763,
       "operator": "Яндекс Заправки",
@@ -7158,7 +7563,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0950",
+      "id": "S-1037",
       "lat": 55.671085,
       "lon": 37.558846,
       "operator": "Яндекс Заправки",
@@ -7173,7 +7578,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0952",
+      "id": "S-1039",
       "lat": 55.633878,
       "lon": 37.516241,
       "operator": "Яндекс Заправки",
@@ -7188,7 +7593,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0953",
+      "id": "S-1040",
       "lat": 55.662703,
       "lon": 37.556785,
       "operator": "Яндекс Заправки",
@@ -7203,7 +7608,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0954",
+      "id": "S-1041",
+      "lat": 55.65576,
+      "lon": 37.542934,
+      "operator": "Станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 38% быстрых у оператора"
+    },
+    {
+      "id": "S-1042",
       "lat": 55.660341,
       "lon": 37.566687,
       "operator": "Яндекс Заправки",
@@ -7218,7 +7638,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0955",
+      "id": "S-1043",
       "lat": 55.665069,
       "lon": 37.543577,
       "operator": "РусГидро",
@@ -7233,7 +7653,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0956",
+      "id": "S-1044",
       "lat": 55.657802,
       "lon": 37.515487,
       "operator": "Яндекс Заправки",
@@ -7248,7 +7668,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0962",
+      "id": "S-1050",
       "lat": 55.623596,
       "lon": 37.50124,
       "operator": "Яндекс Заправки",
@@ -7263,7 +7683,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0963",
+      "id": "S-1051",
       "lat": 55.619515,
       "lon": 37.497291,
       "operator": "Яндекс Заправки",
@@ -7278,7 +7698,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0964",
+      "id": "S-1052",
       "lat": 55.614794,
       "lon": 37.492543,
       "operator": "Яндекс Заправки",
@@ -7293,7 +7713,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0965",
+      "id": "S-1053",
       "lat": 55.627119,
       "lon": 37.480706,
       "operator": "Яндекс Заправки",
@@ -7308,7 +7728,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0982",
+      "id": "S-1072",
       "lat": 55.619948,
       "lon": 37.49952,
       "operator": "Яндекс Заправки",
@@ -7323,7 +7743,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0984",
+      "id": "S-1074",
       "lat": 55.621691,
       "lon": 37.49445,
       "operator": "Яндекс Заправки",
@@ -7338,7 +7758,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-0985",
+      "id": "S-1075",
       "lat": 55.607205,
       "lon": 37.553765,
       "operator": "Яндекс Заправки",
@@ -7353,7 +7773,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0986",
+      "id": "S-1076",
       "lat": 55.591394,
       "lon": 37.602028,
       "operator": "Зарядная станция",
@@ -7368,22 +7788,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0987",
-      "lat": 55.607497,
-      "lon": 37.590291,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора"
-    },
-    {
-      "id": "S-0988",
+      "id": "S-1078",
       "lat": 55.612218,
       "lon": 37.607758,
       "operator": "Скорость света",
@@ -7398,7 +7803,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0989",
+      "id": "S-1079",
       "lat": 55.588909,
       "lon": 37.598255,
       "operator": "Энергия Москвы",
@@ -7413,7 +7818,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0990",
+      "id": "S-1080",
       "lat": 55.614101,
       "lon": 37.609895,
       "operator": "Evlink",
@@ -7425,10 +7830,10 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-0991",
+      "id": "S-1081",
       "lat": 55.621646,
       "lon": 37.601367,
       "operator": "Яндекс Заправки",
@@ -7443,7 +7848,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0992",
+      "id": "S-1082",
       "lat": 55.592355,
       "lon": 37.63357,
       "operator": "Punkt E",
@@ -7458,7 +7863,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0994",
+      "id": "S-1084",
       "lat": 55.627806,
       "lon": 37.60133,
       "operator": "Яндекс Заправки",
@@ -7473,7 +7878,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0996",
+      "id": "S-1087",
       "lat": 55.624387,
       "lon": 37.60525,
       "operator": "Яндекс Заправки",
@@ -7488,7 +7893,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0997",
+      "id": "S-1088",
       "lat": 55.600683,
       "lon": 37.587093,
       "operator": "Яндекс Заправки",
@@ -7503,7 +7908,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-0998",
+      "id": "S-1089",
       "lat": 55.620279,
       "lon": 37.590877,
       "operator": "Яндекс Заправки",
@@ -7518,7 +7923,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1000",
+      "id": "S-1090",
+      "lat": 55.579038,
+      "lon": 37.619617,
+      "operator": "Electro. cars",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "мощность"
+    },
+    {
+      "id": "S-1094",
       "lat": 55.623812,
       "lon": 37.647516,
       "operator": "Яндекс Заправки",
@@ -7533,7 +7953,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1002",
+      "id": "S-1096",
       "lat": 55.588929,
       "lon": 37.654205,
       "operator": "Яндекс Заправки",
@@ -7548,7 +7968,22 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1004",
+      "id": "S-1098",
+      "lat": 55.579061,
+      "lon": 37.619271,
+      "operator": "Electro. cars",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "скорость (Яндекс)"
+    },
+    {
+      "id": "S-1099",
       "lat": 55.576115,
       "lon": 37.648479,
       "operator": "Яндекс Заправки",
@@ -7563,7 +7998,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1005",
+      "id": "S-1100",
       "lat": 55.586615,
       "lon": 37.641754,
       "operator": "Яндекс Заправки",
@@ -7578,7 +8013,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1006",
+      "id": "S-1101",
       "lat": 55.583443,
       "lon": 37.651118,
       "operator": "Яндекс Заправки",
@@ -7593,7 +8028,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1007",
+      "id": "S-1102",
       "lat": 55.579772,
       "lon": 37.644404,
       "operator": "Яндекс Заправки",
@@ -7608,7 +8043,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1008",
+      "id": "S-1103",
       "lat": 55.599516,
       "lon": 37.622093,
       "operator": "Яндекс Заправки",
@@ -7623,7 +8058,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1009",
+      "id": "S-1104",
       "lat": 55.609503,
       "lon": 37.716068,
       "operator": "Яндекс Заправки",
@@ -7638,7 +8073,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1018",
+      "id": "S-1114",
       "lat": 55.581414,
       "lon": 37.646873,
       "operator": "Яндекс Заправки",
@@ -7653,7 +8088,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1020",
+      "id": "S-1116",
       "lat": 55.589158,
       "lon": 37.64152,
       "operator": "Яндекс Заправки",
@@ -7668,7 +8103,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1021",
+      "id": "S-1117",
       "lat": 55.578475,
       "lon": 37.646073,
       "operator": "Яндекс Заправки",
@@ -7683,7 +8118,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1028",
+      "id": "S-1125",
       "lat": 55.602768,
       "lon": 37.617046,
       "operator": "Яндекс Заправки",
@@ -7698,22 +8133,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1029",
-      "lat": 55.597454,
-      "lon": 37.601268,
-      "operator": "Green Drive",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-1031",
+      "id": "S-1128",
       "lat": 55.664352,
       "lon": 37.577168,
       "operator": "Энергия Москвы",
@@ -7728,7 +8148,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1034",
+      "id": "S-1131",
       "lat": 55.660276,
       "lon": 37.5714,
       "operator": "Яндекс Заправки",
@@ -7743,9 +8163,9 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1035",
-      "lat": 55.668305,
-      "lon": 37.567259,
+      "id": "S-1132",
+      "lat": 55.668183,
+      "lon": 37.567015,
       "operator": "Punkt E",
       "P_kW": 60,
       "posts": 2,
@@ -7758,7 +8178,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1036",
+      "id": "S-1133",
       "lat": 55.660145,
       "lon": 37.595144,
       "operator": "Энергия Москвы",
@@ -7773,7 +8193,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1037",
+      "id": "S-1134",
       "lat": 55.655682,
       "lon": 37.567986,
       "operator": "Яндекс Заправки",
@@ -7788,7 +8208,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1038",
+      "id": "S-1135",
       "lat": 55.657499,
       "lon": 37.566021,
       "operator": "Яндекс Заправки",
@@ -7803,7 +8223,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1039",
+      "id": "S-1136",
       "lat": 55.659034,
       "lon": 37.597239,
       "operator": "Яндекс Заправки",
@@ -7818,7 +8238,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1040",
+      "id": "S-1137",
       "lat": 55.660122,
       "lon": 37.568288,
       "operator": "Яндекс Заправки",
@@ -7833,7 +8253,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1041",
+      "id": "S-1138",
       "lat": 55.671164,
       "lon": 37.570217,
       "operator": "Яндекс Заправки",
@@ -7848,7 +8268,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1042",
+      "id": "S-1139",
       "lat": 55.658647,
       "lon": 37.571352,
       "operator": "Яндекс Заправки",
@@ -7863,7 +8283,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1043",
+      "id": "S-1140",
+      "lat": 55.668305,
+      "lon": 37.567259,
+      "operator": "Punkt E",
+      "P_kW": 60,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "мощность"
+    },
+    {
+      "id": "S-1141",
       "lat": 55.678379,
       "lon": 37.565185,
       "operator": "Яндекс Заправки",
@@ -7878,7 +8313,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1044",
+      "id": "S-1142",
       "lat": 55.680712,
       "lon": 37.585074,
       "operator": "Яндекс Заправки",
@@ -7893,7 +8328,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1045",
+      "id": "S-1143",
       "lat": 55.648406,
       "lon": 37.580114,
       "operator": "Яндекс Заправки",
@@ -7908,7 +8343,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1046",
+      "id": "S-1144",
       "lat": 55.65915,
       "lon": 37.594063,
       "operator": "Энергия Москвы, станция зарядки электромобилей",
@@ -7920,10 +8355,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем"
     },
     {
-      "id": "S-1048",
+      "id": "S-1145",
+      "lat": 55.645435,
+      "lon": 37.608512,
+      "operator": "Станция зарядки электромобилей",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 36% быстрых у оператора"
+    },
+    {
+      "id": "S-1146",
       "lat": 55.647459,
       "lon": 37.611546,
       "operator": "Яндекс Заправки",
@@ -7938,7 +8388,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1049",
+      "id": "S-1147",
       "lat": 55.647553,
       "lon": 37.595041,
       "operator": "Станция зарядки электромобилей",
@@ -7950,10 +8400,25 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 57% быстрых у оператора"
+      "kind_source": "оценка: 33% быстрых у оператора"
     },
     {
-      "id": "S-1051",
+      "id": "S-1148",
+      "lat": 55.644782,
+      "lon": 37.560645,
+      "operator": "Розетка",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 47% быстрых у оператора"
+    },
+    {
+      "id": "S-1149",
       "lat": 55.653266,
       "lon": 37.565941,
       "operator": "Яндекс Заправки",
@@ -7968,7 +8433,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1053",
+      "id": "S-1152",
       "lat": 55.68676,
       "lon": 37.545857,
       "operator": "Яндекс Заправки",
@@ -7983,7 +8448,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1054",
+      "id": "S-1153",
       "lat": 55.689451,
       "lon": 37.550544,
       "operator": "Яндекс Заправки",
@@ -7998,7 +8463,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1055",
+      "id": "S-1154",
       "lat": 55.689113,
       "lon": 37.553283,
       "operator": "Яндекс Заправки",
@@ -8013,7 +8478,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1056",
+      "id": "S-1155",
       "lat": 55.686437,
       "lon": 37.563986,
       "operator": "Энергия Москвы",
@@ -8028,22 +8493,7 @@
       "kind_source": "разъёмы"
     },
     {
-      "id": "S-1057",
-      "lat": 55.692759,
-      "lon": 37.574471,
-      "operator": "Hyper",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых по всем"
-    },
-    {
-      "id": "S-1058",
+      "id": "S-1157",
       "lat": 55.702662,
       "lon": 37.573792,
       "operator": "Яндекс Заправки",
@@ -8058,7 +8508,22 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1061",
+      "id": "S-1158",
+      "lat": 55.70354,
+      "lon": 37.59136,
+      "operator": "PlugMe",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 44% быстрых по всем"
+    },
+    {
+      "id": "S-1161",
       "lat": 55.657992,
       "lon": 37.617947,
       "operator": "Яндекс Заправки",
@@ -8073,7 +8538,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1062",
+      "id": "S-1162",
       "lat": 55.64371,
       "lon": 37.601265,
       "operator": "Яндекс Заправки",
@@ -8088,7 +8553,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1063",
+      "id": "S-1163",
       "lat": 55.652662,
       "lon": 37.617423,
       "operator": "Яндекс Заправки",
@@ -8103,7 +8568,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1064",
+      "id": "S-1164",
       "lat": 55.676775,
       "lon": 37.667758,
       "operator": "Энергия Москвы",
@@ -8118,7 +8583,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1065",
+      "id": "S-1165",
       "lat": 55.634941,
       "lon": 37.606642,
       "operator": "Яндекс Заправки",
@@ -8133,7 +8598,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1066",
+      "id": "S-1166",
       "lat": 55.637844,
       "lon": 37.607361,
       "operator": "Яндекс Заправки",
@@ -8148,7 +8613,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1067",
+      "id": "S-1167",
       "lat": 55.629918,
       "lon": 37.602166,
       "operator": "Яндекс Заправки",
@@ -8163,7 +8628,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1068",
+      "id": "S-1168",
       "lat": 55.635817,
       "lon": 37.613785,
       "operator": "Яндекс Заправки",
@@ -8178,7 +8643,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1069",
+      "id": "S-1169",
       "lat": 55.63136,
       "lon": 37.602775,
       "operator": "Яндекс Заправки",
@@ -8193,7 +8658,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1070",
+      "id": "S-1170",
       "lat": 55.630914,
       "lon": 37.605757,
       "operator": "Яндекс Заправки",
@@ -8208,7 +8673,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1071",
+      "id": "S-1171",
       "lat": 55.624363,
       "lon": 37.608389,
       "operator": "Яндекс Заправки",
@@ -8223,7 +8688,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1072",
+      "id": "S-1172",
       "lat": 55.622645,
       "lon": 37.596692,
       "operator": "Яндекс Заправки",
@@ -8238,7 +8703,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1073",
+      "id": "S-1173",
       "lat": 55.646503,
       "lon": 37.610917,
       "operator": "Яндекс Заправки",
@@ -8253,7 +8718,7 @@
       "kind_source": "скорость (Яндекс)"
     },
     {
-      "id": "S-1074",
+      "id": "S-1174",
       "lat": 55.630454,
       "lon": 37.608853,
       "operator": "Яндекс Заправки",
@@ -8268,7 +8733,7 @@
       "kind_source": "мощность"
     },
     {
-      "id": "S-1075",
+      "id": "S-1175",
       "lat": 55.621051,
       "lon": 37.615982,
       "operator": "Eq Electric Intelligence, станция зарядки электромобилей",

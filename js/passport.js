@@ -13,6 +13,16 @@ function fmt(x, digits = 2) {
   return Number.isFinite(x) ? x.toFixed(digits) : '—';
 }
 
+// Данные по часам последнего паспорта - чтобы ползунок «Время» обновлял
+// подсветку и подпись без полного пересчёта (27.09: раньше оставался старый час).
+let hourView = null;
+
+export function updatePassportHour(hour) {
+  if (!hourView || !document.getElementById('pp-hour-note')) return;
+  document.querySelectorAll('#passport .bar').forEach((el, h) => el.classList.toggle('bar-now', h === hour));
+  document.getElementById('pp-hour-note').innerHTML = hourView.note(hour);
+}
+
 export function renderPassport({ container, local, baselineS, candidate, stations, district = null, hour = 12, conditions = '' }) {
   const idx = local.candidateLocalIdx;
 
@@ -49,6 +59,8 @@ export function renderPassport({ container, local, baselineS, candidate, station
   const newDemandShare = Snew > 0 ? newDemand / Snew : 0;
   const ownLoss = neighbors.filter((n) => n.station.operator === candidate.operator && n.deltaS < 0).reduce((acc, n) => acc - n.deltaS, 0);
 
+  const hourNote = (h) => `Больше всего машин в ${peakHour}:00. Выделен выбранный час, ${h}:00: пост занят ${fmt(Uh[h] * 100, 0)}% времени, ожидание ${fmt(Wh[h] * 60, 0)} мин.`;
+  hourView = { note: hourNote };
   const maxBar = Math.max(1e-6, ...hourlyTotals);
   const barsHtml = hourlyTotals
     .map((total, h) => `<div class="bar ${h === hour ? 'bar-now' : ''} ${h === peakHour ? 'bar-peak' : ''}" style="height:${Math.max(2, (total / maxBar) * 100)}%" title="${h}:00: ${fmt(total, 2)} машин в час"></div>`)
@@ -90,7 +102,7 @@ export function renderPassport({ container, local, baselineS, candidate, station
       <h3>Когда приезжают машины</h3>
       <div class="bar-chart">${barsHtml}</div>
       <div class="bar-axis"><span>0:00</span><span>6:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
-      <p class="pp-note">Больше всего машин в ${peakHour}:00. Выделен выбранный час, ${hour}:00: пост занят ${fmt(Uh[hour] * 100, 0)}% времени, ожидание ${fmt(Wh[hour] * 60, 0)} мин.</p>
+      <p class="pp-note" id="pp-hour-note">${hourNote(hour)}</p>
     </section>
 
     <section>

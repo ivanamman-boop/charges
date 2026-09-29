@@ -131,10 +131,63 @@ function parseCompactItem(item) {
   return { lat, lon, operator, P_kW: tier.P_kW, posts, P_post_kW: tier.P_post_kW, status: 'active', year_open: 2024, P_known: powerKW !== null, ...kindOfYandex(powerKW, features) };
 }
 
+// Яндекс записывает каждую колонку хаба отдельной организацией (например,
+// несколько IT Charge в 1 м друг от друга на Болотной наб., 15). В модели
+// станция - это площадка: колонки одного оператора и одного типа в пределах
+// 15 м сливаются в одну станцию с суммой постов и мощностей (27.09). Разные
+// операторы на одной парковке остаются разными станциями - это конкуренты.
+// Так же считает и РСЗС («104 площадки» в Москве), и калибровка 4.1 сессии
+// в сутки относится к станции-площадке.
+// Одна площадка: тот же оператор в 15 м; запись с общим названием
+// («Станция зарядки электромобилей», «Зарядная станция»…) в 15 м от
+// конкретной; любые записи ближе 5 м - одно парковочное место.
+const HUB_RADIUS_KM = 0.015;
+const SAME_SPOT_KM = 0.005;
+const GENERIC_NAME = /станция зарядки|зарядная станция|электрозарядк|независим|^зарядк/i;
+function mergeHubs(candidates) {
+  const used = new Array(candidates.length).fill(false);
+  const out = [];
+  for (let i = 0; i < candidates.length; i++) {
+    if (used[i]) continue;
+    const a = candidates[i];
+    const group = [a];
+    used[i] = true;
+    for (let j = i + 1; j < candidates.length; j++) {
+      if (used[j]) continue;
+      const b = candidates[j];
+      if (b.kind !== a.kind || Math.abs(b.lat - a.lat) > 0.0003) continue;
+      const d = haversineKm(a.lat, a.lon, b.lat, b.lon);
+      const sameSite = d <= SAME_SPOT_KM || (d <= HUB_RADIUS_KM && (b.operator === a.operator || GENERIC_NAME.test(a.operator) || GENERIC_NAME.test(b.operator)));
+      if (sameSite) {
+        group.push(b);
+        used[j] = true;
+      }
+    }
+    if (group.length === 1) {
+      out.push(a);
+      continue;
+    }
+    const named = group.find((x) => !GENERIC_NAME.test(x.operator)) || a;
+    out.push({
+      ...a,
+      operator: named.operator,
+      lat: group.reduce((s, x) => s + x.lat, 0) / group.length,
+      lon: group.reduce((s, x) => s + x.lon, 0) / group.length,
+      posts: group.reduce((s, x) => s + x.posts, 0),
+      P_kW: group.reduce((s, x) => s + x.P_kW, 0),
+      P_post_kW: Math.max(...group.map((x) => x.P_post_kW)),
+      P_known: group.some((x) => x.P_known),
+      hub_records: group.length,
+    });
+  }
+  return out;
+}
+
 function loadYandexCandidates() {
   const compact = JSON.parse(readFileSync(COMPACT_PATH, 'utf8'));
-  const candidates = compact.items.map(parseCompactItem).filter(Boolean);
-  console.log(`  ${compact.items.length} записей в компактном файле (${compact.date}), ${candidates.length} с валидными координатами`);
+  const parsed = compact.items.map(parseCompactItem).filter(Boolean);
+  const candidates = mergeHubs(parsed);
+  console.log(`  ${compact.items.length} записей в компактном файле (${compact.date}), ${parsed.length} с валидными координатами, после слияния колонок хабов - ${candidates.length} станций`);
   return candidates;
 }
 
@@ -146,13 +199,21 @@ function main() {
   const yandexCandidates = loadYandexCandidates();
 
   const MATCH_RADIUS_KM = 0.05; // 50 м - считаем той же станцией
+  const DUP_RADIUS_KM = 0.015; // OSM-точка ближе 15 м к станции Яндекса - дубль
   let replaced = 0;
   let added = 0;
+  // Сопоставление один к одному (27.09): каждая OSM-станция уточняется
+  // Яндексом не больше одного раза. Раньше вторая станция хаба (две записи
+  // Яндекса на одной парковке) находила уже заменённую первую и затирала её -
+  // настоящая станция терялась, а соседняя OSM-точка оставалась дублем.
+  const matched = new Set();
+  const osmCount = stations.length;
 
   for (const cand of yandexCandidates) {
     let nearestIdx = -1;
     let nearestDist = Infinity;
-    for (let i = 0; i < stations.length; i++) {
+    for (let i = 0; i < osmCount; i++) {
+      if (matched.has(i)) continue;
       const d = haversineKm(cand.lat, cand.lon, stations[i].lat, stations[i].lon);
       if (d < nearestDist) {
         nearestDist = d;
@@ -174,12 +235,24 @@ function main() {
         kind: keepOsm ? prev.kind : cand.kind,
         kind_source: keepOsm ? prev.kind_source : cand.kind_source,
       };
+      matched.add(nearestIdx);
       replaced++;
     } else {
       stations.push({ id: `S-${String(stations.length + 1).padStart(4, '0')}`, lat: cand.lat, lon: cand.lon, operator: cand.operator, P_kW: cand.P_kW, posts: cand.posts, P_post_kW: cand.P_post_kW, status: cand.status, year_open: cand.year_open, source_detail: 'yandex', P_known: cand.P_known, kind: cand.kind, kind_source: cand.kind_source });
       added++;
     }
   }
+
+  // OSM-точки, не сопоставленные ни с чем, но стоящие в пределах 15 м от
+  // станции Яндекса, - та же станция, записанная дважды (27.09).
+  const yandexPts = stations.filter((s) => s.source_detail === 'yandex');
+  const before = stations.length;
+  for (let i = stations.length - 1; i >= 0; i--) {
+    const st = stations[i];
+    if (st.source_detail === 'yandex') continue;
+    if (yandexPts.some((y) => Math.abs(y.lat - st.lat) < 0.0003 && haversineKm(y.lat, y.lon, st.lat, st.lon) <= DUP_RADIUS_KM)) stations.splice(i, 1);
+  }
+  console.log(`дублей OSM рядом со станциями Яндекса убрано: ${before - stations.length}`);
 
   const imputed = imputeKindAndPower(stations);
   const fast = stations.filter((s) => s.kind === 'fast');

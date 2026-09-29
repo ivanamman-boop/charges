@@ -9,7 +9,7 @@
 // кандидатом, без ожидания. Детальный паспорт с экономикой - по клику на
 // конкретную строку, как и раньше.
 import { haversineKm } from './choice.js';
-import { freeCenterCapacityKW, availablePowerKW } from './grid.js';
+import { freeCenterCapacityKW, availablePowerKW, dist04FromKnownTp } from './grid.js';
 import { SEGMENTS } from './demand.js';
 
 const TRAFFIC_RADIUS_KM = 2;
@@ -31,11 +31,19 @@ function nearestByDistance(lat, lon, points) {
 // Считает "сырые" метрики одного кандидата. Быстро: ближайший центр/ячейка
 // (перебор ~50/~2600 точек), сумма спроса в радиусе, число станций рядом -
 // без локального равновесия, без перебора оборудования.
-export function scoreCandidateRaw({ candidate, cells, stations, centers, params, demand }) {
+export function scoreCandidateRaw({ candidate, cells, stations, centers, params, demand, tp04 = null }) {
   const center = nearestByDistance(candidate.lat, candidate.lon, centers);
   const centerFreeKW = freeCenterCapacityKW({ center, portfolioLoadKW: 0, params });
   const pAvailKW = availablePowerKW({ RqFreeKW: centerFreeKW, stayInClassA: false });
-  const powerScore = Math.max(0, Math.min(100, (pAvailKW / 300) * 100)); // 300 кВт = потолок каталога (DC300-4)
+  // Подключение (27.09): раньше балл = свободная мощность / 300 кВт, но у всех
+  // 227 центров питания резерв >= 1.9 МВт - балл был 100 везде и ничего не
+  // различал. Теперь - по тому, что реально меняет цену и срок: расстояние
+  // до известной ТП 0.4 кВ (класс А ближе 200 м), класс Б - 30, нет резерва - 0.
+  const dist04 = tp04 ? dist04FromKnownTp(candidate.lat, candidate.lon, tp04) : null;
+  let powerScore;
+  if (pAvailKW < 150) powerScore = 0;
+  else if (dist04 !== null) powerScore = Math.max(60, 100 - 0.2 * dist04);
+  else powerScore = 30;
 
   let trafficRaw = 0;
   for (let i = 0; i < cells.length; i++) {
@@ -59,6 +67,7 @@ export function scoreCandidateRaw({ candidate, cells, stations, centers, params,
     powerScore,
     pAvailKW,
     centerFreeKW,
+    dist04,
     trafficRaw,
     nearbyCount,
     competitionScore,
