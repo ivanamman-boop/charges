@@ -15,6 +15,7 @@
 // что это Promise, и падает на `.then is not a function`. Подробности и
 // сколько на это ушло времени - docs/journal.md.
 
+import { hexKeyForPoint, hexRing } from './hex.js';
 const MOSCOW_CENTER_LONLAT = [37.618, 55.751]; // OL: [lon, lat]
 
 // Кластеризация станций (как на картах АЗС): близкие точки на текущем
@@ -46,11 +47,19 @@ export function initMap() {
   const portfolioSource = new ol.source.Vector();
   const mkadSource = new ol.source.Vector();
   const slowSource = new ol.source.Vector();
+  const searchSource = new ol.source.Vector();
+  const zonesSource = new ol.source.Vector();
+  const pointSource = new ol.source.Vector();
 
   // Спрос - шестиугольные зоны как на карте спроса у таксистов (Яндекс Про):
   // дискретные ступени фиолетового вместо размытого heatmap, стиль у каждой
   // зоны свой (renderDemandLayer), слой только рисует.
-  const demandLayer = new ol.layer.Vector({ source: demandSource });
+  const demandLayer = new ol.layer.Vector({ source: demandSource, visible: false });
+  // Карта зон решения (главный слой): шестиугольники по статусу места -
+  // ставить / готовить сеть / не ставить (renderZones).
+  const zonesLayer = new ol.layer.Vector({ source: zonesSource });
+  // Точка, которую пользователь проверяет кликом по карте.
+  const pointLayer = new ol.layer.Vector({ source: pointSource, zIndex: 8 });
   // Центры питания - только с зума 11: на общем плане Москвы 227 молний
   // превращаются в кашу поверх зон спроса.
   const centersLayer = new ol.layer.Vector({ source: centersSource, minZoom: 11 });
@@ -61,6 +70,8 @@ export function initMap() {
   // Медленные AC-станции (data/stations-slow.json) - в модель не входят,
   // показываются по галочке для справки; по умолчанию скрыты.
   const slowLayer = new ol.layer.Vector({ source: slowSource, visible: false, style: SLOW_STYLE, zIndex: 3 });
+  // Станция, найденная поиском по адресу (focusStation) - кольцо поверх всего.
+  const searchLayer = new ol.layer.Vector({ source: searchSource, zIndex: 10 });
   // Граница модели: всё считается для Москвы внутри МКАД (data/mkad.json).
   const mkadLayer = new ol.layer.Vector({
     source: mkadSource,
@@ -71,9 +82,16 @@ export function initMap() {
     target: 'map',
     // className - чтобы CSS обесцветил только подложку (.basemap), а не
     // слои поверх: на серой карте фиолетовые зоны спроса читаются лучше.
-    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), demandLayer, mkadLayer, slowLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer],
+    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), zonesLayer, demandLayer, mkadLayer, slowLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer, pointLayer, searchLayer],
     view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10.4 }),
+    controls: ol.control.defaults.defaults({ attribution: true, rotate: false }).extend([new ol.control.FullScreen({ source: document.querySelector('.map-card') || undefined })]),
   });
+
+  // Карточка кандидата или зоны по клику (наполняет app.js).
+  const popupEl = document.createElement('div');
+  popupEl.className = 'map-popup';
+  const popupOverlay = new ol.Overlay({ element: popupEl, positioning: 'bottom-center', offset: [0, -18], autoPan: { animation: { duration: 250 }, margin: 24 } });
+  map.addOverlay(popupOverlay);
 
   // Общий тултип по наведению (аналог bindTooltip/hintContent).
   const tooltipEl = document.createElement('div');
@@ -101,7 +119,14 @@ export function initMap() {
     }
   });
 
-  return { map, demandSource, centersSource, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource, slowSource, slowLayer };
+  // Подпись к найденной станции: остаётся, пока не выбрана другая или не
+  // очищен поиск (тултип выше живёт только под курсором).
+  const searchLabelEl = document.createElement('div');
+  searchLabelEl.className = 'ol-tooltip search-label';
+  const searchOverlay = new ol.Overlay({ element: searchLabelEl, offset: [0, -22], positioning: 'bottom-center' });
+  map.addOverlay(searchOverlay);
+
+  return { map, demandSource, demandLayer, zonesSource, zonesLayer, pointSource, centersSource, centersLayer, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource, slowSource, slowLayer, searchSource, searchOverlay, searchLabelEl, popupEl, popupOverlay };
 }
 
 // Клик по карте (app.js) должен отличать клик по кластеру (несколько
@@ -161,33 +186,23 @@ function stationClusterStyle(feature) {
   const members = feature.get('features');
   if (members.length === 1) return members[0].getStyle();
   const count = members.length;
-  const radius = Math.min(19, 9 + Math.sqrt(count) * 1.4);
+  // Компактно и тёмным, как точки станций в макете: главное на карте - зоны.
+  const radius = Math.min(14, 7 + Math.sqrt(count) * 1.1);
   return new ol.style.Style({
     image: new ol.style.Circle({
       radius,
-      fill: new ol.style.Fill({ color: 'rgba(30, 22, 48, 0.78)' }),
-      stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.9)', width: 1.5 }),
+      fill: new ol.style.Fill({ color: 'rgba(17, 18, 20, 0.82)' }),
+      stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.95)', width: 1.5 }),
     }),
     text: new ol.style.Text({
       text: String(count),
-      font: '600 11px system-ui, sans-serif',
+      font: '600 10px Inter, system-ui, sans-serif',
       fill: new ol.style.Fill({ color: '#fff' }),
     }),
   });
 }
 
-// --- Зоны спроса: шестиугольная сетка ---
-// Радиус шестиугольника (центр -> вершина) на земле. Ячейки cells.json -
-// 1x1 км, зона ~0.85 км покрывает в среднем ~2 ячейки: плотность в зоне -
-// среднее по попавшим в неё ячейкам, а не сумма, иначе число ячеек в зоне
-// (1-3 из-за несовпадения квадратной и шестиугольной сеток) давало бы муар.
-const HEX_RADIUS_KM = 0.85;
-// Web Mercator растягивает расстояния в 1/cos(широты) раз - на широте
-// Москвы 1 км на земле = ~1.78 км "метров карты".
-const MERCATOR_SCALE = 1 / Math.cos((MOSCOW_CENTER_LONLAT[1] * Math.PI) / 180);
-const HEX_SIZE = HEX_RADIUS_KM * 1000 * MERCATOR_SCALE;
-const SQRT3 = Math.sqrt(3);
-
+// --- Зоны спроса: шестиугольная сетка (геометрия - js/hex.js) ---
 // Ступени фиолетового (светлее -> темнее), нижние ~35% зон не красятся
 // вообще - как у таксистов, подсвечено только то, где спрос выше обычного.
 export const DEMAND_LEVELS = [
@@ -199,33 +214,8 @@ export const DEMAND_LEVELS = [
 ];
 const HEX_STROKE = new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.75)', width: 1 });
 
-// pointy-top шестиугольники, осевые координаты (q, r) - стандартная схема
-// с округлением в кубических координатах.
-function hexKeyForPoint(x, y) {
-  const qf = ((SQRT3 / 3) * x - (1 / 3) * y) / HEX_SIZE;
-  const rf = ((2 / 3) * y) / HEX_SIZE;
-  const sf = -qf - rf;
-  let q = Math.round(qf);
-  let r = Math.round(rf);
-  const s = Math.round(sf);
-  const dq = Math.abs(q - qf);
-  const dr = Math.abs(r - rf);
-  const ds = Math.abs(s - sf);
-  if (dq > dr && dq > ds) q = -r - s;
-  else if (dr > ds) r = -q - s;
-  return `${q},${r}`;
-}
-
 function hexPolygon(key) {
-  const [q, r] = key.split(',').map(Number);
-  const cx = HEX_SIZE * SQRT3 * (q + r / 2);
-  const cy = HEX_SIZE * 1.5 * r;
-  const ring = [];
-  for (let k = 0; k <= 6; k++) {
-    const a = (Math.PI / 180) * (60 * (k % 6) - 30);
-    ring.push([cx + HEX_SIZE * Math.cos(a), cy + HEX_SIZE * Math.sin(a)]);
-  }
-  return new ol.geom.Polygon([ring]);
+  return new ol.geom.Polygon([hexRing(key)]);
 }
 
 // Разбиение ячеек по зонам не зависит от часа - считаем один раз на массив cells.
@@ -298,7 +288,8 @@ export function renderStationsLayer({ stationsSource, stations, activeStations, 
     const u = Uarr[j];
     const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(st.lat, st.lon)) });
     f.setStyle(circleStyle({ radiusPx: 4 + Math.sqrt(st.posts) * 2, fillColor: colorForU(u) }));
-    f.set('hint', `${st.id} · ${st.operator}\n${st.P_kW} кВт, ${st.posts} пост(ов)\nU=${(u * 100).toFixed(1)}%`);
+    const where = st.address ? `\n${st.address}` : st.status === 'planned' ? '\nплановая городская, место — оценка' : '';
+    f.set('hint', `${st.id} · ${st.operator}${where}\n${st.P_kW} кВт, ${st.posts} пост(ов)\nU=${(u * 100).toFixed(1)}%`);
     if (onClickStation) f.set('onClick', () => onClickStation(j));
     features.push(f);
   }
@@ -379,17 +370,15 @@ export function renderNeighbors({ neighborsSource, stations, neighborDeltas }) {
 // для наглядного сравнения, где разошлись подходы.
 // Уровень "ставить" - золотая обводка; "если сеть подтвердит дешёвое
 // присоединение" - светлее, с белой обводкой.
-function portfolioPinStyle(rank, conditional) {
-  return [
-    new ol.style.Style({
-      image: new ol.style.Circle({
-        radius: 14,
-        fill: new ol.style.Fill({ color: conditional ? '#8b5cf6' : '#6d28d9' }),
-        stroke: new ol.style.Stroke({ color: conditional ? '#fff' : '#fbbf24', width: 3 }),
-      }),
-      text: new ol.style.Text({ text: String(rank), font: '700 12px system-ui, sans-serif', fill: new ol.style.Fill({ color: '#fff' }) }),
-    }),
-  ];
+// Цвет пина - решение по месту в выбранном году и сценарии (app.js statusFor).
+export const STATUS_COLORS = { priority: '#1f3fd1', now: '#4a68ee', grid: '#f08a24', no: '#9aa0aa' };
+
+function portfolioPinStyle(rank, status) {
+  const color = STATUS_COLORS[status] || STATUS_COLORS.now;
+  return new ol.style.Style({
+    image: new ol.style.Circle({ radius: 13, fill: new ol.style.Fill({ color }), stroke: new ol.style.Stroke({ color: '#fff', width: 3 }) }),
+    text: new ol.style.Text({ text: String(rank), font: '600 12px Inter, system-ui, sans-serif', fill: new ol.style.Fill({ color: '#fff' }) }),
+  });
 }
 
 function traditionalPinStyle(rank) {
@@ -406,7 +395,7 @@ function traditionalPinStyle(rank) {
 }
 
 
-export function renderPortfolio({ portfolioSource, portfolio, showModel = true, showTraditional = false }) {
+export function renderPortfolio({ portfolioSource, portfolio, showModel = true, showTraditional = false, statusFor = () => 'now' }) {
   portfolioSource.clear();
   if (!portfolio) return;
   const features = [];
@@ -414,17 +403,17 @@ export function renderPortfolio({ portfolioSource, portfolio, showModel = true, 
     (portfolio.traditional?.picks || []).forEach((p, k) => {
       const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(p.lat, p.lon)) });
       f.setStyle(traditionalPinStyle(k + 1));
-      f.set('hint', `Традиционный выбор №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\n${p.omega} · ${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)} сессий/сут (2026 → 2030)\nновых для сети: +${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}`);
-      f.set('portfolioPick', p);
+      f.set('hint', `Традиционный выбор №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\nнажмите, чтобы увидеть прогноз`);
+      f.set('portfolioPick', { ...p, traditionalRank: k + 1 });
       features.push(f);
     });
   }
   if (showModel) {
     (portfolio.model?.picks || []).forEach((p, k) => {
       const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(p.lat, p.lon)) });
-      f.setStyle(portfolioPinStyle(k + 1, false));
-      f.set('hint', `Рекомендация модели №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\n${p.omega} · ${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)} сессий/сут (2026 → 2030)\nновых для сети: +${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}\nклик — полный паспорт`);
-      f.set('portfolioPick', p);
+      f.setStyle(portfolioPinStyle(k + 1, statusFor(p)));
+      f.set('hint', `Кандидат №${k + 1} · ${p.kind}${p.name ? ` «${p.name}»` : ''}\nнажмите, чтобы увидеть прогноз`);
+      f.set('portfolioPick', { ...p, modelRank: k + 1 });
       features.push(f);
     });
   }
@@ -447,8 +436,81 @@ export function renderSlowStations({ slowSource, stations }) {
   slowSource.addFeatures(
     stations.map((st) => {
       const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(st.lat, st.lon)) });
-      f.set('hint', `Медленная зарядка (AC) · ${st.operator}\nв модель не входит: другой сценарий — машина стоит часами`);
+      f.set('hint', `Медленная зарядка (AC) · ${st.operator}${st.address ? `\n${st.address}` : ''}\nв модель не входит: другой сценарий — машина стоит часами`);
       return f;
     })
   );
+}
+
+// Поиск по адресу: приблизить карту к станции и обвести её кольцом.
+// station = null снимает подсветку.
+const SEARCH_RING_STYLE = new ol.style.Style({
+  image: new ol.style.Circle({ radius: 16, stroke: new ol.style.Stroke({ color: '#1f3fd1', width: 3 }), fill: new ol.style.Fill({ color: 'rgba(31, 63, 209, 0.12)' }) }),
+});
+
+export function focusStation({ map, searchSource, searchOverlay, searchLabelEl }, station, label) {
+  searchSource.clear();
+  if (!station) {
+    searchOverlay.setPosition(undefined);
+    return;
+  }
+  const coord = toMapCoord(station.lat, station.lon);
+  const f = new ol.Feature({ geometry: new ol.geom.Point(coord) });
+  f.setStyle(SEARCH_RING_STYLE);
+  searchSource.addFeature(f);
+  searchLabelEl.textContent = label;
+  searchOverlay.setPosition(coord);
+  map.getView().animate({ center: coord, zoom: Math.max(map.getView().getZoom(), 16.5), duration: 400 });
+}
+
+// --- Карта зон решения ---
+// zones: [{key, status, level (0..1, насыщенность синего по прогнозу), hint, zone}]
+const ZONE_STROKE = new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.9)', width: 1.5 });
+const zoneStyleCache = new Map();
+function zoneStyle(status, level) {
+  const step = Math.round(level * 4);
+  const key = `${status}|${step}`;
+  if (!zoneStyleCache.has(key)) {
+    let fill;
+    if (status === 'priority') fill = 'rgba(31, 63, 209, 0.80)';
+    else if (status === 'now') fill = `rgba(74, 104, 238, ${(0.38 + step * 0.09).toFixed(2)})`;
+    else if (status === 'grid') fill = 'rgba(240, 138, 36, 0.72)';
+    else fill = 'rgba(176, 181, 190, 0.42)';
+    zoneStyleCache.set(key, new ol.style.Style({ fill: new ol.style.Fill({ color: fill }), stroke: ZONE_STROKE }));
+  }
+  return zoneStyleCache.get(key);
+}
+
+export function renderZones({ zonesSource, zones }) {
+  zonesSource.clear();
+  zonesSource.addFeatures(
+    zones.map((z) => {
+      const f = new ol.Feature({ geometry: hexPolygon(z.key) });
+      f.setStyle(zoneStyle(z.status, z.level));
+      f.set('hint', z.hint);
+      f.set('zone', z.zone);
+      return f;
+    })
+  );
+}
+
+export function zoneAtPixel(map, zonesLayer, pixel) {
+  return map.forEachFeatureAtPixel(pixel, (f) => f.get('zone') || null, { layerFilter: (l) => l === zonesLayer }) || null;
+}
+
+// Кольцо вокруг проверяемой точки (клик по карте вне кандидатов).
+const POINT_STYLE = [
+  new ol.style.Style({ image: new ol.style.Circle({ radius: 22, fill: new ol.style.Fill({ color: 'rgba(31, 63, 209, 0.10)' }), stroke: new ol.style.Stroke({ color: 'rgba(31, 63, 209, 0.55)', width: 1.5 }) }) }),
+  new ol.style.Style({ image: new ol.style.Circle({ radius: 6, fill: new ol.style.Fill({ color: '#1f3fd1' }), stroke: new ol.style.Stroke({ color: '#fff', width: 2.5 }) }) }),
+];
+export function renderPoint({ pointSource }, point) {
+  pointSource.clear();
+  if (!point) return;
+  const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(point.lat, point.lon)) });
+  f.setStyle(POINT_STYLE);
+  pointSource.addFeature(f);
+}
+
+export function showPopup({ popupOverlay }, lat, lon) {
+  popupOverlay.setPosition(lat === null ? undefined : toMapCoord(lat, lon));
 }

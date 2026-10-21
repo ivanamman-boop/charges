@@ -3,8 +3,9 @@ import { SEGMENTS } from './demand.js';
 import { localEquilibrium, dailySessions } from './equilibrium.js';
 import { haversineKm } from './choice.js';
 import { freeCenterCapacityKW, gridClass, connectionCostRange, availablePowerKW, equipmentSubsidy, connectionSubsidy } from './grid.js';
-import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateSessions, breakeven } from './economics.js';
+import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateAnchors, breakeven } from './economics.js';
 
+// Опорные годы по умолчанию (9.3); карта зон и паспорт добавляют 2028 (years).
 const YEARS = [2026, 2030];
 const SEASONS = ['winter', 'summer'];
 const DAY_TYPES = ['weekday', 'weekend'];
@@ -55,7 +56,7 @@ export function candidateConfigs({ PavailKW, params }) {
 // Генератор: отдаёт управление после каждого локального равновесия, чтобы
 // браузер мог обновить полосу загрузки паспорта (evaluateCandidateAsync);
 // синхронная evaluateCandidate просто прогоняет его до конца.
-function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters }) {
+function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters, scenario = 'base', subsidy = false, years = YEARS }) {
   const sessionsByCombo = {}; // "year|season|dayType" -> {segment: S}
   // Новый для сети спрос (6.3): сколько сессий/сутки кандидат обслуживает
   // сверх того, что сеть обслуживала без него = −(ΔΛ_out + ΔΛ_lost).
@@ -64,20 +65,20 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
   let worstHourAcc = null;
   // Худшая доступность в самый тяжёлый режим (зима, будни) по годам - для
   // выбора оборудования без экономики: что достаточно сейчас и к 2030.
-  const minAccByYear = { 2026: 1, 2030: 1 };
+  const minAccByYear = Object.fromEntries(years.map((y) => [y, 1]));
   // Доступность за сутки, взвешенная по приехавшим (тот же режим): какую
   // долю своих клиентов станция принимает без отказа и долгого ожидания.
   // Худший час (minAcc) слишком строг для выбора оборудования: в пиковый
   // час 90% не держит ни одна конфигурация каталога - чем мощнее станция,
   // тем больше клиентов она перетягивает и тем длиннее её пиковая очередь.
-  const accDayByYear = { 2026: 1, 2030: 1 };
+  const accDayByYear = Object.fromEntries(years.map((y) => [y, 1]));
 
-  for (const year of YEARS) {
+  for (const year of years) {
     for (const season of SEASONS) {
       for (const dayType of DAY_TYPES) {
         const { context, result: fullResult, stations } = getBaseline(year, season, dayType);
         const candidate = { ...candidateBase, P_kW: cfg.P_cap_kW, posts: cfg.posts, P_post_kW: cfg.P_post_kW, year_open: year };
-        const local = localEquilibrium({ cells, stations, candidate, params, year, scenario: 'base', dayType, season, fullContext: context, fullResult });
+        const local = localEquilibrium({ cells, stations, candidate, params, year, scenario, dayType, season, fullContext: context, fullResult });
         const idx = local.candidateLocalIdx;
 
         const perSegment = {};
@@ -121,9 +122,7 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
   const connRange = connectionCostRange({ cls, Preq, dist04Meters, params });
 
   const getSessions = (year, season, dayType, segment) => {
-    const s26 = sessionsByCombo[`2026|${season}|${dayType}`][segment];
-    const s30 = sessionsByCombo[`2030|${season}|${dayType}`][segment];
-    return interpolateSessions({ 2026: s26, 2030: s30 }, year);
+    return interpolateAnchors(Object.fromEntries(years.map((y) => [y, sessionsByCombo[`${y}|${season}|${dayType}`][segment]])), year);
   };
   const marginBySegmentSeason = (segment, season) => marginPerSession({ segment, season, params });
 
@@ -134,9 +133,9 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
 
   let scenarios = null;
   if (connRange && !cfg.costUnknown) {
-    const subEq = equipmentSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, CeqRub: cfg.C_eq_rub, params, enabled: false });
+    const subEq = equipmentSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, CeqRub: cfg.C_eq_rub, params, enabled: subsidy });
     const buildScenario = (connCostRub, TconnMonths) => {
-      const subConn = connectionSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, Cconn: connCostRub, params, enabled: false });
+      const subConn = connectionSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, Cconn: connCostRub, params, enabled: subsidy });
       const CAPEXrub = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub, subsidyEqRub: subEq, subsidyConnRub: subConn, params });
       const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginBySegmentSeason(s, 'summer'), TconnMonths, OPEXfixYearRub, startYear: 2026, H, r });
       const NPVrub = npv(CF, CAPEXrub, r);
@@ -161,7 +160,7 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
     breakevenInfo = breakeven({ OPEXfixYearRub, CAPEXrub: capexMid, marginBar, tauBarHours: tauBar, posts: cfg.posts, params });
   }
 
-  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, minAccByYear, accDayByYear, breakevenInfo, sessionsByCombo, netGainByCombo };
+  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, minAccByYear, accDayByYear, breakevenInfo, sessionsByCombo, netGainByCombo, years };
 }
 
 function runToEnd(gen) {
@@ -206,14 +205,16 @@ function recommendConfig(evaluated) {
 }
 
 // 8.2. Полная оценка кандидата: перебор конфигураций, выбор omega*, вердикт.
-export function evaluateCandidate({ candidateBase, cells, centers, params, getBaseline, dist04Meters = null, stayInClassA = false }) {
+// scenario - рост спроса (getBaseline должен отдавать опорные равновесия того же
+// сценария), subsidy - субсидия Москвы на оборудование и подключение (7.5).
+export function evaluateCandidate({ candidateBase, cells, centers, params, getBaseline, dist04Meters = null, stayInClassA = false, scenario = 'base', subsidy = false, years = YEARS }) {
   const center = nearestCenter(candidateBase.lat, candidateBase.lon, centers);
   const centerFree = freeCenterCapacityKW({ center, portfolioLoadKW: 0, params });
   const PavailKW = availablePowerKW({ RqFreeKW: centerFree, stayInClassA });
 
   const configs = candidateConfigs({ PavailKW, params });
   const evaluated = configs.map((cfg) =>
-    runToEnd(evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters }))
+    runToEnd(evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters, scenario, subsidy, years }))
   );
   return finishCandidate({ center, centerFree, PavailKW, evaluated, params });
 }
@@ -221,16 +222,16 @@ export function evaluateCandidate({ candidateBase, cells, centers, params, getBa
 // То же, что evaluateCandidate, но асинхронно: после каждого локального
 // равновесия вызывает onProgress(done, total) и отдаёт управление браузеру -
 // полоса загрузки паспорта двигается, а страница не выглядит зависшей.
-export async function evaluateCandidateAsync({ candidateBase, cells, centers, params, getBaseline, dist04Meters = null, stayInClassA = false, onProgress = () => {} }) {
+export async function evaluateCandidateAsync({ candidateBase, cells, centers, params, getBaseline, dist04Meters = null, stayInClassA = false, scenario = 'base', subsidy = false, years = YEARS, onProgress = () => {} }) {
   const center = nearestCenter(candidateBase.lat, candidateBase.lon, centers);
   const centerFree = freeCenterCapacityKW({ center, portfolioLoadKW: 0, params });
   const PavailKW = availablePowerKW({ RqFreeKW: centerFree, stayInClassA });
   const configs = candidateConfigs({ PavailKW, params });
-  const total = configs.length * YEARS.length * SEASONS.length * DAY_TYPES.length;
+  const total = configs.length * years.length * SEASONS.length * DAY_TYPES.length;
   let done = 0;
   const evaluated = [];
   for (const cfg of configs) {
-    const gen = evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters });
+    const gen = evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, centerFree, dist04Meters, scenario, subsidy, years });
     let r = gen.next();
     while (!r.done) {
       done++;

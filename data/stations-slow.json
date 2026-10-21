@@ -15,7 +15,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 2914048739
+      "osm_id": 2914048739,
+      "address": "шоссе Энтузиастов (дублёр), 12 к2",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0003",
@@ -30,7 +32,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 2914048740
+      "osm_id": 2914048740,
+      "address": "Ленинградское шоссе",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0004",
@@ -45,7 +49,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Бахрушина, 18с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0009",
@@ -60,7 +66,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 4703123846
+      "osm_id": 4703123846,
+      "address": "улица Петровка",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0010",
@@ -75,7 +83,9 @@
       "kind_source": "оценка: 40% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 4714015491
+      "osm_id": 4714015491,
+      "address": "Садовническая набережная",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0016",
@@ -90,7 +100,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 4902990461
+      "osm_id": 4902990461,
+      "address": "улица Ильинка",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0026",
@@ -105,7 +117,9 @@
       "kind_source": "оценка: 40% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 5773235095
+      "osm_id": 5773235095,
+      "address": "Леонтьевский переулок",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0027",
@@ -120,7 +134,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Макаренко, 1/19",
+      "address_source": "yandex"
     },
     {
       "id": "S-0032",
@@ -135,7 +151,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 6409353152
+      "osm_id": 6409353152,
+      "address": "Старомонетный переулок",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0034",
@@ -150,7 +168,9 @@
       "kind_source": "оценка: 71% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 6473962980
+      "osm_id": 6473962980,
+      "address": "Раушская набережная",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0035",
@@ -165,7 +185,9 @@
       "kind_source": "оценка: 67% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 6473962981
+      "osm_id": 6473962981,
+      "address": "Раушская набережная",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0038",
@@ -180,7 +202,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "Садовническая улица, 14, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0043",
@@ -195,7 +219,9 @@
       "kind_source": "оценка: 63% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 7063367761
+      "osm_id": 7063367761,
+      "address": "Продольный проезд",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0044",
@@ -210,7 +236,9 @@
       "kind_source": "оценка: 59% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 7063367766
+      "osm_id": 7063367766,
+      "address": "Продольный проезд",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0047",
@@ -225,7 +253,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 7733937141
+      "osm_id": 7733937141,
+      "address": "Сухонская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0058",
@@ -240,7 +270,9 @@
       "kind_source": "мощность",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 8237731310
+      "osm_id": 8237731310,
+      "address": "улица Яблочкова",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0060",
@@ -255,7 +287,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Каширское ш., 26",
+      "address_source": "yandex"
     },
     {
       "id": "S-0068",
@@ -270,7 +304,9 @@
       "kind_source": "мощность",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 9276085157
+      "osm_id": 9276085157,
+      "address": "Чермянский проезд",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0070",
@@ -285,7 +321,9 @@
       "kind_source": "оценка: 65% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 9364492029
+      "osm_id": 9364492029,
+      "address": "Раменский бульвар",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0071",
@@ -300,7 +338,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Пулковская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0072",
@@ -315,7 +355,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 9404946869
+      "osm_id": 9404946869,
+      "address": "2-й Южнопортовый проезд",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0077",
@@ -330,7 +372,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Валдайский проезд",
+      "address_source": "yandex"
     },
     {
       "id": "S-0078",
@@ -345,7 +389,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Волгоградский проспект, 32, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0079",
@@ -360,7 +406,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "2-я Самаринская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0081",
@@ -375,7 +423,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Петровско-Разумовская аллея",
+      "address_source": "yandex"
     },
     {
       "id": "S-0083",
@@ -390,7 +440,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Хомутовский тупик",
+      "address_source": "yandex"
     },
     {
       "id": "S-0084",
@@ -405,7 +457,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ельнинская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0086",
@@ -420,7 +474,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "улица Свободы",
+      "address_source": "yandex"
     },
     {
       "id": "S-0087",
@@ -435,7 +491,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Грохольский переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0088",
@@ -450,7 +508,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "проспект Вернадского",
+      "address_source": "yandex"
     },
     {
       "id": "S-0089",
@@ -465,7 +525,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Третье транспортное кольцо, 5/19",
+      "address_source": "yandex"
     },
     {
       "id": "S-0091",
@@ -480,7 +542,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "бульвар Маршала Рокоссовского",
+      "address_source": "yandex"
     },
     {
       "id": "S-0092",
@@ -495,7 +559,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "Большой Сухаревский переулок, 24",
+      "address_source": "yandex"
     },
     {
       "id": "S-0093",
@@ -510,7 +576,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "улица Зои и Александра Космодемьянских, 11/15с1А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0095",
@@ -525,7 +593,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Преображенская площадь, 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0098",
@@ -540,7 +610,9 @@
       "kind_source": "мощность",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 10277163546
+      "osm_id": 10277163546,
+      "address": "улица Большие Каменщики",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0099",
@@ -555,7 +627,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Большие Каменщики",
+      "address_source": "yandex"
     },
     {
       "id": "S-0104",
@@ -570,7 +644,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Магнитогорская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0106",
@@ -585,7 +661,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Вилиса Лациса, 27, корп. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0107",
@@ -600,7 +678,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Автозаводская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0109",
@@ -615,7 +695,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "улица Барклая",
+      "address_source": "yandex"
     },
     {
       "id": "S-0111",
@@ -630,7 +712,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Окская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0112",
@@ -645,7 +729,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Рязанский проспект (дублёр)",
+      "address_source": "yandex"
     },
     {
       "id": "S-0113",
@@ -660,7 +746,9 @@
       "kind_source": "оценка: 66% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11150207098
+      "osm_id": 11150207098,
+      "address": "Гжельский переулок",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0114",
@@ -675,7 +763,9 @@
       "kind_source": "мощность",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11232532321
+      "osm_id": 11232532321,
+      "address": "Нагатинская набережная",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0118",
@@ -690,7 +780,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "улица Щепкина",
+      "address_source": "yandex"
     },
     {
       "id": "S-0123",
@@ -705,7 +797,9 @@
       "kind_source": "оценка: 61% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11508682238
+      "osm_id": 11508682238,
+      "address": "Третье транспортное кольцо",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0127",
@@ -720,7 +814,9 @@
       "kind_source": "оценка: 59% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11638562132
+      "osm_id": 11638562132,
+      "address": "Дубнинская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0130",
@@ -735,7 +831,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Севастопольский проспект",
+      "address_source": "yandex"
     },
     {
       "id": "S-0131",
@@ -750,7 +848,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "4-я Магистральная улица, 11",
+      "address_source": "yandex"
     },
     {
       "id": "S-0141",
@@ -765,7 +865,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "улица Ефремова",
+      "address_source": "yandex"
     },
     {
       "id": "S-0144",
@@ -780,7 +882,9 @@
       "kind_source": "мощность",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11786705284
+      "osm_id": 11786705284,
+      "address": "4-й Загородный проезд",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0145",
@@ -795,7 +899,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Загородное шоссе",
+      "address_source": "yandex"
     },
     {
       "id": "S-0146",
@@ -810,7 +916,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новочерёмушкинская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0147",
@@ -825,7 +933,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-й Нагатинский проезд",
+      "address_source": "yandex"
     },
     {
       "id": "S-0148",
@@ -840,7 +950,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Автозаводская улица, 23к5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0149",
@@ -855,7 +967,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 11799638195
+      "osm_id": 11799638195,
+      "address": "Зиловский бульвар",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0151",
@@ -870,7 +984,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-й Автозаводский проезд",
+      "address_source": "yandex"
     },
     {
       "id": "S-0154",
@@ -885,7 +1001,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Озерковская набережная",
+      "address_source": "yandex"
     },
     {
       "id": "S-0156",
@@ -900,7 +1018,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 56% быстрых у оператора"
+      "kind_source": "оценка: 56% быстрых у оператора",
+      "address": "Малая Семёновская улица, 5с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0158",
@@ -915,7 +1035,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "2-я улица Марьиной Рощи",
+      "address_source": "yandex"
     },
     {
       "id": "S-0162",
@@ -930,7 +1052,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Усиевича, 29, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0171",
@@ -945,7 +1069,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12116487442
+      "osm_id": 12116487442,
+      "address": "улица Лужники",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0172",
@@ -960,7 +1086,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12116498668
+      "osm_id": 12116498668,
+      "address": "улица Лужники",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0173",
@@ -975,7 +1103,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новороссийская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0174",
@@ -990,7 +1120,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Нагатинская набережная",
+      "address_source": "yandex"
     },
     {
       "id": "S-0176",
@@ -1005,7 +1137,9 @@
       "kind_source": "оценка: 59% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12212647087
+      "osm_id": 12212647087,
+      "address": "улица Островитянова",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0177",
@@ -1020,7 +1154,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12240880146
+      "osm_id": 12240880146,
+      "address": "улица Кульнева",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0179",
@@ -1035,7 +1171,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Мароновский переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0183",
@@ -1050,7 +1188,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 41% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора",
+      "address": "Вознесенский переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0184",
@@ -1065,7 +1205,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Вознесенский переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0185",
@@ -1080,7 +1222,9 @@
       "kind_source": "оценка: 57% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12460407601
+      "osm_id": 12460407601,
+      "address": "улица Сущёвский Вал",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0186",
@@ -1095,7 +1239,9 @@
       "kind_source": "оценка: 56% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12467446699
+      "osm_id": 12467446699,
+      "address": "Большой Кисловский переулок",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0187",
@@ -1110,7 +1256,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Берсеневская набережная",
+      "address_source": "yandex"
     },
     {
       "id": "S-0189",
@@ -1125,7 +1273,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Даев переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0193",
@@ -1140,7 +1290,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Стромынка, 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0195",
@@ -1155,7 +1307,9 @@
       "kind_source": "оценка: 44% быстрых по всем",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12799921060
+      "osm_id": 12799921060,
+      "address": "проектируемый проезд № 1824",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0198",
@@ -1170,7 +1324,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Нижний Сусальный переулок, 9с6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0199",
@@ -1185,7 +1341,9 @@
       "kind_source": "оценка: 44% быстрых по всем",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12883077831
+      "osm_id": 12883077831,
+      "address": "Кутузовский проспект",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0200",
@@ -1200,7 +1358,9 @@
       "kind_source": "оценка: 44% быстрых по всем",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 12922626733
+      "osm_id": 12922626733,
+      "address": "1-я Мытищинская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0204",
@@ -1215,7 +1375,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Бойцовая улица, 27, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0205",
@@ -1230,7 +1392,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "проспект Вернадского",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0209",
@@ -1245,7 +1409,9 @@
       "kind_source": "оценка: 55% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 13049552026
+      "osm_id": 13049552026,
+      "address": "Черёмушкинский проезд",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0210",
@@ -1260,7 +1426,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "4-й Рощинский проезд, 7/16с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0211",
@@ -1275,7 +1443,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Садовая-Самотёчная улица, 6с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0215",
@@ -1290,7 +1460,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новочерёмушкинская ул., 3А, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0216",
@@ -1305,7 +1477,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Менжинского, 23к1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0218",
@@ -1320,7 +1494,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Грекова",
+      "address_source": "yandex"
     },
     {
       "id": "S-0220",
@@ -1335,7 +1511,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Калитниковская улица, 42А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0221",
@@ -1350,7 +1528,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Большая Филёвская улица, 37с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0230",
@@ -1365,7 +1545,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Есенинский бульвар",
+      "address_source": "yandex"
     },
     {
       "id": "S-0234",
@@ -1380,7 +1562,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Грекова",
+      "address_source": "yandex"
     },
     {
       "id": "S-0236",
@@ -1395,7 +1579,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Тепличный переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0240",
@@ -1410,7 +1596,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Народная улица, 7",
+      "address_source": "yandex"
     },
     {
       "id": "S-0241",
@@ -1425,7 +1613,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Андроньевская улица, 20, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0242",
@@ -1440,7 +1630,9 @@
       "kind_source": "разъёмы",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 13406615415
+      "osm_id": 13406615415,
+      "address": "Верхоянская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0243",
@@ -1455,7 +1647,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Лётчика Бабушкина, 1, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0248",
@@ -1470,7 +1664,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "проспект Мира (дублёр)",
+      "address_source": "yandex"
     },
     {
       "id": "S-0251",
@@ -1485,7 +1681,9 @@
       "kind_source": "оценка: 42% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 13528886913
+      "osm_id": 13528886913,
+      "address": "Большая Марьинская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0256",
@@ -1500,7 +1698,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Фортунатовская улица, 31/35",
+      "address_source": "yandex"
     },
     {
       "id": "S-0258",
@@ -1515,7 +1715,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Земляной Вал, 61, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0259",
@@ -1530,7 +1732,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "6-я Кожуховская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0264",
@@ -1545,7 +1749,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Истринская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0265",
@@ -1560,7 +1766,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Маршала Неделина, 16, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0267",
@@ -1575,7 +1783,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Молодогвардейская ул., 18, стр. 5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0269",
@@ -1590,7 +1800,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Ленинский просп., 107",
+      "address_source": "yandex"
     },
     {
       "id": "S-0275",
@@ -1605,7 +1817,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Кубинка, 16, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0278",
@@ -1620,7 +1834,9 @@
       "kind_source": "оценка: 0% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 14060126126
+      "osm_id": 14060126126,
+      "address": "улица Маршала Неделина, 22 с2",
+      "address_source": "osm"
     },
     {
       "id": "S-0279",
@@ -1635,7 +1851,9 @@
       "kind_source": "оценка: 54% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 14112572672
+      "osm_id": 14112572672,
+      "address": "1-я Брестская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0283",
@@ -1650,7 +1868,9 @@
       "kind_source": "оценка: 52% быстрых у оператора",
       "status": "active",
       "year_open": 2024,
-      "osm_id": 14179827633
+      "osm_id": 14179827633,
+      "address": "Ленинградский проспект (дублёр)",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0286",
@@ -1665,7 +1885,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Академика Векшинского",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0287",
@@ -1680,7 +1902,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Остоженка, 19с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0290",
@@ -1695,7 +1919,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Олсуфьевский переулок, 10, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0295",
@@ -1710,7 +1936,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Болотная набережная, 15",
+      "address_source": "yandex"
     },
     {
       "id": "S-0296",
@@ -1725,7 +1953,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 0% быстрых у оператора"
+      "kind_source": "оценка: 0% быстрых у оператора",
+      "address": "Цветной бульвар, 15с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0298",
@@ -1740,7 +1970,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Театральный проезд, 5, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0299",
@@ -1755,7 +1987,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Трубная площадь, 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0303",
@@ -1770,7 +2004,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Гончарная улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0304",
@@ -1785,7 +2021,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "Гороховский переулок, 12с5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0305",
@@ -1800,7 +2038,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Балчуг, 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0306",
@@ -1815,7 +2055,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Воронцово Поле, 13с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0307",
@@ -1830,7 +2072,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Малые Каменщики, 4с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0308",
@@ -1845,7 +2089,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "1-й Голутвинский переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0311",
@@ -1860,7 +2106,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "площадь Киевского Вокзала",
+      "address_source": "yandex"
     },
     {
       "id": "S-0312",
@@ -1875,7 +2123,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "площадь Киевского Вокзала",
+      "address_source": "yandex"
     },
     {
       "id": "S-0316",
@@ -1890,7 +2140,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Можайский Вал, 10",
+      "address_source": "yandex"
     },
     {
       "id": "S-0319",
@@ -1905,7 +2157,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "улица Климашкина, 17",
+      "address_source": "yandex"
     },
     {
       "id": "S-0320",
@@ -1920,7 +2174,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "Спиридоньевский переулок, 17",
+      "address_source": "yandex"
     },
     {
       "id": "S-0321",
@@ -1935,7 +2191,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Скаковая улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0322",
@@ -1950,7 +2208,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новослободская улица, 29, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0324",
@@ -1965,7 +2225,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Приютский переулок, 3 с2",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0327",
@@ -1980,7 +2242,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Лесная улица, 41",
+      "address_source": "yandex"
     },
     {
       "id": "S-0328",
@@ -1995,7 +2259,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 41% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора",
+      "address": "Лесная улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0330",
@@ -2010,7 +2276,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 41% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора",
+      "address": "Краснопролетарская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0332",
@@ -2025,7 +2293,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Лесная улица, 41",
+      "address_source": "yandex"
     },
     {
       "id": "S-0335",
@@ -2040,7 +2310,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 41% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора",
+      "address": "2-й Щемиловский переулок",
+      "address_source": "yandex"
     },
     {
       "id": "S-0340",
@@ -2055,7 +2327,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "переулок Васнецова",
+      "address_source": "yandex"
     },
     {
       "id": "S-0341",
@@ -2070,7 +2344,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 41% быстрых у оператора"
+      "kind_source": "оценка: 41% быстрых у оператора",
+      "address": "улица Гиляровского",
+      "address_source": "yandex"
     },
     {
       "id": "S-0342",
@@ -2085,7 +2361,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "проспект Мира, 36с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0344",
@@ -2100,7 +2378,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Гиляровского, 22с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0346",
@@ -2115,7 +2395,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Слесарный переулок, 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0347",
@@ -2130,7 +2412,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Грохольский переулок",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0350",
@@ -2145,7 +2429,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Переяславская улица, 11, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0351",
@@ -2160,7 +2446,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Большая Спасская улица, 8с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0353",
@@ -2175,7 +2463,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "3-й Красносельский переулок, 19, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0355",
@@ -2190,7 +2480,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Нижняя Красносельская улица, 39, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0356",
@@ -2205,7 +2497,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Доброслободская улица, 8, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0359",
@@ -2220,7 +2514,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Нижняя Сыромятническая улица, 10с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0361",
@@ -2235,7 +2531,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Международная улица, 15, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0362",
@@ -2250,7 +2548,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ковров переулок, 20с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0363",
@@ -2265,7 +2565,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Рогожский Вал, 6, корп. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0364",
@@ -2280,7 +2582,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Рогожский Вал, 8, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0367",
@@ -2295,7 +2599,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Стройковская улица, 6А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0368",
@@ -2310,7 +2616,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Малые Каменщики, 10, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0370",
@@ -2325,7 +2633,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Нижегородская улица, 2, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0371",
@@ -2340,7 +2650,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Большой Симоновский переулок, 11с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0372",
@@ -2355,7 +2667,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Дербеневская набережная, 11кБ",
+      "address_source": "yandex"
     },
     {
       "id": "S-0374",
@@ -2370,7 +2684,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Дербеневская улица, 12",
+      "address_source": "yandex"
     },
     {
       "id": "S-0375",
@@ -2385,7 +2701,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Дубининская улица, 33, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0376",
@@ -2400,7 +2718,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Симоновский Вал, 24, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0377",
@@ -2415,7 +2735,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Дубининская улица, 53, стр. 5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0378",
@@ -2430,7 +2752,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "3-й Павловский переулок, 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0381",
@@ -2445,7 +2769,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Хавская улица, 3, стр. 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0382",
@@ -2460,7 +2786,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Шухова, 19с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0384",
@@ -2475,7 +2803,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Льва Толстого, 16",
+      "address_source": "yandex"
     },
     {
       "id": "S-0395",
@@ -2490,7 +2820,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "улица Плющиха",
+      "address_source": "yandex"
     },
     {
       "id": "S-0396",
@@ -2505,7 +2837,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Смоленский бульвар, 19, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0397",
@@ -2520,7 +2854,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Смоленская площадь, 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0399",
@@ -2535,7 +2871,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ростовская набережная, 3с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0403",
@@ -2550,7 +2888,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Вадковский переулок, 18с10",
+      "address_source": "yandex"
     },
     {
       "id": "S-0405",
@@ -2565,7 +2905,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ямское Поле",
+      "address_source": "yandex"
     },
     {
       "id": "S-0407",
@@ -2580,7 +2922,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Сущёвский Вал, 5с19",
+      "address_source": "yandex"
     },
     {
       "id": "S-0409",
@@ -2595,7 +2939,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Гиляровского, 59, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0412",
@@ -2610,7 +2956,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Верземнека",
+      "address_source": "yandex"
     },
     {
       "id": "S-0413",
@@ -2625,7 +2973,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Переяславская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0414",
@@ -2640,7 +2990,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "2-й Крестовский переулок, 8с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0418",
@@ -2655,7 +3007,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Бакунинская улица, 55с5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0421",
@@ -2670,7 +3024,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "2-я улица Синичкина, 13, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0423",
@@ -2685,7 +3041,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Перовский проезд, 7, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0424",
@@ -2700,7 +3058,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Нижегородская улица, 52, стр. 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0430",
@@ -2715,7 +3075,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "Волгоградский проспект (дублёр)",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0435",
@@ -2730,7 +3092,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Автозаводская улица, 23, стр. 120",
+      "address_source": "yandex"
     },
     {
       "id": "S-0438",
@@ -2745,7 +3109,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Холодильный переулок, 3А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0440",
@@ -2760,7 +3126,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 0% быстрых у оператора"
+      "kind_source": "оценка: 0% быстрых у оператора",
+      "address": "2-я Самаринская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0445",
@@ -2775,7 +3143,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "Мытная улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0446",
@@ -2790,7 +3160,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Усачёва улица, 35, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0449",
@@ -2805,7 +3177,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 50% быстрых у оператора"
+      "kind_source": "оценка: 50% быстрых у оператора",
+      "address": "1-й Сетуньский проезд, 8",
+      "address_source": "yandex"
     },
     {
       "id": "S-0451",
@@ -2820,7 +3194,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "Студенческая улица, 36",
+      "address_source": "yandex"
     },
     {
       "id": "S-0452",
@@ -2835,7 +3211,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Пресненская набережная",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0453",
@@ -2850,7 +3228,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-й Красногвардейский проезд, 19",
+      "address_source": "yandex"
     },
     {
       "id": "S-0454",
@@ -2865,7 +3245,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Пресненская набережная, 12",
+      "address_source": "yandex"
     },
     {
       "id": "S-0455",
@@ -2880,7 +3262,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Шмитовский проезд, 43, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0456",
@@ -2895,7 +3279,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "1-й Красногвардейский проезд, 22с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0459",
@@ -2910,7 +3296,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "2-я Магистральная улица, 9с17",
+      "address_source": "yandex"
     },
     {
       "id": "S-0462",
@@ -2925,7 +3313,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "2-я Магистральная улица, 18, стр. 22",
+      "address_source": "yandex"
     },
     {
       "id": "S-0463",
@@ -2940,7 +3330,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-й Магистральный тупик",
+      "address_source": "yandex"
     },
     {
       "id": "S-0464",
@@ -2955,7 +3347,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-й Магистральный проезд, 11 с1",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0466",
@@ -2970,7 +3364,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Хорошёвское шоссе, 16, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0469",
@@ -2985,7 +3381,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора"
+      "kind_source": "оценка: 43% быстрых у оператора",
+      "address": "улица Авиаконструктора Сухого",
+      "address_source": "yandex"
     },
     {
       "id": "S-0476",
@@ -3000,7 +3398,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Театральная аллея, 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0477",
@@ -3015,7 +3415,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Верхняя Масловка, 6, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0479",
@@ -3030,7 +3432,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Полтавская улица, 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0480",
@@ -3045,7 +3449,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Мишина улица, 14, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0482",
@@ -3060,7 +3466,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "4-й Вятский переулок, 14, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0483",
@@ -3075,7 +3483,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Бутырская улица, 2с5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0485",
@@ -3090,7 +3500,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "1-я Хуторская улица, 8, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0487",
@@ -3105,7 +3517,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица Двинцев, 12, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0489",
@@ -3120,7 +3534,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "9-й проезд Марьиной Рощи",
+      "address_source": "yandex"
     },
     {
       "id": "S-0492",
@@ -3135,7 +3551,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-я Ямская улица, 10, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0493",
@@ -3150,7 +3568,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "4-я улица Марьиной Рощи",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0494",
@@ -3165,7 +3585,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 85% быстрых у оператора"
+      "kind_source": "оценка: 85% быстрых у оператора",
+      "address": "проспект Мира, 102, стр. 12",
+      "address_source": "yandex"
     },
     {
       "id": "S-0496",
@@ -3180,7 +3602,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Барболина, 8, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0497",
@@ -3195,7 +3619,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Золотая улица, 11",
+      "address_source": "yandex"
     },
     {
       "id": "S-0498",
@@ -3210,7 +3636,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "проспект Будённого, 20, стр. 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0499",
@@ -3225,7 +3653,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "10-я улица Соколиной Горы, 28, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0500",
@@ -3240,7 +3670,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Буракова, 21, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0501",
@@ -3255,7 +3687,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "5-я улица Соколиной Горы, 25, корп. 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0504",
@@ -3270,7 +3704,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "1-я улица Энтузиастов",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0505",
@@ -3285,7 +3721,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Плеханова, 31, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0507",
@@ -3300,7 +3738,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "2-я Владимирская улица, 46, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0508",
@@ -3315,7 +3755,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Дмитровское шоссе, 51к1с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0516",
@@ -3330,7 +3772,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Дубки, 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0517",
@@ -3345,7 +3789,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Новопетровская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0520",
@@ -3360,7 +3806,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Академическая улица, 24А, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0521",
@@ -3375,7 +3823,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Черняховского, 19, стр. 11",
+      "address_source": "yandex"
     },
     {
       "id": "S-0522",
@@ -3390,7 +3840,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "проезд Соломенной Сторожки",
+      "address_source": "yandex"
     },
     {
       "id": "S-0525",
@@ -3405,7 +3857,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "улица Зои и Александра Космодемьянских, 31к2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0526",
@@ -3420,7 +3874,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Большая Академическая улица, 18, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0533",
@@ -3435,7 +3891,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Песчаный переулок, 18с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0535",
@@ -3450,7 +3908,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Хорошёвское шоссе, 80с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0536",
@@ -3465,7 +3925,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "3-я Хорошёвская улица, 18, корп. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0537",
@@ -3480,7 +3942,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора"
+      "kind_source": "оценка: 67% быстрых у оператора",
+      "address": "2-й Магистральный тупик, 5А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0538",
@@ -3495,7 +3959,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 62% быстрых у оператора"
+      "kind_source": "оценка: 62% быстрых у оператора",
+      "address": "2-й Магистральный тупик, 5А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0541",
@@ -3510,7 +3976,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Филёвский бульвар, 8к1с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0542",
@@ -3525,7 +3993,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Мнёвники, 10, корп. 4, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0543",
@@ -3540,7 +4010,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Проектируемый проезд № 1672",
+      "address_source": "yandex"
     },
     {
       "id": "S-0544",
@@ -3555,7 +4027,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Шелепихинское шоссе, 17, стр. 3А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0545",
@@ -3570,7 +4044,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Шмитовский проезд, 46, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0546",
@@ -3585,7 +4061,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Филёвская улица, 12, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0548",
@@ -3600,7 +4078,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "проспект Маршала Жукова, 48с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0549",
@@ -3615,7 +4095,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Малая Филёвская улица, 4с4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0552",
@@ -3630,7 +4112,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кастанаевская улица, 36, корп. 1, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0556",
@@ -3645,7 +4129,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Минская улица, 1Н",
+      "address_source": "yandex"
     },
     {
       "id": "S-0558",
@@ -3660,7 +4146,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кастанаевская улица, 23, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0559",
@@ -3675,7 +4163,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Поклонная улица, 15А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0560",
@@ -3690,7 +4180,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица 1812 года, 9, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0561",
@@ -3705,7 +4197,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Физкультурный проезд, 3к2с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0562",
@@ -3720,7 +4214,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Пырьева, 14с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0563",
@@ -3735,7 +4231,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Мосфильмовская улица, 13, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0564",
@@ -3750,7 +4248,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Мосфильмовская улица, 14, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0565",
@@ -3765,7 +4265,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Пырьева, 5А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0566",
@@ -3780,7 +4282,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Мосфильмовская улица, 13, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0567",
@@ -3795,7 +4299,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ломоносовский проспект, 33, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0568",
@@ -3810,7 +4316,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "улица МЖД Киевское 5-й километр",
+      "address_source": "yandex"
     },
     {
       "id": "S-0569",
@@ -3825,7 +4333,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Веерная улица, 30с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0572",
@@ -3840,7 +4350,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Веерная улица, 36к1с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0574",
@@ -3855,7 +4367,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "микрорайон Матвеевское",
+      "address_source": "yandex"
     },
     {
       "id": "S-0575",
@@ -3870,7 +4384,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Нежинская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0576",
@@ -3885,7 +4401,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Нежинская улица, 13с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0577",
@@ -3900,7 +4418,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ломоносовский проспект, 31, корп. 7, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0578",
@@ -3915,7 +4435,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Минская улица, 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0581",
@@ -3930,7 +4452,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кременчугская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0583",
@@ -3945,7 +4469,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Винницкая улица, 15с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0584",
@@ -3960,7 +4486,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Матвеевская улица, 38с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0586",
@@ -3975,7 +4503,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Инициативная улица, 8, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0587",
@@ -3990,7 +4520,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Матвеевская улица, 42к1с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0588",
@@ -4005,7 +4537,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Матвеевская улица, 3с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0592",
@@ -4020,7 +4554,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кастанаевская улица, 45, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0593",
@@ -4035,7 +4571,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Малая Филёвская улица, 66, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0594",
@@ -4050,7 +4588,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Филёвская улица, 63с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0596",
@@ -4065,7 +4605,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Можайское шоссе, 4, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0598",
@@ -4080,7 +4622,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Багрицкого, 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0600",
@@ -4095,7 +4639,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Островная улица, 7Б",
+      "address_source": "yandex"
     },
     {
       "id": "S-0602",
@@ -4110,7 +4656,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Островная улица, 7Б",
+      "address_source": "yandex"
     },
     {
       "id": "S-0606",
@@ -4125,7 +4673,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Таллинская улица (дублёр)",
+      "address_source": "yandex"
     },
     {
       "id": "S-0612",
@@ -4140,7 +4690,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Московская область, Красногорск, Международная улица, 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0614",
@@ -4155,7 +4707,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Московская область, Красногорск, Международная улица, 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0615",
@@ -4170,7 +4724,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Московская область, Красногорск, бульвар Строителей, 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0617",
@@ -4185,7 +4741,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Московская область, Красногорск, бульвар Строителей, 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0624",
@@ -4200,7 +4758,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Туристская улица, 4, корп. 5, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0625",
@@ -4215,7 +4775,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "бульвар Яна Райниса, 21, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0629",
@@ -4230,7 +4792,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Свободы, 75, корп. 1, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0631",
@@ -4245,7 +4809,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Штурвальная улица, 3с4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0632",
@@ -4260,7 +4826,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Фабрициуса, 20, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0635",
@@ -4275,7 +4843,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Свободы, 57, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0636",
@@ -4290,7 +4860,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Сходненская улица, 56",
+      "address_source": "yandex"
     },
     {
       "id": "S-0643",
@@ -4305,7 +4877,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Беломорская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0644",
@@ -4320,7 +4894,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 83% быстрых у оператора"
+      "kind_source": "оценка: 83% быстрых у оператора",
+      "address": "Беломорская улица, 2А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0646",
@@ -4335,7 +4911,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ленинградское шоссе, 112, корп. 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0648",
@@ -4350,7 +4928,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Фестивальная улица, 53к1с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0649",
@@ -4365,7 +4945,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "улица Ляпидевского",
+      "address_source": "yandex"
     },
     {
       "id": "S-0652",
@@ -4380,7 +4962,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Ивана Сусанина",
+      "address_source": "yandex"
     },
     {
       "id": "S-0654",
@@ -4395,7 +4979,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Московская область, Химки, Зелёная улица, 6, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0655",
@@ -4410,7 +4996,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Ижорская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0656",
@@ -4425,7 +5013,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ангарская улица, 26, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0660",
@@ -4440,7 +5030,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Дмитровское шоссе, 107Д",
+      "address_source": "yandex"
     },
     {
       "id": "S-0664",
@@ -4455,7 +5047,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Керамический проезд, 61к3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0666",
@@ -4470,7 +5064,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Алтуфьевское шоссе, 84",
+      "address_source": "yandex"
     },
     {
       "id": "S-0668",
@@ -4485,7 +5081,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора"
+      "kind_source": "оценка: 43% быстрых у оператора",
+      "address": "Алтуфьевское шоссе, 64",
+      "address_source": "yandex"
     },
     {
       "id": "S-0671",
@@ -4500,7 +5098,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Бибиревская улица, 10, корп. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0673",
@@ -4515,7 +5115,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Московская область, городской округ Мытищи, посёлок Вёшки, торгово-промышленная зона Алтуфьево, МКАД, 85-й километр, 5, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0676",
@@ -4530,7 +5132,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Молодцова, 21с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0677",
@@ -4545,7 +5149,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора"
+      "kind_source": "оценка: 43% быстрых у оператора",
+      "address": "улица Римского-Корсакова",
+      "address_source": "yandex"
     },
     {
       "id": "S-0678",
@@ -4560,7 +5166,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Молодцова, 15, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0679",
@@ -4575,7 +5183,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ясный проезд, 12к3с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0680",
@@ -4590,7 +5200,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Полярная улица, 7, корп. 1, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0683",
@@ -4605,7 +5217,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "проезд Дежнёва, 12, корп. 1, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0685",
@@ -4620,7 +5234,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "проезд Шокальского, 33с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0686",
@@ -4635,7 +5251,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Широкая улица, 1, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0689",
@@ -4650,7 +5268,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Заревый проезд, 13с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0690",
@@ -4665,7 +5285,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Широкая улица, 12, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0691",
@@ -4680,7 +5302,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Студёный проезд, 10с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0692",
@@ -4695,7 +5319,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Студёный проезд, 4к2с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0693",
@@ -4710,7 +5336,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Широкая улица, 5к4с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0694",
@@ -4725,7 +5353,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Студёный проезд, 7с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0695",
@@ -4740,7 +5370,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Студёный проезд, 38, корп. 1, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0696",
@@ -4755,7 +5387,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Староватутинский проезд",
+      "address_source": "yandex"
     },
     {
       "id": "S-0697",
@@ -4770,7 +5404,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Осташковская улица, 7, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0698",
@@ -4785,7 +5421,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Менжинского, 21с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0699",
@@ -4800,7 +5438,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Коминтерна, 26, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0701",
@@ -4815,7 +5455,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Менжинского, 17, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0704",
@@ -4830,7 +5472,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Палехская улица, 131, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0705",
@@ -4845,7 +5489,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Вешних Вод, 8, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0709",
@@ -4860,7 +5506,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Дудинка, 1с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0710",
@@ -4875,7 +5523,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ярославское шоссе, 20, корп. 1, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0712",
@@ -4890,7 +5540,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Искры, 11, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0714",
@@ -4905,7 +5557,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Монтажная улица, 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0715",
@@ -4920,7 +5574,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Амурская улица, 44, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0716",
@@ -4935,7 +5591,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора"
+      "kind_source": "оценка: 75% быстрых у оператора",
+      "address": "Тюменский проезд, 5, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0717",
@@ -4950,7 +5608,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 50% быстрых у оператора"
+      "kind_source": "оценка: 50% быстрых у оператора",
+      "address": "Щёлковское шоссе, 75",
+      "address_source": "yandex"
     },
     {
       "id": "S-0718",
@@ -4965,7 +5625,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Черкизовская улица, 9к6с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0719",
@@ -4980,7 +5642,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Бойцовая улица, 27, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0721",
@@ -4995,7 +5659,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Черкизовская улица, 26к1с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0722",
@@ -5010,7 +5676,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Уссурийская улица, 1, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0724",
@@ -5025,7 +5693,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Сиреневый бульвар, 14, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0725",
@@ -5040,7 +5710,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "5-я Парковая улица, 56, корп. 4, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0726",
@@ -5055,7 +5727,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "6-й проезд Подбельского, 12",
+      "address_source": "yandex"
     },
     {
       "id": "S-0728",
@@ -5070,7 +5744,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "7-я Парковая улица, 27, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0729",
@@ -5085,7 +5761,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Николая Химушина, 5, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0730",
@@ -5100,7 +5778,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Сиреневый бульвар, 54, стр. 5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0731",
@@ -5115,7 +5795,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Алтайская улица, 15, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0734",
@@ -5130,7 +5812,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новогиреевская улица, 13, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0735",
@@ -5145,7 +5829,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Зелёный проспект, 44, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0736",
@@ -5160,7 +5846,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Металлургов, 5/18с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0739",
@@ -5175,7 +5863,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Алексея Дикого, 20, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0740",
@@ -5190,7 +5880,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Фрязевская улица, 15, стр. 10",
+      "address_source": "yandex"
     },
     {
       "id": "S-0743",
@@ -5205,7 +5897,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Кетчерская улица, 4Бс1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0744",
@@ -5220,7 +5914,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "проектируемый проезд № 6605",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0745",
@@ -5235,7 +5931,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Вешняковская улица, 6к4с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0746",
@@ -5250,7 +5948,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Зелёный проспект, 53, стр. 7",
+      "address_source": "yandex"
     },
     {
       "id": "S-0747",
@@ -5265,7 +5965,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Кусковская улица, 43, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0748",
@@ -5280,7 +5982,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Зарайская улица, 51, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0751",
@@ -5295,7 +5999,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Академика Скрябина",
+      "address_source": "yandex"
     },
     {
       "id": "S-0752",
@@ -5310,7 +6016,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Юных Ленинцев",
+      "address_source": "yandex"
     },
     {
       "id": "S-0753",
@@ -5325,7 +6033,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ферганская улица, 15, корп. 1, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0754",
@@ -5340,7 +6050,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Рязанский проспект, 74, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0755",
@@ -5355,7 +6067,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Молдагуловой, 11, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0756",
@@ -5370,7 +6084,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Вешняковская улица, 31с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0757",
@@ -5385,7 +6101,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Молдагуловой, 32, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0758",
@@ -5400,7 +6118,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Волгоградский проспект, 93, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0759",
@@ -5415,7 +6135,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Вешняковская улица, 27, корп. 4, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0761",
@@ -5430,7 +6152,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "8-я улица Текстильщиков",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0763",
@@ -5445,7 +6169,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Волгоградский проспект, 177",
+      "address_source": "yandex"
     },
     {
       "id": "S-0764",
@@ -5460,7 +6186,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Шкулёва, 17А, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0765",
@@ -5475,7 +6203,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Маршала Чуйкова, 7, корп. 3, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0768",
@@ -5490,7 +6220,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Волгоградский проспект, 42",
+      "address_source": "yandex"
     },
     {
       "id": "S-0769",
@@ -5505,7 +6237,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Волгоградский проспект, 43к2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0771",
@@ -5520,7 +6254,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Михайловский проезд, 3, стр. 6",
+      "address_source": "yandex"
     },
     {
       "id": "S-0773",
@@ -5535,7 +6271,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Международная улица, 38с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0776",
@@ -5550,7 +6288,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Нижегородская улица, 13А, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0777",
@@ -5565,7 +6305,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Малая Калитниковская улица, 11, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0778",
@@ -5580,7 +6322,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Арбатецкая улица, 2с12",
+      "address_source": "yandex"
     },
     {
       "id": "S-0783",
@@ -5595,7 +6339,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ореховый бульвар",
+      "address_source": "yandex"
     },
     {
       "id": "S-0784",
@@ -5610,7 +6356,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Братеевский проезд",
+      "address_source": "yandex"
     },
     {
       "id": "S-0785",
@@ -5625,7 +6373,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора"
+      "kind_source": "оценка: 75% быстрых у оператора",
+      "address": "Новомарьинская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0787",
@@ -5640,7 +6390,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Поречная ул., 10",
+      "address_source": "yandex"
     },
     {
       "id": "S-0788",
@@ -5655,7 +6407,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Мячковский бул., 7, корп. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0790",
@@ -5670,7 +6424,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новомарьинская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0793",
@@ -5685,7 +6441,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Перерва, 43, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0794",
@@ -5700,7 +6458,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора"
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "Новомарьинская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0796",
@@ -5715,7 +6475,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "район Марьино",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0799",
@@ -5730,7 +6492,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Каширское ш., 88/26с3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0800",
@@ -5745,7 +6509,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Домодедовская ул., 1, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0803",
@@ -5760,7 +6526,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Верхние Поля",
+      "address_source": "yandex"
     },
     {
       "id": "S-0804",
@@ -5775,7 +6543,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "Цимлянская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0810",
@@ -5790,7 +6560,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора"
+      "kind_source": "оценка: 75% быстрых у оператора",
+      "address": "МКАД, 16-й километр, вл4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0822",
@@ -5805,7 +6577,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Тихорецкий бул., 14, корп. 1, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0823",
@@ -5820,7 +6594,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Тихорецкий бул., 16, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0824",
@@ -5835,7 +6611,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 74% быстрых у оператора"
+      "kind_source": "оценка: 74% быстрых у оператора",
+      "address": "Зелёное кольцо",
+      "address_source": "yandex"
     },
     {
       "id": "S-0825",
@@ -5850,7 +6628,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Волгоградский просп., 116, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0826",
@@ -5865,7 +6645,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Краснодарская ул., 33, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0827",
@@ -5880,7 +6662,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Люблинская ул., 42",
+      "address_source": "yandex"
     },
     {
       "id": "S-0831",
@@ -5895,7 +6679,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Армавирская ул., 5, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0832",
@@ -5910,7 +6696,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Волгоградский просп., 78, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0837",
@@ -5925,7 +6713,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Юных Ленинцев, 18, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0838",
@@ -5940,7 +6730,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора"
+      "kind_source": "оценка: 43% быстрых у оператора",
+      "address": "Есенинский бул., 12, корп. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0839",
@@ -5955,7 +6747,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Фёдора Полетаева, 2 к6",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0840",
@@ -5970,7 +6764,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "3-я Карачаровская улица, 4 к2",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0841",
@@ -5985,7 +6781,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "12-я Новокузьминская ул., 4, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0842",
@@ -6000,7 +6798,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Красный Казанец, 15, корп. 1, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0843",
@@ -6015,7 +6815,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ташкентская ул., 4, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0845",
@@ -6030,7 +6832,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Перовская ул., 30/2с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0847",
@@ -6045,7 +6849,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "16-я Парковая ул., 26, корп. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0848",
@@ -6060,7 +6866,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Никитинская улица, 21 c4",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0849",
@@ -6075,7 +6883,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Никитинская ул., 27, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0850",
@@ -6090,7 +6900,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Измайловское ш., 71, корп. 3В",
+      "address_source": "yandex"
     },
     {
       "id": "S-0856",
@@ -6105,7 +6917,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Вольная ул., 35",
+      "address_source": "yandex"
     },
     {
       "id": "S-0857",
@@ -6120,7 +6934,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Никитинская ул., 1, корп. 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0859",
@@ -6135,7 +6951,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Ибрагимова, 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0860",
@@ -6150,7 +6968,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Открытое ш., 21, корп. 9, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0862",
@@ -6165,7 +6985,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Погонный пр., 1, корп. 6, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0863",
@@ -6180,7 +7002,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ярославское ш., 8А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0867",
@@ -6195,7 +7019,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "просп. Мира, 171, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0870",
@@ -6210,7 +7036,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Октябрьская площадь",
+      "address_source": "yandex"
     },
     {
       "id": "S-0871",
@@ -6225,7 +7053,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "пр. Русанова, 21, корп. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0874",
@@ -6240,7 +7070,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Отрадная улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0875",
@@ -6255,7 +7087,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Инженерная ул., 9, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0880",
@@ -6270,7 +7104,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Московская область, Химки, Зелёная улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0881",
@@ -6285,7 +7121,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Ляпидевского",
+      "address_source": "yandex"
     },
     {
       "id": "S-0882",
@@ -6300,7 +7138,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Ляпидевского, 4, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0884",
@@ -6315,7 +7155,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Онежская ул., 14, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0885",
@@ -6330,7 +7172,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Алтуфьевское шоссе, 9",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0889",
@@ -6345,7 +7189,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Бескудниковский бул., 12А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0892",
@@ -6360,7 +7206,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Адмирала Макарова",
+      "address_source": "yandex"
     },
     {
       "id": "S-0894",
@@ -6375,7 +7223,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Флотская ул., 16, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0895",
@@ -6390,7 +7240,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "пр. Досфлота, 7, стр. 5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0901",
@@ -6405,7 +7257,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Вишнёвая ул., 9, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0902",
@@ -6420,7 +7274,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "1-й Тушинский пр., 8, корп. 1, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0903",
@@ -6435,7 +7291,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Лодочная ул., 37, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0904",
@@ -6450,7 +7308,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Волоколамское шоссе (дублёр)",
+      "address_source": "yandex"
     },
     {
       "id": "S-0908",
@@ -6465,7 +7325,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "бул. Матроса Железняка, 19, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0909",
@@ -6480,7 +7342,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Коптевская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0913",
@@ -6495,7 +7359,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Алабяна, 17, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-0915",
@@ -6510,7 +7376,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Народного Ополчения, 52, корп. 3, стр. 5",
+      "address_source": "yandex"
     },
     {
       "id": "S-0917",
@@ -6525,7 +7393,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Маршала Вершинина, 3, корп. 2, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0919",
@@ -6540,7 +7410,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Авиационная ул., 66",
+      "address_source": "yandex"
     },
     {
       "id": "S-0920",
@@ -6555,7 +7427,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Маршала Новикова, 16, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0923",
@@ -6570,7 +7444,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Маршала Новикова, 19к1,2с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0924",
@@ -6585,7 +7461,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Живописная ул., 56, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0925",
@@ -6600,7 +7478,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "ул. Маршала Тухачевского, 41, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0926",
@@ -6615,7 +7495,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Генерала Глаголева, 16, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0927",
@@ -6630,7 +7512,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Маршала Тухачевского, 29, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0929",
@@ -6645,7 +7529,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "бульвар Генерала Карбышева",
+      "address_source": "yandex"
     },
     {
       "id": "S-0931",
@@ -6660,7 +7546,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Живописная ул., 2, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0933",
@@ -6675,7 +7563,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Международная ул., 12, Красногорск",
+      "address_source": "yandex"
     },
     {
       "id": "S-0937",
@@ -6690,7 +7580,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "просп. Маршала Жукова, 57, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0938",
@@ -6705,7 +7597,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Народного Ополчения, 17, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0940",
@@ -6720,7 +7614,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Молдавская ул., 8, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0941",
@@ -6735,7 +7631,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Бобруйская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0942",
@@ -6750,7 +7648,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ярцевская ул., 19",
+      "address_source": "yandex"
     },
     {
       "id": "S-0943",
@@ -6765,7 +7665,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Толбухина, 5, корп. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0944",
@@ -6780,7 +7682,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Кутузова, 2Г",
+      "address_source": "yandex"
     },
     {
       "id": "S-0946",
@@ -6795,7 +7699,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "пр. Загорского, 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0948",
@@ -6810,7 +7716,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Маршала Неделина, 40, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0949",
@@ -6825,7 +7733,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Вяземская ул., 1, корп. 3, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-0951",
@@ -6840,7 +7750,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Беловежская ул., 39, корп. 3, стр. 7",
+      "address_source": "yandex"
     },
     {
       "id": "S-0952",
@@ -6855,7 +7767,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Верейская улица, 11",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0953",
@@ -6870,7 +7784,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Можайское ш., 12, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0957",
@@ -6885,7 +7801,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "1-й Очаковский пер., 10",
+      "address_source": "yandex"
     },
     {
       "id": "S-0962",
@@ -6900,7 +7818,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Озёрная ул., 29, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0965",
@@ -6915,7 +7835,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Коштоянца, 22",
+      "address_source": "yandex"
     },
     {
       "id": "S-0966",
@@ -6930,7 +7852,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "проектируемый проезд № 6092",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0967",
@@ -6945,7 +7869,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора"
+      "kind_source": "оценка: 67% быстрых у оператора",
+      "address": "ул. Лобачевского, вл92А",
+      "address_source": "yandex"
     },
     {
       "id": "S-0969",
@@ -6960,7 +7886,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Рузская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-0970",
@@ -6975,7 +7903,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Покрышкина",
+      "address_source": "yandex"
     },
     {
       "id": "S-0971",
@@ -6990,7 +7920,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "просп. Вернадского, 95, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0972",
@@ -7005,7 +7937,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Винницкая ул., 5, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0975",
@@ -7020,7 +7954,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ленинский просп., 109",
+      "address_source": "yandex"
     },
     {
       "id": "S-0976",
@@ -7035,7 +7971,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Ленинский просп., 108, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0977",
@@ -7050,7 +7988,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Удальцова, 3, корп. 12, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0978",
@@ -7065,7 +8005,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Марии Ульяновой, 6, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0980",
@@ -7080,7 +8022,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Крупской, 4, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0982",
@@ -7095,7 +8039,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора"
+      "kind_source": "оценка: 42% быстрых у оператора",
+      "address": "Университетская площадь",
+      "address_source": "yandex"
     },
     {
       "id": "S-0983",
@@ -7110,7 +8056,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Новаторов",
+      "address_source": "yandex"
     },
     {
       "id": "S-0984",
@@ -7125,7 +8073,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "ул. Академика Пилюгина, 18",
+      "address_source": "yandex"
     },
     {
       "id": "S-0985",
@@ -7140,7 +8090,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ленинский проспект (дублёр), 83 с1",
+      "address_source": "nominatim"
     },
     {
       "id": "S-0986",
@@ -7155,7 +8107,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ленинский просп., 73/8с1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0987",
@@ -7170,7 +8124,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Крупской, 14, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0988",
@@ -7185,7 +8141,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Академика Анохина",
+      "address_source": "yandex"
     },
     {
       "id": "S-0990",
@@ -7200,7 +8158,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "просп. Вернадского, 91, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0991",
@@ -7215,7 +8175,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Крупской, 8, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-0994",
@@ -7230,7 +8192,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "ул. Академика Челомея, 7",
+      "address_source": "yandex"
     },
     {
       "id": "S-0997",
@@ -7245,7 +8209,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Панфёрова, 7, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-0999",
@@ -7260,7 +8226,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 60% быстрых у оператора"
+      "kind_source": "оценка: 60% быстрых у оператора",
+      "address": "просп. Вернадского, 100А",
+      "address_source": "yandex"
     },
     {
       "id": "S-1000",
@@ -7275,7 +8243,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Островитянова, 18, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1001",
@@ -7290,7 +8260,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Островитянова, 26 с2",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1003",
@@ -7305,7 +8277,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 55% быстрых у оператора"
+      "kind_source": "оценка: 55% быстрых у оператора",
+      "address": "Русаковская наб., 7",
+      "address_source": "yandex"
     },
     {
       "id": "S-1010",
@@ -7320,7 +8294,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Каширское ш., 102, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1011",
@@ -7335,7 +8311,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Домодедовская ул., 5, корп. 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1012",
@@ -7350,7 +8328,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Шипиловская ул., 28Б, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1013",
@@ -7365,7 +8345,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Шипиловская ул., 18, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1017",
@@ -7380,7 +8362,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Каширское шоссе",
+      "address_source": "yandex"
     },
     {
       "id": "S-1020",
@@ -7395,7 +8379,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 45% быстрых у оператора"
+      "kind_source": "оценка: 45% быстрых у оператора",
+      "address": "Кировоградская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-1022",
@@ -7410,7 +8396,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Каширское ш., 64, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1023",
@@ -7425,7 +8413,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора"
+      "kind_source": "оценка: 44% быстрых у оператора",
+      "address": "Артековская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-1025",
@@ -7440,7 +8430,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "проспект Андропова",
+      "address_source": "yandex"
     },
     {
       "id": "S-1026",
@@ -7455,7 +8447,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Артековская ул., 2, корп. 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1027",
@@ -7470,7 +8464,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Промышленная ул., 11, стр. 7",
+      "address_source": "yandex"
     },
     {
       "id": "S-1031",
@@ -7485,7 +8481,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Тёплый Стан",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1032",
@@ -7500,7 +8498,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Обручева, 55А, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1033",
@@ -7515,7 +8515,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Генерала Тюленева, 4А, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1034",
@@ -7530,7 +8532,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Тёплый Стан, 15, корп. 4, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1035",
@@ -7545,7 +8549,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Гарибальди, 31, корп. 1, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1036",
@@ -7560,7 +8566,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Херсонская улица",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1037",
@@ -7575,7 +8583,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Профсоюзная ул., 33, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1039",
@@ -7590,7 +8600,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Островитянова, 26, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1040",
@@ -7605,7 +8617,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Намёткина, 13, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1041",
@@ -7620,7 +8634,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 38% быстрых у оператора"
+      "kind_source": "оценка: 38% быстрых у оператора",
+      "address": "Профсоюзная ул., 61А",
+      "address_source": "yandex"
     },
     {
       "id": "S-1042",
@@ -7635,7 +8651,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Перекопская ул., 21, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1043",
@@ -7650,7 +8668,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Архитектора Власова, 51",
+      "address_source": "yandex"
     },
     {
       "id": "S-1044",
@@ -7665,7 +8685,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Обручева, 22, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1050",
@@ -7680,7 +8702,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Профсоюзная ул., 154, корп. 5, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1051",
@@ -7695,7 +8719,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Тёплый Стан, 5 к3",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1052",
@@ -7710,7 +8736,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Генерала Тюленева, 37, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1053",
@@ -7725,7 +8753,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Тёплый Стан, 21, корп. 4, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1072",
@@ -7740,7 +8770,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Тёплый Стан, 3, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1074",
@@ -7755,7 +8787,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "улица Тёплый Стан, 9 к7",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1075",
@@ -7770,7 +8804,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Соловьиный пр., 14, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1076",
@@ -7785,7 +8821,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Газопровод",
+      "address_source": "yandex"
     },
     {
       "id": "S-1078",
@@ -7800,7 +8838,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кировоградская ул., 13А",
+      "address_source": "yandex"
     },
     {
       "id": "S-1079",
@@ -7815,7 +8855,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Варшавское ш., 154, корп. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1080",
@@ -7830,7 +8872,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Варшавское шоссе (дублёр), 138А",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1081",
@@ -7845,7 +8889,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Днепропетровская ул., 5, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1082",
@@ -7860,7 +8906,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Подольских Курсантов, 26, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1084",
@@ -7875,7 +8923,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 11, корп. 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1087",
@@ -7890,7 +8940,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Сумская ул., 6, корп. 1, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1088",
@@ -7905,7 +8957,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 60, корп. 1, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1089",
@@ -7920,7 +8974,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 30, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1090",
@@ -7935,7 +8991,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Востряковский проезд, 10с140",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1094",
@@ -7950,7 +9008,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Севанская ул., 25/31с2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1096",
@@ -7965,7 +9025,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Булатниковский пр., 10, корп. 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1098",
@@ -7980,7 +9042,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Никопольская улица, 10с140",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1099",
@@ -7995,7 +9059,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Востряковский пр., 17, корп. 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1100",
@@ -8010,7 +9076,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Востряковский пр., 1, корп. 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1101",
@@ -8025,7 +9093,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Харьковская ул., 1, корп. 5, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1102",
@@ -8040,7 +9110,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Востряковский пр., 11, корп. 1, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1103",
@@ -8055,7 +9127,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Дорожная ул., 9, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1104",
@@ -8070,7 +9144,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Каширское ш., 108, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1114",
@@ -8085,7 +9161,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Булатниковская ул., 4, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1116",
@@ -8100,7 +9178,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Харьковский пр., 11, корп. 3, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-1117",
@@ -8115,7 +9195,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Востряковский пр., 13, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1125",
@@ -8130,7 +9212,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "3-й Дорожный пр., 7, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1128",
@@ -8145,7 +9229,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Болотниковская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-1131",
@@ -8160,7 +9246,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Перекопская ул., 17, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1132",
@@ -8175,7 +9263,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Новочерёмушкинская ул., 59, корп. 1, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1133",
@@ -8190,7 +9280,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Одесская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-1134",
@@ -8205,7 +9297,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Севастопольский просп., 44, корп. 4, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1135",
@@ -8220,7 +9314,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "ул. Каховка, 33, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1136",
@@ -8235,7 +9331,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Болотниковская ул., 28, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1137",
@@ -8250,7 +9348,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Перекопская ул., 21, корп. 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1138",
@@ -8265,7 +9365,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Новочерёмушкинская ул., 53, корп. 2, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1139",
@@ -8280,7 +9382,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Каховка, 18, корп. 3, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1140",
@@ -8295,7 +9399,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Цюрупы",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1141",
@@ -8310,7 +9416,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Профсоюзная ул., 17, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1142",
@@ -8325,7 +9433,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Большая Черёмушкинская ул., 26, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1143",
@@ -8340,7 +9450,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Керченская ул., 11, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1144",
@@ -8355,7 +9467,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "Одесская улица",
+      "address_source": "yandex"
     },
     {
       "id": "S-1145",
@@ -8370,7 +9484,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 36% быстрых у оператора"
+      "kind_source": "оценка: 36% быстрых у оператора",
+      "address": "Черноморский бульвар",
+      "address_source": "yandex"
     },
     {
       "id": "S-1146",
@@ -8385,7 +9501,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Ялтинская ул., 7, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1147",
@@ -8400,7 +9518,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 33% быстрых у оператора"
+      "kind_source": "оценка: 33% быстрых у оператора",
+      "address": "Азовская ул., 24, корп. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1148",
@@ -8415,7 +9535,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора"
+      "kind_source": "оценка: 47% быстрых у оператора",
+      "address": "Севастопольский проспект",
+      "address_source": "nominatim"
     },
     {
       "id": "S-1149",
@@ -8430,7 +9552,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Севастопольский просп., 48, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1152",
@@ -8445,7 +9569,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ломоносовский просп., 7, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1153",
@@ -8460,7 +9586,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ленинский просп., 69, корп. 3, стр. 1",
+      "address_source": "yandex"
     },
     {
       "id": "S-1154",
@@ -8475,7 +9603,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "ул. Вавилова, 60, корп. 5, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1155",
@@ -8490,7 +9620,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "разъёмы"
+      "kind_source": "разъёмы",
+      "address": "улица Кедрова",
+      "address_source": "yandex"
     },
     {
       "id": "S-1157",
@@ -8505,7 +9637,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ленинский просп., 45, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1158",
@@ -8520,7 +9654,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем"
+      "kind_source": "оценка: 44% быстрых по всем",
+      "address": "ул. Вавилова, 5, корп. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1161",
@@ -8535,7 +9671,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Варшавское ш., 70, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1162",
@@ -8550,7 +9688,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Балаклавский просп., 18А",
+      "address_source": "yandex"
     },
     {
       "id": "S-1163",
@@ -8565,7 +9705,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чонгарский бул., 1, корп. 2, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1164",
@@ -8580,7 +9722,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "улица Новинки",
+      "address_source": "yandex"
     },
     {
       "id": "S-1165",
@@ -8595,7 +9739,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Сумской пр., 12, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1166",
@@ -8610,7 +9756,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 1А, корп. 1, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1167",
@@ -8625,7 +9773,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 7, корп. 1, стр. 3А",
+      "address_source": "yandex"
     },
     {
       "id": "S-1168",
@@ -8640,7 +9790,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Сумской пр., 4, корп. 4, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-1169",
@@ -8655,7 +9807,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 3, корп. 1, стр. 5",
+      "address_source": "yandex"
     },
     {
       "id": "S-1170",
@@ -8670,7 +9824,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Чертановская ул., 3, корп. 3, стр. 4",
+      "address_source": "yandex"
     },
     {
       "id": "S-1171",
@@ -8685,7 +9841,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кировоградская ул., 12, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1172",
@@ -8700,7 +9858,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Чертановская ул., 21, корп. 2, стр. 3",
+      "address_source": "yandex"
     },
     {
       "id": "S-1173",
@@ -8715,7 +9875,9 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "скорость (Яндекс)"
+      "kind_source": "скорость (Яндекс)",
+      "address": "Ялтинская ул., 11, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1174",
@@ -8730,7 +9892,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Кировоградская ул., 4, корп. 3, стр. 2",
+      "address_source": "yandex"
     },
     {
       "id": "S-1175",
@@ -8745,7 +9909,9 @@
       "source_detail": "yandex",
       "P_known": true,
       "kind": "slow",
-      "kind_source": "мощность"
+      "kind_source": "мощность",
+      "address": "Варшавское ш., 127",
+      "address_source": "yandex"
     }
   ]
 }

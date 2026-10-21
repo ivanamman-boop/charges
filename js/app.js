@@ -1,27 +1,156 @@
-// Точка входа статического сайта. Оркестрирует загрузку данных, карту,
-// ползунок времени и черновик паспорта площадки (клик по карте).
-import { SEGMENTS, demandField, stationsActiveIn } from './demand.js';
+// Точка входа статического сайта. Четыре раздела (хэш-роутинг):
+//  #map      - карта зон: где стандартная станция РСЗС (150 кВт, 2 поста)
+//              окупается, кандидаты модели, слои, поиск;
+//  #passport - паспорт площадки до заявки на техприсоединение;
+//  #compare  - модель против традиционного выбора + свои точки с баллами;
+//  #method   - как это работает, словарь, данные, тесты.
+// Зоны и площадки пула посчитаны офлайн (data/zones.json, npm run
+// compute:zones), паспорт и сеть по часам - живым расчётом в браузере.
+import { SEGMENTS, demandField, stationsActiveIn, plannedStationsPerYear } from './demand.js';
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
-import { evaluateCandidateAsync } from './equipment.js';
-import { initMap, renderDemandLayer, renderStationsLayer, renderCentersLayer, renderCandidate, renderNeighbors, coordToLatLng, clusterExtentAtPixel, renderPortfolio, portfolioPickAtPixel, renderMkad, renderSlowStations } from './mapview.js';
-import { renderPassport, renderEquipment, updatePassportHour } from './passport.js';
+import { evaluateCandidateAsync, yearAverage, newClientsPerMln } from './equipment.js';
+import { interpolateAnchors } from './economics.js';
+import { thresholds, siteStatus, siteEconomics, robustness, loadFromSessions, STATUS } from './econ-view.js';
+import {
+  initMap,
+  renderDemandLayer,
+  renderStationsLayer,
+  renderCentersLayer,
+  renderNeighbors,
+  coordToLatLng,
+  clusterExtentAtPixel,
+  renderPortfolio,
+  portfolioPickAtPixel,
+  renderMkad,
+  renderSlowStations,
+  focusStation,
+  renderZones,
+  zoneAtPixel,
+  renderPoint,
+  showPopup,
+} from './mapview.js';
+import { renderPassport, updatePassportHour } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
 import { dist04FromKnownTp } from './grid.js';
+import { haversineKm } from './choice.js';
 
-const DATA_FILES = ['cells', 'stations', 'centers', 'params'];
+const EQUIPMENT = 'DC150-2';
+const YEARS_ALL = [2026, 2027, 2028, 2029, 2030];
+const SEASON_W = { winter: 5 / 12, summer: 7 / 12 };
+const DAY_W = { weekday: 5 / 7, weekend: 2 / 7 };
+const SCENARIO_LABEL = { conservative: 'рост спроса 30% в год', base: 'рост спроса 80% в год', optimistic: 'рост спроса 93% в год' };
+const SCENARIO_GEN = { conservative: 'медленного (30% в год)', base: 'базового (80% в год)', optimistic: 'быстрого (93% в год)' };
+const SCENARIO_NAME = { conservative: 'медленный рост спроса (30% в год)', base: 'базовый рост спроса (80% в год)', optimistic: 'быстрый рост спроса (93% в год)' };
+
+const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const num = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '—' : v.toFixed(d).replace('.', ','));
+const fmtInt = (v) => Math.round(v).toLocaleString('ru-RU');
+const nextFrame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+
+function plural(n, one, few, many) {
+  const m10 = n % 10;
+  const m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+
+const state = {
+  ctl: { scenario: 'base', year: 2028, dayType: 'weekday', season: 'summer', hour: 12 },
+  cells: null,
+  stationsAll: null,
+  centers: null,
+  params: null,
+  preciseParams: null, // с точным порогом сходимости (12.3) - для всего, что считает ΔS
+  stations: null, // действующие в году и сценарии карты
+  fullContext: null,
+  fullResult: null,
+  baselineS: null,
+  baselineCache: new Map(), // "сценарий|год|сезон|день" -> {context, result, stations}
+  zones: null, // data/zones.json
+  siteById: new Map(), // площадки пула + расчёт зон
+  portfolio: null,
+  candidates: [], // кандидаты модели (портфель) для списка слева
+  statusFilter: 'all',
+  selected: null, // {type: 'site'|'zone'|'point', ...}
+  checkMode: false,
+  th: null, // пороги окупаемости класса А (econ-view thresholds)
+  thSub: null, // то же с субсидией
+  mkadRing: null,
+  tp04: null,
+  passport: null, // {subject, token, vm, e150, evalResult, ...}
+  compareList: [],
+  compareNextId: 1,
+  compareSort: { key: 'composite', dir: 'desc' },
+  geoCache: new Map(),
+};
+
+// ---------- Данные ----------
+async function fetchJson(path) {
+  const r = await fetch(path);
+  if (!r.ok) throw new Error(`${path}: ${r.status}`);
+  return r.json();
+}
 
 async function loadData() {
-  const [cellsRaw, stationsRaw, centersRaw, params] = await Promise.all(
-    DATA_FILES.map((name) => fetch(`data/${name}.json`).then((r) => r.json()))
-  );
-  return {
-    cells: cellsRaw.cells,
-    stationsAll: stationsRaw.stations,
-    centers: centersRaw.centers,
-    params,
-    raw: { cellsRaw, stationsRaw, centersRaw, params },
-  };
+  // ТП 0.4 кВ и МКАД нужны до первого паспорта: без tp04 класс подключения
+  // считался бы как Б (паспорт по прямой ссылке открывается сразу).
+  const [cellsRaw, stationsRaw, centersRaw, params, zones, poolRaw, tp04Raw, mkadRaw] = await Promise.all([
+    fetchJson('data/cells.json'),
+    fetchJson('data/stations.json'),
+    fetchJson('data/centers.json'),
+    fetchJson('data/params.json'),
+    fetchJson('data/zones.json'),
+    fetchJson('data/pool.json'),
+    fetchJson('data/tp04.json'),
+    fetchJson('data/mkad.json'),
+  ]);
+  return { cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, mkadRing: mkadRaw.ring };
+}
+
+const cfg150 = () => state.params.M6_M7_equipment_economics.catalog.configs.find((c) => c.omega === EQUIPMENT);
+
+// Пороги для карты: класс А, середина цены подключения, состав сегментов -
+// средний по зонам (базовый сценарий, 2026).
+function computeThresholds() {
+  const m5 = state.params.M5_grid;
+  const cfg = cfg150();
+  const connMid = ((m5.c_A_rub_per_kW.min + m5.c_A_rub_per_kW.max) / 2) * cfg.P_cap_kW;
+  const mix = {};
+  for (const z of state.zones.zones) {
+    const seg = z.by?.base?.seg2026;
+    if (!seg) continue;
+    for (const s of SEGMENTS) mix[s] = (mix[s] || 0) + (seg[s] || 0);
+  }
+  state.mix = mix;
+  state.th = thresholds({ params: state.params, cfg, connCostRub: connMid, mix });
+  state.thSub = thresholds({ params: state.params, cfg, connCostRub: connMid, mix, subsidy: true });
+}
+
+// Прогноз зарядок в сутки в году y из расчёта зон (2027/2029 - интерполяция, 9.3).
+function sessionsIn(by, year) {
+  if (!by?.S) return null;
+  return interpolateAnchors(by.S, year);
+}
+
+function statusOf(by, year, th = state.th) {
+  if (!by) return 'no';
+  return siteStatus({ S: sessionsIn(by, year), cls: by.cls, th });
+}
+
+const clsLabel = (cls) => (cls === 'А|Б' ? 'Б' : cls || '—');
+
+// ---------- Сеть: равновесие на выбранные год, сценарий, день, сезон ----------
+function getBaseline(year, season, dayType, scenario = 'base') {
+  const key = `${scenario}|${year}|${season}|${dayType}`;
+  if (state.baselineCache.has(key)) return state.baselineCache.get(key);
+  const stations = stationsActiveIn(state.stationsAll, year, scenario, state.preciseParams);
+  const context = buildNetworkContext({ cells: state.cells, stations, params: state.preciseParams });
+  const result = equilibrium({ cells: state.cells, stations, params: state.preciseParams, year, scenario, dayType, season, context });
+  const entry = { context, result, stations };
+  state.baselineCache.set(key, entry);
+  return entry;
 }
 
 function setStatus(msg, kind = 'ok') {
@@ -30,39 +159,27 @@ function setStatus(msg, kind = 'ok') {
   el.dataset.kind = kind;
 }
 
-const state = {
-  cells: null,
-  stationsAll: null,
-  centers: null,
-  params: null, // как загружено из params.json (грубый порог сходимости)
-  preciseParams: null, // тот же params, но с точным порогом (12.3, journal.md 20.09) - для всего, что считает ΔS/каннибализацию/экономику
-  stations: null, // активные в текущем году
-  fullContext: null,
-  fullResult: null,
-  baselineS: null,
-  baselineCache: new Map(), // "год|сезон|деньТипа" -> {context, result, stations}, для equipment.js
-  candidate: null,
-  localResult: null,
-  layers: null,
-  candidateList: [], // список площадок с баллами (фидбек Росатома), см. js/scoring.js
-  candidateListNextId: 1,
-  candidateListSort: { key: 'composite', dir: 'desc' },
-  activeListId: null,
-  mkadRing: null, // data/mkad.json - граница модели
-  tp04: null, // data/tp04.json - известные ТП 0.4 кВ для класса подключения (7.2)
-  portfolio: null, // data/portfolio.json (модуль 8, считается офлайн: npm run compute:portfolio)
-};
-
-function readControls() {
-  return {
-    hour: Number(document.getElementById('hour-slider').value),
-    dayType: document.getElementById('day-type-select').value,
-    season: document.getElementById('season-select').value,
-    year: Number(document.getElementById('year-slider').value),
-    scenario: document.getElementById('scenario-select').value,
-  };
+async function recomputeFullEquilibrium() {
+  setStatus('Пересчитываю сеть…', 'busy');
+  await nextFrame();
+  const { dayType, season, year, scenario } = state.ctl;
+  const t0 = performance.now();
+  const base = getBaseline(year, season, dayType, scenario);
+  state.stations = base.stations;
+  state.fullContext = base.context;
+  state.fullResult = base.result;
+  state.baselineS = dailySessions(state.fullResult.qh.lambdaSrv, state.stations.length);
+  console.log(`равновесие сети: ${Math.round(performance.now() - t0)} мс, ${state.fullResult.it} итераций`);
+  setStatus(state.fullResult.converged ? '' : 'Расчёт сети не сошёлся — результат приблизительный', state.fullResult.converged ? 'ok' : 'warn');
+  rerenderMapForHour();
+  showChangeToast();
+  if (state.compareList.length) {
+    state.compareList = state.compareList.map((c) => ({ ...c, ...scoreFor(c) }));
+    renderCompareList();
+  }
 }
 
+// ---------- Слой «Спрос по часам» и станции по загрузке ----------
 function totalDemandPerCellAtHour(demand, nCells, hour) {
   const arr = new Float64Array(nCells);
   for (const s of SEGMENTS) {
@@ -72,8 +189,6 @@ function totalDemandPerCellAtHour(demand, nCells, hour) {
   return arr;
 }
 
-// Час с максимальным суммарным спросом по городу - по нему фиксируется
-// шкала зон спроса на карте (см. renderDemandLayer).
 function peakDemandHour(demand, nCells) {
   let best = 0;
   let bestSum = -1;
@@ -88,8 +203,6 @@ function peakDemandHour(demand, nCells) {
   return best;
 }
 
-// Суммарный спрос по городу в пиковый час - для абсолютной насыщенности
-// карты спроса и подписи в легенде.
 function cityPeakDemand(demand, nCells) {
   const h = peakDemandHour(demand, nCells);
   let sum = 0;
@@ -97,9 +210,7 @@ function cityPeakDemand(demand, nCells) {
   return sum;
 }
 
-// Границы шкалы насыщенности: самая слабая комбинация (2026, лето, выходной)
-// и самая сильная (2030, зима, будни) в текущем сценарии. Считается один раз
-// на сценарий - demandField дешёвый, без равновесия.
+// Границы шкалы насыщенности: самая слабая комбинация и самая сильная в сценарии.
 function demandBounds(scenario) {
   state.demandBoundsCache ??= new Map();
   if (!state.demandBoundsCache.has(scenario)) {
@@ -114,55 +225,33 @@ function demandBounds(scenario) {
 }
 
 function rerenderMapForHour() {
-  const { hour } = readControls();
+  const { hour, dayType, scenario } = state.ctl;
   document.getElementById('hour-label').textContent = `${String(hour).padStart(2, '0')}:00`;
-
   const { fullResult, cells, stations } = state;
   const Uarr = new Float64Array(stations.length);
   for (let j = 0; j < stations.length; j++) Uarr[j] = fullResult.qh.U[j * 24 + hour];
-
-  renderStationsLayer({
-    stationsSource: state.layers.stationsSource,
-    stations,
-    activeStations: fullResult.activeStations,
-    Uarr,
-    onClickStation: null,
-  });
-  const bounds = demandBounds(readControls().scenario);
-  const cityPeak = cityPeakDemand(fullResult.demand, cells.length);
-  const intensity = Math.log(cityPeak / bounds.lo) / Math.log(bounds.hi / bounds.lo);
-  renderDemandLayer({
-    demandSource: state.layers.demandSource,
-    cells,
-    totalDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, hour),
-    scaleDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, peakDemandHour(fullResult.demand, cells.length)),
-    intensity,
-  });
-  if (!document.getElementById('passport').hidden) updatePassportHour(hour);
-  const dayLabel = readControls().dayType === 'weekend' ? 'выходной' : 'будни';
-  document.getElementById('map-legend-time').textContent = `${String(hour).padStart(2, '0')}:00 · ${dayLabel}`;
-  const k = cityPeak / bounds.base2026;
-  document.getElementById('map-legend-volume').textContent =
-    `в пик по городу ${Math.round(cityPeak).toLocaleString('ru-RU')} заявок/ч` + (Math.abs(k - 1) > 0.05 ? ` · ×${k < 10 ? k.toFixed(1).replace('.', ',') : Math.round(k)} к зиме 2026` : '');
+  renderStationsLayer({ stationsSource: state.layers.stationsSource, stations, activeStations: fullResult.activeStations, Uarr, onClickStation: null });
+  if (document.getElementById('layer-demand').checked) {
+    const bounds = demandBounds(scenario);
+    const cityPeak = cityPeakDemand(fullResult.demand, cells.length);
+    renderDemandLayer({
+      demandSource: state.layers.demandSource,
+      cells,
+      totalDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, hour),
+      scaleDemandPerCell: totalDemandPerCellAtHour(fullResult.demand, cells.length, peakDemandHour(fullResult.demand, cells.length)),
+      intensity: Math.log(cityPeak / bounds.lo) / Math.log(bounds.hi / bounds.lo),
+    });
+    document.getElementById('map-legend-time').textContent = `${String(hour).padStart(2, '0')}:00 · ${dayType === 'weekend' ? 'выходной' : 'будни'}`;
+    const k = cityPeak / bounds.base2026;
+    document.getElementById('map-legend-volume').textContent = `в пик по городу ${fmtInt(cityPeak)} заявок/ч` + (Math.abs(k - 1) > 0.05 ? ` · ×${k < 10 ? num(k, 1) : Math.round(k)} к зиме 2026` : '');
+  }
+  if (state.passport?.vm) {
+    state.passport.vm.hour = hour;
+    updatePassportHour(state.passport.vm);
+  }
 }
 
-// Опорное равновесие для equipment.js (module 6, до 8 комбинаций год x сезон
-// x день). Кэшируется, чтобы повторный подбор оборудования не пересчитывал
-// то, что уже считали (12.3: "опорные равновесия... кэшируются").
-function getBaseline(year, season, dayType) {
-  const key = `${year}|${season}|${dayType}`;
-  if (state.baselineCache.has(key)) return state.baselineCache.get(key);
-  const stations = stationsActiveIn(state.stationsAll, year, 'base', state.preciseParams);
-  const context = buildNetworkContext({ cells: state.cells, stations, params: state.preciseParams });
-  const result = equilibrium({ cells: state.cells, stations, params: state.preciseParams, year, scenario: 'base', dayType, season, context });
-  const entry = { context, result, stations };
-  state.baselineCache.set(key, entry);
-  return entry;
-}
-
-// Итоги сети для карточки "Что изменилось": после каждого переключения
-// дня/сезона/года/роста пользователь видит, что именно поменялось, а не
-// только перекрашенную карту.
+// ---------- Карточка «Что изменилось» ----------
 function networkSnapshot() {
   const { fullResult, cells, stations } = state;
   let demand = 0;
@@ -183,11 +272,8 @@ function networkSnapshot() {
       uN++;
     }
   }
-  return { controls: readControls(), demand, served, active, meanU: uN ? uSum / uN : 0, lostShare: demand > 0 ? Math.max(0, 1 - served / demand) : 0 };
+  return { controls: { ...state.ctl }, demand, served, active, meanU: uN ? uSum / uN : 0, lostShare: demand > 0 ? Math.max(0, 1 - served / demand) : 0 };
 }
-
-const SCENARIO_GEN = { conservative: 'медленного (30% в год)', base: 'базового (80% в год)', optimistic: 'быстрого (93% в год)' };
-const SCENARIO_NAME = { conservative: 'медленный рост спроса (30% в год)', base: 'базовый рост спроса (80% в год)', optimistic: 'быстрый рост спроса (93% в год)' };
 
 function describeControlChange(a, b) {
   const parts = [];
@@ -204,217 +290,322 @@ function showChangeToast() {
   const prev = state.lastSnapshot;
   state.lastSnapshot = cur;
   const el = document.getElementById('change-toast');
-  if (!prev || !el) return;
+  if (!prev) return;
   const parts = describeControlChange(prev.controls, cur.controls);
   if (parts.length === 0) return;
-  const num = (v) => Math.round(v).toLocaleString('ru-RU');
-  const pct = (v) => `${(v * 100).toFixed(1).replace('.', ',')}%`;
+  const pctf = (v) => `${num(v * 100, 1)}%`;
   const rel = (a, b) => {
     if (a <= 0) return '';
     const r = (b / a - 1) * 100;
     if (Math.abs(r) < 0.5) return '<span class="ct-same">без изменений</span>';
-    return `<span class="${r > 0 ? 'ct-up' : 'ct-down'}">${r > 0 ? '+' : '−'}${Math.abs(r) >= 100 ? `в ${(b / a).toFixed(1).replace('.', ',')} раза` : `${Math.abs(r).toFixed(0)}%`}</span>`;
+    return `<span class="${r > 0 ? 'ct-up' : 'ct-down'}">${r > 0 ? '+' : '−'}${Math.abs(r) >= 100 ? `в ${num(b / a, 1)} раза` : `${Math.abs(r).toFixed(0)}%`}</span>`;
   };
   const pp = (a, b) => {
     const d = (b - a) * 100;
     if (Math.abs(d) < 0.05) return '<span class="ct-same">без изменений</span>';
-    return `<span class="${d > 0 ? 'ct-up' : 'ct-down'}">${d > 0 ? '+' : '−'}${Math.abs(d).toFixed(1).replace('.', ',')} пункта</span>`;
+    return `<span class="${d > 0 ? 'ct-up' : 'ct-down'}">${d > 0 ? '+' : '−'}${num(Math.abs(d), 1)} пункта</span>`;
   };
   const row = (label, a, b, delta) => `<tr><td>${label}</td><td class="num">${a}</td><td class="ct-arrow">→</td><td class="num"><b>${b}</b></td><td>${delta}</td></tr>`;
   const newStations = cur.active - prev.active;
   el.innerHTML = `
     <button class="ct-close" aria-label="Закрыть">✕</button>
-    <div class="ct-kicker">Что изменилось</div>
+    <div class="ct-kicker">Что изменилось в сети</div>
     <div class="ct-title">${parts.join(' · ')}</div>
     <table>
-      ${row('Хотят зарядиться за сутки', num(prev.demand), num(cur.demand), rel(prev.demand, cur.demand))}
-      ${row('Работает быстрых станций', num(prev.active), num(cur.active), newStations ? `<span class="${newStations > 0 ? 'ct-up' : 'ct-down'}">${newStations > 0 ? '+' : '−'}${Math.abs(newStations)} городских</span>` : '<span class="ct-same">без изменений</span>')}
-      ${row('Зарядок за сутки по всей сети', num(prev.served), num(cur.served), rel(prev.served, cur.served))}
-      ${row('Пост занят в среднем', pct(prev.meanU), pct(cur.meanU), pp(prev.meanU, cur.meanU))}
-      ${row('Не смогли зарядиться', pct(prev.lostShare), pct(cur.lostShare), pp(prev.lostShare, cur.lostShare))}
-    </table>
-    <div class="ct-note">Карта спроса и цвета станций уже пересчитаны${state.candidate ? ', прогноз для выбранной точки тоже обновится' : ''}.</div>`;
+      ${row('Хотят зарядиться за сутки', fmtInt(prev.demand), fmtInt(cur.demand), rel(prev.demand, cur.demand))}
+      ${row('Работает быстрых станций', fmtInt(prev.active), fmtInt(cur.active), newStations ? `<span class="${newStations > 0 ? 'ct-up' : 'ct-down'}">${newStations > 0 ? '+' : '−'}${Math.abs(newStations)} городских</span>` : '<span class="ct-same">без изменений</span>')}
+      ${row('Зарядок за сутки по всей сети', fmtInt(prev.served), fmtInt(cur.served), rel(prev.served, cur.served))}
+      ${row('Пост занят в среднем', pctf(prev.meanU), pctf(cur.meanU), pp(prev.meanU, cur.meanU))}
+      ${row('Не смогли зарядиться', pctf(prev.lostShare), pctf(cur.lostShare), pp(prev.lostShare, cur.lostShare))}
+    </table>`;
   el.hidden = false;
   el.classList.remove('ct-hide');
   el.querySelector('.ct-close').addEventListener('click', () => (el.hidden = true));
   clearTimeout(changeToastTimer);
-  changeToastTimer = setTimeout(() => el.classList.add('ct-hide'), 12000);
+  changeToastTimer = setTimeout(() => el.classList.add('ct-hide'), 9000);
   el.onmouseenter = () => {
     clearTimeout(changeToastTimer);
     el.classList.remove('ct-hide');
   };
   el.onmouseleave = () => {
-    changeToastTimer = setTimeout(() => el.classList.add('ct-hide'), 6000);
+    changeToastTimer = setTimeout(() => el.classList.add('ct-hide'), 5000);
   };
 }
 
-async function recomputeFullEquilibrium() {
-  setStatus('Пересчитываю сеть…', 'busy');
-  await new Promise((r) => setTimeout(r, 0)); // дать браузеру отрисовать статус
-
-  const { dayType, season, year, scenario } = readControls();
-  const t0 = performance.now();
-
-  state.stations = stationsActiveIn(state.stationsAll, year, scenario, state.preciseParams);
-  state.fullContext = buildNetworkContext({ cells: state.cells, stations: state.stations, params: state.preciseParams });
-  state.fullResult = equilibrium({
-    cells: state.cells,
-    stations: state.stations,
-    params: state.preciseParams,
-    year,
-    scenario,
-    dayType,
-    season,
-    context: state.fullContext,
-  });
-  state.baselineS = dailySessions(state.fullResult.qh.lambdaSrv, state.stations.length);
-
-  // Тот же расчёт годится и как опорное равновесие для equipment.js (только
-  // для сценария base - см. ограничение в reference-equilibria.json).
-  if (scenario === 'base') {
-    state.baselineCache.set(`${year}|${season}|${dayType}`, { context: state.fullContext, result: state.fullResult, stations: state.stations });
-  }
-
-  const ms = Math.round(performance.now() - t0);
-  console.log(`равновесие сети: ${ms} мс, ${state.fullResult.it} итераций`);
-  setStatus(state.fullResult.converged ? 'Сеть пересчитана' : 'Расчёт не сошёлся — результат приблизительный', state.fullResult.converged ? 'ok' : 'warn');
-
-  rerenderMapForHour();
-  showChangeToast();
-
-  // Выбранная точка остаётся выбранной - её прогноз пересчитывается под
-  // новые условия (день, сезон, год, сценарий), а не сбрасывается.
-  if (state.candidate) {
-    placeCandidateAndShowPassport(state.candidate.lat, state.candidate.lon, state.activeListId);
-  }
-
-  // Баллы списка зависят от условий (спрос, сеть года) - при смене условий
-  // пересчитываем их для всех точек, а не очищаем список (27.09: раньше
-  // таблица молча пропадала при переключении сезона).
-  if (state.candidateList.length > 0) {
-    state.candidateList = state.candidateList.map((c) => ({
-      ...c,
-      ...scoreCandidateRaw({ candidate: { lat: c.lat, lon: c.lon }, cells: state.cells, stations: state.stations, centers: state.centers, params: state.preciseParams, demand: state.fullResult.demand, tp04: state.tp04 }),
-    }));
-    renderCandidateListTable();
-  }
+// ---------- Карта зон ----------
+function zoneHint(z, by) {
+  const S = sessionsIn(by, state.ctl.year);
+  return `Зона · ${z.district}\n${num(S, 0)} зарядок в сутки в ${state.ctl.year}\n${STATUS[statusOf(by, state.ctl.year)].label}`;
 }
 
-async function placeCandidateAndShowPassport(lat, lon, listId = null) {
-  state.activeListId = listId;
-  renderCandidateListTable(); // подсветить активную строку, если открыли из списка
-
-  const candidateBase = { id: 'CANDIDATE', lat, lon, operator: 'РСЗС', status: 'candidate' };
-  const candidate = { ...candidateBase, P_kW: 60, posts: 1, P_post_kW: 60, year_open: readControls().year };
-  state.candidate = candidate;
-  renderCandidate({ candidateSource: state.layers.candidateSource, candidate });
-  syncAddButton();
-
-  const { dayType, season, year, scenario } = readControls();
-
-  const loader = showLoader('Считаю спрос, очередь и соседей…', 0.03);
-  await nextFrame();
-  if (state.candidate !== candidate) return;
-
-  // Быстрый черновик (М1-М4): готов почти мгновенно.
-  const local = localEquilibrium({
-    cells: state.cells,
-    stations: state.stations,
-    candidate,
-    params: state.preciseParams,
-    year,
-    scenario,
-    dayType,
-    season,
-    fullContext: state.fullContext,
-    fullResult: state.fullResult,
-  });
-  state.localResult = local;
-
-  document.getElementById('passport-placeholder').hidden = true;
-  document.querySelector('#passport-placeholder .notice')?.remove();
-  const passportEl = document.getElementById('passport');
-  passportEl.hidden = false;
-  const { hour } = readControls();
-  const nearestCell = state.cells.reduce((best, c) => ((c.lat - lat) ** 2 + ((c.lon - lon) * 0.56) ** 2 < (best.lat - lat) ** 2 + ((best.lon - lon) * 0.56) ** 2 ? c : best));
-  const scenarioLabel = { base: 'базовый рост', conservative: 'медленный рост', optimistic: 'быстрый рост' }[scenario];
-  const conditions = `${dayType === 'weekend' ? 'Выходные' : 'Будни'} · ${season === 'winter' ? 'зима' : 'лето'} · ${year} · ${scenarioLabel}`;
-  const { neighbors } = renderPassport({ container: passportEl, local, baselineS: state.baselineS, candidate, stations: state.stations, district: nearestCell.district, hour, conditions });
-
-  renderNeighbors({
-    neighborsSource: state.layers.neighborsSource,
-    stations: state.stations,
-    neighborDeltas: neighbors.map((n) => ({ globalIdx: n.globalJ, deltaS: n.deltaS })),
-  });
-
-  // Медленная часть (М5-М7, до 8 конфигураций x 8 равновесий) - отдельным
-  // проходом, чтобы не задерживать быстрый паспорт. Актуально только для
-  // сценария base (опорные равновесия по другим сценариям не кэшируем, 12.3).
-  if (scenario !== 'base') {
-    document.getElementById('passport-verdict-section').innerHTML = '<h3>Какую станцию здесь ставить</h3><p class="tbd">Подбор станции считается только для базового роста спроса. Переключите «Рост спроса на зарядку» на «Базовый».</p>';
-    document.getElementById('passport-connection-section').innerHTML = '<h3>Подключение к электросети</h3><p class="tbd">Считается вместе с подбором станции, только для базового роста.</p>';
-    loader.done();
-    return;
-  }
-
-  loader.set(0.08, 'Подбираю оборудование…');
-  await nextFrame();
-  const t0 = performance.now();
-  let evalResult;
-  try {
-    evalResult = await evaluateCandidateAsync({
-      candidateBase,
-      cells: state.cells,
-      centers: state.centers,
-      params: state.preciseParams,
-      getBaseline,
-      dist04Meters: state.tp04 ? dist04FromKnownTp(lat, lon, state.tp04) : null,
-      onProgress: (done, total) => {
-        // Новый клик по карте - старый расчёт больше не нужен.
-        if (state.candidate !== candidate) throw new Error('cancelled');
-        const nCfg = total / 8; // 8 режимов на вариант: 2 года × 2 сезона × 2 типа дня
-        loader.set(0.08 + 0.92 * (done / total), `Подбираю оборудование: вариант ${Math.min(nCfg, Math.floor((done - 1) / 8) + 1)} из ${nCfg} · 2026 и 2030, зима и лето`);
-      },
+function renderZonesView() {
+  const { scenario, year } = state.ctl;
+  const th = state.th;
+  const zones = state.zones.zones
+    .filter((z) => z.by?.[scenario])
+    .map((z) => {
+      const by = z.by[scenario];
+      const status = statusOf(by, year);
+      const S = sessionsIn(by, year) ?? 0;
+      return { key: z.key, status, level: Math.max(0, Math.min(1, (S - th.pb) / Math.max(1e-6, th.npv - th.pb))), hint: zoneHint(z, by), zone: z };
     });
-  } catch (err) {
-    if (err.message === 'cancelled') return;
-    throw err;
-  }
-  console.log(`подбор оборудования: ${Math.round(performance.now() - t0)} мс`);
-  if (state.candidate === candidate) {
-    renderEquipment({ evalResult });
-    loader.done();
-  }
+  renderZones({ zonesSource: state.layers.zonesSource, zones });
+  renderZoneLegend(zones);
+  renderKpis(zones);
+  redrawPortfolioPins();
+  renderCandidateList();
+  if (state.selected) refreshPopup();
 }
 
-const nextFrame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0)));
+function countBy(list, key) {
+  const c = { priority: 0, now: 0, grid: 0, no: 0 };
+  for (const x of list) c[key(x)]++;
+  return c;
+}
 
-// Полоса загрузки паспорта (в духе загрузочного экрана Clash of Clans):
-// один экземпляр над паспортом, новый клик перезапускает её с нуля.
-function showLoader(text, fraction) {
-  const el = document.getElementById('passport-loader');
-  const fill = el.querySelector('.loader-fill');
-  const pct = el.querySelector('.loader-pct');
-  const label = el.querySelector('.loader-text');
-  el.hidden = false;
-  el.classList.remove('loader-done');
-  const set = (f, t) => {
-    const v = Math.max(0, Math.min(1, f));
-    fill.style.width = `${(v * 100).toFixed(1)}%`;
-    pct.textContent = `${Math.round(v * 100)}%`;
-    if (t) label.textContent = t;
-  };
-  set(fraction, text);
-  return {
-    set,
-    done() {
-      set(1, 'Готово');
-      el.classList.add('loader-done');
-      setTimeout(() => {
-        if (el.classList.contains('loader-done')) el.hidden = true;
-      }, 700);
-    },
-  };
+function renderZoneLegend(zones) {
+  const c = countBy(zones, (z) => z.status);
+  const th = state.th;
+  document.getElementById('zone-legend').innerHTML = `
+    <div class="zl-title">Зоны на ${state.ctl.year}</div>
+    <div class="zl-row"><i class="sw sw-now"></i><div><b>Ставить</b> <span class="zl-n">${c.priority + c.now}</span><small>окупается за 10 лет: от ${num(th.pb, 0)} зарядок в сутки, класс А; чем темнее, тем ближе к порогу NPV (${num(th.npv, 0)})</small></div></div>
+    <div class="zl-row"><i class="sw sw-grid"></i><div><b>Готовить сеть</b> <span class="zl-n">${c.grid}</span><small>спрос есть, подстанции ближе 200 м в данных нет</small></div></div>
+    <div class="zl-row"><i class="sw sw-no"></i><div><b>Не ставить</b> <span class="zl-n">${c.no}</span><small>ниже порога окупаемости</small></div></div>`;
+}
+
+function renderKpis(zones) {
+  const { scenario, year } = state.ctl;
+  const c = countBy(zones, (z) => z.status);
+  const ok = c.priority + c.now;
+  const active = state.stationsAll.filter((st) => st.status !== 'planned').length;
+  let planned = 0;
+  for (let y = 2027; y <= 2030; y++) planned += plannedStationsPerYear(y, scenario, state.params);
+  let conclusion;
+  if (ok === 0) conclusion = c.grid > 0 ? `В ${year} стандартная станция нигде не окупается при подстанции рядом. Спрос есть в ${c.grid} ${plural(c.grid, 'зоне', 'зонах', 'зонах')} без известной подстанции — начинать с запроса мощности.` : `В ${year} стандартная станция нигде не окупается за 10 лет. Смотрите следующий год или субсидию в паспорте.`;
+  else if (c.priority === 0) conclusion = `Окупается в ${ok} ${plural(ok, 'зоне', 'зонах', 'зонах')}, но порог NPV не проходит ни одна. Ставить точечно в самых тёмных зонах.`;
+  else conclusion = `${c.priority} ${plural(c.priority, 'зона проходит', 'зоны проходят', 'зон проходят')} порог NPV — это первая волна. Ещё ${c.now} окупаются за 10 лет, ${c.grid} ждут подключения к сети.`;
+  document.getElementById('kpi-row').innerHTML = `
+    <div class="kpi"><div class="kpi-label">Зон, где станция окупается, ${year}</div><div class="kpi-value">${ok}</div><div class="kpi-sub">из ${zones.length} зон внутри МКАД · простая окупаемость за 10 лет</div></div>
+    <div class="kpi"><div class="kpi-label">Из них по NPV</div><div class="kpi-value">${c.priority}</div><div class="kpi-sub">ставка дисконтирования 18%</div></div>
+    <div class="kpi"><div class="kpi-label">Действующие и план города к 2030</div><div class="kpi-value">~${fmtInt(active + planned)}</div><div class="kpi-sub">${active} работают, ${planned} по плану «Энергии Москвы» в этом сценарии</div></div>
+    <div class="kpi kpi-dark"><div class="kpi-label">Вывод сценария · ${esc(SCENARIO_LABEL[scenario])}</div><div class="kpi-text">${conclusion}</div></div>`;
+}
+
+// ---------- Кандидаты модели (список слева, пины) ----------
+function buildCandidates() {
+  const picks = state.portfolio?.model?.picks || [];
+  state.candidates = picks.map((p, k) => ({ ...p, rank: k + 1, site: state.siteById.get(p.id) }));
+}
+
+function siteBy(site) {
+  return site?.calc?.by?.[state.ctl.scenario] || null;
+}
+
+function siteName(site) {
+  return site?.area || site?.district || 'Площадка';
+}
+
+function siteKindLine(site) {
+  return `${site.kind}${site.name ? ` «${site.name}»` : ''}`;
+}
+
+function candidateView(c) {
+  const by = siteBy(c.site);
+  const S = sessionsIn(by, state.ctl.year);
+  const status = by ? statusOf(by, state.ctl.year) : 'no';
+  return { ...c, S, status, cls: by?.cls ?? c.cls };
+}
+
+function redrawPortfolioPins() {
+  renderPortfolio({
+    portfolioSource: state.layers.portfolioSource,
+    portfolio: state.portfolio,
+    showModel: document.getElementById('toggle-model').checked,
+    showTraditional: document.getElementById('toggle-trad').checked,
+    statusFor: (p) => statusOf(siteBy(state.siteById.get(p.id)), state.ctl.year),
+  });
+}
+
+function renderCandidateList() {
+  const all = state.candidates.map(candidateView).sort((a, b) => (b.S ?? -1) - (a.S ?? -1));
+  const c = countBy(all, (x) => x.status);
+  const chips = [
+    ['all', 'Все', all.length],
+    ['priority', 'Приоритет', c.priority],
+    ['now', 'Ставить сейчас', c.now],
+    ['grid', 'Готовить сеть', c.grid],
+    ['no', 'Не ставить', c.no],
+  ];
+  const filterEl = document.getElementById('status-filter');
+  filterEl.innerHTML = chips.map(([k, l, n]) => `<button class="chip ${state.statusFilter === k ? 'active' : ''}" data-filter="${k}">${l} <span>${n}</span></button>`).join('');
+  filterEl.querySelectorAll('button').forEach((b) =>
+    b.addEventListener('click', () => {
+      state.statusFilter = b.dataset.filter;
+      renderCandidateList();
+    })
+  );
+  const list = all.filter((x) => state.statusFilter === 'all' || x.status === state.statusFilter);
+  document.getElementById('cand-count').textContent = list.length;
+  const th = state.th;
+  const scaleMax = Math.max(th.npv * 1.6, ...all.map((x) => x.S ?? 0));
+  const pos = (v) => `${Math.min(100, (v / scaleMax) * 100).toFixed(1)}%`;
+  const el = document.getElementById('cand-list');
+  el.innerHTML = list
+    .map((x) => {
+      const st = STATUS[x.status];
+      const sel = state.selected?.type === 'site' && state.selected.id === x.id ? ' selected' : '';
+      return `<li class="cand${sel}" data-id="${esc(x.id)}" tabindex="0">
+        <span class="cand-rank">${x.rank}</span>
+        <div class="cand-body">
+          <div class="cand-name">${esc(siteName(x.site))}<span class="tag tag-${st.tone}">${st.label}</span></div>
+          <div class="cand-meta">${esc(x.id)} · ${esc(siteKindLine(x.site || x))} · класс ${esc(clsLabel(x.cls))}</div>
+          <div class="cand-bar tone-${st.tone}"><i style="width:${pos(x.S ?? 0)}"></i><b class="mk mk-pb" style="left:${pos(th.pb)}"></b><b class="mk mk-npv" style="left:${pos(th.npv)}"></b></div>
+        </div>
+        <div class="cand-num"><b>${num(x.S, 0)}</b><small>зар. в сутки</small></div>
+      </li>`;
+    })
+    .join('') || '<li class="cand-empty">Нет кандидатов с таким решением в этом сценарии.</li>';
+  el.querySelectorAll('li.cand').forEach((li) => {
+    const open = () => selectSite(li.dataset.id, { pan: true });
+    li.addEventListener('click', open);
+    li.addEventListener('keydown', (e) => e.key === 'Enter' && open());
+  });
+  document.getElementById('threshold-note').innerHTML = `Серая отметка — ${num(th.pb, 0)} зарядок в сутки, порог простой окупаемости за 10 лет. Чёрная — ${num(th.npv, 0)}, порог NPV при ставке 18%. Класс А, без субсидии.`;
+}
+
+// ---------- Карточка на карте (кандидат, зона, точка) ----------
+function popupHtml({ kicker, title, S, U, status, cfgLine, text, actions = true, note = '' }) {
+  const st = STATUS[status];
+  return `<button class="popup-close" data-action="close" aria-label="Закрыть">×</button>
+    <div class="popup-kicker">${esc(kicker)}</div>
+    <div class="popup-title">${esc(title)}</div>
+    ${S !== null && S !== undefined ? `<div class="popup-big"><b>${num(S, 0)}</b><span>зарядок в сутки в ${state.ctl.year}<br>≈${num(U * 100, 0)}% загрузки поста</span></div>` : ''}
+    ${st ? `<span class="tag tag-${st.tone} popup-status">${st.label} · ${esc(cfgLine)}</span>` : ''}
+    <p class="popup-text">${text}</p>
+    ${note ? `<p class="popup-note">${note}</p>` : ''}
+    ${actions ? '<div class="popup-actions"><button class="btn-primary" data-action="passport">Открыть паспорт →</button><button class="btn-secondary" data-action="compare">Сравнить</button></div>' : ''}`;
+}
+
+function statusExplanation(status, S, by, year) {
+  const th = state.th;
+  // Первый год не раньше выбранного, когда прогноз доходит до порога; спрос
+  // по годам не монотонен - городские станции 2027-2030 забирают клиентов.
+  const crossYear = (lvl) => YEARS_ALL.find((y) => y > year && (sessionsIn(by, y) ?? 0) >= lvl);
+  const earlier = (lvl) => YEARS_ALL.find((y) => y < year && (sessionsIn(by, y) ?? 0) >= lvl);
+  if (by?.cls === 'В') return 'У питающего центра нет свободной мощности (оценка). Подключить станцию без реконструкции сети нельзя.';
+  if (status === 'priority') return `Прогноз выше порога NPV (${num(th.npv, 0)} зарядок). Подстанция рядом, подключение без реконструкции сети. Брать в первую волну.`;
+  if (status === 'now') {
+    const y = crossYear(th.npv);
+    return `Выше порога простой окупаемости, но ниже порога NPV (${num(th.npv, 0)}). ${y ? `Порог NPV проходит в ${y}.` : 'До 2030 порог NPV не проходит.'} Строить вслед за приоритетными.`;
+  }
+  if (status === 'grid') return `Спрос есть (${num(S, 0)} при пороге ${num(th.pb, 0)}), но подстанции ближе 200 м в открытых данных нет. Нужен запрос мощности в Россети: с классом Б подключение в разы дороже.`;
+  const y = crossYear(th.pb);
+  const e = earlier(th.pb);
+  return `Прогноз ниже порога окупаемости (${num(th.pb, 0)} зарядок в сутки).${e ? ` В ${e} порог проходил: часть клиентов к ${year} заберут городские станции.` : ''} ${y ? `Снова проходит в ${y}.` : 'До 2030 не проходит — мониторинг спроса.'}`;
+}
+
+function wirePopup() {
+  const el = state.layers.popupEl;
+  el.addEventListener('click', (e) => {
+    const action = e.target.closest('[data-action]')?.dataset.action;
+    if (!action) return;
+    if (action === 'close') return clearSelection();
+    const sel = state.selected;
+    if (!sel) return;
+    if (action === 'passport') location.hash = passportHash(sel);
+    if (action === 'compare') {
+      addToCompare(sel.lat, sel.lon, sel.label);
+      e.target.textContent = 'В сравнении ✓';
+      e.target.disabled = true;
+    }
+  });
+}
+
+function passportHash(sel) {
+  if (sel.type === 'site') return `#passport/site/${sel.id}`;
+  if (sel.type === 'zone') return `#passport/zone/${sel.key}`;
+  return `#passport/pt/${sel.lat.toFixed(5)},${sel.lon.toFixed(5)}`;
+}
+
+function clearSelection() {
+  state.selected = null;
+  showPopup(state.layers, null);
+  renderPoint(state.layers, null);
+  renderCandidateList();
+}
+
+function selectSite(id, { pan = false } = {}) {
+  const site = state.siteById.get(id);
+  if (!site) return;
+  state.selected = { type: 'site', id, lat: site.lat, lon: site.lon, label: `${id} · ${siteName(site)}` };
+  renderPoint(state.layers, null);
+  refreshPopup();
+  if (pan) state.layers.map.getView().animate({ center: ol.proj.fromLonLat([site.lon, site.lat]), zoom: Math.max(13, state.layers.map.getView().getZoom()), duration: 400 });
+  renderCandidateList();
+}
+
+function selectZone(zone) {
+  state.selected = { type: 'zone', key: zone.key, lat: zone.lat, lon: zone.lon, label: `Зона ${zone.district}` };
+  renderPoint(state.layers, { lat: zone.lat, lon: zone.lon });
+  refreshPopup();
+  renderCandidateList();
+}
+
+function selectPoint(lat, lon) {
+  state.selected = { type: 'point', lat, lon, label: 'Точка на карте' };
+  renderPoint(state.layers, { lat, lon });
+  refreshPopup();
+  renderCandidateList();
+}
+
+function refreshPopup() {
+  const sel = state.selected;
+  if (!sel) return;
+  const el = state.layers.popupEl;
+  const year = state.ctl.year;
+  if (sel.type === 'site') {
+    const site = state.siteById.get(sel.id);
+    const by = siteBy(site);
+    const S = sessionsIn(by, year);
+    const status = statusOf(by, year);
+    const rank = state.candidates.find((c) => c.id === sel.id)?.rank;
+    el.innerHTML = popupHtml({
+      kicker: `Площадка ${sel.id}${rank ? ` · кандидат №${rank}` : ''}`,
+      title: siteName(site),
+      S,
+      U: S !== null ? loadFromSessions(S, state.th, 2) : 0,
+      status,
+      cfgLine: `150 кВт, 2 поста, класс ${clsLabel(by?.cls)}`,
+      text: by ? statusExplanation(status, S, by, year) : 'Для этой площадки нет расчёта зон.',
+      note: `${esc(siteKindLine(site))}${site.address ? `, ${esc(site.address)}` : ''}`,
+    });
+  } else if (sel.type === 'zone') {
+    const z = state.zones.zones.find((x) => x.key === sel.key);
+    const by = z.by[state.ctl.scenario];
+    const S = sessionsIn(by, year);
+    const status = statusOf(by, year);
+    el.innerHTML = popupHtml({
+      kicker: `Зона · ${z.district}`,
+      title: z.atTp ? 'Станция у подстанции зоны' : 'Станция в центре зоны',
+      S,
+      U: loadFromSessions(S, state.th, 2),
+      status,
+      cfgLine: `150 кВт, 2 поста, класс ${clsLabel(by.cls)}`,
+      text: statusExplanation(status, S, by, year),
+      note: z.atTp ? 'Точка — известная трансформаторная подстанция 0,4 кВ внутри зоны.' : 'Подстанций в зоне в открытых данных нет — точка в центре зоны.',
+    });
+  } else {
+    const inside = insideMkad(sel.lat, sel.lon);
+    el.innerHTML = popupHtml({
+      kicker: 'Новая точка',
+      title: inside ? 'Проверить это место' : 'За пределами МКАД',
+      S: null,
+      status: null,
+      text: inside ? 'Паспорт посчитает прогноз, подключение и экономику станции 150 кВт именно в этой точке. Расчёт занимает от нескольких секунд до минуты.' : 'Там не собраны данные о станциях, поэтому модель эту точку не считает. Выберите место внутри пунктирного кольца.',
+      actions: inside,
+    });
+  }
+  showPopup(state.layers, sel.lat, sel.lon);
 }
 
 function insideMkad(lat, lon) {
@@ -429,329 +620,654 @@ function insideMkad(lat, lon) {
   return inside;
 }
 
-function onMapClick(latlng) {
-  // За МКАДом нет ни ячеек спроса, ни полных данных о станциях (модель
-  // обрезана по МКАД, scripts/clip-to-mkad.js) - паспорт там показал бы
-  // ложные "0 сессий".
-  if (!insideMkad(latlng.lat, latlng.lng)) {
-    document.getElementById('passport').hidden = true;
-    const ph = document.getElementById('passport-placeholder');
-    ph.hidden = false;
-    ph.querySelector('.notice')?.remove();
-    ph.insertAdjacentHTML('afterbegin', '<div class="notice">Эта точка за МКАДом. Там не собраны данные о станциях, поэтому модель её не считает — кликните внутри пунктирного кольца.</div>');
-    state.candidate = null;
-    document.getElementById('add-to-list-btn').disabled = true;
+function onMapClick(evt) {
+  document.getElementById('map-hint').classList.add('gone');
+  const map = state.layers.map;
+  if (state.checkMode) {
+    setCheckMode(false);
+    const { lat, lng } = coordToLatLng(evt.coordinate);
+    if (!insideMkad(lat, lng)) return selectPoint(lat, lng);
+    location.hash = `#passport/pt/${lat.toFixed(5)},${lng.toFixed(5)}`;
     return;
   }
-  placeCandidateAndShowPassport(latlng.lat, latlng.lng, null);
+  const extent = clusterExtentAtPixel(map, state.layers.stationsLayer, evt.pixel);
+  if (extent) {
+    map.getView().fit(extent, { padding: [60, 60, 60, 60], maxZoom: 16, duration: 300 });
+    return;
+  }
+  const pick = portfolioPickAtPixel(map, evt.pixel);
+  if (pick) return selectSite(pick.id);
+  const zone = state.layers.zonesLayer.getVisible() ? zoneAtPixel(map, state.layers.zonesLayer, evt.pixel) : null;
+  if (zone) return selectZone(zone);
+  const { lat, lng } = coordToLatLng(evt.coordinate);
+  selectPoint(lat, lng);
 }
 
-// Список площадок с баллами (фидбек Росатома: "список с балльной оценкой:
-// доступность мощности, трафик, конкуренция в радиусе, тип района"). Баллы
-// считаются быстро (js/scoring.js), без перебора оборудования - чтобы можно
-// было накидать много кандидатов подряд, не дожидаясь М5-М7 на каждый.
-function plural(n, one, few, many) {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return one;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
-  return many;
+function setCheckMode(on) {
+  state.checkMode = on;
+  const btn = document.getElementById('check-point-btn');
+  btn.classList.toggle('active', on);
+  btn.textContent = on ? 'Нажмите точку на карте… (Esc — отмена)' : '+ Проверить новую точку';
+  document.querySelector('.map-card').classList.toggle('picking', on);
+  const hint = document.getElementById('map-hint');
+  hint.textContent = on ? 'Нажмите в любое место внутри МКАД — откроется паспорт этой точки' : 'Нажмите на зону или кандидата, чтобы увидеть прогноз';
+  hint.classList.toggle('gone', !on);
 }
 
-function scoreBadgeColor(score) {
-  const t = Math.max(0, Math.min(1, score / 100));
-  const r = Math.round(200 - t * 160);
-  const g = Math.round(90 + t * 100);
-  return `rgb(${r},${g},70)`;
+// ---------- Поиск: станции, площадки, районы ----------
+let slowStationsPromise = null;
+function loadSlowStations() {
+  slowStationsPromise ??= fetchJson('data/stations-slow.json').then((d) => d.stations);
+  return slowStationsPromise;
 }
 
-const sameSpot = (c, lat, lon) => Math.abs(c.lat - lat) < 1e-7 && Math.abs(c.lon - lon) < 1e-7;
+const normalizeForSearch = (s) => s.toLowerCase().replace(/ё/g, 'е').replace(/[.,«»"()/-]/g, ' ');
 
-// Кнопка «Добавить точку в сравнение»: уже добавленную точку второй раз
-// не добавляем (27.09: в таблице появлялись одинаковые строки).
-function syncAddButton() {
-  const btn = document.getElementById('add-to-list-btn');
-  const c = state.candidate;
-  const inList = c && state.candidateList.some((x) => sameSpot(x, c.lat, c.lon));
-  btn.disabled = !c || inList;
-  btn.textContent = inList ? 'Точка уже в сравнении' : 'Добавить точку в сравнение';
-}
+function wireSearch() {
+  const input = document.getElementById('station-search-input');
+  const list = document.getElementById('station-search-results');
+  let index = null;
+  let results = [];
+  let active = -1;
 
-function addCurrentCandidateToList() {
-  if (!state.candidate) return;
-  if (state.candidateList.some((x) => sameSpot(x, state.candidate.lat, state.candidate.lon))) return syncAddButton();
-  const raw = scoreCandidateRaw({
-    candidate: state.candidate,
-    cells: state.cells,
-    stations: state.stations,
-    centers: state.centers,
-    params: state.preciseParams,
-    demand: state.fullResult.demand,
-    tp04: state.tp04,
+  const buildIndex = async () => {
+    const sites = [...state.siteById.values()].map((s) => ({ kind: 'site', s, hay: normalizeForSearch(`${s.id} ${s.id.replace('L-', '')} ${s.area || ''} ${s.address || ''} ${s.kind} ${s.name || ''} ${s.district}`) }));
+    const fast = state.stationsAll.filter((st) => st.status !== 'planned').map((st) => ({ kind: 'station', st, slow: false }));
+    const slow = (await loadSlowStations()).map((st) => ({ kind: 'station', st, slow: true }));
+    index = [...sites, ...[...fast, ...slow].map((e) => ({ ...e, hay: normalizeForSearch(`${e.st.address || ''} ${e.st.operator} ${e.st.id}`) }))];
+  };
+
+  const stationLine = (e) => `${e.st.operator} · ${e.slow ? 'медленная' : 'быстрая'} станция, ${e.st.posts} пост(ов)${e.st.P_known ? ` по ${e.st.P_post_kW} кВт` : ''}`;
+
+  const close = () => {
+    list.hidden = true;
+    input.setAttribute('aria-expanded', 'false');
+    active = -1;
+  };
+
+  const choose = (e) => {
+    close();
+    if (e.kind === 'site') {
+      input.value = `${e.s.id} · ${siteName(e.s)}`;
+      showView('map');
+      return selectSite(e.s.id, { pan: true });
+    }
+    input.value = e.st.address || e.st.operator;
+    if (e.slow) {
+      const toggle = document.getElementById('toggle-slow');
+      if (!toggle.checked) {
+        toggle.checked = true;
+        toggle.dispatchEvent(new Event('change'));
+      }
+    }
+    document.getElementById('map-hint').classList.add('gone');
+    focusStation(state.layers, e.st, `${e.st.address || 'адрес неизвестен'}\n${stationLine(e)}${e.slow ? '\nв модель не входит' : ''}`);
+  };
+
+  const render = () => {
+    list.replaceChildren(
+      ...(results.length
+        ? results.map((e, i) => {
+            const li = document.createElement('li');
+            li.setAttribute('role', 'option');
+            li.className = i === active ? 'active' : '';
+            const t = document.createElement('b');
+            const m = document.createElement('span');
+            if (e.kind === 'site') {
+              t.textContent = `${e.s.id} · ${siteName(e.s)}`;
+              m.textContent = `площадка: ${siteKindLine(e.s)}${e.s.address ? `, ${e.s.address}` : ''}`;
+            } else {
+              t.textContent = e.st.address || 'адрес неизвестен';
+              m.textContent = stationLine(e);
+            }
+            li.append(t, m);
+            li.addEventListener('mousedown', (ev) => {
+              ev.preventDefault();
+              choose(e);
+            });
+            return li;
+          })
+        : [Object.assign(document.createElement('li'), { className: 'empty', textContent: 'Ничего не нашлось' })])
+    );
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+
+  input.addEventListener('focus', () => {
+    if (!index) buildIndex();
   });
-  state.candidateList.push({
-    listId: state.candidateListNextId++,
-    lat: state.candidate.lat,
-    lon: state.candidate.lon,
-    ...raw,
+  input.addEventListener('input', async () => {
+    const words = normalizeForSearch(input.value).split(/\s+/).filter(Boolean);
+    if (!words.length) {
+      results = [];
+      close();
+      focusStation(state.layers, null);
+      return;
+    }
+    if (!index) await buildIndex();
+    results = index.filter((e) => words.every((w) => e.hay.includes(w))).slice(0, 10);
+    active = results.length ? 0 : -1;
+    render();
   });
-  renderCandidateListTable();
-  syncAddButton();
+  input.addEventListener('keydown', (ev) => {
+    if (list.hidden || !results.length) return;
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+      ev.preventDefault();
+      active = (active + (ev.key === 'ArrowDown' ? 1 : results.length - 1)) % results.length;
+      render();
+    } else if (ev.key === 'Enter') {
+      ev.preventDefault();
+      choose(results[Math.max(active, 0)]);
+    } else if (ev.key === 'Escape') close();
+  });
+  input.addEventListener('blur', close);
 }
 
-function removeFromList(listId) {
-  state.candidateList = state.candidateList.filter((c) => c.listId !== listId);
-  if (state.activeListId === listId) state.activeListId = null;
-  renderCandidateListTable();
-  syncAddButton();
+// ---------- Паспорт ----------
+async function reverseGeocode(lat, lon) {
+  const key = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+  if (state.geoCache.has(key)) return state.geoCache.get(key);
+  let value = null;
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&accept-language=ru&lat=${lat}&lon=${lon}`);
+    if (r.ok) {
+      const a = (await r.json()).address || {};
+      const street = a.road || a.pedestrian || a.footway || a.square || null;
+      value = { address: street ? (a.house_number ? `${street}, ${a.house_number}` : street) : null, area: (a.suburb || a.city_district || '').replace(/^(район|поселение|муниципальный округ)\s+/i, '') || null };
+    }
+  } catch {
+    value = null;
+  }
+  state.geoCache.set(key, value);
+  return value;
 }
 
-function sortCandidateList(items) {
-  const { key: rawKey, dir } = state.candidateListSort;
-  const key = rawKey === 'index' ? 'listId' : rawKey; // «#» - порядок добавления
-  const sorted = [...items].sort((a, b) => {
+function nearestCell(lat, lon) {
+  return state.cells.reduce((best, c) => ((c.lat - lat) ** 2 + ((c.lon - lon) * 0.56) ** 2 < (best.lat - lat) ** 2 + ((best.lon - lon) * 0.56) ** 2 ? c : best));
+}
+
+function subjectFromRoute(parts) {
+  const [kind, arg] = parts;
+  if (kind === 'site') {
+    const s = state.siteById.get(arg);
+    if (!s) return null;
+    return { kind, id: arg, lat: s.lat, lon: s.lon, title: `Площадка ${arg}`, subtitle: siteName(s), address: s.address ? `${siteKindLine(s)}, ${s.address}` : siteKindLine(s), district: s.district, pre: s.calc };
+  }
+  if (kind === 'zone') {
+    const z = state.zones.zones.find((x) => x.key === arg);
+    if (!z) return null;
+    return { kind, id: arg, lat: z.lat, lon: z.lon, title: `Зона ${z.district}`, subtitle: z.atTp ? 'у трансформаторной подстанции' : 'центр зоны', address: null, district: z.district, pre: z, geocode: true };
+  }
+  if (kind === 'pt') {
+    const [lat, lon] = (arg || '').split(',').map(Number);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const cell = nearestCell(lat, lon);
+    return { kind, id: arg, lat, lon, title: 'Точка на карте', subtitle: cell.district, address: null, district: cell.district, pre: null, geocode: true };
+  }
+  return null;
+}
+
+// Прогноз по годам и разброс по режимам из одной оценённой конфигурации.
+function seriesFromEval(e) {
+  const anchors = e.years;
+  const combos = (year) => ['winter', 'summer'].flatMap((season) => ['weekday', 'weekend'].map((d) => Object.values(e.sessionsByCombo[`${year}|${season}|${d}`]).reduce((x, y) => x + y, 0)));
+  const avg = Object.fromEntries(anchors.map((y) => [y, yearAverage(e, y).sessions]));
+  const lo = Object.fromEntries(anchors.map((y) => [y, Math.min(...combos(y))]));
+  const hi = Object.fromEntries(anchors.map((y) => [y, Math.max(...combos(y))]));
+  const S = {};
+  const Srange = {};
+  for (const y of YEARS_ALL) {
+    S[y] = interpolateAnchors(avg, y);
+    Srange[y] = [interpolateAnchors(lo, y), interpolateAnchors(hi, y)];
+  }
+  const seg = {};
+  for (const season of ['winter', 'summer'])
+    for (const d of ['weekday', 'weekend'])
+      for (const [s, v] of Object.entries(e.sessionsByCombo[`2026|${season}|${d}`])) seg[s] = (seg[s] || 0) + SEASON_W[season] * DAY_W[d] * v;
+  return { S, Srange, seg };
+}
+
+function seriesFromPre(by) {
+  const S = {};
+  const Srange = {};
+  for (const y of YEARS_ALL) {
+    S[y] = sessionsIn(by, y);
+    const lo = Object.fromEntries(Object.entries(by.Srange).map(([k, v]) => [k, v[0]]));
+    const hi = Object.fromEntries(Object.entries(by.Srange).map(([k, v]) => [k, v[1]]));
+    Srange[y] = [interpolateAnchors(lo, y), interpolateAnchors(hi, y)];
+  }
+  return { S, Srange, seg: by.seg2026 };
+}
+
+// Перцентиль значения среди массива (0..1).
+function percentile(sorted, v) {
+  if (!sorted.length) return 0;
+  let lo = 0;
+  let hi = sorted.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (sorted[mid] <= v) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo / sorted.length;
+}
+
+function whyBars(lat, lon, seg) {
+  if (!state.whyDist) {
+    const zs = state.zones.zones.map((z) => z.by?.base?.seg2026).filter(Boolean);
+    const sorted = (f) => zs.map(f).sort((a, b) => a - b);
+    state.whyDist = {
+      P1: sorted((s) => s.P1 || 0),
+      T: sorted((s) => s.T || 0),
+      road: state.cells.map((c) => c.layers.road).sort((a, b) => a - b),
+    };
+  }
+  // Конкуренты - действующие в выбранном году станции в 1 км; распределение по
+  // зонам пересчитывается при смене сети (год, сценарий).
+  const active = state.stations.filter((st, j) => state.fullResult.activeStations[j]);
+  const near = (la, lo) => active.reduce((n, st) => n + (haversineKm(la, lo, st.lat, st.lon) <= 1 ? 1 : 0), 0);
+  if (state.compDistFor !== state.fullResult) {
+    state.compDist = state.zones.zones.map((z) => near(z.lat, z.lon)).sort((a, b) => a - b);
+    state.compDistFor = state.fullResult;
+  }
+  const compCounts = state.compDist;
+  const comp = near(lat, lon);
+  const cell = nearestCell(lat, lon);
+  return [
+    { label: 'Жители без домашней зарядки', note: `${num(seg.P1 || 0, 1)} зарядок в сутки, 2026`, value: percentile(state.whyDist.P1, seg.P1 || 0), tone: 'pos' },
+    { label: 'Такси и каршеринг', note: `${num(seg.T || 0, 1)} зарядок в сутки, 2026`, value: percentile(state.whyDist.T, seg.T || 0), tone: 'pos' },
+    { label: 'Трафик на подъезде', note: 'плотность и класс дорог в квадрате 1 км', value: percentile(state.whyDist.road, cell.layers.road), tone: 'pos-light' },
+    { label: 'Конкуренты в радиусе 1 км', note: `${comp} ${plural(comp, 'быстрая станция', 'быстрые станции', 'быстрых станций')} в ${state.ctl.year}`, value: percentile(compCounts, comp), tone: 'neg' },
+  ];
+}
+
+function assumptionsChips() {
+  const p = state.params;
+  const m7 = p.M6_M7_equipment_economics;
+  return [
+    `${p.M3_queue.e_kWh.P0_P1_C.value} кВт·ч на зарядку`,
+    `тариф ${m7.tariff_incl_vat_rub_per_kWh.retail_and_corporate.value} ₽`,
+    `энергия ${m7.p_el_rub_per_kWh.value} ₽ за кВт·ч`,
+    `эквайринг ${Math.round(m7.f_acq.value * 100)}%`,
+    `ставка ${Math.round(m7.r_discount_rate.value * 100)}%`,
+    `срок ${m7.H_years.value} лет`,
+  ];
+}
+
+function buildPassportVm(P) {
+  const { subject } = P;
+  const scenario = state.ctl.scenario;
+  const year = state.ctl.year;
+  const subsidy = P.subsidy;
+  const th = subsidy ? state.thSub : state.th;
+  const pre = subject.pre?.by?.[scenario] || null;
+  let series = null;
+  let cls = null;
+  let dist04 = null;
+  let conn = null;
+  let center = null;
+  if (P.e150) {
+    series = seriesFromEval(P.e150);
+    cls = P.e150.cls;
+    dist04 = P.dist04;
+    conn = P.e150.connRange ? { cost: [P.e150.connRange.costLow, P.e150.connRange.costHigh], months: [P.e150.connRange.monthsLow, P.e150.connRange.monthsHigh] } : null;
+    center = P.evalResult ? { id: P.evalResult.center.id, freeMW: P.evalResult.centerFree / 1000 } : null;
+  } else if (pre?.S) {
+    series = seriesFromPre(pre);
+    cls = pre.cls;
+    dist04 = pre.dist04;
+    conn = pre.conn;
+    center = pre.center;
+  }
+  if (!series) return null;
+
+  const U = {};
+  const Urange = {};
+  for (const y of YEARS_ALL) {
+    U[y] = loadFromSessions(series.S[y], th, 2);
+    Urange[y] = series.Srange[y].map((s) => loadFromSessions(s, th, 2));
+  }
+
+  let econ = null;
+  let robust = null;
+  let classBNpv = null;
+  if (P.e150?.connRange) {
+    const hi = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high' });
+    const lo = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'low' });
+    econ = { ...hi, capexRange: [lo.capex, hi.capex] };
+    robust = robustness(P.e150, { params: state.params, subsidy });
+    if (cls === 'А') {
+      const m5 = state.params.M5_grid;
+      const P_kW = P.e150.cfg.P_cap_kW;
+      classBNpv = siteEconomics(P.e150, { params: state.params, subsidy, connOverride: { cost: m5.c_B_rub_per_kW.max * P_kW, months: m5.T_conn_months.B.max } }).npv;
+    }
+  } else if (pre?.npv) {
+    econ = { npv: pre.npv[0], payback: pre.payback?.[1] ?? null, capexRange: pre.capex, subsidyRub: 0 };
+  }
+
+  const S = series.S[year];
+  const status = siteStatus({ S, cls, th });
+  const crossYear = (lvl) => YEARS_ALL.find((y) => y > year && series.S[y] >= lvl);
+  const earlier = (lvl) => YEARS_ALL.find((y) => y < year && series.S[y] >= lvl);
+  let recTitle;
+  let recText;
+  if (cls === 'В') {
+    recTitle = 'Не ставить';
+    recText = 'У питающего центра нет свободной мощности (оценка). Без реконструкции сети станцию не подключить.';
+  } else if (status === 'priority') {
+    recTitle = 'Строить в первую волну';
+    recText = `Прогноз ${num(S, 0)} зарядок в сутки выше порога NPV (${num(th.npv, 0)}). Класс А — подключение без реконструкции сети.`;
+  } else if (status === 'now') {
+    const y = crossYear(th.npv);
+    recTitle = 'Строить';
+    recText = `Порог простой окупаемости (${num(th.pb, 0)} зарядок) пройден${earlier(th.pb) ? ` ещё в ${earlier(th.pb)}` : ''}. ${y ? `Порог NPV в ${num(th.npv, 0)} зарядок проходит в ${y}` : `Порог NPV в ${num(th.npv, 0)} зарядок до 2030 не проходит`}, поэтому площадка не в приоритете.`;
+  } else if (status === 'grid') {
+    recTitle = 'Готовить сеть';
+    recText = `Спрос есть: ${num(S, 0)} зарядок при пороге ${num(th.pb, 0)}. Но трансформаторной подстанции ближе 200 м в открытых данных нет, а с подключением класса Б станция окупается только от ${num(P.thB?.pb ?? NaN, 0)} зарядок. Заявка в Россети или поиск площадки у подстанции.`;
+  } else {
+    const y = crossYear(th.pb);
+    const e = earlier(th.pb);
+    recTitle = 'Не ставить сейчас';
+    recText = `Прогноз ${num(S, 0)} зарядок в сутки ниже порога окупаемости ${num(th.pb, 0)}.${e ? ` В ${e} порог проходил: к ${year} часть клиентов заберут городские станции.` : ''} ${y ? `Снова проходит в ${y} — вернуться к площадке позже.` : 'До 2030 порог не проходит — мониторинг спроса.'}`;
+  }
+
+  const m7 = state.params.M6_M7_equipment_economics;
+  const cfg = cfg150();
+  return {
+    subject,
+    scenario,
+    scenarioLabel: SCENARIO_LABEL[scenario],
+    year,
+    hour: state.ctl.hour,
+    subsidy,
+    econLive: !!P.e150,
+    dateStr: new Date().toLocaleDateString('ru-RU'),
+    th,
+    S: series.S,
+    Srange: series.Srange,
+    U,
+    Urange,
+    cls,
+    clsLabel: clsLabel(cls),
+    clsText: cls === 'А' ? 'А, без реконструкции сети' : cls === 'В' ? 'В, нет свободной мощности' : 'Б, подстанции рядом в данных нет',
+    dist04,
+    conn,
+    center,
+    econ,
+    robust,
+    classBNpv,
+    status,
+    recTitle,
+    recText,
+    why: whyBars(subject.lat, subject.lon, series.seg),
+    costs: {
+      eq: cfg.C_eq_mln_rub * 1e6,
+      rentMonth: m7.rent_rub_per_place_month.value * cfg.posts,
+      serviceYear: m7.maintenance_share_Ceq_per_year.value * cfg.C_eq_mln_rub * 1e6 + m7.connectivity_insurance_rub_per_year.value,
+    },
+    assumptions: assumptionsChips(),
+    live: P.live,
+    liveProgress: P.progress,
+    inCompare: state.compareList.some((c) => Math.abs(c.lat - subject.lat) < 1e-6 && Math.abs(c.lon - subject.lon) < 1e-6),
+  };
+}
+
+function renderPassportNow() {
+  const P = state.passport;
+  if (!P) return;
+  const container = document.getElementById('passport');
+  const vm = buildPassportVm(P);
+  if (!vm) {
+    container.hidden = false;
+    container.innerHTML = `<div class="card pp-loading"><h2>${esc(P.subject.title)}</h2><p>${esc(P.progress?.text || 'Считаю прогноз…')}</p><div class="pp-progress-bar"><i style="width:${Math.round((P.progress?.fraction || 0.02) * 100)}%"></i></div></div>`;
+    return;
+  }
+  P.vm = vm;
+  container.hidden = false;
+  renderPassport(container, vm);
+  wirePassport(P);
+}
+
+function wirePassport(P) {
+  document.getElementById('pp-print').addEventListener('click', () => window.print());
+  document.getElementById('pp-copy').addEventListener('click', async (e) => {
+    const vm = P.vm;
+    const text = [
+      `${vm.subject.title} — ${vm.subject.subtitle}`,
+      vm.subject.address ? `Адрес: ${vm.subject.address}` : null,
+      `Координаты: ${vm.subject.lat.toFixed(6)}, ${vm.subject.lon.toFixed(6)}`,
+      'Станция: DC150-2, 150 кВт, 2 поста',
+      `Запрашиваемая мощность: 150 кВт`,
+      `Подстанция 0,4 кВ: ${vm.dist04 !== null ? `${vm.dist04} м` : 'нет данных ближе 200 м'}`,
+      vm.center ? `Питающий центр: ${vm.center.id}` : null,
+      `Прогноз на ${vm.year}: ${num(vm.S[vm.year], 0)} зарядок в сутки (${vm.scenarioLabel})`,
+    ]
+      .filter(Boolean)
+      .join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      e.target.textContent = 'Скопировано ✓';
+    } catch {
+      e.target.textContent = 'Не удалось скопировать';
+    }
+  });
+  document.getElementById('pp-compare').addEventListener('click', (e) => {
+    addToCompare(P.subject.lat, P.subject.lon, P.subject.title);
+    e.target.textContent = 'Уже в сравнении';
+  });
+  document.querySelectorAll('#pp-scenario button').forEach((b) => b.addEventListener('click', () => setControl('scenario', b.dataset.value)));
+  document.getElementById('pp-subsidy').addEventListener('change', (e) => {
+    P.subsidy = e.target.checked;
+    renderPassportNow();
+  });
+}
+
+async function openPassport(subject) {
+  const token = {};
+  const subsidy = state.passport?.subsidy ?? false;
+  state.passport = { subject, token, subsidy, progress: { fraction: 0.03, text: 'Считаю спрос, очередь и соседей…' }, live: null, e150: null };
+  const P = state.passport;
+  document.getElementById('passport-empty').hidden = true;
+  renderPassportNow();
+  window.scrollTo({ top: 0 });
+
+  if (subject.geocode && !subject.address) {
+    reverseGeocode(subject.lat, subject.lon).then((g) => {
+      if (state.passport !== P || !g) return;
+      subject.address = g.address;
+      if (g.area) subject.subtitle = subject.kind === 'pt' ? g.area : `${g.area} · ${subject.subtitle}`;
+      renderPassportNow();
+    });
+  }
+
+  const m5 = state.params.M5_grid;
+  P.thB = thresholds({ params: state.params, cfg: cfg150(), connCostRub: ((m5.c_B_rub_per_kW.min + m5.c_B_rub_per_kW.max) / 2) * 150, mix: state.mix });
+
+  await nextFrame();
+  if (state.passport !== P) return;
+  const { scenario, year, season, dayType } = state.ctl;
+  const candidateBase = { id: 'CANDIDATE', lat: subject.lat, lon: subject.lon, operator: 'РСЗС', status: 'candidate' };
+  const cfg = cfg150();
+  // Быстрая часть (М1-М4) на текущий день, сезон и год: профиль по часам и соседи.
+  const candidate = { ...candidateBase, P_kW: cfg.P_cap_kW, posts: cfg.posts, P_post_kW: cfg.P_post_kW, year_open: year };
+  const local = localEquilibrium({ cells: state.cells, stations: state.stations, candidate, params: state.preciseParams, year, scenario, dayType, season, fullContext: state.fullContext, fullResult: state.fullResult });
+  P.live = liveFromLocal(local, candidate);
+  P.dist04 = state.tp04 ? dist04FromKnownTp(subject.lat, subject.lon, state.tp04) : null;
+  P.progress = { fraction: 0.08, text: 'Подбираю оборудование и считаю экономику…' };
+  renderPassportNow();
+  renderNeighbors({ neighborsSource: state.layers.neighborsSource, stations: state.stations, neighborDeltas: P.live.neighbors.map((n) => ({ globalIdx: n.globalJ, deltaS: n.deltaS })) });
+
+  let evalResult;
+  try {
+    evalResult = await evaluateCandidateAsync({
+      candidateBase,
+      cells: state.cells,
+      centers: state.centers,
+      params: state.preciseParams,
+      getBaseline: (y, s, d) => getBaseline(y, s, d, scenario),
+      dist04Meters: P.dist04,
+      scenario,
+      years: [2026, 2028, 2030],
+      onProgress: (done, total) => {
+        if (state.passport !== P) throw new Error('cancelled');
+        const nCfg = total / 12;
+        P.progress = { fraction: 0.08 + 0.92 * (done / total), text: `Подбираю оборудование: вариант ${Math.min(nCfg, Math.floor((done - 1) / 12) + 1)} из ${nCfg} · 2026, 2028 и 2030, зима и лето` };
+        const bar = document.querySelector('#passport .pp-progress-bar i');
+        if (bar) bar.style.width = `${Math.round(P.progress.fraction * 100)}%`;
+        const label = document.querySelector('#passport .pp-progress span');
+        if (label) label.textContent = P.progress.text;
+      },
+    });
+  } catch (err) {
+    if (err.message === 'cancelled') return;
+    throw err;
+  }
+  if (state.passport !== P) return;
+  P.evalResult = evalResult;
+  P.e150 = evalResult.evaluated.find((e) => e.cfg.omega === EQUIPMENT && !e.cfg.isBal) || null;
+  P.live.equipmentRows = equipmentRows(evalResult);
+  P.progress = null;
+  renderPassportNow();
+}
+
+function liveFromLocal(local, candidate) {
+  const idx = local.candidateLocalIdx;
+  const hourly = Array.from({ length: 24 }, (_, h) => SEGMENTS.reduce((a, s) => a + local.combined.bySegment[s][idx * 24 + h] * (1 - local.qh.L[idx * 24 + h]), 0));
+  const Uh = Array.from({ length: 24 }, (_, h) => local.qh.U[idx * 24 + h]);
+  const Wh = Array.from({ length: 24 }, (_, h) => local.qh.W[idx * 24 + h]);
+  const Acch = Array.from({ length: 24 }, (_, h) => local.qh.Acc[idx * 24 + h]);
+  let peakHour = 0;
+  let worstHour = 0;
+  for (let h = 0; h < 24; h++) {
+    if (hourly[h] > hourly[peakHour]) peakHour = h;
+    if (Acch[h] < Acch[worstHour]) worstHour = h;
+  }
+  const Snew = local.S_local[idx];
+  let arr = 0;
+  let srv = 0;
+  for (let h = 0; h < 24; h++) {
+    for (const s of SEGMENTS) arr += local.combined.bySegment[s][idx * 24 + h];
+    srv += local.qh.lambdaSrv[idx * 24 + h];
+  }
+  const neighbors = [];
+  local.affectedStationIdx.forEach((globalJ, localJ) => {
+    const deltaS = local.S_local[localJ] - state.baselineS[globalJ];
+    const st = state.stations[globalJ];
+    if (Math.abs(deltaS) >= 0.05) neighbors.push({ globalJ, label: st.status === 'planned' ? 'Плановая станция города' : `${!st.operator || st.operator === 'независимый' ? 'Станция без сети' : st.operator}${st.address ? ` · ${st.address}` : ''}`, S0: state.baselineS[globalJ], deltaS });
+  });
+  neighbors.sort((a, b) => a.deltaS - b.deltaS);
+  const cannibalization = neighbors.filter((n) => n.deltaS < 0).reduce((a, n) => a - n.deltaS, 0);
+  const newDemand = -local.deltaLambdaOut - local.deltaLambdaLost;
+  const { dayType, season, year, scenario } = state.ctl;
+  return {
+    hourly,
+    peakHour,
+    Snew,
+    neighbors,
+    cannibalization,
+    newDemand,
+    conditions: `${dayType === 'weekend' ? 'Выходной' : 'Будний день'}, ${season === 'winter' ? 'зима' : 'лето'} ${year}, ${SCENARIO_LABEL[scenario]}`,
+    hourNote: (h) => `Больше всего машин в ${peakHour}:00. Выделен ${h}:00: пост занят ${num(Uh[h] * 100, 0)}% времени, ожидание ${num(Wh[h] * 60, 0)} мин. Час, день и сезон меняются в слое «Спрос по часам» на карте.`,
+    tech: [
+      ['Обслужено сессий в сутки, S_new', num(Snew, 2)],
+      ['Доля отказов за сутки, p_K', `${num(arr > 0 ? ((arr - srv) / arr) * 100 : 0, 1)}%`],
+      ['Худший час по доступности, Acc', `${worstHour}:00 — ${num(Acch[worstHour] * 100, 1)}%`],
+      ['Каннибализация', `${num(Snew > 0 ? (cannibalization / Snew) * 100 : 0, 1)}%`],
+      ['Изменение «уехали без зарядки», ΔΛ_out', num(local.deltaLambdaOut, 2)],
+      ['Изменение «ушли из-за очереди», ΔΛ_lost', num(local.deltaLambdaLost, 2)],
+      ['Точка', `${candidate.lat.toFixed(5)}, ${candidate.lon.toFixed(5)}`],
+    ],
+    equipmentRows: null,
+  };
+}
+
+function equipmentRows(evalResult) {
+  const rec = evalResult.recommended;
+  return evalResult.evaluated
+    .filter((e) => !e.cfg.isBal)
+    .map((e) => {
+      const a = yearAverage(e, 2026);
+      const b = yearAverage(e, 2030);
+      const isRec = rec && e.cfg.omega === rec.cfg.omega;
+      return `<tr class="${isRec ? 'rec' : ''} ${e.cls === 'В' ? 'blocked' : ''}">
+        <td>${e.cfg.omega}${e.cfg.omega === EQUIPMENT ? ' <span class="tag">стандарт</span>' : ''}</td>
+        <td>${e.cls}</td>
+        <td class="num">${num(a.sessions, 1)} → ${num(b.sessions, 1)}</td>
+        <td class="num">+${num(a.gain, 1)} → +${num(b.gain, 1)}</td>
+        <td class="num">${e.scenarios ? num(newClientsPerMln(e), 2) : '—'}</td>
+        <td class="num">${e.scenarios ? num(e.scenarios.low.NPVrub / 1e6, 1) : '—'}</td>
+      </tr>`;
+    })
+    .join('');
+}
+
+// ---------- Сравнение: свои точки с баллами ----------
+function scoreFor(c) {
+  return scoreCandidateRaw({ candidate: { lat: c.lat, lon: c.lon }, cells: state.cells, stations: state.stations, centers: state.centers, params: state.preciseParams, demand: state.fullResult.demand, tp04: state.tp04 });
+}
+
+function addToCompare(lat, lon, label) {
+  if (state.compareList.some((c) => Math.abs(c.lat - lat) < 1e-6 && Math.abs(c.lon - lon) < 1e-6)) return;
+  const entry = { listId: state.compareNextId++, lat, lon, label };
+  state.compareList.push({ ...entry, ...scoreFor(entry) });
+  renderCompareList();
+}
+
+function renderCompareList() {
+  const wrap = document.getElementById('candidate-list-wrap');
+  document.getElementById('candidate-list-empty').hidden = state.compareList.length > 0;
+  wrap.hidden = state.compareList.length === 0;
+  const { key: rawKey, dir } = state.compareSort;
+  const key = rawKey === 'index' ? 'listId' : rawKey;
+  const rows = normalizeAndScore(state.compareList).sort((a, b) => {
     const av = a[key];
     const bv = b[key];
     if (typeof av === 'string') return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
     return dir === 'asc' ? av - bv : bv - av;
   });
-  return sorted;
-}
-
-function renderCandidateListTable() {
-  const section = document.getElementById('candidate-list-section');
   const tbody = document.getElementById('candidate-list-body');
-  if (state.candidateList.length === 0) {
-    section.hidden = true;
-    return;
-  }
-  section.hidden = false;
-
-  const scored = normalizeAndScore(state.candidateList);
-  const sorted = sortCandidateList(scored);
-
-  tbody.innerHTML = sorted
-    .map((c, i) => {
-      const active = c.listId === state.activeListId ? ' class="active"' : '';
-      return `<tr${active} data-list-id="${c.listId}">
+  tbody.innerHTML = rows
+    .map(
+      (c, i) => `<tr data-list-id="${c.listId}">
         <td>${i + 1}</td>
-        <td><span class="score-badge" style="background:${scoreBadgeColor(c.composite)}">${c.composite.toFixed(0)}</span></td>
+        <td><b class="score">${c.composite.toFixed(0)}</b><div class="score-raw">${esc(c.label || '')}</div></td>
         <td><b>${c.powerScore.toFixed(0)}</b><div class="score-raw">${c.pAvailKW < 150 ? 'нет свободной мощности' : c.dist04 !== null ? `подстанция в ${c.dist04} м, класс А` : 'подстанции ближе 200 м нет, класс Б'}</div></td>
         <td><b>${c.trafficScore.toFixed(0)}</b><div class="score-raw">≈ ${Math.round(c.trafficRaw)} в сутки</div></td>
         <td><b>${c.competitionScore.toFixed(0)}</b><div class="score-raw">${c.nearbyCount} ${plural(c.nearbyCount, 'станция', 'станции', 'станций')} рядом</div></td>
-        <td>${c.district}</td>
-        <td><button class="remove-candidate-btn" data-remove-id="${c.listId}" title="Убрать из списка">✕</button></td>
-      </tr>`;
-    })
+        <td>${esc(c.district)}</td>
+        <td><button class="remove-btn" data-remove-id="${c.listId}" title="Убрать">✕</button></td>
+      </tr>`
+    )
     .join('');
-
-  tbody.querySelectorAll('tr').forEach((tr) => {
+  tbody.querySelectorAll('tr').forEach((tr) =>
     tr.addEventListener('click', (e) => {
-      if (e.target.closest('.remove-candidate-btn')) return;
-      const id = Number(tr.dataset.listId);
-      const entry = state.candidateList.find((c) => c.listId === id);
-      if (entry) placeCandidateAndShowPassport(entry.lat, entry.lon, id);
-    });
-  });
-  tbody.querySelectorAll('.remove-candidate-btn').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+      if (e.target.closest('.remove-btn')) return;
+      const c = state.compareList.find((x) => x.listId === Number(tr.dataset.listId));
+      if (c) location.hash = `#passport/pt/${c.lat.toFixed(5)},${c.lon.toFixed(5)}`;
+    })
+  );
+  tbody.querySelectorAll('.remove-btn').forEach((b) =>
+    b.addEventListener('click', (e) => {
       e.stopPropagation();
-      removeFromList(Number(btn.dataset.removeId));
-    });
-  });
+      state.compareList = state.compareList.filter((c) => c.listId !== Number(b.dataset.removeId));
+      renderCompareList();
+    })
+  );
 }
 
-function wireCandidateListSorting() {
-  document.querySelectorAll('#candidate-list-table th[data-sort]').forEach((th) => {
+function wireCompareSorting() {
+  document.querySelectorAll('#candidate-list-table th[data-sort]').forEach((th) =>
     th.addEventListener('click', () => {
       const key = th.dataset.sort;
-      if (state.candidateListSort.key === key) {
-        state.candidateListSort.dir = state.candidateListSort.dir === 'asc' ? 'desc' : 'asc';
-      } else {
-        state.candidateListSort = { key, dir: 'desc' };
-      }
-      renderCandidateListTable();
-    });
-  });
-}
-
-// Кнопка «Проверить модель» (раздел 13). Т6/Т8 в браузере считаются в
-// сокращённом виде (меньше кандидатов) - полные версии см. `npm test`.
-async function runTests() {
-  const btn = document.getElementById('run-tests-btn');
-  const panel = document.getElementById('test-results');
-  btn.disabled = true;
-  panel.hidden = false;
-  panel.innerHTML = '<p>Считаю тесты Т1–Т10 (около минуты)…</p>';
-  await new Promise((r) => setTimeout(r, 0));
-
-  const rows = [];
-  const renderRows = () => {
-    panel.innerHTML = rows
-      .map((r) => {
-        const cls = r.pass ? 'pass' : r.pending ? 'pending' : r.soft ? 'soft-fail' : 'fail';
-        const mark = r.pass ? '✓' : r.pending ? '⏳' : r.soft ? '⚠' : '✗';
-        return `<div class="test-row"><span class="test-status ${cls}">${mark}</span><div><div>${r.name}</div><div class="test-detail">${r.detail}</div></div></div>`;
-      })
-      .join('');
-  };
-
-  try {
-    const results = await runAllTests({
-      cells: state.cells,
-      stationsAll: state.stationsAll,
-      stations: state.stations,
-      params: state.preciseParams,
-      fullContext: state.fullContext,
-      fullResult: state.fullResult,
-      onProgress: (r) => {
-        rows.push(r);
-        renderRows();
-      },
-    });
-    const run = results.filter((r) => !r.pending);
-    const hardFails = run.filter((r) => !r.pass && !r.soft);
-    const softFails = run.filter((r) => !r.pass && r.soft);
-    const pending = results.filter((r) => r.pending);
-    // Т6 запускается дважды (2026 и 2030) - считаем тесты по id, а не по строкам.
-    const uniq = (list) => [...new Set(list.map((r) => r.id))];
-    const failedIds = uniq(hardFails);
-    const summary =
-      (hardFails.length === 0 ? `Пройдены все ${uniq(run).length} тестов${softFails.length ? `. Ожидаемо мягкий результат: ${softFails.map((r) => r.name.replace(/^Т\d+: /, '')).join('; ')} — при слабой загрузке сети время суток почти не влияет на выбор (раздел 14 спецификации)` : ''}` : `Не пройдено: ${failedIds.map((id) => id.replace('T', 'Т')).join(', ')}`) +
-      (pending.length ? `. Ждут данных от заказчика: ${pending.map((r) => r.id.replace('T', 'Т')).join(', ')}` : '');
-    panel.innerHTML += `<div class="test-summary" style="color:${hardFails.length ? '#c0392b' : '#2e7d32'}">${summary}</div>`;
-  } catch (err) {
-    console.error(err);
-    panel.innerHTML += `<div class="test-summary" style="color:#c0392b">Ошибка при прогоне тестов: ${err.message}</div>`;
-  } finally {
-    btn.disabled = false;
-  }
-}
-
-async function main() {
-  const { cells, stationsAll, centers, params, raw } = await loadData();
-  const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
-  Object.assign(state, { cells, stationsAll, centers, params, preciseParams });
-  // Число действующих быстрых станций в «Откуда данные» - из данных, а не текстом.
-  document.getElementById('stations-count').textContent = String(stationsAll.filter((st) => st.status !== 'planned').length);
-
-
-  state.layers = initMap();
-  renderCentersLayer({ centersSource: state.layers.centersSource, centers: state.centers });
-  state.layers.map.on('singleclick', (evt) => {
-    document.getElementById('map-hint').classList.add('gone');
-    // Клик по кластеру станций (несколько под курсором на текущем зуме) -
-    // приближаем карту к его границам вместо постановки кандидата.
-    const extent = clusterExtentAtPixel(state.layers.map, state.layers.stationsLayer, evt.pixel);
-    if (extent) {
-      state.layers.map.getView().fit(extent, { padding: [60, 60, 60, 60], maxZoom: 16, duration: 300 });
-      return;
-    }
-    const pick = portfolioPickAtPixel(state.layers.map, evt.pixel);
-    if (pick) {
-      placeCandidateAndShowPassport(pick.lat, pick.lon);
-      return;
-    }
-    onMapClick(coordToLatLng(evt.coordinate));
-  });
-
-  await recomputeFullEquilibrium();
-
-  document.getElementById('loading').hidden = true;
-  document.getElementById('layout').hidden = false;
-  state.layers.map.updateSize();
-
-  document.getElementById('hour-slider').addEventListener('input', rerenderMapForHour);
-  document.getElementById('year-slider').addEventListener('input', () => {
-    document.getElementById('year-label').textContent = document.getElementById('year-slider').value;
-  });
-  // Сегменты (Будни/Выходные, Лето/Зима, рост ЭМ) управляют скрытыми
-  // <select>, которые читает readControls(); смена условий сразу
-  // пересчитывает сеть - отдельной кнопки больше нет.
-  document.querySelectorAll('.segmented').forEach((seg) => {
-    const select = document.getElementById(seg.dataset.target);
-    seg.querySelectorAll('button').forEach((btn) =>
-      btn.addEventListener('click', () => {
-        if (select.value === btn.dataset.value) return;
-        seg.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b === btn));
-        select.value = btn.dataset.value;
-        select.dispatchEvent(new Event('change'));
-      })
-    );
-  });
-  let recomputeTimer = null;
-  const scheduleRecompute = () => {
-    clearTimeout(recomputeTimer);
-    recomputeTimer = setTimeout(recomputeFullEquilibrium, 120);
-  };
-  ['day-type-select', 'season-select', 'scenario-select'].forEach((id) => document.getElementById(id).addEventListener('change', scheduleRecompute));
-  document.getElementById('year-slider').addEventListener('change', scheduleRecompute);
-  document.getElementById('run-tests-btn').addEventListener('click', runTests);
-  document.getElementById('add-to-list-btn').addEventListener('click', addCurrentCandidateToList);
-  wireCandidateListSorting();
-  loadPortfolio();
-  document.getElementById('toggle-slow').addEventListener('change', async (e) => {
-    if (e.target.checked && state.layers.slowSource.getFeatures().length === 0) {
-      const d = await fetch('data/stations-slow.json').then((r) => r.json());
-      renderSlowStations({ slowSource: state.layers.slowSource, stations: d.stations });
-      document.getElementById('slow-count').textContent = ` (${d.stations.length})`;
-    }
-    state.layers.slowLayer.setVisible(e.target.checked);
-    document.getElementById('legend-slow').hidden = !e.target.checked;
-  });
-  fetch('data/mkad.json')
-    .then((r) => r.json())
-    .then((d) => {
-      state.mkadRing = d.ring;
-      renderMkad({ mkadSource: state.layers.mkadSource, ring: d.ring });
+      state.compareSort = state.compareSort.key === key ? { key, dir: state.compareSort.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: 'desc' };
+      renderCompareList();
     })
-    .catch(() => {});
-  fetch('data/tp04.json')
-    .then((r) => r.json())
-    .then((d) => (state.tp04 = d.points))
-    .catch(() => {});
-
-  // Фоновый прогрев остальных 7 опорных равновесий убран: на 779 реальных
-  // станциях один расчёт равновесия занимает секунды, а не миллисекунды, и
-  // цепочка setTimeout(...,50) держит поток занятым почти непрерывно первые
-  // ~20-25с после отрисовки карты - за это время debounce-таймер singleclick
-  // в OpenLayers (250мс) физически не получает свободного тика, и первый
-  // клик по карте у пользователя "теряется" (на самом деле не теряется, а
-  // откладывается на десятки секунд). getBaseline() ниже и так кэширует
-  // результат по ключу год|сезон|деньТипа - смена сценария просто считает
-  // равновесие один раз при первом обращении, без фонового прогрева.
+  );
 }
 
-// --- Модуль 8: рекомендации, где ставить (data/portfolio.json) ---
-const fmtPct = (x) => (x === null || x === undefined ? '—' : `${(x * 100).toFixed(1)}%`);
-const escapeHtml = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+// ---------- Модуль 8: модель против традиционного выбора ----------
+const fmtPct = (x) => (x === null || x === undefined ? '—' : `${num(x * 100, 1)}%`);
 
-async function loadPortfolio() {
-  try {
-    const res = await fetch(`data/portfolio.json?v=${Date.now()}`);
-    if (!res.ok) return;
-    state.portfolio = await res.json();
-  } catch {
-    return;
-  }
-  document.getElementById('portfolio-section').hidden = false;
-  const redraw = () =>
-    renderPortfolio({
-      portfolioSource: state.layers.portfolioSource,
-      portfolio: state.portfolio,
-      showModel: document.getElementById('toggle-model').checked,
-      showTraditional: document.getElementById('toggle-trad').checked,
-    });
-  document.getElementById('toggle-model').addEventListener('change', redraw);
-  document.getElementById('toggle-trad').addEventListener('change', redraw);
-  redraw();
-  renderPortfolioPanel();
-  renderHowExample();
-  renderHeroKpis();
-}
-
-// Три главные цифры результата в шапке - из data/portfolio.json, чтобы после
-// пересчёта рекомендаций они обновлялись сами.
 function renderHeroKpis() {
   const pf = state.portfolio;
   const my = pf.metrics_by_year?.[2026];
@@ -765,47 +1281,41 @@ function renderHeroKpis() {
   const clsA = mPicks.filter((p) => p.cls === 'А').length;
   const el = document.getElementById('hero-kpis');
   el.innerHTML = `
-    <div class="kpi"><div class="kpi-value">+${Math.round(ex('model'))}</div><div class="kpi-label">новых клиентов в сутки дадут ${mPicks.length} станций, выбранных моделью<br><span>при обычном выборе мест: ${ex('traditional') >= 0 ? '+' : '−'}${Math.abs(Math.round(ex('traditional')))}</span></div></div>
-    <div class="kpi"><div class="kpi-value">${ratio ? `×${ratio.toFixed(1)}` : '—'}</div><div class="kpi-label">больше новых клиентов на каждый вложенный рубль<br><span>${(capex(mPicks) / 1e6).toFixed(0)} млн ₽ вместо ${(capex(tPicks) / 1e6).toFixed(0)} млн ₽</span></div></div>
-    <div class="kpi"><div class="kpi-value">${clsA}/${mPicks.length}</div><div class="kpi-label">мест с дешёвым подключением к электросети<br><span>трансформаторная подстанция ближе 200 м</span></div></div>
-    <a class="kpi-cta" href="#portfolio-section">Смотреть рекомендованные места ↓</a>`;
+    <div class="kpi"><div class="kpi-label">Новых клиентов в сутки, 2026</div><div class="kpi-value">+${Math.round(ex('model'))}</div><div class="kpi-sub">дадут ${mPicks.length} станций, выбранных моделью · при обычном выборе ${ex('traditional') >= 0 ? '+' : '−'}${Math.abs(Math.round(ex('traditional')))}</div></div>
+    <div class="kpi"><div class="kpi-label">Новых клиентов на рубль</div><div class="kpi-value">${ratio ? `×${num(ratio, 1)}` : '—'}</div><div class="kpi-sub">${num(capex(mPicks) / 1e6, 0)} млн ₽ вместо ${num(capex(tPicks) / 1e6, 0)} млн ₽</div></div>
+    <div class="kpi"><div class="kpi-label">Дешёвое подключение</div><div class="kpi-value">${clsA}/${mPicks.length}</div><div class="kpi-sub">мест с подстанцией ближе 200 м (класс А)</div></div>`;
   el.hidden = false;
 }
 
-// Пример в разделе "Как это работает" - бизнес-центр в ЮЗАО (L-286, выбор
-// пользователя), по id площадки, а не по месту в списке: место меняется при
-// пересчёте. Цифры и номер рекомендации - из portfolio.json.
 const HOW_EXAMPLE_ID = 'L-286';
 function renderHowExample() {
   const picks = state.portfolio?.model?.picks || [];
   const rank = picks.findIndex((x) => x.id === HOW_EXAMPLE_ID);
   const p = picks[rank >= 0 ? rank : 0];
-  document.getElementById('how-example-title').textContent = `Пример: рекомендация №${rank >= 0 ? rank + 1 : 1}`;
   if (!p || p.sessions_2026 == null || p.new_demand_2026 == null) return;
-  const f1 = (v) => v.toFixed(1).replace('.', ',');
+  const site = state.siteById.get(p.id);
+  document.getElementById('how-example-title').textContent = `Пример: кандидат №${rank >= 0 ? rank + 1 : 1}${site?.area ? `, ${site.area}` : ''}`;
   const stolen = Math.max(0, p.sessions_2026 - p.new_demand_2026);
-  const conn = p.conn_cost_high_rub ? ` Подключение к электросети: класс ${escapeHtml(p.cls)}, около ${f1(p.conn_cost_low_rub / 1e6)}–${f1(p.conn_cost_high_rub / 1e6)} млн ₽.` : '';
+  const conn = p.conn_cost_high_rub ? ` Подключение к электросети: класс ${esc(p.cls)}, около ${num(p.conn_cost_low_rub / 1e6, 1)}–${num(p.conn_cost_high_rub / 1e6, 1)} млн ₽.` : '';
   document.getElementById('how-example-body').innerHTML =
-    `<p>${escapeHtml(p.kind[0].toUpperCase() + p.kind.slice(1))} в ${escapeHtml(p.district)}. В 2026 году станция там будет заряжать около ${f1(p.sessions_2026)} машин в сутки. Из них:</p>
+    `<p>${esc(p.kind[0].toUpperCase() + p.kind.slice(1))} в ${esc(p.district)}. В 2026 году станция там будет заряжать около ${num(p.sessions_2026, 1)} машин в сутки. Из них:</p>
     <div class="how-split">
-      <div class="how-split-new"><b>${f1(p.new_demand_2026)}</b> новые клиенты: раньше они уезжали без зарядки или не дожидались очереди</div>
-      <div class="how-split-old"><b>${f1(stolen)}</b> перешли с соседних станций, для сети в целом это не прибавка</div>
+      <div class="how-split-new"><b>${num(p.new_demand_2026, 1)}</b> новые клиенты: раньше они уезжали без зарядки или не дожидались очереди</div>
+      <div class="how-split-old"><b>${num(stolen, 1)}</b> перешли с соседних станций, для сети в целом это не прибавка</div>
     </div>
-    <p>${p.new_demand_2030 < p.new_demand_2026 / 2 ? `К 2030 году новых клиентов у этой станции почти не останется (${f1(p.new_demand_2030)} в сутки): город поставит свои станции, и водителей без зарядки станет мало. Поэтому ставить станцию выгодно сейчас, пока этих станций нет.` : `К 2030 году новых клиентов у этой станции станет ${f1(p.new_demand_2030)}.`} Модель выбирает места по числу новых клиентов в 2026 и 2030 годах.${conn}</p>`;
+    <p>${p.new_demand_2030 < p.new_demand_2026 / 2 ? `К 2030 году новых клиентов у этой станции почти не останется (${num(p.new_demand_2030, 1)} в сутки): город поставит свои станции. Поэтому ставить станцию выгодно сейчас.` : `К 2030 году новых клиентов у этой станции станет ${num(p.new_demand_2030, 1)}.`} Модель выбирает места по числу новых клиентов в 2026 и 2030 годах.${conn}</p>`;
   document.getElementById('how-example').hidden = false;
 }
 
 function renderPortfolioPanel() {
   const pf = state.portfolio;
   const modelPicks = pf.model?.picks || [];
-  const running = pf.status !== 'done';
-  document.getElementById('portfolio-subtitle').textContent =
-    'Модель выбрала 10 мест внутри МКАД. Ниже они сравниваются с местами, которые дал бы обычный способ выбора.' + (running ? ' Расчёт ещё идёт, обновите страницу позже.' : '');
-
+  document.getElementById('portfolio-subtitle').textContent = 'Модель выбрала 10 мест внутри МКАД из 300 реальных площадок. Ниже они сравниваются с местами, которые дал бы обычный способ выбора: много магазинов и кафе рядом, крупные дороги, мало загруженных соседей.';
+  document.getElementById('portfolio-section').hidden = false;
   const my = pf.metrics_by_year;
   const compare = document.getElementById('portfolio-compare');
   if (my) {
-    const fmtNum = (v, d = 1) => (v === null || v === undefined || !isFinite(v) ? '—' : v.toFixed(d));
+    const fmtNum = (v, d = 1) => (v === null || v === undefined || !isFinite(v) ? '—' : num(v, d));
     const sign = (v) => (Math.abs(v) < 0.5 ? '0' : `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}`);
     const years = [2026, 2028, 2030].filter((y) => my[y]);
     const ex = (y, k) => my[y][k].sessions_per_day_network - my[y].baseline.sessions_per_day_network;
@@ -814,7 +1324,6 @@ function renderPortfolioPanel() {
     const capex = (picks) => picks.reduce((a, p) => a + (p.capex_rub || 0), 0);
     const perMln = (picks) => picks.reduce((a, p) => a + ((p.new_demand_2026 || 0) + (p.new_demand_2030 || 0)) / 2, 0) / Math.max(1e-9, capex(picks) / 1e6);
     const fmtPp = (x, base) => `${fmtPct(x)} <span class="delta">(было ${fmtPct(base)})</span>`;
-    // [название, традиционный, модель, модель лучше?] либо ['group', заголовок]
     const rows = [
       ['group', 'Новые клиенты: сколько зарядок в сутки добавят 10 новых станций'],
       ...years.map((y) => [`${y} год${y === 2028 ? ' (городские станции к этому году закрывают почти весь дефицит)' : ''}`, sign(ex(y, 'traditional')), sign(ex(y, 'model')), ex(y, 'model') > ex(y, 'traditional')]),
@@ -831,47 +1340,234 @@ function renderPortfolioPanel() {
       ['Мест с дешёвым подключением (класс А)', `${pf.traditional.picks.filter((p) => p.cls === 'А').length} из ${pf.traditional.picks.length}`, `${modelPicks.filter((p) => p.cls === 'А').length} из ${modelPicks.length}`, modelPicks.filter((p) => p.cls === 'А').length / Math.max(1, modelPicks.length) > pf.traditional.picks.filter((p) => p.cls === 'А').length / Math.max(1, pf.traditional.picks.length)],
     ];
     compare.innerHTML = `<table class="compare-table">
-      <thead><tr><th>Средний день года, базовый рост. У обоих подходов станции ${escapeHtml(pf.equipment || 'DC150-2')}. Галочка отмечает лучший результат.</th><th class="col-trad"><span class="pin pin-trad">■</span> Традиционный подход</th><th class="col-model"><span class="pin pin-model">★</span> Выбор по модели</th></tr></thead>
-      <tbody>${rows
-        .map((r) =>
-          r[0] === 'group'
-            ? `<tr class="group"><td colspan="3">${r[1]}</td></tr>`
-            : `<tr><td>${r[0]}</td><td class="num col-trad">${r[1]}</td><td class="num col-model ${r[3] && modelPicks.length > 0 ? 'better' : ''}">${r[2]}</td></tr>`
-        )
-        .join('')}</tbody></table>`;
-  } else {
-    compare.innerHTML = '';
+      <thead><tr><th>Средний день года, рост спроса 80% в год. У обоих подходов станции ${esc(pf.equipment || 'DC150-2')}. Галочка — лучший результат.</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
+      <tbody>${rows.map((r) => (r[0] === 'group' ? `<tr class="group"><td colspan="3">${r[1]}</td></tr>` : `<tr><td>${r[0]}</td><td class="num col-trad">${r[1]}</td><td class="num col-model ${r[3] && modelPicks.length > 0 ? 'better' : ''}">${r[2]}</td></tr>`)).join('')}</tbody></table>`;
   }
-
   document.getElementById('portfolio-body').innerHTML = modelPicks
-    .map(
-      (p, k) => `<tr data-k="${k}">
-        <td><span class="pin pin-model">${k + 1}</span></td>
-        <td><div class="site-kind">${escapeHtml(p.kind)}</div>${p.name ? `<div class="site-name">${escapeHtml(p.name)}</div>` : ''}</td>
-        <td>${escapeHtml(p.district || '—')}</td>
-        <td class="num"><strong>+${(p.new_demand_2026 ?? 0).toFixed(1)} → +${(p.new_demand_2030 ?? 0).toFixed(1)}</strong></td>
-        <td class="num">${(p.sessions_2026 ?? 0).toFixed(1)} → ${(p.sessions_2030 ?? 0).toFixed(1)}<div class="npv-range">к 2030 году ×${((p.sessions_2030 ?? 0) / Math.max(0.01, p.sessions_2026 ?? 0)).toFixed(2).replace('.', ',')}</div></td>
-        <td>${escapeHtml(p.omega)} · класс ${escapeHtml(p.cls || '—')}<div class="npv-range">${p.conn_cost_high_rub ? `подключение ${(p.conn_cost_low_rub / 1e6).toFixed(1)}–${(p.conn_cost_high_rub / 1e6).toFixed(1)} млн ₽` : ''}${p.dist04_m ? `, подстанция в ${p.dist04_m} м` : ''}</div></td>
-      </tr>`
-    )
-    .join('');
-  document.querySelectorAll('#portfolio-body tr').forEach((tr) =>
-    tr.addEventListener('click', () => {
-      const p = modelPicks[Number(tr.dataset.k)];
-      state.layers.map.getView().animate({ center: ol.proj.fromLonLat([p.lon, p.lat]), zoom: 14, duration: 500 });
-      document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      placeCandidateAndShowPassport(p.lat, p.lon);
+    .map((p, k) => {
+      const site = state.siteById.get(p.id);
+      return `<tr data-id="${esc(p.id)}">
+        <td><span class="pin-num">${k + 1}</span></td>
+        <td><div class="site-kind">${esc(p.id)} · ${esc(p.kind)}</div>${p.name ? `<div class="site-name">${esc(p.name)}</div>` : ''}${site?.address ? `<div class="site-name">${esc(site.address)}</div>` : ''}</td>
+        <td>${esc(site?.area || '—')}<div class="site-name">${esc(p.district || '')}</div></td>
+        <td class="num"><strong>+${num(p.new_demand_2026 ?? 0, 1)} → +${num(p.new_demand_2030 ?? 0, 1)}</strong></td>
+        <td class="num">${num(p.sessions_2026 ?? 0, 1)} → ${num(p.sessions_2030 ?? 0, 1)}</td>
+        <td>${esc(p.omega)} · класс ${esc(p.cls || '—')}<div class="site-name">${p.conn_cost_high_rub ? `подключение ${num(p.conn_cost_low_rub / 1e6, 1)}–${num(p.conn_cost_high_rub / 1e6, 1)} млн ₽` : ''}${p.dist04_m ? `, подстанция в ${p.dist04_m} м` : ''}</div></td>
+      </tr>`;
     })
-  );
-
-  const trad = pf.traditional;
+    .join('');
+  document.querySelectorAll('#portfolio-body tr').forEach((tr) => tr.addEventListener('click', () => (location.hash = `#passport/site/${tr.dataset.id}`)));
   document.getElementById('portfolio-footnote').textContent =
     (pf.model?.stoppedReason ? `Модель остановилась раньше ${pf.N} станций: ${pf.model.stoppedReason}. ` : '') +
     (pf.traditional?.dropped?.length ? `Традиционный подход потерял ${pf.traditional.dropped.length} площадк(и): класс подключения В выяснился поздно. ` : '') +
-    'Места выбраны по числу новых клиентов на 1 млн ₽ вложений, в среднем за 2026 и 2030 годы. Новые клиенты это зарядки, которых без станции не было бы: водители уезжали без зарядки или не дожидались очереди. Клиенты, перешедшие с соседних станций, не считаются. Вложения включают станцию, подключение и площадку, без платы за электричество и без государственной субсидии. У обоих подходов одинаковые станции DC150-2, поэтому разница только в месте и цене подключения. В прогнозе для отдельной точки модель подбирает оборудование заново, и оно может отличаться. Класс А: трансформаторная подстанция ближе 200 м, подключение примерно 5–10 тыс. ₽ за кВт. Класс Б: дальше, примерно 50–80 тыс. ₽ за кВт. «А|Б»: подстанции нет в данных, считаем как Б.';
+    'Места выбраны по числу новых клиентов на 1 млн ₽ вложений, в среднем за 2026 и 2030 годы. Новые клиенты — зарядки, которых без станции не было бы. Вложения включают станцию, подключение и площадку, без субсидии. У обоих подходов одинаковые станции DC150-2, поэтому разница только в месте и цене подключения.';
+}
+
+// ---------- Тесты (раздел 13) ----------
+async function runTests() {
+  const btn = document.getElementById('run-tests-btn');
+  const panel = document.getElementById('test-results');
+  btn.disabled = true;
+  panel.hidden = false;
+  panel.innerHTML = '<p>Считаю тесты Т1–Т10 (около минуты)…</p>';
+  await nextFrame();
+  const rows = [];
+  const renderRows = () => {
+    panel.innerHTML = rows
+      .map((r) => {
+        const cls = r.pass ? 'pass' : r.pending ? 'pending' : r.soft ? 'soft-fail' : 'fail';
+        const mark = r.pass ? '✓' : r.pending ? '⏳' : r.soft ? '⚠' : '✗';
+        return `<div class="test-row"><span class="test-status ${cls}">${mark}</span><div><div>${r.name}</div><div class="test-detail">${r.detail}</div></div></div>`;
+      })
+      .join('');
+  };
+  try {
+    // Тесты рассчитаны на сеть 2026 года (базовый сценарий, будни лета) - как в npm test.
+    const base = getBaseline(2026, 'summer', 'weekday', 'base');
+    const results = await runAllTests({
+      cells: state.cells,
+      stationsAll: state.stationsAll,
+      stations: base.stations,
+      params: state.preciseParams,
+      fullContext: base.context,
+      fullResult: base.result,
+      onProgress: (r) => {
+        rows.push(r);
+        renderRows();
+      },
+    });
+    const run = results.filter((r) => !r.pending);
+    const hardFails = run.filter((r) => !r.pass && !r.soft);
+    const softFails = run.filter((r) => !r.pass && r.soft);
+    const pending = results.filter((r) => r.pending);
+    const uniq = (list) => [...new Set(list.map((r) => r.id))];
+    const summary =
+      (hardFails.length === 0 ? `Пройдены все ${uniq(run).length} тестов${softFails.length ? `. Ожидаемо мягкий результат: ${softFails.map((r) => r.name.replace(/^Т\d+: /, '')).join('; ')} — при слабой загрузке сети время суток почти не влияет на выбор (раздел 14 спецификации)` : ''}` : `Не пройдено: ${uniq(hardFails).map((id) => id.replace('T', 'Т')).join(', ')}`) +
+      (pending.length ? `. Ждут данных от заказчика: ${pending.map((r) => r.id.replace('T', 'Т')).join(', ')}` : '');
+    panel.innerHTML += `<div class="test-summary ${hardFails.length ? 'bad' : 'good'}">${summary}</div>`;
+  } catch (err) {
+    console.error(err);
+    panel.innerHTML += `<div class="test-summary bad">Ошибка при прогоне тестов: ${esc(err.message)}</div>`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ---------- Управление: сценарий, год, день, сезон ----------
+let recomputeTimer = null;
+function setControl(name, value) {
+  const v = name === 'year' ? Number(value) : value;
+  if (state.ctl[name] === v) return;
+  state.ctl[name] = v;
+  document.querySelectorAll(`.seg[data-control="${name}"] button`).forEach((b) => b.classList.toggle('active', b.dataset.value === String(v)));
+  if (name === 'scenario' || name === 'year') renderZonesView();
+  const onPassport = state.passport && currentView() === 'passport';
+  // Паспорт сразу показывает готовый расчёт зон для нового сценария, точный
+  // пересчёт запускается после пересчёта сети.
+  if (onPassport && name === 'scenario') {
+    state.passport.e150 = null;
+    state.passport.evalResult = null;
+    state.passport.live = null;
+    state.passport.progress = { fraction: 0.02, text: 'Пересчитываю сеть под новый сценарий…' };
+  }
+  if (onPassport) renderPassportNow();
+  clearTimeout(recomputeTimer);
+  recomputeTimer = setTimeout(async () => {
+    await recomputeFullEquilibrium();
+    // Паспорт открыт - пересчитать под новые условия.
+    if (onPassport && name === 'scenario') openPassport(state.passport.subject);
+  }, 120);
+}
+
+function wireControls() {
+  document.querySelectorAll('.seg[data-control]').forEach((seg) =>
+    seg.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => setControl(seg.dataset.control, b.dataset.value)))
+  );
+  document.getElementById('hour-slider').addEventListener('input', (e) => {
+    state.ctl.hour = Number(e.target.value);
+    rerenderMapForHour();
+  });
+  const L = state.layers;
+  const zonesBox = document.getElementById('layer-zones');
+  zonesBox.addEventListener('change', () => L.zonesLayer.setVisible(zonesBox.checked));
+  document.getElementById('layer-stations').addEventListener('change', (e) => L.stationsLayer.setVisible(e.target.checked));
+  document.getElementById('layer-centers').addEventListener('change', (e) => L.centersLayer.setVisible(e.target.checked));
+  document.getElementById('toggle-model').addEventListener('change', redrawPortfolioPins);
+  document.getElementById('toggle-trad').addEventListener('change', redrawPortfolioPins);
+  document.getElementById('layer-demand').addEventListener('change', (e) => {
+    const on = e.target.checked;
+    document.getElementById('demand-controls').hidden = !on;
+    document.getElementById('map-legend').hidden = !on;
+    document.getElementById('zone-legend').hidden = on;
+    // Спрос по часам и зоны решения на одной карте не читаются - зоны прячем.
+    if (on) state.zonesWereOn = zonesBox.checked;
+    zonesBox.checked = on ? false : state.zonesWereOn ?? true;
+    L.zonesLayer.setVisible(zonesBox.checked);
+    L.demandLayer.setVisible(on);
+    if (on) rerenderMapForHour();
+  });
+  document.getElementById('toggle-slow').addEventListener('change', async (e) => {
+    if (e.target.checked && L.slowSource.getFeatures().length === 0) {
+      const slow = await loadSlowStations();
+      renderSlowStations({ slowSource: L.slowSource, stations: slow });
+      document.getElementById('slow-count').textContent = ` (${slow.length})`;
+    }
+    L.slowLayer.setVisible(e.target.checked);
+  });
+  const toggle = document.getElementById('layers-toggle');
+  toggle.addEventListener('click', () => {
+    const body = document.getElementById('layers-body');
+    body.hidden = !body.hidden;
+    toggle.setAttribute('aria-expanded', String(!body.hidden));
+  });
+  if (window.matchMedia('(max-width: 720px)').matches) toggle.click();
+  document.getElementById('check-point-btn').addEventListener('click', () => {
+    setCheckMode(!state.checkMode);
+    if (state.checkMode) document.querySelector('.map-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.checkMode) setCheckMode(false);
+  });
+  document.getElementById('run-tests-btn').addEventListener('click', runTests);
+  wireCompareSorting();
+  wireSearch();
+  wirePopup();
+}
+
+// ---------- Роутинг ----------
+const VIEWS = ['map', 'passport', 'compare', 'method'];
+const currentView = () => (location.hash.slice(1).split('/')[0] || 'map');
+
+function showView(view) {
+  if (!VIEWS.includes(view)) view = 'map';
+  for (const v of VIEWS) document.getElementById(`view-${v}`).hidden = v !== view;
+  document.querySelectorAll('.tabs a').forEach((a) => a.classList.toggle('active', a.dataset.view === view));
+  if (view === 'map') requestAnimationFrame(() => state.layers.map.updateSize());
+}
+
+function route() {
+  const [view, ...rest] = location.hash.slice(1).split('/');
+  const v = VIEWS.includes(view) ? view : 'map';
+  showView(v);
+  if (v === 'passport') {
+    if (!rest.length) {
+      if (!state.passport) {
+        document.getElementById('passport-empty').hidden = false;
+        document.getElementById('passport').hidden = true;
+      }
+      return;
+    }
+    const subject = subjectFromRoute(rest);
+    if (!subject) {
+      document.getElementById('passport-empty').hidden = false;
+      document.getElementById('passport').hidden = true;
+      return;
+    }
+    const same = state.passport && state.passport.subject.kind === subject.kind && state.passport.subject.id === subject.id;
+    if (!same) openPassport(subject);
+    else window.scrollTo({ top: 0 });
+  } else window.scrollTo({ top: 0 });
+}
+
+// ---------- Старт ----------
+async function main() {
+  const { cells, stationsAll, centers, params, zones, pool, tp04, mkadRing } = await loadData();
+  const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
+  Object.assign(state, { cells, stationsAll, centers, params, preciseParams, zones, tp04, mkadRing });
+  const calcById = new Map(zones.sites.map((s) => [s.id, s]));
+  for (const s of pool) state.siteById.set(s.id, { ...s, calc: calcById.get(s.id) || null });
+  computeThresholds();
+  document.getElementById('stations-count').textContent = String(stationsAll.filter((st) => st.status !== 'planned').length);
+  document.getElementById('data-chip').textContent = `Расчёт зон ${new Date(zones.date).toLocaleDateString('ru-RU')}`;
+
+  state.layers = initMap();
+  renderCentersLayer({ centersSource: state.layers.centersSource, centers });
+  renderMkad({ mkadSource: state.layers.mkadSource, ring: mkadRing });
+  state.layers.map.on('singleclick', onMapClick);
+
+  try {
+    state.portfolio = await fetchJson('data/portfolio.json');
+  } catch {
+    state.portfolio = null;
+  }
+  buildCandidates();
+
+  await recomputeFullEquilibrium();
+  document.getElementById('loading').hidden = true;
+  document.getElementById('app').hidden = false;
+  renderZonesView();
+  wireControls();
+  if (state.portfolio) {
+    renderPortfolioPanel();
+    renderHeroKpis();
+    renderHowExample();
+  }
+  window.addEventListener('hashchange', route);
+  route();
+  state.layers.map.updateSize();
 }
 
 main().catch((err) => {
   console.error(err);
-  document.getElementById('loading').textContent = 'Ошибка загрузки: ' + err.message;
+  document.getElementById('loading').innerHTML = `<p>Ошибка загрузки: ${esc(err.message)}</p>`;
 });

@@ -29,8 +29,10 @@
     "build:mkad": "node scripts/build-mkad.js",
     "clip:mkad": "node scripts/clip-to-mkad.js",
     "add:planned": "node scripts/add-planned-stations.js",
+    "assign:addresses": "node scripts/assign-station-addresses.js",
     "build:pool": "node scripts/build-pool.js",
     "compute:portfolio": "node scripts/compute-portfolio.js",
+    "compute:zones": "node scripts/compute-zones.js",
     "calibrate:d0": "node scripts/calibrate-d0.js --write",
     "reference:equilibria": "node scripts/compute-reference-equilibria.js",
     "check:breakeven": "node scripts/check-breakeven-dc60-1.js"

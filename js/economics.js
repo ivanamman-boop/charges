@@ -64,12 +64,29 @@ function seasonForCalendarMonth(monthOfYear) {
 // Геометрическая интерполяция S(y) между опорными 2026/2030, после 2030 - на
 // уровне 2030 (9.3, формула интерполяции). sessionsByYear: {2026: v, 2030: v}.
 export function interpolateSessions(sessionsByYear, year) {
-  const s26 = sessionsByYear[2026];
-  const s30 = sessionsByYear[2030];
-  if (year <= 2026) return s26;
-  if (year >= 2030) return s30;
-  if (s26 <= 0) return s26; // избегаем 0^x / деления
-  return s26 * Math.pow(s30 / s26, (year - 2026) / 4);
+  return interpolateAnchors(sessionsByYear, year);
+}
+
+// То же для любого набора опорных лет ({2026: v, 2028: v, 2030: v}):
+// геометрически между соседними опорными годами, за краями - крайнее
+// значение. Средний опорный год нужен, потому что городские станции
+// открываются в 2027-2030: между 2026 и 2030 сессии станции не растут
+// гладко, и интерполяция только по краям завышала 2028 почти вдвое
+// (journal.md, 21.10).
+export function interpolateAnchors(byYear, year) {
+  const ys = Object.keys(byYear).map(Number).sort((a, b) => a - b);
+  if (year <= ys[0]) return byYear[ys[0]];
+  if (year >= ys[ys.length - 1]) return byYear[ys[ys.length - 1]];
+  for (let i = 0; i < ys.length - 1; i++) {
+    const a = ys[i];
+    const b = ys[i + 1];
+    if (year > b) continue;
+    const sa = byYear[a];
+    const sb = byYear[b];
+    if (sa <= 0) return sa; // избегаем 0^x / деления
+    return sa * Math.pow(sb / sa, (year - a) / (b - a));
+  }
+  return byYear[ys[ys.length - 1]];
 }
 
 // 9.3-9.4. Помесячный денежный поток и производные показатели.
