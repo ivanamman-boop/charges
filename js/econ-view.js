@@ -33,7 +33,9 @@ function connFor(connRange, bound) {
 // launchYear - год решения о станции: поток начинается с него (заявка на ТП,
 // через срок ТП - пуск), спрос после 2030 держится на уровне 2030. Так
 // экономика паспорта согласована со статусом зоны на карте выбранного года.
-export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null, launchYear = 2026 }) {
+// network - NPV для сети РСЗС: из сессий станции вычитаются перешедшие со
+// станций самой РСЗС (ownLossByCombo), новые и ушедшие от конкурентов остаются.
+export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null, launchYear = 2026, network = false }) {
   if (!e?.connRange) return null;
   const p = pEl === null ? params : withPel(params, pEl);
   const m7 = p.M6_M7_equipment_economics;
@@ -45,8 +47,13 @@ export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMu
   const capex = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub: conn.cost, params: p });
   const opex = opexFixYearRub({ posts: cfg.posts, CeqRub: cfg.C_eq_rub, params: p });
   const years = e.years || [2026, 2030];
+  const incr = (key) => {
+    if (!network || !e.ownLossByCombo) return 1;
+    const total = SEGMENTS.reduce((a, s) => a + e.sessionsByCombo[key][s], 0);
+    return total > 0 ? Math.max(0, total - e.ownLossByCombo[key]) / total : 1;
+  };
   const getSessions = (year, season, dayType, segment) =>
-    demandMult * interpolateAnchors(Object.fromEntries(years.map((y) => [y, e.sessionsByCombo[`${y}|${season}|${dayType}`][segment]])), year);
+    demandMult * interpolateAnchors(Object.fromEntries(years.map((y) => [y, e.sessionsByCombo[`${y}|${season}|${dayType}`][segment] * incr(`${y}|${season}|${dayType}`)])), year);
   // Маржа летняя во всех месяцах - как в equipment.js (зимний расход учтён в сессиях).
   const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginPerSession({ segment: s, season: 'summer', params: p }), TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: launchYear, H: m7.H_years.value, r: m7.r_discount_rate.value });
   const nInst = p.M5_grid.mfppip?.installments.value ?? 3;
@@ -180,3 +187,45 @@ export function robustness(e, { params, subsidy = false, launchYear = 2026 }) {
     npvAtPelMax: npvAt({ pEl: base.max }),
   };
 }
+
+// Метрики уровня 1 ТЗ по экономике площадки для года y (средний день года):
+// средневзвешенная маржа m̄ по составу сегментов станции, годовой поток
+// CF = 365 × N × m̄ − F, порог безубыточности S* = (F + CAPEX × CRF(r, H)) /
+// (365 × m̄) (9.5), U* и запас прочности N / S*.
+export function siteMetrics(e, year, { params, capex }) {
+  const m7 = params.M6_M7_equipment_economics;
+  const st = { P_post_kW: e.cfg.P_post_kW };
+  let N = 0;
+  let marginSum = 0;
+  let tauSum = 0;
+  for (const se of ['winter', 'summer'])
+    for (const d of ['weekday', 'weekend']) {
+      const w = SEASON_W[se] * DAY_W[d];
+      for (const s of SEGMENTS) {
+        const n = w * e.sessionsByCombo[`${year}|${se}|${d}`][s];
+        N += n;
+        // Маржа зимой с учётом расхода ×κ_E (9.2).
+        marginSum += n * marginPerSession({ segment: s, season: se, params });
+        tauSum += n * sessionDurationHours({ segment: s, station: st, season: se, params });
+      }
+    }
+  const mBar = N > 0 ? marginSum / N : 0;
+  const tau = N > 0 ? tauSum / N : 0;
+  const F = opexFixYearRub({ posts: e.cfg.posts, CeqRub: e.cfg.C_eq_rub, params });
+  const Sstar = mBar > 0 ? (F + capex * crf(m7.r_discount_rate.value, m7.H_years.value)) / (365 * mBar) : Infinity;
+  return { N, mBar, tau, F, cfYear: 365 * N * mBar - F, Sstar, Ustar: (Sstar * tau) / (24 * e.cfg.posts), margin: N / Sstar };
+}
+
+// Вердикт ТЗ: «Строить» - NPV при дорогом подключении > 0 и простая
+// окупаемость не дольше норматива; «Запросить ТУ» - NPV > 0 только при
+// дешёвом подключении; иначе «Не строить».
+export function verdictRszs({ npvExpensive, npvCheap, paybackExpensive, normYears }) {
+  if (npvExpensive > 0 && paybackExpensive !== null && paybackExpensive <= normYears) return 'build';
+  if (npvCheap > 0) return 'request';
+  return 'no';
+}
+export const VERDICT = {
+  build: { label: 'Строить', tone: 'now' },
+  request: { label: 'Запросить ТУ у сети', tone: 'grid' },
+  no: { label: 'Не строить', tone: 'no' },
+};

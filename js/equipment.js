@@ -61,6 +61,9 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
   // Новый для сети спрос (6.3): сколько сессий/сутки кандидат обслуживает
   // сверх того, что сеть обслуживала без него = −(ΔΛ_out + ΔΛ_lost).
   const netGainByCombo = {};
+  // Сколько сессий в сутки кандидат забирает у станций того же оператора
+  // (для РСЗС это не выручка сети, а перенос) - для NPV сети (ТЗ по метрикам, уровень 2).
+  const ownLossByCombo = {};
   let minAcc = 1;
   let worstHourAcc = null;
   // Худшая доступность в самый тяжёлый режим (зима, будни) по годам - для
@@ -89,6 +92,13 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
         }
         sessionsByCombo[`${year}|${season}|${dayType}`] = perSegment;
         netGainByCombo[`${year}|${season}|${dayType}`] = -(local.deltaLambdaOut + local.deltaLambdaLost);
+        const baseS = baselineDailySessions(fullResult, stations.length);
+        let own = 0;
+        local.affectedStationIdx.forEach((globalJ, localJ) => {
+          if (stations[globalJ].operator !== candidateBase.operator) return;
+          own += Math.max(0, baseS[globalJ] - local.S_local[localJ]);
+        });
+        ownLossByCombo[`${year}|${season}|${dayType}`] = own;
         if (season === HARDEST_CASE.season && dayType === HARDEST_CASE.dayType) {
           let arrSum = 0;
           let accSum = 0;
@@ -160,7 +170,14 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
     breakevenInfo = breakeven({ OPEXfixYearRub, CAPEXrub: capexMid, marginBar, tauBarHours: tauBar, posts: cfg.posts, params });
   }
 
-  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, minAccByYear, accDayByYear, breakevenInfo, sessionsByCombo, netGainByCombo, years };
+  return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, minAccByYear, accDayByYear, breakevenInfo, sessionsByCombo, netGainByCombo, ownLossByCombo, years };
+}
+
+// Сессии в сутки по станциям опорного равновесия - кэш на объект результата.
+const baselineSessionsCache = new WeakMap();
+function baselineDailySessions(fullResult, n) {
+  if (!baselineSessionsCache.has(fullResult)) baselineSessionsCache.set(fullResult, dailySessions(fullResult.qh.lambdaSrv, n));
+  return baselineSessionsCache.get(fullResult);
 }
 
 function runToEnd(gen) {

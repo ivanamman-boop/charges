@@ -4,7 +4,7 @@
 // живого расчёта модулей 1-7 для этой точки (equipment.js + econ-view.js).
 // Повторный вызов с обновлённой моделью (МФППиП, сценарий, конец расчёта)
 // просто перерисовывает страницу.
-import { STATUS } from './econ-view.js';
+import { STATUS, VERDICT } from './econ-view.js';
 
 const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const num = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '—' : v.toFixed(d).replace('.', ','));
@@ -82,6 +82,45 @@ function yearTable(vm) {
       ${row('Новых для города в сутки', (c) => num(Math.max(0, c.gain), 1))}
     </tbody></table>
     <p class="pp-note">Средний день года, ${esc(vm.scenarioLabel)}. Остальные сессии переходят с соседних станций${vm.ownLoss !== null ? `; у станций самой РСЗС точка забирает ${num(vm.ownLoss, 1)} сессии в сутки (${esc(vm.live?.conditions || '')})` : ''}.</p>
+  </section>`;
+}
+
+// Вердикт по правилу ТЗ (BR-22): строить / запросить ТУ / не строить.
+function verdictText(vm) {
+  const t = vm.econ.tz;
+  const r = vm.econ.paybackRange || [];
+  if (t.verdict === 'build') return `NPV при дорогом подключении ${signedMln(vm.econ.npv)} млн ₽, окупаемость ${paybackText(vm.econ)} лет — не дольше норматива ${vm.th.normYears} лет.`;
+  if (t.verdict === 'request') return `NPV выше нуля только при дешёвом подключении. Нужны технические условия сети: реальная цена ТП решит вопрос.`;
+  return `NPV ниже нуля даже при дешёвом подключении${r[0] === null ? ', за 10 лет не окупается' : ''}.`;
+}
+
+function econBlock(vm) {
+  const t = vm.econ?.tz;
+  if (!t) return '';
+  const rng = (a) => `${mln(a[0], 2)}–${mln(a[1], 2)}`;
+  const row = (k, v, note = '') => `<div class="metric-row"><span>${k}${note ? `<small class="metric-note">${note}</small>` : ''}</span><span class="mono">${v}</span></div>`;
+  const marginTone = t.margin >= 1 ? 'ok' : 'warn';
+  return `<section class="pp-card pp-wide">
+    <h3>Экономика станции и сети, решение в ${vm.year}</h3>
+    <div class="econ-grid">
+      <div>
+        ${row('Маржа на сессию m̄', `${num(t.mBar, 0)} ₽`, `средняя по водителям станции, ${t.year}; зимой расход ×1,15`)}
+        ${row('Сессий в сутки N', num(t.N, 1), `средний день ${t.year}`)}
+        ${row('Загрузка поста U', pct(vm.U[t.year], 1), 'ориентир РСЗС 8–10% к концу первого года')}
+        ${row('Годовой поток CF (EBITDA)', `${signedMln(t.cfYear)} млн ₽`, `365 × N × m̄ − постоянные ${mln(t.F, 2)} млн`)}
+        ${row('Вложения без субсидии', `${rng(t.capexNoSub)} млн ₽`)}
+        ${row('Вложения с МФППиП', `${rng(t.capexMfppip)} млн ₽`, 'компенсация 50% платы за ТП, тремя платежами')}
+      </div>
+      <div>
+        ${row('Простая окупаемость', `${paybackText(vm.econ)} лет`, `норматив РСЗС ${vm.th.normYears} лет`)}
+        ${row('Дисконтированная окупаемость', t.paybackDisc === null ? '> 10 лет' : `${num(t.paybackDisc, 1)} лет`, 'ставка 18%, дорогое подключение')}
+        ${row('NPV станции', `${signedMln(t.npvStation)} млн ₽`, '10 лет, 18%, все сессии станции')}
+        ${row('NPV для сети РСЗС', `${signedMln(t.npvNetwork)} млн ₽`, 'без сессий, перешедших со станций самой РСЗС')}
+        ${row('Порог безубыточности S*', `${num(t.Sstar, 1)} сессии`, `U* = ${pct(t.Ustar, 1)}; вложения возвращаются с учётом ставки за 10 лет`)}
+        <div class="metric-row"><span>Запас прочности N / S*</span><span class="mono tone-${marginTone}">${num(t.margin, 2)}</span></div>
+      </div>
+    </div>
+    <p class="pp-note">${vm.subsidy ? 'Компенсация МФППиП включена.' : 'Без компенсации МФППиП.'} Окупаемость и NPV — помесячный поток с ${vm.year} года, первые месяцы до подключения без выручки. Запас больше 1 — прогноз выше порога безубыточности.</p>
   </section>`;
 }
 
@@ -202,9 +241,16 @@ export function renderPassport(container, vm) {
       </div>
       <div class="pp-verdict card-dark">
         <div class="pp-kicker">Рекомендация</div>
-        <div class="pp-verdict-title"><i class="dot dot-${st.tone}"></i>${esc(vm.recTitle)}</div>
+        ${
+          econ?.tz
+            ? `<div class="pp-verdict-title"><i class="dot dot-${VERDICT[econ.tz.verdict].tone}"></i>${VERDICT[econ.tz.verdict].label}</div>
+        <div class="pp-verdict-cfg">Класс ${esc(vm.clsLabel)}, 150 кВт, 2 поста · очередь на карте: ${esc(vm.recTitle.toLowerCase())}</div>
+        <p>${verdictText(vm)}</p>
+        <p>${vm.recText}</p>`
+            : `<div class="pp-verdict-title"><i class="dot dot-${st.tone}"></i>${esc(vm.recTitle)}</div>
         <div class="pp-verdict-cfg">Класс ${esc(vm.clsLabel)}, 150 кВт, 2 поста</div>
-        <p>${vm.recText}</p>
+        <p>${vm.recText}</p>`
+        }
         <div class="pp-verdict-ctl">
           <span class="ctl-label">Рост спроса в год</span>
           <div class="seg seg-dark" id="pp-scenario">${SCENARIO_BTNS.map(([v, l]) => `<button data-value="${v}" class="${v === vm.scenario ? 'active' : ''}">${l}</button>`).join('')}</div>
@@ -260,6 +306,7 @@ export function renderPassport(container, vm) {
       </section>
     </div>
 
+    ${econBlock(vm)}
     ${yearTable(vm)}
     ${liveDetails(vm)}
     ${vm.liveProgress && !vm.live ? '<section class="pp-card pp-wide"><div class="skeleton"></div><p class="pp-note">Профиль по часам, соседи и варианты оборудования появятся после расчёта.</p></section>' : ''}

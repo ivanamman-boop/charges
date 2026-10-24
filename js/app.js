@@ -10,7 +10,8 @@ import { SEGMENTS, demandField, stationsActiveIn, plannedStationsPerYear } from 
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidateAsync, yearAverage, newClientsPerMln } from './equipment.js';
 import { interpolateAnchors } from './economics.js';
-import { thresholds, siteStatus, siteEconomics, robustness, loadFromSessions, utilization, taxiShare, STATUS } from './econ-view.js';
+import { thresholds, siteStatus, siteEconomics, robustness, loadFromSessions, utilization, taxiShare, siteMetrics, verdictRszs, STATUS } from './econ-view.js';
+import { mfppipCompensation } from './grid.js';
 import {
   initMap,
   renderDemandLayer,
@@ -1055,6 +1056,21 @@ function buildPassportVm(P) {
     const hi = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high', launchYear: year });
     const lo = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'low', launchYear: year });
     econ = { ...hi, capexRange: [lo.capex, hi.capex], paybackRange: [lo.payback, hi.payback] };
+    // Метрики ТЗ по экономике площадки (уровни 1 и 2).
+    const net = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high', launchYear: year });
+    const netNpv = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high', launchYear: year, network: true }).npv;
+    const anchor = P.e150.years.includes(year) ? year : 2026;
+    const comp = (c) => mfppipCompensation({ connCostRub: c, params: state.params });
+    econ.tz = {
+      ...siteMetrics(P.e150, anchor, { params: state.params, capex: hi.capex }),
+      year: anchor,
+      capexNoSub: [lo.capex, hi.capex],
+      capexMfppip: [lo.capex - comp(lo.connCost), hi.capex - comp(hi.connCost)],
+      paybackDisc: net.paybackDisc,
+      npvStation: net.npv,
+      npvNetwork: netNpv,
+      verdict: verdictRszs({ npvExpensive: hi.npv, npvCheap: lo.npv, paybackExpensive: hi.payback, normYears: th.normYears }),
+    };
     robust = robustness(P.e150, { params: state.params, subsidy, launchYear: year });
     if (cls === 'А') {
       const m5 = state.params.M5_grid;
@@ -1438,7 +1454,45 @@ function renderHowExample() {
   document.getElementById('how-example').hidden = false;
 }
 
+// Эффект инструмента в рублях (ТЗ по метрикам, уровень 3): NPV портфеля,
+// индекс доходности, доля окупаемых за норматив площадок и стоимость ошибок -
+// сумма отрицательных NPV. По каждой площадке - отдельная станция DC150-2 из
+// zones.json (решение в 2026, 10 лет, 18%), выбранный сценарий.
+function portfolioMoney() {
+  const pf = state.portfolio;
+  const scenario = state.ctl.scenario;
+  const N = state.th.normYears;
+  const calc = (picks) => {
+    const rows = picks.map((p) => ({ p, by: state.siteById.get(p.id)?.calc?.by?.[scenario] })).filter((x) => x.by?.npv);
+    const npvHi = rows.reduce((a, x) => a + x.by.npv[0], 0);
+    const npvLo = rows.reduce((a, x) => a + x.by.npv[1], 0);
+    const capex = rows.reduce((a, x) => a + x.by.capex[1], 0);
+    const paid = rows.filter((x) => x.by.payback?.[1] !== null && x.by.payback[1] <= N).length;
+    const errors = rows.reduce((a, x) => a + Math.max(0, -x.by.npv[0]), 0);
+    const losers = rows.filter((x) => x.by.npv[0] < 0).length;
+    return { n: rows.length, npvHi, npvLo, capex, pi: capex > 0 ? 1 + npvHi / capex : null, paid, errors, losers };
+  };
+  const m = calc(pf.model?.picks || []);
+  const t = calc(pf.traditional?.picks || []);
+  const mlnS = (v) => `${v >= 0 ? '+' : '−'}${num(Math.abs(v) / 1e6, 1)}`;
+  const row = (label, a, b, better) => `<tr><td>${label}</td><td class="num col-trad">${a}</td><td class="num col-model ${better ? 'better' : ''}">${b}</td></tr>`;
+  document.getElementById('portfolio-money').innerHTML = `
+    <table class="compare-table money-table">
+      <thead><tr><th>Деньги: 10 станций DC150-2, решение в 2026, ${esc(SCENARIO_LABEL[scenario])}, 10 лет, ставка 18%</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
+      <tbody>
+        ${row('NPV портфеля, дорогое подключение', `${mlnS(t.npvHi)} млн ₽`, `${mlnS(m.npvHi)} млн ₽`, m.npvHi > t.npvHi)}
+        ${row('NPV портфеля, дешёвое подключение', `${mlnS(t.npvLo)} млн ₽`, `${mlnS(m.npvLo)} млн ₽`, m.npvLo > t.npvLo)}
+        ${row('Разница в пользу модели', '', `<b>${mlnS(m.npvHi - t.npvHi)} млн ₽</b>`, m.npvHi > t.npvHi)}
+        ${row('Индекс доходности (1 + NPV / вложения)', num(t.pi, 2), num(m.pi, 2), m.pi > t.pi)}
+        ${row(`Площадок, окупающихся за ${N} лет`, `${t.paid} из ${t.n}`, `${m.paid} из ${m.n}`, m.paid > t.paid)}
+        ${row('Стоимость ошибок: сумма отрицательных NPV', `${num(t.errors / 1e6, 1)} млн ₽ (${t.losers} пл.)`, `${num(m.errors / 1e6, 1)} млн ₽ (${m.losers} пл.)`, m.errors < t.errors)}
+      </tbody>
+    </table>
+    <p class="hint">Каждая площадка посчитана как отдельная станция, без учёта того, что станции портфеля делят клиентов между собой, и без компенсации МФППиП. Стоимость ошибок — сколько потеряли бы станции с отрицательным NPV; разница между подходами — ошибки, которых модель позволяет избежать.</p>`;
+}
+
 function renderPortfolioPanel() {
+  portfolioMoney();
   const pf = state.portfolio;
   const modelPicks = pf.model?.picks || [];
   document.getElementById('portfolio-subtitle').textContent = 'Модель выбрала 10 мест внутри МКАД из 300 реальных площадок. Ниже они сравниваются с местами, которые дал бы обычный способ выбора: много магазинов и кафе рядом, крупные дороги, мало загруженных соседей.';
@@ -1552,6 +1606,7 @@ function setControl(name, value) {
   state.ctl[name] = v;
   document.querySelectorAll(`.seg[data-control="${name}"] button`).forEach((b) => b.classList.toggle('active', b.dataset.value === String(v)));
   if (name === 'scenario' || name === 'year') renderZonesView();
+  if (name === 'scenario' && state.portfolio) portfolioMoney();
   const onPassport = state.passport && currentView() === 'passport';
   // Паспорт сразу показывает готовый расчёт зон для нового сценария, точный
   // пересчёт запускается после пересчёта сети.
