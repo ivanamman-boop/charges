@@ -62,7 +62,7 @@ function testT1({ cells, params }) {
   const M_GROUP = { P0: 'P', P1: 'P', T: 'T', C: 'C' };
   const cases = [
     { year: 2026, scenario: 'base', dayType: 'weekday', season: 'summer' },
-    { year: 2030, scenario: 'optimistic', dayType: 'weekend', season: 'winter' },
+    { year: 2030, scenario: 'fast', dayType: 'weekend', season: 'winter' },
   ];
   let worst = 0;
   for (const c of cases) {

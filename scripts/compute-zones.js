@@ -32,7 +32,7 @@ const read = (f) => JSON.parse(readFileSync(join(DATA, f), 'utf8'));
 
 const LIMIT = Number(process.argv.find((a) => a.startsWith('--limit='))?.slice(8) || Infinity);
 const EQUIPMENT = 'DC150-2';
-const SCENARIOS = ['conservative', 'base', 'optimistic'];
+const SCENARIOS = ['base', 'fast'];
 const YEARS = [2026, 2028, 2030]; // 2028 - опорный год: городские станции открываются в 2027-2030
 const SEASONS = ['winter', 'summer'];
 const DAY_TYPES = ['weekday', 'weekend'];

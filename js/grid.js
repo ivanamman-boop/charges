@@ -87,3 +87,12 @@ export function connectionSubsidy({ Pcap, posts, Cconn, params, enabled }) {
   if (!(Pcap >= eq.min_power_kW && posts >= eq.min_connectors)) return 0;
   return Math.min(m5.cap_share.value * Cconn, m5.cap_rub.value);
 }
+
+// Компенсация МФППиП (Москва): 50% платы за техприсоединение, если её внёс
+// оператор, не больше 2 млн ₽, тремя платежами. Федеральная субсидия 7.5
+// (equipmentSubsidy, connectionSubsidy) на Москву не распространяется.
+export function mfppipCompensation({ connCostRub, params }) {
+  const m = params.M5_grid.mfppip;
+  if (!m) return 0;
+  return Math.min(m.share.value * connCostRub, m.cap_rub.value);
+}

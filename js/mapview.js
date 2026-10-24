@@ -49,6 +49,7 @@ export function initMap() {
   const slowSource = new ol.source.Vector();
   const searchSource = new ol.source.Vector();
   const zonesSource = new ol.source.Vector();
+  const benchSource = new ol.source.Vector();
   const pointSource = new ol.source.Vector();
 
   // Спрос - шестиугольные зоны как на карте спроса у таксистов (Яндекс Про):
@@ -70,6 +71,8 @@ export function initMap() {
   // Медленные AC-станции (data/stations-slow.json) - в модель не входят,
   // показываются по галочке для справки; по умолчанию скрыты.
   const slowLayer = new ol.layer.Vector({ source: slowSource, visible: false, style: SLOW_STYLE, zIndex: 3 });
+  // Эталонные станции РСЗС (data/benchmarks.json) - по галочке, как медленные.
+  const benchLayer = new ol.layer.Vector({ source: benchSource, visible: false, zIndex: 7 });
   // Станция, найденная поиском по адресу (focusStation) - кольцо поверх всего.
   const searchLayer = new ol.layer.Vector({ source: searchSource, zIndex: 10 });
   // Граница модели: всё считается для Москвы внутри МКАД (data/mkad.json).
@@ -82,7 +85,7 @@ export function initMap() {
     target: 'map',
     // className - чтобы CSS обесцветил только подложку (.basemap), а не
     // слои поверх: на серой карте фиолетовые зоны спроса читаются лучше.
-    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), zonesLayer, demandLayer, mkadLayer, slowLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, candidateLayer, pointLayer, searchLayer],
+    layers: [new ol.layer.Tile({ source: new ol.source.OSM(), className: 'basemap' }), zonesLayer, demandLayer, mkadLayer, slowLayer, centersLayer, stationsLayer, neighborsLayer, portfolioLayer, benchLayer, candidateLayer, pointLayer, searchLayer],
     view: new ol.View({ center: ol.proj.fromLonLat(MOSCOW_CENTER_LONLAT), zoom: 10.4 }),
     controls: ol.control.defaults.defaults({ attribution: true, rotate: false }).extend([new ol.control.FullScreen({ source: document.querySelector('.map-card') || undefined })]),
   });
@@ -126,7 +129,7 @@ export function initMap() {
   const searchOverlay = new ol.Overlay({ element: searchLabelEl, offset: [0, -22], positioning: 'bottom-center' });
   map.addOverlay(searchOverlay);
 
-  return { map, demandSource, demandLayer, zonesSource, zonesLayer, pointSource, centersSource, centersLayer, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource, slowSource, slowLayer, searchSource, searchOverlay, searchLabelEl, popupEl, popupOverlay };
+  return { map, demandSource, demandLayer, zonesSource, zonesLayer, pointSource, centersSource, centersLayer, stationsSource, stationsLayer, neighborsSource, candidateSource, portfolioSource, mkadSource, slowSource, slowLayer, benchSource, benchLayer, searchSource, searchOverlay, searchLabelEl, popupEl, popupOverlay };
 }
 
 // Клик по карте (app.js) должен отличать клик по кластеру (несколько
@@ -513,4 +516,35 @@ export function renderPoint({ pointSource }, point) {
 
 export function showPopup({ popupOverlay }, lat, lon) {
   popupOverlay.setPosition(lat === null ? undefined : toMapCoord(lat, lon));
+}
+
+// --- Эталонные станции РСЗС ---
+// Лидеры - зелёный ромб, слабые - красный; «расхождение» (модель ставит
+// станцию не туда, где её поставил РСЗС) - оранжевая обводка.
+function benchStyle(type, mismatch) {
+  return new ol.style.Style({
+    image: new ol.style.RegularShape({
+      points: 4,
+      radius: 11,
+      fill: new ol.style.Fill({ color: type === 'weak' ? '#c83a2e' : '#1f8a3b' }),
+      stroke: new ol.style.Stroke({ color: mismatch ? '#f08a24' : '#fff', width: mismatch ? 4 : 2 }),
+    }),
+  });
+}
+
+export function renderBenchmarks({ benchSource }, items) {
+  benchSource.clear();
+  benchSource.addFeatures(
+    items.map((b) => {
+      const f = new ol.Feature({ geometry: new ol.geom.Point(toMapCoord(b.lat, b.lon)) });
+      f.setStyle(benchStyle(b.type, b.mismatch));
+      f.set('hint', `Эталон РСЗС · ${b.type === 'weak' ? 'слабая' : 'лидер'}\n${b.address}${b.mismatch ? '\nрасхождение с моделью' : ''}`);
+      f.set('benchmark', b);
+      return f;
+    })
+  );
+}
+
+export function benchmarkAtPixel(map, benchLayer, pixel) {
+  return map.forEachFeatureAtPixel(pixel, (f) => f.get('benchmark') || null, { layerFilter: (l) => l === benchLayer }) || null;
 }

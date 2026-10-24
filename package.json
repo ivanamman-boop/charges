@@ -33,6 +33,7 @@
     "build:pool": "node scripts/build-pool.js",
     "compute:portfolio": "node scripts/compute-portfolio.js",
     "compute:zones": "node scripts/compute-zones.js",
+    "report:benchmarks": "node scripts/benchmarks-report.js",
     "calibrate:d0": "node scripts/calibrate-d0.js --write",
     "reference:equilibria": "node scripts/compute-reference-equilibria.js",
     "check:breakeven": "node scripts/check-breakeven-dc60-1.js"

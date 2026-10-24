@@ -39,17 +39,18 @@ export function demandMultiplier(year, scenario, params) {
 
 // Сколько городских станций внутри МКАД открывается в году y при сценарии k
 // (26.09). План «Энергии Москвы» (params.planned_network) рассчитан под
-// базовый рост: 200 станций в год внутри МКАД. Город строит под спрос,
-// поэтому при другом сценарии годовая квота пропорциональна приросту спроса
-// за этот год относительно базового: медленный рост - меньше станций,
-// быстрый - больше. Иначе при медленном росте город ставил бы станции,
-// которым некого обслуживать, и новые станции к 2030 теряли бы клиентов.
+// рост парка ~80% в год (сценарий reference_scenario, «быстрый»): 200
+// станций в год внутри МКАД. Город строит под спрос, поэтому при другом
+// сценарии годовая квота пропорциональна приросту спроса за этот год
+// относительно опорного: при базовом росте 30% станций меньше. Иначе город
+// ставил бы станции, которым некого обслуживать.
 export function plannedStationsPerYear(year, scenario, params) {
   const plan = params.planned_network;
   const perYear = Math.round((plan.points_per_year.value / plan.posts_per_station.value) * plan.share_inside_mkad.value);
-  if (scenario === 'base') return perYear;
+  const ref = plan.reference_scenario?.value ?? 'fast';
+  if (scenario === ref) return perYear;
   const inc = (k) => demandMultiplier(year, k, params) - demandMultiplier(year - 1, k, params);
-  const b = inc('base');
+  const b = inc(ref);
   return b > 0 ? Math.round((perYear * inc(scenario)) / b) : perYear;
 }
 

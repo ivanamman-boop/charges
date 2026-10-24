@@ -2,7 +2,7 @@
 // техприсоединение. Рисуется целиком из view-model, которую собирает app.js:
 // сначала из готового расчёта зон (data/zones.json, мгновенно), затем из
 // живого расчёта модулей 1-7 для этой точки (equipment.js + econ-view.js).
-// Повторный вызов с обновлённой моделью (субсидия, сценарий, конец расчёта)
+// Повторный вызов с обновлённой моделью (МФППиП, сценарий, конец расчёта)
 // просто перерисовывает страницу.
 import { STATUS } from './econ-view.js';
 
@@ -22,9 +22,8 @@ function plural(n, one, few, many) {
 }
 
 const SCENARIO_BTNS = [
-  ['conservative', '+30%'],
-  ['base', '+80%'],
-  ['optimistic', '+93%'],
+  ['base', '+30% · базовый'],
+  ['fast', '+80% · быстрый'],
 ];
 
 // Загрузка поста по годам: линия прогноза, полоса - разброс между режимами
@@ -48,8 +47,8 @@ function loadChart(vm) {
   return `<svg class="load-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Загрузка поста по годам">
     ${grid.map((g) => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(g)}" y2="${y(g)}" class="grid"/><text x="${pad.l - 8}" y="${y(g) + 4}" class="axis" text-anchor="end">${Math.round(g * 100)}%</text>`).join('')}
     <path d="${band}" class="band"/>
-    ${thLine(vm.th.uNpv, `${num(vm.th.uNpv * 100, 0)}% NPV`, 'th-npv')}
-    ${thLine(vm.th.uPb, `${num(vm.th.uPb * 100, 0)}% окуп.`, 'th-pb')}
+    ${thLine(vm.th.uNpv, `${num(vm.th.uNpv * 100, 0)}% с дисконтом`, 'th-npv')}
+    ${thLine(vm.th.uPb, `${num(vm.th.uPb * 100, 0)}% за ${vm.th.normYears} лет`, 'th-pb')}
     <path d="${line}" class="line"/>
     ${years
       .map(
@@ -59,6 +58,31 @@ function loadChart(vm) {
       )
       .join('')}
   </svg>`;
+}
+
+// Окупаемость диапазоном: дешёвая — дорогая граница цены подключения.
+function paybackText(econ) {
+  const one = (v) => (v === null || v === undefined ? '> 10' : num(v, 1));
+  const r = econ.paybackRange;
+  if (!r || one(r[0]) === one(r[1])) return one(econ.payback);
+  return `${one(r[0])}–${one(r[1])}`;
+}
+
+function yearTable(vm) {
+  if (!vm.yearRows) return '';
+  const cols = vm.yearRows;
+  const row = (label, f) => `<tr><td>${label}</td>${cols.map((c) => `<td class="num">${f(c)}</td>`).join('')}</tr>`;
+  return `<section class="pp-card pp-wide">
+    <h3>Прогноз по годам</h3>
+    <table class="data-table year-table"><thead><tr><th></th>${cols.map((c) => `<th class="num">${c.year}</th>`).join('')}</tr></thead><tbody>
+      ${row('Сессий в сутки', (c) => num(c.S, 1))}
+      ${row('Загрузка поста', (c) => pct(c.U, 1))}
+      ${row('Доля такси', (c) => pct(c.taxi))}
+      ${row('Пост свободен, зимний будний день', (c) => pct(c.free))}
+      ${row('Новых для города в сутки', (c) => num(Math.max(0, c.gain), 1))}
+    </tbody></table>
+    <p class="pp-note">Средний день года, ${esc(vm.scenarioLabel)}. Остальные сессии переходят с соседних станций${vm.ownLoss !== null ? `; у станций самой РСЗС точка забирает ${num(vm.ownLoss, 1)} сессии в сутки (${esc(vm.live?.conditions || '')})` : ''}.</p>
+  </section>`;
 }
 
 function kpiTile({ label, value, unit = '', sub = '', tone = '' }) {
@@ -102,11 +126,21 @@ function robustBlock(vm) {
     <div class="robust-verdict ${tone}">${verdict}</div>`;
 }
 
+// Ближайшая эталонная станция РСЗС и её результат в модели (ТЗ «Эталоны», шаг 3.4).
+function benchRow(vm) {
+  const b = vm.nearestBench;
+  if (!b) return '';
+  return `<div class="bench-row"><div class="bench-h">Ближайший эталон РСЗС</div>
+    <div>${esc(b.address)}, ${num(b.distKm, 1)} км · ${b.type === 'weak' ? 'слабая' : 'лидер'} по данным РСЗС</div>
+    <div class="pp-note">В модели ${num(b.S, 1)} сессий в сутки, загрузка ${pct(b.U, 1)}; место в сети РСЗС из ${b.N}: ${b.rankS} по сессиям, ${b.rankU} по загрузке${b.mismatch ? '. <b>Расхождение</b>: модель ещё не откалибрована на почасовых данных РСЗС, это закрывает пилот' : ''}.</div></div>`;
+}
+
 function whyBlock(vm) {
   return `${vm.why
     .map((w) => `<div class="why-row"><div class="why-label">${w.label}<small>${w.note}</small></div><div class="why-bar ${w.tone}"><i style="width:${Math.round(w.value * 100)}%"></i></div></div>`)
     .join('')}
-    <p class="pp-note">Синее повышает прогноз, оранжевое снижает. Длина полосы — место этой точки среди всех зон города (100% — самая высокая).</p>`;
+    <p class="pp-note">Синее повышает прогноз, оранжевое снижает. Длина полосы — место этой точки среди всех зон города (100% — самая высокая).</p>
+    ${benchRow(vm)}`;
 }
 
 function liveDetails(vm) {
@@ -148,7 +182,7 @@ export function renderPassport(container, vm) {
   const S = vm.S[vm.year];
   const [sLo, sHi] = vm.Srange[vm.year];
   const econ = vm.econ;
-  const paybackTone = econ && (econ.payback === null || econ.payback > 8) ? 'warn' : '';
+  const paybackTone = econ && (econ.payback === null || econ.payback > vm.th.normYears) ? 'warn' : '';
   const npvTone = econ && econ.npv < 0 ? 'warn' : '';
   const capexLine = econ?.capexRange ? `${mln(econ.capexRange[0], 2)}–${mln(econ.capexRange[1], 2)} млн ₽` : '—';
 
@@ -174,16 +208,18 @@ export function renderPassport(container, vm) {
         <div class="pp-verdict-ctl">
           <span class="ctl-label">Рост спроса в год</span>
           <div class="seg seg-dark" id="pp-scenario">${SCENARIO_BTNS.map(([v, l]) => `<button data-value="${v}" class="${v === vm.scenario ? 'active' : ''}">${l}</button>`).join('')}</div>
-          <label class="switch"><input type="checkbox" id="pp-subsidy" ${vm.subsidy ? 'checked' : ''} ${vm.econLive ? '' : 'disabled'} /><span class="switch-ui"></span>Учесть субсидию Москвы на станцию и подключение</label>
+          <span class="ctl-label">Год решения</span>
+          <div class="seg seg-dark" id="pp-year">${[2026, 2028, 2030].map((y) => `<button data-value="${y}" class="${y === vm.year ? 'active' : ''}">${y}</button>`).join('')}</div>
+          <label class="switch"><input type="checkbox" id="pp-subsidy" ${vm.subsidy ? 'checked' : ''} ${vm.econLive ? '' : 'disabled'} /><span class="switch-ui"></span>Учесть компенсацию МФППиП: 50% платы за подключение, до 2 млн ₽</label>
         </div>
       </div>
     </div>
 
     <div class="pp-kpis">
       ${kpiTile({ label: `Прогноз на ${vm.year}`, value: num(S, 0), sub: `зарядок в сутки, диапазон ${num(sLo, 0)}–${num(sHi, 0)}` })}
-      ${kpiTile({ label: 'Загрузка поста', value: pct(vm.U[vm.year]), sub: `порог окупаемости ${pct(vm.th.uPb)}, NPV ${pct(vm.th.uNpv)}` })}
-      ${kpiTile({ label: 'Простая окупаемость', value: econ ? (econ.payback === null ? '> 10' : num(econ.payback, 1)) : '…', unit: ' лет', sub: 'с учётом срока подключения и роста спроса', tone: paybackTone })}
-      ${kpiTile({ label: 'NPV за 10 лет, ставка 18%', value: econ ? signedMln(econ.npv) : '…', unit: ' млн ₽', sub: econ ? (econ.npv >= 0 ? 'проект окупает стоимость капитала' : 'ниже нуля: не окупает стоимость капитала') : '', tone: npvTone })}
+      ${kpiTile({ label: 'Загрузка поста', value: pct(vm.U[vm.year], 1), sub: `окупаемость за ${vm.th.normYears} лет от ${pct(vm.th.uPb)}, с дисконтом от ${pct(vm.th.uNpv)}` })}
+      ${kpiTile({ label: 'Простая окупаемость', value: econ ? paybackText(econ) : '…', unit: ' лет', sub: `решение в ${vm.year}, пуск через срок ТП; норматив РСЗС — ${vm.th.normYears} лет`, tone: paybackTone })}
+      ${kpiTile({ label: `NPV за 10 лет с ${vm.year}, ставка 18%`, value: econ ? signedMln(econ.npv) : '…', unit: ' млн ₽', sub: econ ? (econ.npv >= 0 ? 'проект окупает стоимость капитала' : 'ниже нуля: не окупает стоимость капитала') : '', tone: npvTone })}
     </div>
 
     <div class="pp-grid">
@@ -200,7 +236,7 @@ export function renderPassport(container, vm) {
         <div class="metric-row"><span>CAPEX</span><span class="mono">${capexLine}</span></div>
         <div class="metric-row"><span>Аренда мест</span><span class="mono">${thousands(vm.costs.rentMonth)} в мес.</span></div>
         <div class="metric-row"><span>Обслуживание, связь, страховка</span><span class="mono">${thousands(vm.costs.serviceYear)} в год</span></div>
-        <p class="pp-note">CAPEX: станция, подключение (дешёвая — дорогая граница класса), площадка и интеграция${vm.subsidy && econ?.subsidyRub ? `, минус субсидия ${mln(econ.subsidyRub, 2)} млн ₽` : ''}. Аренда и обслуживание — допущения, РСЗС их не подтвердила.</p>
+        <p class="pp-note">CAPEX: станция, подключение (дешёвая — дорогая граница класса), площадка и интеграция. Федеральной субсидии в Москве нет${vm.subsidy && econ?.subsidyRub ? `; МФППиП вернёт ${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : ''}. Аренда и обслуживание — допущения, РСЗС их не подтвердила.</p>
       </section>
     </div>
 
@@ -211,7 +247,7 @@ export function renderPassport(container, vm) {
         <div class="metric-row"><span>Свободная мощность питающего центра</span><span>${vm.center ? `${num(vm.center.freeMW, 1)} МВт <span class="tag tag-warn">оценка</span>` : '…'}</span></div>
         <div class="metric-row"><span>Срок техприсоединения</span><span>${vm.conn ? `${num(vm.conn.months[0], 0)}–${num(vm.conn.months[1], 0)} мес.` : '—'}</span></div>
         <div class="metric-row"><span>Стоимость подключения</span><span class="mono">${vm.conn ? `${mln(vm.conn.cost[0], 2)}–${mln(vm.conn.cost[1], 2)} млн ₽` : '—'}</span></div>
-        <div class="metric-row"><span>Субсидия Москвы</span><span>${vm.subsidy ? (econ?.subsidyRub ? `учтена, −${mln(econ.subsidyRub, 2)} млн ₽` : 'учтена') : 'не учтена'}</span></div>
+        <div class="metric-row"><span>Компенсация МФППиП</span><span>${vm.subsidy ? (econ?.subsidyRub ? `учтена, ${mln(econ.subsidyRub, 2)} млн ₽ тремя платежами` : 'учтена') : 'не учтена'}</span></div>
         <p class="pp-note">${vm.dist04 !== null ? 'Класс А: известная подстанция ближе 200 м, подключение без реконструкции сети.' : 'Подстанции ближе 200 м в открытых данных нет — считаем как класс Б. Реальный класс и цену даст запрос в Россети.'} Свободная мощность — оценка по классу напряжения: официальной карты резерва нет.</p>
       </section>
       <section class="pp-card">
@@ -224,6 +260,7 @@ export function renderPassport(container, vm) {
       </section>
     </div>
 
+    ${yearTable(vm)}
     ${liveDetails(vm)}
     ${vm.liveProgress && !vm.live ? '<section class="pp-card pp-wide"><div class="skeleton"></div><p class="pp-note">Профиль по часам, соседи и варианты оборудования появятся после расчёта.</p></section>' : ''}
 

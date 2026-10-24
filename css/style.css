@@ -251,6 +251,15 @@ main { max-width: 1440px; margin: 0 auto; padding: 24px 24px 64px; }
 .popup-actions .btn-primary { flex: 1; white-space: nowrap; }
 .popup-actions button { white-space: nowrap; }
 
+/* Эталоны РСЗС */
+.bench-swatch { width: 10px; height: 10px; background: #1f8a3b; transform: rotate(45deg); margin-left: auto; }
+.bench-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; font-size: 12.5px; }
+.bench-cols p { margin: 4px 0 0; }
+.bench-h { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.bench-mismatch { margin: 10px 0 0; padding: 8px 10px; border-radius: 8px; background: var(--orange-soft); color: var(--orange-ink); font-size: 12px; }
+.bench-row { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 13px; }
+.map-popup:has(.bench-cols) { width: 380px; }
+
 /* Карточка «Что изменилось» */
 .change-toast { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 20; width: 440px; max-width: calc(100% - 300px); padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-pop); font-size: 12.5px; transition: opacity 0.5s, transform 0.5s; }
 .change-toast.ct-hide { opacity: 0; pointer-events: none; }

@@ -1,14 +1,16 @@
 // Экономика площадки для карты зон и паспорта: те же формулы модуля 7
 // (economics.js, раздел 9), что и в подборе оборудования (equipment.js), но
-// с ручками, которые нужны сайту: субсидия, цена электроэнергии, спрос ниже
-// или выше прогноза, граница цены подключения. Чистые функции.
+// с ручками, которые нужны сайту: компенсация МФППиП, цена электроэнергии,
+// спрос ниже или выше прогноза, граница цены подключения. Чистые функции.
+// Пороги и статусы - как в презентации (слайд 21): окупаемость за норматив
+// РСЗС 8 лет, доля такси 10% сессий.
 import { SEGMENTS } from './demand.js';
 import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateAnchors, crf } from './economics.js';
-import { equipmentSubsidy, connectionSubsidy } from './grid.js';
+import { mfppipCompensation } from './grid.js';
 
 export const STATUS = {
-  priority: { label: 'Ставить, приоритет', short: 'Приоритет', tone: 'priority' },
-  now: { label: 'Ставить сейчас', short: 'Ставить сейчас', tone: 'now' },
+  priority: { label: 'Первая очередь', short: 'Первая очередь', tone: 'priority' },
+  now: { label: 'Вторая очередь', short: 'Вторая очередь', tone: 'now' },
   grid: { label: 'Готовить сеть', short: 'Готовить сеть', tone: 'grid' },
   no: { label: 'Не ставить', short: 'Не ставить', tone: 'no' },
 };
@@ -28,26 +30,32 @@ function connFor(connRange, bound) {
 // sessionsByCombo, cfg, connRange). connBound: 'high' - дорогая граница
 // подключения (осторожно, как в модуле 8), 'low' - дешёвая, 'mid' - середина.
 // connOverride - подставить стоимость/срок другого класса (чувствительность).
-export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null }) {
+// launchYear - год решения о станции: поток начинается с него (заявка на ТП,
+// через срок ТП - пуск), спрос после 2030 держится на уровне 2030. Так
+// экономика паспорта согласована со статусом зоны на карте выбранного года.
+export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null, launchYear = 2026 }) {
   if (!e?.connRange) return null;
   const p = pEl === null ? params : withPel(params, pEl);
   const m7 = p.M6_M7_equipment_economics;
   const conn = connOverride || connFor(e.connRange, connBound);
   const cfg = e.cfg;
-  const subEq = equipmentSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, CeqRub: cfg.C_eq_rub, params: p, enabled: subsidy });
-  const subConn = connectionSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, Cconn: conn.cost, params: p, enabled: subsidy });
-  const capex = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub: conn.cost, subsidyEqRub: subEq, subsidyConnRub: subConn, params: p });
+  // МФППиП не уменьшает вложения сразу: компенсация приходит тремя
+  // платежами в конце 1-го, 2-го и 3-го года (притоки денежного потока).
+  const comp = subsidy ? mfppipCompensation({ connCostRub: conn.cost, params: p }) : 0;
+  const capex = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub: conn.cost, params: p });
   const opex = opexFixYearRub({ posts: cfg.posts, CeqRub: cfg.C_eq_rub, params: p });
   const years = e.years || [2026, 2030];
   const getSessions = (year, season, dayType, segment) =>
     demandMult * interpolateAnchors(Object.fromEntries(years.map((y) => [y, e.sessionsByCombo[`${y}|${season}|${dayType}`][segment]])), year);
   // Маржа летняя во всех месяцах - как в equipment.js (зимний расход учтён в сессиях).
-  const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginPerSession({ segment: s, season: 'summer', params: p }), TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: 2026, H: m7.H_years.value, r: m7.r_discount_rate.value });
+  const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginPerSession({ segment: s, season: 'summer', params: p }), TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: launchYear, H: m7.H_years.value, r: m7.r_discount_rate.value });
+  const nInst = p.M5_grid.mfppip?.installments.value ?? 3;
+  for (let k = 1; k <= nInst && comp > 0; k++) CF[12 * k - 1] += comp / nInst;
   const r = m7.r_discount_rate.value;
   return {
     capex,
     opex,
-    subsidyRub: subEq + subConn,
+    subsidyRub: comp,
     npv: npv(CF, capex, r),
     payback: paybackMonths(CF, capex, false, r),
     paybackDisc: paybackMonths(CF, capex, true, r),
@@ -69,24 +77,62 @@ function mixAverages({ mix, cfg, params }) {
   return { margin, tau };
 }
 
-// Пороги в зарядках в сутки для конфигурации cfg (из каталога, C_eq в млн ₽):
-// pb - простая окупаемость за срок службы H (10 лет), npv - NPV = 0 при
-// ставке r (9.5, через CRF). Установившийся режим: если бы спрос держался на
-// этом уровне все годы. uPb/uNpv - те же пороги в загрузке поста.
-export function thresholds({ params, cfg, connCostRub, mix, subsidy = false }) {
+// Состав сессий для порогов карты: доля такси из params (10%, слайд 21).
+export function thresholdMix(params) {
+  const t = params.M6_M7_equipment_economics.threshold_taxi_share.value;
+  return { P0: 1 - t, T: t };
+}
+
+// Пороги в зарядках в сутки для конфигурации cfg (из каталога, C_eq в млн ₽),
+// как на слайде 21: pb - простая окупаемость за норматив РСЗС N = 8 лет,
+// npv - окупаемость с дисконтом r = 18% за те же N лет (NPV за N лет = 0,
+// через CRF). Установившийся режим: спрос держится на этом уровне все годы.
+// subsidy - компенсация МФППиП: в простой окупаемости вычитается целиком,
+// в дисконтированной - по приведённой стоимости трёх платежей.
+// uPb/uNpv - те же пороги в загрузке поста.
+export function thresholds({ params, cfg, connCostRub, mix = thresholdMix(params), subsidy = false }) {
   const m7 = params.M6_M7_equipment_economics;
   const CeqRub = cfg.C_eq_rub ?? cfg.C_eq_mln_rub * 1e6;
   const full = { ...cfg, C_eq_rub: CeqRub };
-  const subEq = equipmentSubsidy({ Pcap: full.P_cap_kW, posts: full.posts, CeqRub, params, enabled: subsidy });
-  const subConn = connectionSubsidy({ Pcap: full.P_cap_kW, posts: full.posts, Cconn: connCostRub, params, enabled: subsidy });
-  const capex = capexRub({ CeqRub, connCostRub, subsidyEqRub: subEq, subsidyConnRub: subConn, params });
+  const capex = capexRub({ CeqRub, connCostRub, params });
   const opex = opexFixYearRub({ posts: full.posts, CeqRub, params });
   const { margin, tau } = mixAverages({ mix, cfg: full, params });
-  const H = m7.H_years.value;
-  const pb = (capex / H + opex) / (365 * margin);
-  const npvS = (opex + capex * crf(m7.r_discount_rate.value, H)) / (365 * margin);
+  const N = m7.payback_norm_years.value;
+  const r = m7.r_discount_rate.value;
+  const comp = subsidy ? mfppipCompensation({ connCostRub, params }) : 0;
+  const nInst = params.M5_grid.mfppip?.installments.value ?? 3;
+  let pvComp = 0;
+  for (let k = 1; k <= nInst; k++) pvComp += comp / nInst / Math.pow(1 + r, k);
+  const pb = ((capex - comp) / N + opex) / (365 * margin);
+  const npvS = (opex + (capex - pvComp) * crf(r, N)) / (365 * margin);
   const toU = (S) => (S * tau) / (24 * full.posts);
-  return { pb, npv: npvS, uPb: toU(pb), uNpv: toU(npvS), tau, margin, capex };
+  return { pb, npv: npvS, uPb: toU(pb), uNpv: toU(npvS), tau, margin, capex, normYears: N };
+}
+
+// Загрузка поста: обслуженные сессии × их длительность по сегментам / (24 ч ×
+// посты). combo - 'year|season|dayType' или null (средний день года).
+const SEASON_W = { winter: 5 / 12, summer: 7 / 12 };
+const DAY_W = { weekday: 5 / 7, weekend: 2 / 7 };
+export function utilization(e, year, params, { season = null, dayType = null } = {}) {
+  const st = { P_post_kW: e.cfg.P_post_kW };
+  const one = (se, d) => SEGMENTS.reduce((a, s) => a + e.sessionsByCombo[`${year}|${se}|${d}`][s] * sessionDurationHours({ segment: s, station: st, season: se, params }), 0) / (24 * e.cfg.posts);
+  if (season) return one(season, dayType);
+  let u = 0;
+  for (const se of ['winter', 'summer']) for (const d of ['weekday', 'weekend']) u += SEASON_W[se] * DAY_W[d] * one(se, d);
+  return u;
+}
+
+export function taxiShare(e, year) {
+  let t = 0;
+  let all = 0;
+  for (const se of ['winter', 'summer'])
+    for (const d of ['weekday', 'weekend']) {
+      const w = SEASON_W[se] * DAY_W[d];
+      const seg = e.sessionsByCombo[`${year}|${se}|${d}`];
+      t += w * seg.T;
+      all += w * SEGMENTS.reduce((a, s) => a + seg[s], 0);
+    }
+  return all > 0 ? t / all : 0;
 }
 
 export const loadFromSessions = (S, th, posts) => (S * th.tau) / (24 * posts);
@@ -120,9 +166,9 @@ function crossing(f, lo, hi) {
 
 // Устойчивость вывода (паспорт): при какой цене электроэнергии и при каком
 // отклонении спроса от прогноза NPV станции становится нулевым.
-export function robustness(e, { params, subsidy = false }) {
+export function robustness(e, { params, subsidy = false, launchYear = 2026 }) {
   const base = params.M6_M7_equipment_economics.p_el_rub_per_kWh;
-  const npvAt = (opts) => siteEconomics(e, { params, subsidy, ...opts })?.npv ?? NaN;
+  const npvAt = (opts) => siteEconomics(e, { params, subsidy, launchYear, ...opts })?.npv ?? NaN;
   const pElZero = crossing((x) => npvAt({ pEl: x }), 0, 40);
   const demandZero = crossing((x) => npvAt({ demandMult: x }), 0.05, 5);
   return {

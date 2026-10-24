@@ -49,7 +49,7 @@ const rand = mulberry32(plan.seed);
 
 const existing = raw.stations.filter((s) => s.status !== 'planned');
 const weights = cellWeights(cells, params);
-const demand = cells.map((_, i) => SEGMENTS.reduce((a, s) => a + segmentDemand(s, 2028, 'base', params) * weights[s][i], 0));
+const demand = cells.map((_, i) => SEGMENTS.reduce((a, s) => a + segmentDemand(s, 2028, 'fast', params) * weights[s][i], 0));
 const total = demand.reduce((a, b) => a + b, 0);
 const cumulative = [];
 demand.reduce((acc, v, i) => (cumulative[i] = acc + v / total), 0);
@@ -66,7 +66,7 @@ const pickCell = () => {
 };
 
 const minKm = plan.min_distance_m.value / 1000;
-const SCENARIOS = ['conservative', 'base', 'optimistic'];
+const SCENARIOS = ['base', 'fast'];
 const placed = [];
 const all = [...existing];
 for (let year = plan.first_year.value; year <= plan.last_year.value; year++) {
@@ -96,11 +96,11 @@ for (let year = plan.first_year.value; year <= plan.last_year.value; year++) {
     all.push(st);
     n++;
   }
-  console.log(`${year}: расставлено ${n}; открываются по сценариям: медленный ${quotas.conservative}, базовый ${quotas.base}, быстрый ${quotas.optimistic}`);
+  console.log(`${year}: расставлено ${n}; открываются по сценариям: базовый ${quotas.base}, быстрый ${quotas.fast}`);
 }
 
 raw.stations = [...existing, ...placed];
-const NOTE = ' | + плановые станции города (scripts/add-planned-stations.js): количество по плану «Энергии Москвы» для базового роста, в других сценариях пропорционально спросу (plan_rank), места — оценка ∝ спросу, status "planned".';
+const NOTE = ' | + плановые станции города (scripts/add-planned-stations.js): количество по плану «Энергии Москвы» для быстрого роста (80%), в базовом пропорционально спросу (plan_rank), места — оценка ∝ спросу, status "planned".';
 if (!raw.source.includes('плановые станции города')) raw.source += NOTE;
 writeFileSync(join(DATA, 'stations.json'), JSON.stringify(raw, null, 2));
 console.log(`действующих ${existing.length}, городских мест в запасе ${placed.length}`);

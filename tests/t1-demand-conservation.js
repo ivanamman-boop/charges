@@ -9,8 +9,8 @@ const params = JSON.parse(readFileSync(new URL('../data/params.json', import.met
 const M_GROUP = { P0: 'P', P1: 'P', T: 'T', C: 'C' };
 const cases = [
   { year: 2026, scenario: 'base', dayType: 'weekday', season: 'summer' },
-  { year: 2026, scenario: 'conservative', dayType: 'weekend', season: 'winter' },
-  { year: 2030, scenario: 'optimistic', dayType: 'weekday', season: 'winter' },
+  { year: 2028, scenario: 'base', dayType: 'weekend', season: 'winter' },
+  { year: 2030, scenario: 'fast', dayType: 'weekday', season: 'winter' },
 ];
 
 let allPassed = true;
