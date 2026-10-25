@@ -155,7 +155,11 @@ function mergeHubs(candidates) {
     for (let j = i + 1; j < candidates.length; j++) {
       if (used[j]) continue;
       const b = candidates[j];
-      if (b.kind !== a.kind || Math.abs(b.lat - a.lat) > 0.0003) continue;
+      // Тип у части записей на этом шаге ещё не известен (доопределяется по
+      // оператору позже) - неизвестный тип не мешает склейке, иначе одна
+      // колонка оставалась двумя станциями в 20 см друг от друга (аудит 25.10).
+      const known = (k) => k && k !== 'unknown';
+      if ((known(a.kind) && known(b.kind) && b.kind !== a.kind) || Math.abs(b.lat - a.lat) > 0.0003) continue;
       const d = haversineKm(a.lat, a.lon, b.lat, b.lon);
       const sameSite = d <= SAME_SPOT_KM || (d <= HUB_RADIUS_KM && (b.operator === a.operator || GENERIC_NAME.test(a.operator) || GENERIC_NAME.test(b.operator)));
       if (sameSite) {

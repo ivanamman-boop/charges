@@ -1436,7 +1436,9 @@ function renderHeroKpis() {
   el.hidden = false;
 }
 
-const HOW_EXAMPLE_ID = 'L-286';
+// Пример в «Методике» - первая рекомендация портфеля (номер и цифры из
+// portfolio.json, обновляются при пересчёте).
+const HOW_EXAMPLE_ID = null;
 function renderHowExample() {
   const picks = state.portfolio?.model?.picks || [];
   const rank = picks.findIndex((x) => x.id === HOW_EXAMPLE_ID);
@@ -1513,7 +1515,7 @@ function renderPortfolioPanel() {
     const fmtPp = (x, base) => `${fmtPct(x)} <span class="delta">(было ${fmtPct(base)})</span>`;
     const rows = [
       ['group', 'Новые клиенты: сколько зарядок в сутки добавят 10 новых станций'],
-      ...years.map((y) => [`${y} год${y === 2028 ? ' (городские станции к этому году закрывают почти весь дефицит)' : ''}`, sign(ex(y, 'traditional')), sign(ex(y, 'model')), ex(y, 'model') > ex(y, 'traditional')]),
+      ...years.map((y) => [`${y} год${y === 2028 ? ' (в 2027–2028 открываются городские станции и забирают часть спроса)' : ''}`, sign(ex(y, 'traditional')), sign(ex(y, 'model')), ex(y, 'model') > ex(y, 'traditional')]),
       ['group', 'Насколько заняты новые станции, 2028 год'],
       ['Загрузка постов: какую долю времени пост занят', fmtPct(m.traditional.U_new_mean), fmtPct(m.model.U_new_mean), m.model.U_new_mean > m.traditional.U_new_mean],
       ['Станций, занятых меньше 20% времени (меньше — лучше)', fmtPct(m.traditional.share_new_U_below_20), fmtPct(m.model.share_new_U_below_20), m.model.share_new_U_below_20 < m.traditional.share_new_U_below_20],
@@ -1527,7 +1529,7 @@ function renderPortfolioPanel() {
       ['Мест с дешёвым подключением (класс А)', `${pf.traditional.picks.filter((p) => p.cls === 'А').length} из ${pf.traditional.picks.length}`, `${modelPicks.filter((p) => p.cls === 'А').length} из ${modelPicks.length}`, modelPicks.filter((p) => p.cls === 'А').length / Math.max(1, modelPicks.length) > pf.traditional.picks.filter((p) => p.cls === 'А').length / Math.max(1, pf.traditional.picks.length)],
     ];
     compare.innerHTML = `<table class="compare-table">
-      <thead><tr><th>Средний день года, рост спроса 80% в год. У обоих подходов станции ${esc(pf.equipment || 'DC150-2')}. Галочка — лучший результат.</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
+      <thead><tr><th>Средний день года, ${esc(SCENARIO_LABEL.base)}. У обоих подходов станции ${esc(pf.equipment || 'DC150-2')}. Галочка — лучший результат.</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
       <tbody>${rows.map((r) => (r[0] === 'group' ? `<tr class="group"><td colspan="3">${r[1]}</td></tr>` : `<tr><td>${r[0]}</td><td class="num col-trad">${r[1]}</td><td class="num col-model ${r[3] && modelPicks.length > 0 ? 'better' : ''}">${r[2]}</td></tr>`)).join('')}</tbody></table>`;
   }
   document.getElementById('portfolio-body').innerHTML = modelPicks

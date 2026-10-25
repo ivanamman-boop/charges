@@ -57,7 +57,13 @@ const cells = read('cells.json').cells;
 const baseStations = read('stations.json').stations;
 const centersOrig = read('centers.json').centers;
 const tp04 = read('tp04.json').points;
-const pool = read('pool.json').pool.map((l) => ({ ...l, dist04_m: dist04FromKnownTp(l.lat, l.lon, tp04) }));
+// Правило 10.1 - не ближе 150 м к действующим станциям. Пул собран раньше
+// дообъезда 25.10, часть площадок теперь у найденных станций - их убираем.
+const MIN_TO_EXISTING_KM = read('params.json').M8_portfolio.min_distance_to_existing_m.value / 1000;
+const activeNow = baseStations.filter((s) => s.status !== 'planned');
+const pool = read('pool.json')
+  .pool.filter((l) => !activeNow.some((s) => Math.abs(s.lat - l.lat) < 0.003 && haversineKm(l.lat, l.lon, s.lat, s.lon) < MIN_TO_EXISTING_KM))
+  .map((l) => ({ ...l, dist04_m: dist04FromKnownTp(l.lat, l.lon, tp04) }));
 const params = read('params.json');
 params.equilibrium = { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise };
 // Каталог только из выбранного оборудования - evaluateCandidate оценит один вариант.

@@ -165,6 +165,24 @@
       "address_source": "yandex"
     },
     {
+      "id": "S-0048",
+      "lat": 55.747907999999995,
+      "lon": 37.595062,
+      "operator": "Мосэнергосбыт",
+      "P_kW": 44,
+      "posts": 2,
+      "P_post_kW": 44,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "Староконюшенный переулок, 26",
+      "address_source": "yandex"
+    },
+    {
       "id": "S-0051",
       "lat": 55.6587477,
       "lon": 37.6283833,
@@ -418,11 +436,11 @@
     },
     {
       "id": "S-0309",
-      "lat": 55.755728500000004,
-      "lon": 37.568239500000004,
+      "lat": 55.75571333333334,
+      "lon": 37.568234000000004,
       "operator": "Electro. cars",
-      "P_kW": 44,
-      "posts": 3,
+      "P_kW": 132,
+      "posts": 4,
       "P_post_kW": 44,
       "status": "active",
       "year_open": 2024,
@@ -435,25 +453,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0313",
-      "lat": 55.755683,
-      "lon": 37.568223,
-      "operator": "Мосэнерго",
-      "P_kW": 88,
-      "posts": 1,
-      "P_post_kW": 44,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "улица Николаева",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0345",
+      "id": "S-0343",
       "lat": 55.785998,
       "lon": 37.638064,
       "operator": "Энергия Москвы",
@@ -471,7 +471,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0461",
+      "id": "S-0454",
       "lat": 55.760583,
       "lon": 37.543835,
       "operator": "Энергия Москвы",
@@ -489,7 +489,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0465",
+      "id": "S-0458",
       "lat": 55.774595,
       "lon": 37.537721,
       "operator": "Энергия Москвы",
@@ -508,8 +508,8 @@
     },
     {
       "id": "S-0534",
-      "lat": 55.791533,
-      "lon": 37.506644,
+      "lat": 55.754934,
+      "lon": 37.508663,
       "operator": "Энергия Москвы",
       "P_kW": 22,
       "posts": 1,
@@ -521,11 +521,11 @@
       "kind": "slow",
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "улица Зорге, 28, корп. 1",
+      "address": "Проектируемый проезд № 1672",
       "address_source": "yandex"
     },
     {
-      "id": "S-0637",
+      "id": "S-0627",
       "lat": 55.870483,
       "lon": 37.463217,
       "operator": "Энергия Москвы",
@@ -543,27 +543,9 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0779",
-      "lat": 55.747892,
-      "lon": 37.595063,
-      "operator": "Энергия Москвы",
-      "P_kW": 44,
-      "posts": 1,
-      "P_post_kW": 44,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Староконюшенный переулок, 26",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0914",
-      "lat": 55.794379,
-      "lon": 37.483327,
+      "id": "S-0769",
+      "lat": 55.632379,
+      "lon": 37.745836,
       "operator": "Энергия Москвы",
       "P_kW": 22,
       "posts": 1,
@@ -575,11 +557,11 @@
       "kind": "slow",
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "улица Расплетина",
+      "address": "Братеевский проезд",
       "address_source": "yandex"
     },
     {
-      "id": "S-0974",
+      "id": "S-0952",
       "lat": 55.672403,
       "lon": 37.516499,
       "operator": "Энергия Москвы",
@@ -597,9 +579,27 @@
       "address_source": "yandex"
     },
     {
+      "id": "S-0962",
+      "lat": 55.668309,
+      "lon": 37.534435,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "ул. Академика Пилюгина, 18",
+      "address_source": "yandex"
+    },
+    {
       "id": "S-0998",
-      "lat": 55.647152,
-      "lon": 37.475724,
+      "lat": 55.630303,
+      "lon": 37.612715,
       "operator": "Энергия Москвы",
       "P_kW": 22,
       "posts": 1,
@@ -611,13 +611,13 @@
       "kind": "slow",
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Рузская улица",
+      "address": "Кировоградская улица",
       "address_source": "yandex"
     },
     {
-      "id": "S-1005",
-      "lat": 55.821069,
-      "lon": 37.650446,
+      "id": "S-1001",
+      "lat": 55.651467,
+      "lon": 37.613176,
       "operator": "Энергия Москвы",
       "P_kW": 22,
       "posts": 1,
@@ -629,29 +629,11 @@
       "kind": "slow",
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "улица Космонавтов",
+      "address": "Артековская улица",
       "address_source": "yandex"
     },
     {
-      "id": "S-1015",
-      "lat": 55.64457,
-      "lon": 37.65302,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "улица Москворечье",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1077",
+      "id": "S-1052",
       "lat": 55.607497,
       "lon": 37.590291,
       "operator": "Энергия Москвы",
@@ -666,42 +648,6 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Чертановская улица",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1129",
-      "lat": 55.649215,
-      "lon": 37.598346,
-      "operator": "Зарядная станция",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Азовская улица",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1273",
-      "lat": 55.829437,
-      "lon": 37.623004,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Хованская ул., 22, стр. 2",
       "address_source": "yandex"
     },
     {
@@ -800,7 +746,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 4714015491,
@@ -930,6 +876,23 @@
       "address_source": "yandex"
     },
     {
+      "id": "S-0040",
+      "lat": 55.773677,
+      "lon": 37.6130845,
+      "operator": "Electro. cars",
+      "P_kW": 120,
+      "posts": 3,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "оценка: 85% быстрых у оператора",
+      "address": "Садовая-Самотёчная улица",
+      "address_source": "yandex"
+    },
+    {
       "id": "S-0043",
       "lat": 55.8232042,
       "lon": 37.6367124,
@@ -1016,11 +979,11 @@
     },
     {
       "id": "S-0065",
-      "lat": 55.704461,
-      "lon": 37.657577,
+      "lat": 55.7044205,
+      "lon": 37.6576455,
       "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1211,11 +1174,11 @@
     },
     {
       "id": "S-0079",
-      "lat": 55.712253000000004,
-      "lon": 37.619593,
+      "lat": 55.71228233333334,
+      "lon": 37.619596,
       "operator": "Яндекс Заправки",
-      "P_kW": 120,
-      "posts": 5,
+      "P_kW": 180,
+      "posts": 6,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1324,17 +1287,17 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "проспект Вернадского",
       "address_source": "yandex"
     },
     {
-      "id": "S-0089",
-      "lat": 55.752395,
-      "lon": 37.531374,
+      "id": "S-0090",
+      "lat": 55.752362000000005,
+      "lon": 37.531327000000005,
       "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
+      "P_kW": 120,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -1743,41 +1706,6 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0151",
-      "lat": 55.70438,
-      "lon": 37.657714,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "мощность",
-      "address": "1-й Автозаводский проезд",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0154",
-      "lat": 55.736317,
-      "lon": 37.639534,
-      "operator": "Энергия Москвы",
-      "P_kW": 88,
-      "posts": 1,
-      "P_post_kW": 44,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Озерковская набережная",
-      "address_source": "yandex"
-    },
-    {
       "id": "S-0156",
       "lat": 55.784797,
       "lon": 37.706832,
@@ -1792,23 +1720,6 @@
       "kind": "slow",
       "kind_source": "оценка: 60% быстрых у оператора",
       "address": "Малая Семёновская улица, 5с1",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0158",
-      "lat": 55.794768,
-      "lon": 37.619117,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 38% быстрых у оператора",
-      "address": "2-я улица Марьиной Рощи",
       "address_source": "yandex"
     },
     {
@@ -2044,7 +1955,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12799921060,
@@ -2078,7 +1989,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12883077831,
@@ -2095,7 +2006,7 @@
       "P_post_kW": 60,
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "status": "active",
       "year_open": 2024,
       "osm_id": 12922626733,
@@ -2183,7 +2094,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Садовая-Самотёчная улица, 6с1",
       "address_source": "yandex"
     },
@@ -2336,7 +2247,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Народная улица, 7",
       "address_source": "yandex"
     },
@@ -2439,7 +2350,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "улица Земляной Вал, 61, корп. 1",
       "address_source": "yandex"
     },
@@ -2524,7 +2435,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Ленинский просп., 107",
       "address_source": "yandex"
     },
@@ -2644,7 +2555,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "улица Остоженка, 19с1",
       "address_source": "yandex"
     },
@@ -2780,7 +2691,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "улица Балчуг, 1",
       "address_source": "yandex"
     },
@@ -2797,7 +2708,7 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "улица Воронцово Поле, 13с1",
       "address_source": "yandex"
     },
@@ -2871,7 +2782,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0316",
+      "id": "S-0315",
       "lat": 55.743397,
       "lon": 37.55494,
       "operator": "Punkt E",
@@ -2888,25 +2799,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0319",
-      "lat": 55.767821,
-      "lon": 37.568382,
-      "operator": "Энергия Москвы",
-      "P_kW": 88,
-      "posts": 1,
-      "P_post_kW": 44,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "улица Климашкина, 17",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0320",
+      "id": "S-0318",
       "lat": 55.762905,
       "lon": 37.595627,
       "operator": "Энергия Москвы",
@@ -2923,7 +2816,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0321",
+      "id": "S-0319",
       "lat": 55.777493,
       "lon": 37.57286,
       "operator": "Энергия Москвы",
@@ -2940,7 +2833,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0322",
+      "id": "S-0320",
       "lat": 55.781101,
       "lon": 37.596632,
       "operator": "Sitronics Electro",
@@ -2957,7 +2850,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0324",
+      "id": "S-0322",
       "lat": 55.781161,
       "lon": 37.588613,
       "operator": "Яндекс Заправки",
@@ -2974,7 +2867,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0327",
+      "id": "S-0325",
       "lat": 55.780119,
       "lon": 37.589934,
       "operator": "Яндекс Заправки",
@@ -2991,7 +2884,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0330",
+      "id": "S-0328",
       "lat": 55.776877,
       "lon": 37.607053,
       "operator": "Энергия Москвы",
@@ -3008,7 +2901,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0332",
+      "id": "S-0330",
       "lat": 55.780281,
       "lon": 37.590156,
       "operator": "Яндекс Заправки",
@@ -3025,7 +2918,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0340",
+      "id": "S-0334",
+      "lat": 55.772785,
+      "lon": 37.61867,
+      "operator": "Ev-Time",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Цветной бульвар, 25с4",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0338",
       "lat": 55.77513,
       "lon": 37.625692,
       "operator": "Яндекс Заправки",
@@ -3042,7 +2952,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0341",
+      "id": "S-0339",
       "lat": 55.77523,
       "lon": 37.630478,
       "operator": "Энергия Москвы",
@@ -3060,7 +2970,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0342",
+      "id": "S-0340",
       "lat": 55.778488,
       "lon": 37.633584,
       "operator": "Яндекс Заправки",
@@ -3078,23 +2988,6 @@
     },
     {
       "id": "S-0344",
-      "lat": 55.779224,
-      "lon": 37.631336,
-      "operator": "Electra 2",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "улица Гиляровского, 22с1",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0346",
       "lat": 55.78413,
       "lon": 37.6369,
       "operator": "Энергия Москвы",
@@ -3111,10 +3004,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0347",
-      "lat": 55.776556,
-      "lon": 37.633767,
-      "operator": "Ростелеком",
+      "id": "S-0346",
+      "lat": 55.773647,
+      "lon": 37.631791,
+      "operator": "EVlink",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -3123,12 +3016,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Грохольский переулок",
-      "address_source": "nominatim"
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "проспект Мира, 3к1",
+      "address_source": "yandex"
     },
     {
-      "id": "S-0350",
+      "id": "S-0348",
       "lat": 55.784519,
       "lon": 37.64061,
       "operator": "Яндекс Заправки",
@@ -3145,7 +3038,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0351",
+      "id": "S-0349",
       "lat": 55.775663,
       "lon": 37.644256,
       "operator": "Яндекс Заправки",
@@ -3162,10 +3055,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0353",
-      "lat": 55.784965,
-      "lon": 37.655434,
-      "operator": "Avtocharge",
+      "id": "S-0352",
+      "lat": 55.77282,
+      "lon": 37.655636,
+      "operator": "Зарядная станция",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -3174,12 +3067,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "3-й Красносельский переулок, 19, стр. 2",
+      "kind_source": "оценка: 55% быстрых у оператора",
+      "address": "Комсомольская площадь, 2",
       "address_source": "yandex"
     },
     {
-      "id": "S-0355",
+      "id": "S-0353",
       "lat": 55.774624,
       "lon": 37.675535,
       "operator": "Яндекс Заправки",
@@ -3196,7 +3089,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0356",
+      "id": "S-0354",
       "lat": 55.767126,
       "lon": 37.672101,
       "operator": "Яндекс Заправки",
@@ -3213,7 +3106,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0359",
+      "id": "S-0357",
       "lat": 55.751872,
       "lon": 37.668945,
       "operator": "Green Drive",
@@ -3225,12 +3118,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Нижняя Сыромятническая улица, 10с3",
       "address_source": "yandex"
     },
     {
-      "id": "S-0361",
+      "id": "S-0359",
       "lat": 55.745534,
       "lon": 37.68446,
       "operator": "Яндекс Заправки",
@@ -3247,7 +3140,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0362",
+      "id": "S-0360",
       "lat": 55.743135,
       "lon": 37.683016,
       "operator": "Яндекс Заправки",
@@ -3264,7 +3157,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0363",
+      "id": "S-0361",
       "lat": 55.742771,
       "lon": 37.67381,
       "operator": "Яндекс Заправки",
@@ -3281,7 +3174,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0364",
+      "id": "S-0362",
       "lat": 55.741915,
       "lon": 37.673951,
       "operator": "Яндекс Заправки",
@@ -3298,7 +3191,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0367",
+      "id": "S-0363",
+      "lat": 55.744487,
+      "lon": 37.656036,
+      "operator": "Webasto",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Известковый переулок, 5с1",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0365",
       "lat": 55.734672,
       "lon": 37.674858,
       "operator": "Яндекс Заправки",
@@ -3315,7 +3225,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0368",
+      "id": "S-0366",
       "lat": 55.736681,
       "lon": 37.653461,
       "operator": "Яндекс Заправки",
@@ -3332,7 +3242,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0370",
+      "id": "S-0368",
       "lat": 55.738167,
       "lon": 37.676559,
       "operator": "Яндекс Заправки",
@@ -3349,7 +3259,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0371",
+      "id": "S-0369",
       "lat": 55.728732,
       "lon": 37.675011,
       "operator": "Яндекс Заправки",
@@ -3366,7 +3276,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0372",
+      "id": "S-0370",
       "lat": 55.721219,
       "lon": 37.651672,
       "operator": "Sitronics Electro",
@@ -3383,24 +3293,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0374",
-      "lat": 55.724051,
-      "lon": 37.649304,
-      "operator": "МОЭСК Россети, ПС Павелецкая",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Дербеневская улица, 12",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0375",
+      "id": "S-0373",
       "lat": 55.724927,
       "lon": 37.639279,
       "operator": "Punkt E",
@@ -3417,7 +3310,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0376",
+      "id": "S-0374",
       "lat": 55.719741,
       "lon": 37.66215,
       "operator": "Яндекс Заправки",
@@ -3434,7 +3327,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0377",
+      "id": "S-0375",
       "lat": 55.72227,
       "lon": 37.63923,
       "operator": "Зарядная станция",
@@ -3451,7 +3344,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0378",
+      "id": "S-0376",
       "lat": 55.718882,
       "lon": 37.628631,
       "operator": "Electrifly",
@@ -3468,7 +3361,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0381",
+      "id": "S-0379",
       "lat": 55.718059,
       "lon": 37.614906,
       "operator": "Яндекс Заправки",
@@ -3485,7 +3378,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0382",
+      "id": "S-0380",
       "lat": 55.716308,
       "lon": 37.609619,
       "operator": "Яндекс Заправки",
@@ -3502,7 +3395,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0384",
+      "id": "S-0381",
+      "lat": 55.724462,
+      "lon": 37.608917,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 39% быстрых у оператора",
+      "address": "Донская улица, 11",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0382",
       "lat": 55.733931,
       "lon": 37.588848,
       "operator": "Яндекс Заправки",
@@ -3519,24 +3429,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0395",
-      "lat": 55.740608,
-      "lon": 37.576933,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора",
-      "address": "улица Плющиха",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0396",
+      "id": "S-0394",
       "lat": 55.743449,
       "lon": 37.582501,
       "operator": "Яндекс Заправки",
@@ -3553,7 +3446,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0397",
+      "id": "S-0395",
       "lat": 55.747429,
       "lon": 37.58129,
       "operator": "Energy by Тесла центр",
@@ -3565,12 +3458,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Смоленская площадь, 3",
       "address_source": "yandex"
     },
     {
-      "id": "S-0399",
+      "id": "S-0397",
       "lat": 55.743758,
       "lon": 37.576616,
       "operator": "Яндекс Заправки",
@@ -3587,7 +3480,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0403",
+      "id": "S-0400",
       "lat": 55.789215,
       "lon": 37.596245,
       "operator": "Яндекс Заправки",
@@ -3604,7 +3497,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0405",
+      "id": "S-0402",
       "lat": 55.789732,
       "lon": 37.584925,
       "operator": "IT Charge",
@@ -3621,7 +3514,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0407",
+      "id": "S-0403",
+      "lat": 55.792729,
+      "lon": 37.597286,
+      "operator": "Розетка",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "улица Сущёвский Вал, 15",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0404",
       "lat": 55.7947,
       "lon": 37.594026,
       "operator": "Punkt E",
@@ -3638,7 +3548,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0409",
+      "id": "S-0406",
       "lat": 55.78823,
       "lon": 37.631833,
       "operator": "Яндекс Заправки",
@@ -3655,7 +3565,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0412",
+      "id": "S-0409",
       "lat": 55.791388,
       "lon": 37.629238,
       "operator": "Энергия Москвы",
@@ -3672,7 +3582,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0413",
+      "id": "S-0410",
       "lat": 55.788152,
       "lon": 37.639961,
       "operator": "Энергия Москвы",
@@ -3689,7 +3599,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0414",
+      "id": "S-0411",
       "lat": 55.790278,
       "lon": 37.637799,
       "operator": "Яндекс Заправки",
@@ -3706,7 +3616,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0418",
+      "id": "S-0415",
       "lat": 55.777746,
       "lon": 37.687619,
       "operator": "Яндекс Заправки",
@@ -3723,7 +3633,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0421",
+      "id": "S-0417",
       "lat": 55.762228,
       "lon": 37.714116,
       "operator": "Яндекс Заправки",
@@ -3740,7 +3650,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0423",
+      "id": "S-0419",
       "lat": 55.744646,
       "lon": 37.702836,
       "operator": "Яндекс Заправки",
@@ -3757,7 +3667,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0424",
+      "id": "S-0420",
       "lat": 55.734898,
       "lon": 37.703999,
       "operator": "Яндекс Заправки",
@@ -3774,7 +3684,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0430",
+      "id": "S-0424",
+      "lat": 55.715059,
+      "lon": 37.714966,
+      "operator": "EVlink",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Волгоградский проспект, 41с1",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0425",
       "lat": 55.727637,
       "lon": 37.679773,
       "operator": "Энергия Москвы",
@@ -3786,12 +3713,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора",
+      "kind_source": "оценка: 39% быстрых у оператора",
       "address": "Волгоградский проспект (дублёр)",
       "address_source": "nominatim"
     },
     {
-      "id": "S-0435",
+      "id": "S-0430",
       "lat": 55.69989,
       "lon": 37.642475,
       "operator": "Electro. cars",
@@ -3808,7 +3735,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0438",
+      "id": "S-0431",
+      "lat": 55.708351,
+      "lon": 37.638501,
+      "operator": "Hyper",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Даниловская набережная, 6, корп. 5",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0433",
       "lat": 55.709972,
       "lon": 37.625208,
       "operator": "РСЗС",
@@ -3825,24 +3769,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0440",
-      "lat": 55.712341,
-      "lon": 37.619602,
-      "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 0% быстрых у оператора",
-      "address": "2-я Самаринская улица",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0445",
+      "id": "S-0439",
       "lat": 55.712035,
       "lon": 37.621369,
       "operator": "Энергия Москвы",
@@ -3854,12 +3781,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 40% быстрых у оператора",
+      "kind_source": "оценка: 39% быстрых у оператора",
       "address": "Мытная улица",
       "address_source": "yandex"
     },
     {
-      "id": "S-0446",
+      "id": "S-0440",
       "lat": 55.72265,
       "lon": 37.561181,
       "operator": "Electro. cars",
@@ -3876,10 +3803,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0449",
-      "lat": 55.732479,
-      "lon": 37.541117,
-      "operator": "Станция зарядки электромобилей",
+      "id": "S-0444",
+      "lat": 55.733475,
+      "lon": 37.54582,
+      "operator": "Edison",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -3888,51 +3815,17 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 50% быстрых у оператора",
-      "address": "1-й Сетуньский проезд, 8",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Бережковская набережная, 20с73",
       "address_source": "yandex"
     },
     {
-      "id": "S-0451",
-      "lat": 55.740449,
-      "lon": 37.541827,
-      "operator": "Мосэнерго",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Студенческая улица, 36",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0452",
-      "lat": 55.747157,
-      "lon": 37.537694,
-      "operator": "Evlink",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Пресненская набережная",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-0453",
+      "id": "S-0447",
       "lat": 55.750486,
       "lon": 37.535718,
       "operator": "Sitronics Electro",
-      "P_kW": 60,
-      "posts": 2,
+      "P_kW": 120,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -3944,24 +3837,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0454",
-      "lat": 55.749633,
-      "lon": 37.537434,
-      "operator": "Итайгер",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Пресненская набережная, 12",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0455",
+      "id": "S-0449",
       "lat": 55.753585,
       "lon": 37.521765,
       "operator": "Яндекс Заправки",
@@ -3978,7 +3854,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0456",
+      "id": "S-0450",
       "lat": 55.75201,
       "lon": 37.533942,
       "operator": "Яндекс зарядки",
@@ -3990,12 +3866,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "1-й Красногвардейский проезд, 22с1",
       "address_source": "yandex"
     },
     {
-      "id": "S-0459",
+      "id": "S-0452",
       "lat": 55.758696,
       "lon": 37.526578,
       "operator": "Electrocars",
@@ -4007,12 +3883,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "2-я Магистральная улица, 9с17",
       "address_source": "yandex"
     },
     {
-      "id": "S-0462",
+      "id": "S-0455",
       "lat": 55.762594,
       "lon": 37.52771,
       "operator": "Зарядная станция Борисхоф",
@@ -4029,7 +3905,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0463",
+      "id": "S-0456",
       "lat": 55.766313,
       "lon": 37.522775,
       "operator": "Electro. cars",
@@ -4046,7 +3922,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0464",
+      "id": "S-0457",
       "lat": 55.766214,
       "lon": 37.524996,
       "operator": "Electro. cars",
@@ -4063,7 +3939,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0466",
+      "id": "S-0459",
       "lat": 55.7742755,
       "lon": 37.545957,
       "operator": "Punkt E",
@@ -4080,7 +3956,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0469",
+      "id": "S-0462",
       "lat": 55.784673,
       "lon": 37.539302,
       "operator": "Энергия Москвы",
@@ -4092,12 +3968,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 41% быстрых у оператора",
+      "kind_source": "оценка: 40% быстрых у оператора",
       "address": "улица Авиаконструктора Сухого",
       "address_source": "yandex"
     },
     {
-      "id": "S-0476",
+      "id": "S-0469",
       "lat": 55.793419,
       "lon": 37.55956,
       "operator": "Volt",
@@ -4114,7 +3990,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0477",
+      "id": "S-0470",
       "lat": 55.793041,
       "lon": 37.567726,
       "operator": "Яндекс Заправки",
@@ -4131,7 +4007,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0479",
+      "id": "S-0472",
       "lat": 55.795574,
       "lon": 37.573546,
       "operator": "Энергия Москвы",
@@ -4148,7 +4024,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0480",
+      "id": "S-0473",
       "lat": 55.794671,
       "lon": 37.566231,
       "operator": "Яндекс Заправки",
@@ -4165,7 +4041,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0482",
+      "id": "S-0475",
       "lat": 55.801114,
       "lon": 37.574327,
       "operator": "Яндекс Заправки",
@@ -4182,7 +4058,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0483",
+      "id": "S-0476",
       "lat": 55.79529,
       "lon": 37.586373,
       "operator": "Яндекс Заправки",
@@ -4199,7 +4075,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0485",
+      "id": "S-0478",
       "lat": 55.802831,
       "lon": 37.570725,
       "operator": "Яндекс Заправки",
@@ -4216,10 +4092,27 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0487",
-      "lat": 55.796846,
-      "lon": 37.600675,
-      "operator": "Evlink",
+      "id": "S-0479",
+      "lat": 55.8045855,
+      "lon": 37.591257,
+      "operator": "Энергия Москвы",
+      "P_kW": 120,
+      "posts": 2,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "address": "Новодмитровская улица, 2, корп. 3",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0481",
+      "lat": 55.805745,
+      "lon": 37.588571,
+      "operator": "Punkt E",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -4228,12 +4121,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "улица Двинцев, 12, корп. 1, стр. 2",
+      "kind_source": "оценка: 68% быстрых у оператора",
+      "address": "Новодмитровская улица, 2Б",
       "address_source": "yandex"
     },
     {
-      "id": "S-0489",
+      "id": "S-0482",
       "lat": 55.80149,
       "lon": 37.61438,
       "operator": "Энергия Москвы",
@@ -4250,7 +4143,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0492",
+      "id": "S-0484",
       "lat": 55.795553,
       "lon": 37.611222,
       "operator": "Яндекс Заправки",
@@ -4267,7 +4160,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0493",
+      "id": "S-0485",
       "lat": 55.79446,
       "lon": 37.624815,
       "operator": "Яндекс Заправки",
@@ -4284,7 +4177,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0494",
+      "id": "S-0486",
       "lat": 55.801537,
       "lon": 37.637575,
       "operator": "Electro. cars",
@@ -4296,12 +4189,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 85% быстрых у оператора",
+      "kind_source": "оценка: 84% быстрых у оператора",
       "address": "проспект Мира, 102, стр. 12",
       "address_source": "yandex"
     },
     {
-      "id": "S-0496",
+      "id": "S-0488",
       "lat": 55.785818,
       "lon": 37.688426,
       "operator": "Яндекс Заправки",
@@ -4318,7 +4211,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0497",
+      "id": "S-0489",
       "lat": 55.779855,
       "lon": 37.71106,
       "operator": "Punkt E",
@@ -4335,7 +4228,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0498",
+      "id": "S-0490",
       "lat": 55.766277,
       "lon": 37.728664,
       "operator": "Яндекс Заправки",
@@ -4352,7 +4245,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0499",
+      "id": "S-0491",
       "lat": 55.773696,
       "lon": 37.736737,
       "operator": "Яндекс Заправки",
@@ -4369,7 +4262,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0500",
+      "id": "S-0492",
       "lat": 55.760958,
       "lon": 37.732156,
       "operator": "Яндекс Заправки",
@@ -4386,7 +4279,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0501",
+      "id": "S-0493",
       "lat": 55.766305,
       "lon": 37.741705,
       "operator": "Яндекс Заправки",
@@ -4403,7 +4296,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0504",
+      "id": "S-0496",
       "lat": 55.750079,
       "lon": 37.726823,
       "operator": "Electro. cars",
@@ -4420,7 +4313,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0505",
+      "id": "S-0497",
       "lat": 55.741789,
       "lon": 37.769491,
       "operator": "Яндекс Заправки",
@@ -4437,7 +4330,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0507",
+      "id": "S-0498",
+      "lat": 55.750128,
+      "lon": 37.77164,
+      "operator": "Sitronics Electro",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 55% быстрых у оператора",
+      "address": "1-й проезд Перова Поля, 9с11",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0499",
       "lat": 55.747331,
       "lon": 37.785833,
       "operator": "Яндекс Заправки",
@@ -4454,7 +4364,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0508",
+      "id": "S-0500",
       "lat": 55.842329,
       "lon": 37.567931,
       "operator": "Яндекс Заправки",
@@ -4471,7 +4381,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0516",
+      "id": "S-0508",
       "lat": 55.816851,
       "lon": 37.568327,
       "operator": "Artis",
@@ -4488,24 +4398,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0517",
-      "lat": 55.8272805,
-      "lon": 37.5220255,
-      "operator": "Энергия Москвы",
-      "P_kW": 120,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
-      "address": "Новопетровская ул., 14",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0520",
+      "id": "S-0512",
       "lat": 55.823575,
       "lon": 37.52996,
       "operator": "Яндекс Заправки",
@@ -4522,7 +4415,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0521",
+      "id": "S-0513",
       "lat": 55.807612,
       "lon": 37.540594,
       "operator": "Яндекс Заправки",
@@ -4539,7 +4432,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0522",
+      "id": "S-0514",
       "lat": 55.808183,
       "lon": 37.562618,
       "operator": "Энергия Москвы",
@@ -4556,7 +4449,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0525",
+      "id": "S-0517",
       "lat": 55.824598,
       "lon": 37.522679,
       "operator": "Энергия Москвы",
@@ -4568,12 +4461,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
+      "kind_source": "оценка: 39% быстрых у оператора",
       "address": "улица Зои и Александра Космодемьянских, 31к2",
       "address_source": "yandex"
     },
     {
-      "id": "S-0526",
+      "id": "S-0518",
       "lat": 55.821578,
       "lon": 37.527972,
       "operator": "Яндекс Заправки",
@@ -4590,7 +4483,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0533",
+      "id": "S-0524",
       "lat": 55.797726,
       "lon": 37.508999,
       "operator": "Яндекс Заправки",
@@ -4607,7 +4500,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0535",
+      "id": "S-0525",
+      "lat": 55.791533,
+      "lon": 37.506644,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "улица Зорге, 28, корп. 1",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0526",
       "lat": 55.778967,
       "lon": 37.522342,
       "operator": "Яндекс Заправки",
@@ -4624,7 +4535,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0536",
+      "id": "S-0527",
       "lat": 55.789344,
       "lon": 37.501777,
       "operator": "Punkt E",
@@ -4641,41 +4552,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0537",
-      "lat": 55.767123,
-      "lon": 37.524346,
-      "operator": "Зарядная станция",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 64% быстрых у оператора",
-      "address": "2-й Магистральный тупик, 5А",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0538",
-      "lat": 55.766887,
-      "lon": 37.523414,
-      "operator": "Зарядная станция",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 60% быстрых у оператора",
-      "address": "2-й Магистральный тупик, 5А",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0541",
+      "id": "S-0532",
       "lat": 55.765295,
       "lon": 37.492343,
       "operator": "Яндекс Заправки",
@@ -4692,7 +4569,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0542",
+      "id": "S-0533",
       "lat": 55.774189,
       "lon": 37.49439,
       "operator": "Яндекс Заправки",
@@ -4709,25 +4586,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0543",
-      "lat": 55.754934,
-      "lon": 37.508663,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Проектируемый проезд № 1672",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0544",
+      "id": "S-0535",
       "lat": 55.759205,
       "lon": 37.519947,
       "operator": "Яндекс Заправки",
@@ -4744,7 +4603,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0545",
+      "id": "S-0536",
       "lat": 55.755917,
       "lon": 37.520271,
       "operator": "Яндекс Заправки",
@@ -4761,7 +4620,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0546",
+      "id": "S-0537",
       "lat": 55.750696,
       "lon": 37.505227,
       "operator": "Яндекс Заправки",
@@ -4778,7 +4637,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0548",
+      "id": "S-0539",
       "lat": 55.778421,
       "lon": 37.466718,
       "operator": "Яндекс Заправки",
@@ -4795,7 +4654,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0549",
+      "id": "S-0540",
       "lat": 55.740535,
       "lon": 37.4792,
       "operator": "Яндекс Заправки",
@@ -4812,7 +4671,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0552",
+      "id": "S-0543",
       "lat": 55.736415,
       "lon": 37.481647,
       "operator": "Яндекс Заправки",
@@ -4829,7 +4688,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0556",
+      "id": "S-0547",
       "lat": 55.726209,
       "lon": 37.494423,
       "operator": "Розетка",
@@ -4841,12 +4700,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Минская улица, 1Н",
       "address_source": "yandex"
     },
     {
-      "id": "S-0558",
+      "id": "S-0549",
       "lat": 55.736014,
       "lon": 37.484635,
       "operator": "Яндекс Заправки",
@@ -4863,7 +4722,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0559",
+      "id": "S-0550",
       "lat": 55.733545,
       "lon": 37.521014,
       "operator": "Яндекс Заправки",
@@ -4880,7 +4739,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0560",
+      "id": "S-0551",
       "lat": 55.738814,
       "lon": 37.52077,
       "operator": "Яндекс Заправки",
@@ -4897,7 +4756,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0561",
+      "id": "S-0552",
       "lat": 55.746083,
       "lon": 37.500008,
       "operator": "Яндекс Заправки",
@@ -4914,7 +4773,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0562",
+      "id": "S-0553",
       "lat": 55.728154,
       "lon": 37.52399,
       "operator": "Яндекс Заправки",
@@ -4931,7 +4790,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0563",
+      "id": "S-0554",
       "lat": 55.717198,
       "lon": 37.520186,
       "operator": "Яндекс Заправки",
@@ -4948,7 +4807,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0564",
+      "id": "S-0555",
       "lat": 55.723507,
       "lon": 37.526195,
       "operator": "Яндекс Заправки",
@@ -4965,7 +4824,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0565",
+      "id": "S-0556",
       "lat": 55.725636,
       "lon": 37.526749,
       "operator": "Энергия Москвы",
@@ -4982,7 +4841,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0566",
+      "id": "S-0557",
       "lat": 55.717553,
       "lon": 37.521048,
       "operator": "Яндекс Заправки",
@@ -4999,7 +4858,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0567",
+      "id": "S-0558",
       "lat": 55.707629,
       "lon": 37.507955,
       "operator": "Яндекс Заправки",
@@ -5016,24 +4875,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0568",
-      "lat": 55.725853,
-      "lon": 37.516025,
-      "operator": "Ekf, станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "улица МЖД Киевское 5-й километр",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0569",
+      "id": "S-0560",
       "lat": 55.710787,
       "lon": 37.478713,
       "operator": "Яндекс Заправки",
@@ -5050,7 +4892,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0572",
+      "id": "S-0563",
       "lat": 55.712772,
       "lon": 37.480399,
       "operator": "Яндекс Заправки",
@@ -5067,7 +4909,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0574",
+      "id": "S-0565",
       "lat": 55.707075,
       "lon": 37.475768,
       "operator": "Яндекс Заправки",
@@ -5084,7 +4926,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0575",
+      "id": "S-0566",
       "lat": 55.714406,
       "lon": 37.474268,
       "operator": "Энергия Москвы",
@@ -5101,7 +4943,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0576",
+      "id": "S-0567",
       "lat": 55.706978,
       "lon": 37.47178,
       "operator": "Яндекс Заправки",
@@ -5118,7 +4960,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0577",
+      "id": "S-0568",
       "lat": 55.70645,
       "lon": 37.507073,
       "operator": "Яндекс Заправки",
@@ -5135,7 +4977,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0578",
+      "id": "S-0569",
       "lat": 55.734071,
       "lon": 37.486828,
       "operator": "Яндекс Заправки",
@@ -5152,7 +4994,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0581",
+      "id": "S-0572",
       "lat": 55.722141,
       "lon": 37.461985,
       "operator": "Энергия Москвы",
@@ -5169,7 +5011,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0583",
+      "id": "S-0574",
       "lat": 55.698751,
       "lon": 37.489586,
       "operator": "Яндекс Заправки",
@@ -5186,7 +5028,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0584",
+      "id": "S-0575",
       "lat": 55.706268,
       "lon": 37.461172,
       "operator": "Яндекс Заправки",
@@ -5203,7 +5045,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0586",
+      "id": "S-0577",
       "lat": 55.717667,
       "lon": 37.457494,
       "operator": "Яндекс Заправки",
@@ -5220,7 +5062,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0587",
+      "id": "S-0578",
       "lat": 55.707607,
       "lon": 37.459801,
       "operator": "Яндекс Заправки",
@@ -5237,7 +5079,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0588",
+      "id": "S-0579",
       "lat": 55.702589,
       "lon": 37.460789,
       "operator": "Яндекс Заправки",
@@ -5254,7 +5096,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0592",
+      "id": "S-0583",
       "lat": 55.731948,
       "lon": 37.465131,
       "operator": "Яндекс Заправки",
@@ -5271,7 +5113,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0593",
+      "id": "S-0584",
       "lat": 55.732937,
       "lon": 37.448863,
       "operator": "Яндекс Заправки",
@@ -5288,7 +5130,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0594",
+      "id": "S-0585",
       "lat": 55.736974,
       "lon": 37.462746,
       "operator": "Яндекс Заправки",
@@ -5305,7 +5147,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0596",
+      "id": "S-0587",
       "lat": 55.724005,
       "lon": 37.44468,
       "operator": "Яндекс Заправки",
@@ -5322,7 +5164,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0598",
+      "id": "S-0589",
       "lat": 55.725257,
       "lon": 37.437657,
       "operator": "Яндекс Заправки",
@@ -5339,12 +5181,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0600",
-      "lat": 55.757867,
-      "lon": 37.4438,
+      "id": "S-0591",
+      "lat": 55.757870999999994,
+      "lon": 37.443785000000005,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 2,
+      "P_kW": 120,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -5356,24 +5198,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0602",
-      "lat": 55.757875,
-      "lon": 37.44377,
-      "operator": "Touch",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Островная улица, 7Б",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0606",
+      "id": "S-0596",
       "lat": 55.799902,
       "lon": 37.404288,
       "operator": "Энергия Москвы",
@@ -5390,12 +5215,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0612",
-      "lat": 55.817729,
-      "lon": 37.387871,
+      "id": "S-0602",
+      "lat": 55.8177315,
+      "lon": 37.387844,
       "operator": "Зарядная станция",
-      "P_kW": 60,
-      "posts": 2,
+      "P_kW": 120,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -5407,25 +5232,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0613",
-      "lat": 55.815555,
-      "lon": 37.380136,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 69% быстрых у оператора",
-      "outside_mkad": true,
-      "address": "Московская область, Красногорск, бульвар Строителей, 1",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0614",
+      "id": "S-0604",
       "lat": 55.817739,
       "lon": 37.387556,
       "operator": "IT Charge",
@@ -5442,7 +5249,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0615",
+      "id": "S-0605",
       "lat": 55.815935,
       "lon": 37.382165,
       "operator": "МОСОБЛЭНЕРГО",
@@ -5459,7 +5266,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0617",
+      "id": "S-0607",
       "lat": 55.818139,
       "lon": 37.382442,
       "operator": "МОСОБЛЭНЕРГО",
@@ -5476,7 +5283,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0624",
+      "id": "S-0614",
       "lat": 55.847453,
       "lon": 37.426495,
       "operator": "Яндекс Заправки",
@@ -5493,7 +5300,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0625",
+      "id": "S-0615",
       "lat": 55.848247,
       "lon": 37.427688,
       "operator": "Яндекс Заправки",
@@ -5510,7 +5317,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0629",
+      "id": "S-0619",
       "lat": 55.860236,
       "lon": 37.445177,
       "operator": "Яндекс Заправки",
@@ -5527,7 +5334,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0631",
+      "id": "S-0621",
       "lat": 55.847161,
       "lon": 37.445223,
       "operator": "Яндекс Заправки",
@@ -5544,7 +5351,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0632",
+      "id": "S-0622",
       "lat": 55.84463,
       "lon": 37.444948,
       "operator": "Яндекс Заправки",
@@ -5561,7 +5368,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0634",
+      "id": "S-0624",
       "lat": 55.858711,
       "lon": 37.390922,
       "operator": "МОСОБЛЭНЕРГО",
@@ -5579,7 +5386,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0635",
+      "id": "S-0625",
       "lat": 55.850965,
       "lon": 37.450237,
       "operator": "Яндекс Заправки",
@@ -5596,7 +5403,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0636",
+      "id": "S-0626",
       "lat": 55.850246,
       "lon": 37.44399,
       "operator": "Тесла центр",
@@ -5608,15 +5415,15 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Сходненская улица, 56",
       "address_source": "yandex"
     },
     {
-      "id": "S-0639",
-      "lat": 55.887289,
-      "lon": 37.433099,
-      "operator": "Электропойнт",
+      "id": "S-0628",
+      "lat": 55.865481,
+      "lon": 37.464125,
+      "operator": "Energo",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -5625,13 +5432,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "outside_mkad": true,
-      "address": "Московская область, Химки",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Ленинградское шоссе, 112к4с5",
       "address_source": "yandex"
     },
     {
-      "id": "S-0643",
+      "id": "S-0633",
       "lat": 55.866775,
       "lon": 37.481202,
       "operator": "Энергия Москвы",
@@ -5643,29 +5449,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
+      "kind_source": "оценка: 39% быстрых у оператора",
       "address": "Беломорская улица",
       "address_source": "yandex"
     },
     {
-      "id": "S-0644",
-      "lat": 55.862131,
-      "lon": 37.466772,
-      "operator": "Розетка",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 83% быстрых у оператора",
-      "address": "Беломорская улица, 2А",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0646",
+      "id": "S-0636",
       "lat": 55.863843,
       "lon": 37.466009,
       "operator": "Яндекс Заправки",
@@ -5682,7 +5471,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0648",
+      "id": "S-0638",
       "lat": 55.860782,
       "lon": 37.493691,
       "operator": "Яндекс Заправки",
@@ -5699,7 +5488,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0649",
+      "id": "S-0639",
       "lat": 55.859177,
       "lon": 37.492779,
       "operator": "Энергия Москвы",
@@ -5717,7 +5506,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0652",
+      "id": "S-0642",
       "lat": 55.867005,
       "lon": 37.523381,
       "operator": "Яндекс Заправки",
@@ -5734,7 +5523,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0654",
+      "id": "S-0643",
       "lat": 55.889232,
       "lon": 37.482052,
       "operator": "МОСОБЛЭНЕРГО",
@@ -5751,24 +5540,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0655",
-      "lat": 55.89571,
-      "lon": 37.526243,
-      "operator": "Розетка, станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Ижорская улица",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-0656",
+      "id": "S-0645",
       "lat": 55.877021,
       "lon": 37.52033,
       "operator": "Яндекс Заправки",
@@ -5785,7 +5557,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0660",
+      "id": "S-0649",
       "lat": 55.878176,
       "lon": 37.543145,
       "operator": "Caready",
@@ -5797,29 +5569,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Дмитровское шоссе, 107Д",
       "address_source": "yandex"
     },
     {
-      "id": "S-0664",
-      "lat": 55.885637,
-      "lon": 37.565043,
-      "operator": "Энергия Москвы, станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Керамический проезд, 61к3",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0666",
+      "id": "S-0655",
       "lat": 55.895765,
       "lon": 37.587673,
       "operator": "Энергия Москвы",
@@ -5837,7 +5592,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0671",
+      "id": "S-0660",
       "lat": 55.881528,
       "lon": 37.602723,
       "operator": "Sitronics Electro",
@@ -5854,10 +5609,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0673",
-      "lat": 55.908205,
-      "lon": 37.599592,
-      "operator": "Автодом Станция зарядки электромобилей",
+      "id": "S-0661",
+      "lat": 55.909062,
+      "lon": 37.600077,
+      "operator": "Charing point",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -5866,12 +5621,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Московская область, городской округ Мытищи, посёлок Вёшки, торгово-промышленная зона Алтуфьево, МКАД, 85-й километр, 5, стр. 4",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "outside_mkad": true,
+      "address": "Московская область, городской округ Мытищи, посёлок Вешки, торгово-промышленная зона Алтуфьево, МКАД, 85-й километр, 5, стр. 4",
       "address_source": "yandex"
     },
     {
-      "id": "S-0676",
+      "id": "S-0665",
       "lat": 55.878014,
       "lon": 37.630261,
       "operator": "Яндекс Заправки",
@@ -5888,7 +5644,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0677",
+      "id": "S-0666",
       "lat": 55.874715,
       "lon": 37.608427,
       "operator": "Энергия Москвы",
@@ -5900,12 +5656,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
+      "kind_source": "оценка: 39% быстрых у оператора",
       "address": "улица Римского-Корсакова",
       "address_source": "yandex"
     },
     {
-      "id": "S-0678",
+      "id": "S-0667",
       "lat": 55.877387,
       "lon": 37.633613,
       "operator": "Яндекс Заправки",
@@ -5922,7 +5678,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0679",
+      "id": "S-0668",
       "lat": 55.875135,
       "lon": 37.628431,
       "operator": "Яндекс Заправки",
@@ -5939,7 +5695,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0680",
+      "id": "S-0669",
       "lat": 55.873921,
       "lon": 37.635647,
       "operator": "IT Charge",
@@ -5956,7 +5712,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0683",
+      "id": "S-0672",
       "lat": 55.872166,
       "lon": 37.641452,
       "operator": "Яндекс Заправки",
@@ -5973,7 +5729,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0685",
+      "id": "S-0673",
       "lat": 55.882617,
       "lon": 37.649298,
       "operator": "Яндекс Заправки",
@@ -5990,7 +5746,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0686",
+      "id": "S-0674",
       "lat": 55.888786,
       "lon": 37.647657,
       "operator": "Яндекс Заправки",
@@ -6007,7 +5763,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0689",
+      "id": "S-0677",
       "lat": 55.885529,
       "lon": 37.655709,
       "operator": "Яндекс Заправки",
@@ -6024,7 +5780,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0690",
+      "id": "S-0678",
       "lat": 55.886504,
       "lon": 37.658529,
       "operator": "Яндекс Заправки",
@@ -6041,7 +5797,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0691",
+      "id": "S-0679",
       "lat": 55.893068,
       "lon": 37.658595,
       "operator": "Яндекс Заправки",
@@ -6058,7 +5814,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0692",
+      "id": "S-0680",
       "lat": 55.89172,
       "lon": 37.654835,
       "operator": "Яндекс Заправки",
@@ -6075,7 +5831,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0693",
+      "id": "S-0681",
       "lat": 55.890209,
       "lon": 37.655928,
       "operator": "Яндекс Заправки",
@@ -6092,7 +5848,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0694",
+      "id": "S-0682",
       "lat": 55.893907,
       "lon": 37.66166,
       "operator": "Яндекс Заправки",
@@ -6109,7 +5865,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0695",
+      "id": "S-0683",
       "lat": 55.892223,
       "lon": 37.672309,
       "operator": "Яндекс Заправки",
@@ -6126,7 +5882,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0696",
+      "id": "S-0684",
       "lat": 55.873258,
       "lon": 37.676826,
       "operator": "Яндекс Заправки",
@@ -6143,7 +5899,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0697",
+      "id": "S-0685",
       "lat": 55.876427,
       "lon": 37.674783,
       "operator": "Яндекс Заправки",
@@ -6160,7 +5916,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0698",
+      "id": "S-0686",
       "lat": 55.868582,
       "lon": 37.66698,
       "operator": "Яндекс Заправки",
@@ -6177,7 +5933,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0699",
+      "id": "S-0687",
       "lat": 55.866659,
       "lon": 37.685271,
       "operator": "Яндекс Заправки",
@@ -6194,7 +5950,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0700",
+      "id": "S-0688",
       "lat": 55.894136,
       "lon": 37.700971,
       "operator": "Major Auto",
@@ -6212,7 +5968,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0701",
+      "id": "S-0689",
       "lat": 55.867364,
       "lon": 37.670389,
       "operator": "Яндекс Заправки",
@@ -6229,7 +5985,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0704",
+      "id": "S-0691",
       "lat": 55.874521,
       "lon": 37.707923,
       "operator": "Яндекс Заправки",
@@ -6246,7 +6002,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0705",
+      "id": "S-0692",
       "lat": 55.859318,
       "lon": 37.700278,
       "operator": "Яндекс Заправки",
@@ -6263,7 +6019,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0707",
+      "id": "S-0694",
       "lat": 55.891719,
       "lon": 37.746427,
       "operator": "Artis",
@@ -6281,7 +6037,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0708",
+      "id": "S-0695",
       "lat": 55.891638,
       "lon": 37.746531,
       "operator": "Punkt E",
@@ -6299,7 +6055,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0709",
+      "id": "S-0696",
       "lat": 55.861184,
       "lon": 37.688383,
       "operator": "Яндекс Заправки",
@@ -6316,7 +6072,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0710",
+      "id": "S-0697",
       "lat": 55.855381,
       "lon": 37.686968,
       "operator": "Яндекс Заправки",
@@ -6333,7 +6089,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0712",
+      "id": "S-0698",
+      "lat": 55.846084,
+      "lon": 37.666405,
+      "operator": "Зарядная станция",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 60% быстрых у оператора",
+      "address": "проспект Мира, 211, корп. 2",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0699",
       "lat": 55.862151,
       "lon": 37.665497,
       "operator": "Яндекс Заправки",
@@ -6350,7 +6123,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0714",
+      "id": "S-0701",
       "lat": 55.818061,
       "lon": 37.769277,
       "operator": "Punkt E",
@@ -6367,7 +6140,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0715",
+      "id": "S-0702",
       "lat": 55.812047,
       "lon": 37.782773,
       "operator": "Яндекс Заправки",
@@ -6384,41 +6157,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0716",
-      "lat": 55.809545,
-      "lon": 37.7409515,
-      "operator": "Розетка",
-      "P_kW": 120,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора",
-      "address": "Тюменский проезд, 5, стр. 2",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0717",
-      "lat": 55.810724,
-      "lon": 37.800109,
-      "operator": "Станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 50% быстрых у оператора",
-      "address": "Щёлковское шоссе, 75",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0718",
+      "id": "S-0705",
       "lat": 55.800068,
       "lon": 37.721646,
       "operator": "Яндекс Заправки",
@@ -6435,7 +6174,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0719",
+      "id": "S-0706",
       "lat": 55.815936,
       "lon": 37.723147,
       "operator": "Punkt E",
@@ -6452,7 +6191,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0721",
+      "id": "S-0708",
       "lat": 55.798687,
       "lon": 37.738163,
       "operator": "Яндекс Заправки",
@@ -6469,7 +6208,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0722",
+      "id": "S-0709",
       "lat": 55.82404,
       "lon": 37.809578,
       "operator": "Яндекс Заправки",
@@ -6486,7 +6225,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0724",
+      "id": "S-0711",
       "lat": 55.802108,
       "lon": 37.785054,
       "operator": "Яндекс Заправки",
@@ -6503,7 +6242,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0725",
+      "id": "S-0712",
       "lat": 55.803403,
       "lon": 37.790031,
       "operator": "Яндекс Заправки",
@@ -6520,24 +6259,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0726",
-      "lat": 55.817322,
-      "lon": 37.734857,
-      "operator": "Россети",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "6-й проезд Подбельского, 12",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0728",
+      "id": "S-0715",
       "lat": 55.801961,
       "lon": 37.792016,
       "operator": "Яндекс Заправки",
@@ -6554,7 +6276,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0729",
+      "id": "S-0716",
       "lat": 55.819933,
       "lon": 37.757126,
       "operator": "Яндекс Заправки",
@@ -6571,7 +6293,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0730",
+      "id": "S-0717",
       "lat": 55.801784,
       "lon": 37.823242,
       "operator": "Яндекс Заправки",
@@ -6588,7 +6310,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0731",
+      "id": "S-0718",
       "lat": 55.820925,
       "lon": 37.818628,
       "operator": "Яндекс Заправки",
@@ -6605,7 +6327,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0732",
+      "id": "S-0719",
       "lat": 55.809145,
       "lon": 37.841041,
       "operator": "Artis",
@@ -6623,7 +6345,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0734",
+      "id": "S-0721",
       "lat": 55.75936,
       "lon": 37.796416,
       "operator": "Яндекс Заправки",
@@ -6640,7 +6362,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0735",
+      "id": "S-0722",
       "lat": 55.751935,
       "lon": 37.807127,
       "operator": "Яндекс Заправки",
@@ -6657,7 +6379,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0736",
+      "id": "S-0723",
       "lat": 55.75784,
       "lon": 37.779767,
       "operator": "Яндекс Заправки",
@@ -6674,7 +6396,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0739",
+      "id": "S-0726",
       "lat": 55.746648,
       "lon": 37.813719,
       "operator": "Яндекс Заправки",
@@ -6691,7 +6413,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0740",
+      "id": "S-0727",
       "lat": 55.748448,
       "lon": 37.827,
       "operator": "Яндекс Заправки",
@@ -6708,7 +6430,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0743",
+      "id": "S-0730",
       "lat": 55.74228,
       "lon": 37.820419,
       "operator": "E-Way",
@@ -6725,7 +6447,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0744",
+      "id": "S-0731",
       "lat": 55.789166,
       "lon": 37.749716,
       "operator": "Станция зарядки электромобилей",
@@ -6742,7 +6464,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0745",
+      "id": "S-0732",
       "lat": 55.736132,
       "lon": 37.824698,
       "operator": "Яндекс Заправки",
@@ -6759,7 +6481,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0746",
+      "id": "S-0733",
       "lat": 55.755207,
       "lon": 37.80284,
       "operator": "Яндекс Заправки",
@@ -6776,7 +6498,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0747",
+      "id": "S-0734",
       "lat": 55.74448,
       "lon": 37.78954,
       "operator": "Яндекс Заправки",
@@ -6793,7 +6515,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0748",
+      "id": "S-0735",
       "lat": 55.727288,
       "lon": 37.77705,
       "operator": "Яндекс Заправки",
@@ -6810,7 +6532,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0751",
+      "id": "S-0738",
       "lat": 55.703302,
       "lon": 37.793094,
       "operator": "Энергия Москвы",
@@ -6827,7 +6549,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0752",
+      "id": "S-0739",
       "lat": 55.701173,
       "lon": 37.756069,
       "operator": "Энергия Москвы",
@@ -6844,7 +6566,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0753",
+      "id": "S-0740",
       "lat": 55.707333,
       "lon": 37.815312,
       "operator": "Яндекс Заправки",
@@ -6861,7 +6583,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0754",
+      "id": "S-0741",
       "lat": 55.711481,
       "lon": 37.814758,
       "operator": "Яндекс Заправки",
@@ -6878,7 +6600,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0755",
+      "id": "S-0742",
       "lat": 55.721643,
       "lon": 37.827427,
       "operator": "Яндекс Заправки",
@@ -6895,7 +6617,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0756",
+      "id": "S-0743",
       "lat": 55.723525,
       "lon": 37.827742,
       "operator": "Яндекс Заправки",
@@ -6912,7 +6634,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0757",
+      "id": "S-0744",
       "lat": 55.718879,
       "lon": 37.830488,
       "operator": "Яндекс Заправки",
@@ -6929,7 +6651,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0758",
+      "id": "S-0745",
       "lat": 55.708553,
       "lon": 37.751661,
       "operator": "Яндекс Заправки",
@@ -6946,7 +6668,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0759",
+      "id": "S-0746",
       "lat": 55.724549,
       "lon": 37.831758,
       "operator": "Яндекс Заправки",
@@ -6963,7 +6685,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0761",
+      "id": "S-0748",
       "lat": 55.702957,
       "lon": 37.742579,
       "operator": "Яндекс Заправки",
@@ -6980,7 +6702,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0763",
+      "id": "S-0750",
       "lat": 55.701901,
       "lon": 37.794374,
       "operator": "PlugMe",
@@ -6992,12 +6714,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Волгоградский проспект, 177",
       "address_source": "yandex"
     },
     {
-      "id": "S-0764",
+      "id": "S-0751",
       "lat": 55.694464,
       "lon": 37.749605,
       "operator": "Яндекс Заправки",
@@ -7014,7 +6736,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0765",
+      "id": "S-0752",
       "lat": 55.697936,
       "lon": 37.762761,
       "operator": "Яндекс Заправки",
@@ -7031,7 +6753,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0768",
+      "id": "S-0755",
       "lat": 55.706776,
       "lon": 37.724906,
       "operator": "IT Charge",
@@ -7048,7 +6770,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0769",
+      "id": "S-0756",
       "lat": 55.71372,
       "lon": 37.719201,
       "operator": "Станция зарядки электромобилей",
@@ -7060,29 +6782,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых у оператора",
+      "kind_source": "оценка: 57% быстрых у оператора",
       "address": "Волгоградский проспект, 43к2",
       "address_source": "yandex"
     },
     {
-      "id": "S-0771",
-      "lat": 55.7318465,
-      "lon": 37.68534,
-      "operator": "Порше",
-      "P_kW": 120,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Михайловский проезд, 3, стр. 6",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0773",
+      "id": "S-0760",
       "lat": 55.741944,
       "lon": 37.688067,
       "operator": "Яндекс Заправки",
@@ -7099,7 +6804,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0776",
+      "id": "S-0762",
       "lat": 55.738569,
       "lon": 37.686907,
       "operator": "Яндекс Заправки",
@@ -7116,7 +6821,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0777",
+      "id": "S-0763",
       "lat": 55.735843,
       "lon": 37.682272,
       "operator": "Яндекс Заправки",
@@ -7133,7 +6838,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0778",
+      "id": "S-0764",
       "lat": 55.727476,
       "lon": 37.661593,
       "operator": "Яндекс Заправки",
@@ -7150,7 +6855,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0783",
+      "id": "S-0768",
       "lat": 55.614242,
       "lon": 37.751052,
       "operator": "Энергия Москвы",
@@ -7167,42 +6872,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0784",
-      "lat": 55.632379,
-      "lon": 37.745836,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Братеевский проезд",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0785",
-      "lat": 55.651071333333334,
-      "lon": 37.745489,
-      "operator": "Punkt E",
-      "P_kW": 180,
-      "posts": 3,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 69% быстрых у оператора",
-      "address": "Новомарьинская улица",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0787",
+      "id": "S-0772",
       "lat": 55.650384,
       "lon": 37.770921,
       "operator": "Punkt E",
@@ -7219,7 +6889,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0788",
+      "id": "S-0773",
       "lat": 55.655574,
       "lon": 37.754287,
       "operator": "Electro. cars",
@@ -7236,7 +6906,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0790",
+      "id": "S-0774",
       "lat": 55.655639,
       "lon": 37.761104,
       "operator": "Энергия Москвы",
@@ -7253,7 +6923,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0793",
+      "id": "S-0777",
       "lat": 55.660574,
       "lon": 37.751777,
       "operator": "Энергия Москвы",
@@ -7270,7 +6940,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0794",
+      "id": "S-0778",
       "lat": 55.656496,
       "lon": 37.760077,
       "operator": "Станция зарядки электромобилей",
@@ -7288,24 +6958,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0796",
-      "lat": 55.6514,
-      "lon": 37.706779,
-      "operator": "Станция зарядки электробусов",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "район Марьино",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-0799",
+      "id": "S-0783",
       "lat": 55.618003,
       "lon": 37.711689,
       "operator": "Яндекс Заправки",
@@ -7322,7 +6975,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0800",
+      "id": "S-0784",
       "lat": 55.6168,
       "lon": 37.706734,
       "operator": "Яндекс Заправки",
@@ -7339,7 +6992,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0803",
+      "id": "S-0787",
       "lat": 55.666607,
       "lon": 37.753437,
       "operator": "Энергия Москвы",
@@ -7356,7 +7009,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0804",
+      "id": "S-0788",
       "lat": 55.668764,
       "lon": 37.767372,
       "operator": "Энергия Москвы",
@@ -7374,24 +7027,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0806",
-      "lat": 55.639989,
-      "lon": 37.792178,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 68% быстрых у оператора",
-      "address": "район Капотня, 10 с2",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-0807",
+      "id": "S-0790",
       "lat": 55.625969,
       "lon": 37.798741,
       "operator": "Major Auto",
@@ -7409,7 +7045,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0808",
+      "id": "S-0791",
       "lat": 55.634512,
       "lon": 37.811803,
       "operator": "Яндекс Заправки",
@@ -7427,24 +7063,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0810",
-      "lat": 55.64446,
-      "lon": 37.821185,
-      "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 75% быстрых у оператора",
-      "address": "МКАД, 16-й километр, вл4",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0818",
+      "id": "S-0801",
       "lat": 55.662277,
       "lon": 37.848091,
       "operator": "Мособлэнерго",
@@ -7462,7 +7081,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0819",
+      "id": "S-0802",
       "lat": 55.663463,
       "lon": 37.84885,
       "operator": "Мособлэнерго",
@@ -7480,7 +7099,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0820",
+      "id": "S-0803",
       "lat": 55.6814,
       "lon": 37.863932,
       "operator": "Мособлэнерго",
@@ -7498,7 +7117,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0821",
+      "id": "S-0804",
       "lat": 55.674554,
       "lon": 37.861793,
       "operator": "Punkt E",
@@ -7516,7 +7135,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0822",
+      "id": "S-0805",
       "lat": 55.677677,
       "lon": 37.772164,
       "operator": "Яндекс Заправки",
@@ -7533,7 +7152,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0823",
+      "id": "S-0806",
       "lat": 55.67663,
       "lon": 37.772583,
       "operator": "Яндекс Заправки",
@@ -7550,7 +7169,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0824",
+      "id": "S-0807",
       "lat": 55.67462,
       "lon": 37.758059,
       "operator": "Punkt E",
@@ -7562,12 +7181,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора",
+      "kind_source": "оценка: 68% быстрых у оператора",
       "address": "Зелёное кольцо",
       "address_source": "yandex"
     },
     {
-      "id": "S-0825",
+      "id": "S-0808",
       "lat": 55.702375,
       "lon": 37.777794,
       "operator": "Энергия Москвы",
@@ -7579,12 +7198,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
+      "kind_source": "оценка: 39% быстрых у оператора",
       "address": "Волгоградский просп., 116, корп. 1, стр. 2",
       "address_source": "yandex"
     },
     {
-      "id": "S-0826",
+      "id": "S-0809",
       "lat": 55.678162,
       "lon": 37.756448,
       "operator": "Яндекс Заправки",
@@ -7601,12 +7220,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0827",
-      "lat": 55.685133,
-      "lon": 37.736063,
+      "id": "S-0810",
+      "lat": 55.685135,
+      "lon": 37.736062000000004,
       "operator": "Electro. cars",
-      "P_kW": 60,
-      "posts": 4,
+      "P_kW": 120,
+      "posts": 5,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -7618,7 +7237,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0831",
+      "id": "S-0814",
       "lat": 55.676445,
       "lon": 37.751114,
       "operator": "Яндекс Заправки",
@@ -7635,7 +7254,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0832",
+      "id": "S-0815",
       "lat": 55.705018,
       "lon": 37.762626,
       "operator": "Яндекс Заправки",
@@ -7652,7 +7271,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0836",
+      "id": "S-0818",
+      "lat": 55.708684,
+      "lon": 37.751093,
+      "operator": "Zeekr",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Волгоградский просп., 93, корп. 2",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0819",
       "lat": 55.715693,
       "lon": 37.756752,
       "operator": "Punkt E",
@@ -7664,12 +7300,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора",
+      "kind_source": "оценка: 68% быстрых у оператора",
       "address": "Проектируемый проезд № 770",
       "address_source": "yandex"
     },
     {
-      "id": "S-0837",
+      "id": "S-0820",
       "lat": 55.699531,
       "lon": 37.744784,
       "operator": "Яндекс Заправки",
@@ -7686,24 +7322,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0838",
-      "lat": 55.701687,
-      "lon": 37.775405,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
-      "address": "Есенинский бул., 12, корп. 2",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0839",
+      "id": "S-0822",
       "lat": 55.712823,
       "lon": 37.772068,
       "operator": "Яндекс Заправки",
@@ -7720,7 +7339,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0840",
+      "id": "S-0823",
       "lat": 55.733242,
       "lon": 37.745757,
       "operator": "Яндекс Заправки",
@@ -7737,7 +7356,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0841",
+      "id": "S-0824",
       "lat": 55.716474,
       "lon": 37.781889,
       "operator": "Яндекс Заправки",
@@ -7754,7 +7373,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0842",
+      "id": "S-0825",
       "lat": 55.719707,
       "lon": 37.81511,
       "operator": "Яндекс Заправки",
@@ -7771,7 +7390,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0843",
+      "id": "S-0826",
       "lat": 55.710432,
       "lon": 37.816947,
       "operator": "Яндекс Заправки",
@@ -7788,7 +7407,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0844",
+      "id": "S-0827",
       "lat": 55.75955,
       "lon": 37.843721,
       "operator": "Россети",
@@ -7800,13 +7419,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "outside_mkad": true,
       "address": "Московская область, Реутов",
       "address_source": "yandex"
     },
     {
-      "id": "S-0845",
+      "id": "S-0828",
       "lat": 55.745627,
       "lon": 37.773495,
       "operator": "Яндекс Заправки",
@@ -7823,7 +7442,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0847",
+      "id": "S-0830",
       "lat": 55.81007,
       "lon": 37.83507,
       "operator": "Volt",
@@ -7840,7 +7459,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0848",
+      "id": "S-0831",
       "lat": 55.801869,
       "lon": 37.773242,
       "operator": "Яндекс Заправки",
@@ -7857,7 +7476,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0849",
+      "id": "S-0832",
       "lat": 55.803702,
       "lon": 37.772514,
       "operator": "Яндекс Заправки",
@@ -7874,7 +7493,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0850",
+      "id": "S-0833",
       "lat": 55.790666,
       "lon": 37.747175,
       "operator": "Egine",
@@ -7891,7 +7510,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0856",
+      "id": "S-0838",
       "lat": 55.778088,
       "lon": 37.737485,
       "operator": "Зарядка для электромобилей",
@@ -7903,12 +7522,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Вольная ул., 35",
       "address_source": "yandex"
     },
     {
-      "id": "S-0857",
+      "id": "S-0839",
       "lat": 55.795874,
       "lon": 37.77325,
       "operator": "Яндекс Заправки",
@@ -7925,7 +7544,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0859",
+      "id": "S-0840",
       "lat": 55.780314,
       "lon": 37.732286,
       "operator": "Яндекс Заправки",
@@ -7942,7 +7561,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0860",
+      "id": "S-0841",
       "lat": 55.825861,
       "lon": 37.755823,
       "operator": "Яндекс Заправки",
@@ -7959,7 +7578,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0862",
+      "id": "S-0843",
       "lat": 55.819985,
       "lon": 37.699544,
       "operator": "Энергия Москвы",
@@ -7971,12 +7590,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора",
+      "kind_source": "оценка: 40% быстрых у оператора",
       "address": "Погонный пр., 1, корп. 6, стр. 1",
       "address_source": "yandex"
     },
     {
-      "id": "S-0863",
+      "id": "S-0844",
       "lat": 55.85275,
       "lon": 37.689205,
       "operator": "Яндекс Заправки",
@@ -7993,7 +7612,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0867",
+      "id": "S-0848",
       "lat": 55.837702,
       "lon": 37.657287,
       "operator": "Яндекс Заправки",
@@ -8010,7 +7629,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0871",
+      "id": "S-0852",
       "lat": 55.8554,
       "lon": 37.641607,
       "operator": "Яндекс Заправки",
@@ -8027,7 +7646,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0874",
+      "id": "S-0855",
       "lat": 55.85789,
       "lon": 37.60762,
       "operator": "Энергия Москвы",
@@ -8044,7 +7663,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0875",
+      "id": "S-0856",
       "lat": 55.878429,
       "lon": 37.574958,
       "operator": "Яндекс Заправки",
@@ -8061,7 +7680,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0876",
+      "id": "S-0857",
       "lat": 55.895495,
       "lon": 37.480695,
       "operator": "Plug Me",
@@ -8079,7 +7698,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0877",
+      "id": "S-0858",
       "lat": 55.906041,
       "lon": 37.481518,
       "operator": "МОСОБЛЭНЕРГО",
@@ -8097,7 +7716,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0878",
+      "id": "S-0859",
       "lat": 55.893504,
       "lon": 37.479146,
       "operator": "Punkt E",
@@ -8115,7 +7734,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0879",
+      "id": "S-0860",
       "lat": 55.893606,
       "lon": 37.478936,
       "operator": "Plug Me",
@@ -8133,7 +7752,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0880",
+      "id": "S-0861",
       "lat": 55.889171,
       "lon": 37.476615,
       "operator": "Plug Me",
@@ -8150,7 +7769,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0881",
+      "id": "S-0862",
       "lat": 55.854737,
       "lon": 37.49814,
       "operator": "Энергия Москвы",
@@ -8167,7 +7786,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0882",
+      "id": "S-0863",
       "lat": 55.855978,
       "lon": 37.500528,
       "operator": "Яндекс Заправки",
@@ -8184,7 +7803,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0884",
+      "id": "S-0865",
       "lat": 55.850347,
       "lon": 37.521813,
       "operator": "Яндекс Заправки",
@@ -8201,7 +7820,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0885",
+      "id": "S-0866",
       "lat": 55.852341,
       "lon": 37.582964,
       "operator": "Яндекс Заправки",
@@ -8218,7 +7837,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0889",
+      "id": "S-0869",
       "lat": 55.862667,
       "lon": 37.564004,
       "operator": "Энергия Москвы",
@@ -8230,12 +7849,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 42% быстрых у оператора",
+      "kind_source": "оценка: 40% быстрых у оператора",
       "address": "Бескудниковский бул., 12А",
       "address_source": "yandex"
     },
     {
-      "id": "S-0892",
+      "id": "S-0872",
       "lat": 55.837567,
       "lon": 37.488245,
       "operator": "Энергия Москвы",
@@ -8252,7 +7871,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0894",
+      "id": "S-0874",
       "lat": 55.848887,
       "lon": 37.484424,
       "operator": "Яндекс Заправки",
@@ -8269,7 +7888,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0895",
+      "id": "S-0875",
       "lat": 55.843343,
       "lon": 37.456711,
       "operator": "Яндекс Заправки",
@@ -8286,7 +7905,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0898",
+      "id": "S-0877",
+      "lat": 55.863904,
+      "lon": 37.46335,
+      "operator": "E-Tron",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Ленинградское ш., 63Б",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0878",
       "lat": 55.8786135,
       "lon": 37.4249205,
       "operator": "Punkt E",
@@ -8304,7 +7940,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0899",
+      "id": "S-0879",
       "lat": 55.878196,
       "lon": 37.422449,
       "operator": "МосОблЭнерго",
@@ -8322,7 +7958,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0901",
+      "id": "S-0881",
       "lat": 55.83106,
       "lon": 37.44547,
       "operator": "Punkt E",
@@ -8339,7 +7975,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0902",
+      "id": "S-0882",
       "lat": 55.833883,
       "lon": 37.419958,
       "operator": "Яндекс Заправки",
@@ -8356,7 +7992,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0903",
+      "id": "S-0883",
       "lat": 55.841035,
       "lon": 37.462119,
       "operator": "Яндекс Заправки",
@@ -8373,29 +8009,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0904",
-      "lat": 55.816845,
-      "lon": 37.464029,
-      "operator": "Энергия Москвы, станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Волоколамское шоссе (дублёр)",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0908",
-      "lat": 55.83377,
-      "lon": 37.527203,
+      "id": "S-0886",
+      "lat": 55.833757500000004,
+      "lon": 37.5272415,
       "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -8407,7 +8026,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0909",
+      "id": "S-0887",
       "lat": 55.831457,
       "lon": 37.518833,
       "operator": "Evlink, станция зарядки электромобилей",
@@ -8419,12 +8038,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Коптевская улица",
       "address_source": "nominatim"
     },
     {
-      "id": "S-0913",
+      "id": "S-0891",
       "lat": 55.798905,
       "lon": 37.50528,
       "operator": "Яндекс Заправки",
@@ -8441,7 +8060,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0915",
+      "id": "S-0892",
+      "lat": 55.794379,
+      "lon": 37.483327,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "улица Расплетина",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0893",
       "lat": 55.795238,
       "lon": 37.500159,
       "operator": "Яндекс Заправки",
@@ -8458,7 +8095,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0917",
+      "id": "S-0895",
       "lat": 55.790894,
       "lon": 37.487124,
       "operator": "Яндекс Заправки",
@@ -8475,7 +8112,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0919",
+      "id": "S-0897",
       "lat": 55.809549,
       "lon": 37.460936,
       "operator": "Энергия Москвы",
@@ -8492,7 +8129,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0920",
+      "id": "S-0898",
       "lat": 55.805681,
       "lon": 37.461805,
       "operator": "Яндекс Заправки",
@@ -8509,7 +8146,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0923",
+      "id": "S-0901",
       "lat": 55.804229,
       "lon": 37.461897,
       "operator": "Яндекс Заправки",
@@ -8526,7 +8163,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0924",
+      "id": "S-0902",
       "lat": 55.803874,
       "lon": 37.453341,
       "operator": "Яндекс Заправки",
@@ -8543,7 +8180,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0925",
+      "id": "S-0903",
       "lat": 55.784303,
       "lon": 37.469179,
       "operator": "Energo",
@@ -8555,12 +8192,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "ул. Маршала Тухачевского, 41, корп. 1",
       "address_source": "yandex"
     },
     {
-      "id": "S-0926",
+      "id": "S-0904",
       "lat": 55.782239,
       "lon": 37.465096,
       "operator": "Яндекс Заправки",
@@ -8577,7 +8214,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0927",
+      "id": "S-0905",
       "lat": 55.782618,
       "lon": 37.475357,
       "operator": "Яндекс Заправки",
@@ -8594,7 +8231,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0929",
+      "id": "S-0906",
       "lat": 55.78153,
       "lon": 37.4717,
       "operator": "Энергия Москвы",
@@ -8611,7 +8248,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0931",
+      "id": "S-0907",
+      "lat": 55.79095,
+      "lon": 37.458517,
+      "operator": "Ingrad",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "ул. Паршина, 10",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0908",
       "lat": 55.780857,
       "lon": 37.45618,
       "operator": "Яндекс Заправки",
@@ -8628,7 +8282,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0933",
+      "id": "S-0910",
       "lat": 55.820725,
       "lon": 37.386782,
       "operator": "Скорость света",
@@ -8645,7 +8299,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0937",
+      "id": "S-0914",
       "lat": 55.77614,
       "lon": 37.459842,
       "operator": "Яндекс Заправки",
@@ -8662,7 +8316,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0938",
+      "id": "S-0915",
       "lat": 55.774489,
       "lon": 37.475486,
       "operator": "Яндекс Заправки",
@@ -8679,7 +8333,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0940",
+      "id": "S-0918",
       "lat": 55.731177,
       "lon": 37.437363,
       "operator": "Яндекс Заправки",
@@ -8696,7 +8350,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0941",
+      "id": "S-0919",
       "lat": 55.735693,
       "lon": 37.402621,
       "operator": "Энергия Москвы",
@@ -8713,7 +8367,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0942",
+      "id": "S-0920",
       "lat": 55.738317,
       "lon": 37.411248,
       "operator": "Punkt E",
@@ -8730,7 +8384,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0943",
+      "id": "S-0921",
       "lat": 55.718489,
       "lon": 37.399499,
       "operator": "Энергия Москвы",
@@ -8747,7 +8401,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0944",
+      "id": "S-0922",
       "lat": 55.720324,
       "lon": 37.416854,
       "operator": "Яндекс Заправки",
@@ -8764,7 +8418,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0946",
+      "id": "S-0924",
       "lat": 55.720314,
       "lon": 37.443223,
       "operator": "Яндекс Заправки",
@@ -8781,7 +8435,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0948",
+      "id": "S-0926",
       "lat": 55.72575,
       "lon": 37.422457,
       "operator": "Яндекс Заправки",
@@ -8798,7 +8452,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0949",
+      "id": "S-0927",
       "lat": 55.715187,
       "lon": 37.40538,
       "operator": "Яндекс Заправки",
@@ -8815,7 +8469,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0951",
+      "id": "S-0928",
+      "lat": 55.71195,
+      "lon": 37.389157,
+      "operator": "ОАО Россети",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Беловежская ул., 4А",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0929",
       "lat": 55.711047,
       "lon": 37.395506,
       "operator": "Яндекс Заправки",
@@ -8832,7 +8503,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0952",
+      "id": "S-0930",
       "lat": 55.710505,
       "lon": 37.447434,
       "operator": "Electro. cars",
@@ -8849,7 +8520,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0953",
+      "id": "S-0931",
       "lat": 55.722208,
       "lon": 37.434585,
       "operator": "Яндекс Заправки",
@@ -8866,7 +8537,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0957",
+      "id": "S-0933",
+      "lat": 55.681823,
+      "lon": 37.451921,
+      "operator": "Power-ON",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "ул. Пржевальского, 2",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0935",
       "lat": 55.684331,
       "lon": 37.460344,
       "operator": "Энергия Москвы",
@@ -8884,7 +8572,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0962",
+      "id": "S-0938",
+      "lat": 55.69558,
+      "lon": 37.460155,
+      "operator": "Бери заряд",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Очаковское ш., 5, корп. 1",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0940",
       "lat": 55.672911,
       "lon": 37.451754,
       "operator": "Яндекс Заправки",
@@ -8901,7 +8606,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0965",
+      "id": "S-0943",
       "lat": 55.673492,
       "lon": 37.476162,
       "operator": "Electro. cars",
@@ -8918,7 +8623,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0966",
+      "id": "S-0944",
       "lat": 55.695232,
       "lon": 37.488439,
       "operator": "Яндекс Заправки",
@@ -8935,24 +8640,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0967",
-      "lat": 55.678589,
-      "lon": 37.484606,
-      "operator": "Розетка",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора",
-      "address": "ул. Лобачевского, вл92А",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0969",
+      "id": "S-0947",
       "lat": 55.665026,
       "lon": 37.48057,
       "operator": "Энергия Москвы",
@@ -8969,7 +8657,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0970",
+      "id": "S-0948",
       "lat": 55.664784,
       "lon": 37.469815,
       "operator": "Энергия Москвы",
@@ -8986,7 +8674,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0971",
+      "id": "S-0949",
       "lat": 55.666176,
       "lon": 37.492177,
       "operator": "Яндекс Заправки",
@@ -9003,7 +8691,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0972",
+      "id": "S-0950",
       "lat": 55.696511,
       "lon": 37.494199,
       "operator": "Яндекс Заправки",
@@ -9020,7 +8708,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0975",
+      "id": "S-0953",
       "lat": 55.664329,
       "lon": 37.511856,
       "operator": "Punkt E",
@@ -9037,24 +8725,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0976",
-      "lat": 55.6696335,
-      "lon": 37.512085,
-      "operator": "Plug Me",
-      "P_kW": 120,
-      "posts": 2,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Ленинский просп., 108, стр. 2",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0977",
+      "id": "S-0955",
       "lat": 55.671554,
       "lon": 37.509311,
       "operator": "Яндекс Заправки",
@@ -9071,7 +8742,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0978",
+      "id": "S-0956",
       "lat": 55.680893,
       "lon": 37.527094,
       "operator": "Яндекс Заправки",
@@ -9088,7 +8759,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0980",
+      "id": "S-0958",
       "lat": 55.683791,
       "lon": 37.531272,
       "operator": "Яндекс Заправки",
@@ -9105,7 +8776,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0983",
+      "id": "S-0961",
       "lat": 55.666066,
       "lon": 37.526091,
       "operator": "Яндекс Заправки",
@@ -9122,25 +8793,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0984",
-      "lat": 55.668309,
-      "lon": 37.534435,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "ул. Академика Пилюгина, 18",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0985",
+      "id": "S-0963",
       "lat": 55.681772,
       "lon": 37.537772,
       "operator": "Яндекс Заправки",
@@ -9157,7 +8810,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-0986",
+      "id": "S-0964",
       "lat": 55.688114,
       "lon": 37.547545,
       "operator": "Яндекс Заправки",
@@ -9174,7 +8827,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0987",
+      "id": "S-0965",
       "lat": 55.685522,
       "lon": 37.526222,
       "operator": "Яндекс Заправки",
@@ -9191,7 +8844,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0988",
+      "id": "S-0966",
       "lat": 55.660644,
       "lon": 37.473002,
       "operator": "Энергия Москвы",
@@ -9208,7 +8861,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0990",
+      "id": "S-0968",
       "lat": 55.66603,
       "lon": 37.495223,
       "operator": "Яндекс Заправки",
@@ -9225,7 +8878,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0991",
+      "id": "S-0969",
       "lat": 55.68491,
       "lon": 37.529558,
       "operator": "Яндекс Заправки",
@@ -9242,24 +8895,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0994",
-      "lat": 55.662901,
-      "lon": 37.5368,
-      "operator": "Pandora",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "ул. Академика Челомея, 7",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-0997",
+      "id": "S-0975",
       "lat": 55.683418,
       "lon": 37.544856,
       "operator": "Яндекс Заправки",
@@ -9276,7 +8912,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-0999",
+      "id": "S-0976",
+      "lat": 55.647152,
+      "lon": 37.475724,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "Рузская улица",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0977",
       "lat": 55.651069,
       "lon": 37.478486,
       "operator": "Розетка",
@@ -9288,12 +8942,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 60% быстрых у оператора",
+      "kind_source": "оценка: 80% быстрых у оператора",
       "address": "просп. Вернадского, 100А",
       "address_source": "yandex"
     },
     {
-      "id": "S-1000",
+      "id": "S-0978",
       "lat": 55.634547,
       "lon": 37.510086,
       "operator": "Яндекс Заправки",
@@ -9310,7 +8964,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1001",
+      "id": "S-0979",
       "lat": 55.634314,
       "lon": 37.514841,
       "operator": "Яндекс Заправки",
@@ -9327,7 +8981,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1003",
+      "id": "S-0981",
       "lat": 55.798258,
       "lon": 37.698134,
       "operator": "Розетка",
@@ -9339,12 +8993,30 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 55% быстрых у оператора",
+      "kind_source": "оценка: 73% быстрых у оператора",
       "address": "Русаковская наб., 7",
       "address_source": "yandex"
     },
     {
-      "id": "S-1008",
+      "id": "S-0983",
+      "lat": 55.821069,
+      "lon": 37.650446,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "улица Космонавтов",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0986",
       "lat": 55.772188,
       "lon": 37.845948,
       "operator": "МОСОБЛЭНЕРГО",
@@ -9362,7 +9034,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1010",
+      "id": "S-0988",
       "lat": 55.61255,
       "lon": 37.713249,
       "operator": "Яндекс Заправки",
@@ -9379,7 +9051,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1011",
+      "id": "S-0989",
       "lat": 55.614413,
       "lon": 37.712353,
       "operator": "Яндекс Заправки",
@@ -9396,24 +9068,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1012",
-      "lat": 55.617778,
-      "lon": 37.716551,
-      "operator": "Заряди Авто",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Шипиловская ул., 28Б, стр. 2",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1013",
+      "id": "S-0991",
       "lat": 55.617761,
       "lon": 37.707881,
       "operator": "Яндекс Заправки",
@@ -9430,7 +9085,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1017",
+      "id": "S-0993",
+      "lat": 55.64457,
+      "lon": 37.65302,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "улица Москворечье",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-0995",
       "lat": 55.6486,
       "lon": 37.66367,
       "operator": "Энергия Москвы",
@@ -9447,25 +9120,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1020",
-      "lat": 55.630303,
-      "lon": 37.612715,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Кировоградская улица",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1022",
+      "id": "S-1000",
       "lat": 55.64372,
       "lon": 37.674425,
       "operator": "Яндекс Заправки",
@@ -9482,25 +9137,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1023",
-      "lat": 55.651467,
-      "lon": 37.613176,
-      "operator": "Энергия Москвы",
-      "P_kW": 22,
-      "posts": 1,
-      "P_post_kW": 22,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": true,
-      "kind": "slow",
-      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
-      "address": "Артековская улица",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1025",
+      "id": "S-1003",
       "lat": 55.671502,
       "lon": 37.661792,
       "operator": "Энергия Москвы",
@@ -9518,7 +9155,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1026",
+      "id": "S-1004",
       "lat": 55.64911,
       "lon": 37.612855,
       "operator": "Яндекс Заправки",
@@ -9535,10 +9172,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1027",
-      "lat": 55.634213,
-      "lon": 37.632315,
-      "operator": "Инновационный комплекс Юг",
+      "id": "S-1006",
+      "lat": 55.653658,
+      "lon": 37.617956,
+      "operator": "1charge",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -9547,12 +9184,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Промышленная ул., 11, стр. 7",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Чонгарский бул., 4, корп. 1",
       "address_source": "yandex"
     },
     {
-      "id": "S-1031",
+      "id": "S-1009",
       "lat": 55.622848,
       "lon": 37.49248,
       "operator": "Яндекс Заправки",
@@ -9569,7 +9206,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1032",
+      "id": "S-1010",
       "lat": 55.651118,
       "lon": 37.560757,
       "operator": "Яндекс Заправки",
@@ -9586,7 +9223,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1033",
+      "id": "S-1011",
       "lat": 55.625382,
       "lon": 37.48326,
       "operator": "Volt",
@@ -9603,7 +9240,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1034",
+      "id": "S-1012",
       "lat": 55.62029,
       "lon": 37.489647,
       "operator": "Яндекс Заправки",
@@ -9620,7 +9257,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1035",
+      "id": "S-1013",
       "lat": 55.669295,
       "lon": 37.562591,
       "operator": "Яндекс Заправки",
@@ -9637,7 +9274,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1036",
+      "id": "S-1014",
       "lat": 55.652703,
       "lon": 37.558763,
       "operator": "Яндекс Заправки",
@@ -9654,7 +9291,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1037",
+      "id": "S-1015",
       "lat": 55.671085,
       "lon": 37.558846,
       "operator": "Яндекс Заправки",
@@ -9671,7 +9308,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1039",
+      "id": "S-1017",
       "lat": 55.633878,
       "lon": 37.516241,
       "operator": "Яндекс Заправки",
@@ -9688,7 +9325,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1040",
+      "id": "S-1018",
       "lat": 55.662703,
       "lon": 37.556785,
       "operator": "Яндекс Заправки",
@@ -9705,24 +9342,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1041",
-      "lat": 55.65576,
-      "lon": 37.542934,
-      "operator": "Станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 38% быстрых у оператора",
-      "address": "Профсоюзная ул., 61А",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1042",
+      "id": "S-1019",
       "lat": 55.660341,
       "lon": 37.566687,
       "operator": "Яндекс Заправки",
@@ -9739,7 +9359,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1043",
+      "id": "S-1020",
       "lat": 55.665069,
       "lon": 37.543577,
       "operator": "РусГидро",
@@ -9756,7 +9376,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1044",
+      "id": "S-1021",
       "lat": 55.657802,
       "lon": 37.515487,
       "operator": "Яндекс Заправки",
@@ -9773,7 +9393,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1048",
+      "id": "S-1025",
       "lat": 55.659416,
       "lon": 37.428245,
       "operator": "Sitronics Electro",
@@ -9785,31 +9405,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 58% быстрых у оператора",
+      "kind_source": "оценка: 50% быстрых у оператора",
       "outside_mkad": true,
       "address": "МКАД, 47-й километр, вл31с1",
       "address_source": "yandex"
     },
     {
-      "id": "S-1049",
-      "lat": 55.633349,
-      "lon": 37.4379,
-      "operator": "Розетка",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 50% быстрых у оператора",
-      "outside_mkad": true,
-      "address": "район Солнцево, 4 с1 кА",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-1050",
+      "id": "S-1027",
       "lat": 55.623596,
       "lon": 37.50124,
       "operator": "Яндекс Заправки",
@@ -9826,7 +9428,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1051",
+      "id": "S-1028",
       "lat": 55.619515,
       "lon": 37.497291,
       "operator": "Яндекс Заправки",
@@ -9843,7 +9445,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1052",
+      "id": "S-1029",
       "lat": 55.614794,
       "lon": 37.492543,
       "operator": "Яндекс Заправки",
@@ -9860,7 +9462,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1053",
+      "id": "S-1030",
       "lat": 55.627119,
       "lon": 37.480706,
       "operator": "Яндекс Заправки",
@@ -9877,7 +9479,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1055",
+      "id": "S-1032",
       "lat": 55.663048,
       "lon": 37.416989,
       "operator": "Яндекс Заправки",
@@ -9895,7 +9497,43 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1067",
+      "id": "S-1040",
+      "lat": 55.623788,
+      "lon": 37.422036,
+      "operator": "Punkt E",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 67% быстрых у оператора",
+      "outside_mkad": true,
+      "address": "Саларьевская улица, 1",
+      "address_source": "nominatim"
+    },
+    {
+      "id": "S-1042",
+      "lat": 55.606525999999995,
+      "lon": 37.45547366666666,
+      "operator": "Volt",
+      "P_kW": 180,
+      "posts": 5,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 85% быстрых у оператора",
+      "outside_mkad": true,
+      "address": "улица Адмирала Корнилова",
+      "address_source": "nominatim"
+    },
+    {
+      "id": "S-1043",
       "lat": 55.604483,
       "lon": 37.489526,
       "operator": "Розетка",
@@ -9907,31 +9545,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 46% быстрых у оператора",
+      "kind_source": "оценка: 69% быстрых у оператора",
       "outside_mkad": true,
       "address": "район Коммунарка, с1",
       "address_source": "nominatim"
     },
     {
-      "id": "S-1068",
-      "lat": 55.598706,
-      "lon": 37.503468,
-      "operator": "Станция зарядки электромобилей РОЛЬФ Ясенево",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "outside_mkad": true,
-      "address": "МКАД, 40-й километр, вл1 с1",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-1069",
+      "id": "S-1045",
       "lat": 55.600506,
       "lon": 37.463525,
       "operator": "High volt",
@@ -9949,7 +9569,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1072",
+      "id": "S-1047",
       "lat": 55.619948,
       "lon": 37.49952,
       "operator": "Яндекс Заправки",
@@ -9966,7 +9586,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1074",
+      "id": "S-1049",
       "lat": 55.621691,
       "lon": 37.49445,
       "operator": "Яндекс Заправки",
@@ -9983,7 +9603,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1075",
+      "id": "S-1050",
       "lat": 55.607205,
       "lon": 37.553765,
       "operator": "Яндекс Заправки",
@@ -10000,7 +9620,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1076",
+      "id": "S-1051",
       "lat": 55.591394,
       "lon": 37.602028,
       "operator": "Зарядная станция",
@@ -10017,7 +9637,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1078",
+      "id": "S-1053",
       "lat": 55.612218,
       "lon": 37.607758,
       "operator": "Скорость света",
@@ -10034,7 +9654,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1079",
+      "id": "S-1054",
       "lat": 55.588909,
       "lon": 37.598255,
       "operator": "Энергия Москвы",
@@ -10051,7 +9671,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1080",
+      "id": "S-1055",
       "lat": 55.614101,
       "lon": 37.609895,
       "operator": "Evlink",
@@ -10063,12 +9683,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Варшавское шоссе (дублёр), 138А",
       "address_source": "nominatim"
     },
     {
-      "id": "S-1081",
+      "id": "S-1056",
       "lat": 55.621646,
       "lon": 37.601367,
       "operator": "Яндекс Заправки",
@@ -10085,7 +9705,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1082",
+      "id": "S-1057",
       "lat": 55.592355,
       "lon": 37.63357,
       "operator": "Punkt E",
@@ -10102,7 +9722,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1084",
+      "id": "S-1059",
       "lat": 55.627806,
       "lon": 37.60133,
       "operator": "Яндекс Заправки",
@@ -10119,7 +9739,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1087",
+      "id": "S-1062",
       "lat": 55.624387,
       "lon": 37.60525,
       "operator": "Яндекс Заправки",
@@ -10136,7 +9756,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1088",
+      "id": "S-1063",
       "lat": 55.600683,
       "lon": 37.587093,
       "operator": "Яндекс Заправки",
@@ -10153,7 +9773,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1089",
+      "id": "S-1064",
       "lat": 55.620279,
       "lon": 37.590877,
       "operator": "Яндекс Заправки",
@@ -10170,7 +9790,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1090",
+      "id": "S-1065",
       "lat": 55.579038,
       "lon": 37.619617,
       "operator": "Electro. cars",
@@ -10187,7 +9807,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1094",
+      "id": "S-1069",
       "lat": 55.623812,
       "lon": 37.647516,
       "operator": "Яндекс Заправки",
@@ -10204,7 +9824,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1096",
+      "id": "S-1071",
       "lat": 55.588929,
       "lon": 37.654205,
       "operator": "Яндекс Заправки",
@@ -10221,7 +9841,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1098",
+      "id": "S-1073",
       "lat": 55.579061,
       "lon": 37.619271,
       "operator": "Electro. cars",
@@ -10238,7 +9858,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1099",
+      "id": "S-1074",
       "lat": 55.576115,
       "lon": 37.648479,
       "operator": "Яндекс Заправки",
@@ -10255,7 +9875,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1100",
+      "id": "S-1075",
       "lat": 55.586615,
       "lon": 37.641754,
       "operator": "Яндекс Заправки",
@@ -10272,7 +9892,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1101",
+      "id": "S-1076",
       "lat": 55.583443,
       "lon": 37.651118,
       "operator": "Яндекс Заправки",
@@ -10289,7 +9909,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1102",
+      "id": "S-1077",
       "lat": 55.579772,
       "lon": 37.644404,
       "operator": "Яндекс Заправки",
@@ -10306,7 +9926,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1103",
+      "id": "S-1078",
       "lat": 55.599516,
       "lon": 37.622093,
       "operator": "Яндекс Заправки",
@@ -10323,7 +9943,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1104",
+      "id": "S-1079",
       "lat": 55.609503,
       "lon": 37.716068,
       "operator": "Яндекс Заправки",
@@ -10340,7 +9960,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1114",
+      "id": "S-1089",
       "lat": 55.581414,
       "lon": 37.646873,
       "operator": "Яндекс Заправки",
@@ -10357,7 +9977,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1116",
+      "id": "S-1091",
       "lat": 55.589158,
       "lon": 37.64152,
       "operator": "Яндекс Заправки",
@@ -10374,7 +9994,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1117",
+      "id": "S-1092",
       "lat": 55.578475,
       "lon": 37.646073,
       "operator": "Яндекс Заправки",
@@ -10391,7 +10011,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1119",
+      "id": "S-1094",
       "lat": 55.560762,
       "lon": 37.626898,
       "operator": "Зарядная станция",
@@ -10403,13 +10023,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 65% быстрых у оператора",
+      "kind_source": "оценка: 61% быстрых у оператора",
       "outside_mkad": true,
       "address": "Московская область, Ленинский городской округ, деревня Жабкино, микрорайон Булатниково",
       "address_source": "yandex"
     },
     {
-      "id": "S-1122",
+      "id": "S-1097",
       "lat": 55.574986,
       "lon": 37.580607,
       "operator": "Artis",
@@ -10427,7 +10047,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1124",
+      "id": "S-1099",
       "lat": 55.567279,
       "lon": 37.571865,
       "operator": "Энергия Москвы",
@@ -10445,7 +10065,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1125",
+      "id": "S-1100",
       "lat": 55.602768,
       "lon": 37.617046,
       "operator": "Яндекс Заправки",
@@ -10462,7 +10082,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1128",
+      "id": "S-1103",
       "lat": 55.664352,
       "lon": 37.577168,
       "operator": "Энергия Москвы",
@@ -10480,7 +10100,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1131",
+      "id": "S-1104",
+      "lat": 55.649215,
+      "lon": 37.598346,
+      "operator": "Зарядная станция",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "Азовская улица",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1106",
       "lat": 55.660276,
       "lon": 37.5714,
       "operator": "Яндекс Заправки",
@@ -10497,7 +10135,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1132",
+      "id": "S-1107",
       "lat": 55.668183,
       "lon": 37.567015,
       "operator": "Punkt E",
@@ -10514,7 +10152,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1133",
+      "id": "S-1108",
       "lat": 55.660145,
       "lon": 37.595144,
       "operator": "Энергия Москвы",
@@ -10531,7 +10169,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1134",
+      "id": "S-1109",
       "lat": 55.655682,
       "lon": 37.567986,
       "operator": "Яндекс Заправки",
@@ -10548,7 +10186,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1135",
+      "id": "S-1110",
       "lat": 55.657499,
       "lon": 37.566021,
       "operator": "Яндекс Заправки",
@@ -10565,7 +10203,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1136",
+      "id": "S-1111",
       "lat": 55.659034,
       "lon": 37.597239,
       "operator": "Яндекс Заправки",
@@ -10582,7 +10220,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1137",
+      "id": "S-1112",
       "lat": 55.660122,
       "lon": 37.568288,
       "operator": "Яндекс Заправки",
@@ -10599,7 +10237,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1138",
+      "id": "S-1113",
       "lat": 55.671164,
       "lon": 37.570217,
       "operator": "Яндекс Заправки",
@@ -10616,7 +10254,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1139",
+      "id": "S-1114",
       "lat": 55.658647,
       "lon": 37.571352,
       "operator": "Яндекс Заправки",
@@ -10633,7 +10271,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1140",
+      "id": "S-1115",
       "lat": 55.668305,
       "lon": 37.567259,
       "operator": "Punkt E",
@@ -10650,7 +10288,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1141",
+      "id": "S-1116",
       "lat": 55.678379,
       "lon": 37.565185,
       "operator": "Яндекс Заправки",
@@ -10667,7 +10305,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1142",
+      "id": "S-1117",
       "lat": 55.680712,
       "lon": 37.585074,
       "operator": "Яндекс Заправки",
@@ -10684,7 +10322,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1143",
+      "id": "S-1118",
       "lat": 55.648406,
       "lon": 37.580114,
       "operator": "Яндекс Заправки",
@@ -10701,7 +10339,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1144",
+      "id": "S-1119",
       "lat": 55.65915,
       "lon": 37.594063,
       "operator": "Энергия Москвы, станция зарядки электромобилей",
@@ -10713,29 +10351,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "address": "Одесская улица",
       "address_source": "yandex"
     },
     {
-      "id": "S-1145",
-      "lat": 55.645435,
-      "lon": 37.608512,
-      "operator": "Станция зарядки электромобилей",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 36% быстрых у оператора",
-      "address": "Черноморский бульвар",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1146",
+      "id": "S-1121",
       "lat": 55.647459,
       "lon": 37.611546,
       "operator": "Яндекс Заправки",
@@ -10752,7 +10373,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1147",
+      "id": "S-1122",
       "lat": 55.647553,
       "lon": 37.595041,
       "operator": "Станция зарядки электромобилей",
@@ -10764,29 +10385,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 33% быстрых у оператора",
+      "kind_source": "оценка: 58% быстрых у оператора",
       "address": "Азовская ул., 24, корп. 3",
       "address_source": "yandex"
     },
     {
-      "id": "S-1148",
-      "lat": 55.644782,
-      "lon": 37.560645,
-      "operator": "Розетка",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора",
-      "address": "Севастопольский проспект",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-1149",
+      "id": "S-1124",
       "lat": 55.653266,
       "lon": 37.565941,
       "operator": "Яндекс Заправки",
@@ -10803,7 +10407,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1152",
+      "id": "S-1127",
       "lat": 55.68676,
       "lon": 37.545857,
       "operator": "Яндекс Заправки",
@@ -10820,7 +10424,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1153",
+      "id": "S-1128",
       "lat": 55.689451,
       "lon": 37.550544,
       "operator": "Яндекс Заправки",
@@ -10837,7 +10441,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1154",
+      "id": "S-1129",
       "lat": 55.689113,
       "lon": 37.553283,
       "operator": "Яндекс Заправки",
@@ -10854,7 +10458,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1155",
+      "id": "S-1130",
       "lat": 55.686437,
       "lon": 37.563986,
       "operator": "Энергия Москвы",
@@ -10872,7 +10476,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1157",
+      "id": "S-1131",
+      "lat": 55.692759,
+      "lon": 37.574471,
+      "operator": "Hyper",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "просп. 60-летия Октября, 10А",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1132",
       "lat": 55.702662,
       "lon": 37.573792,
       "operator": "Яндекс Заправки",
@@ -10889,24 +10510,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1158",
-      "lat": 55.70354,
-      "lon": 37.59136,
-      "operator": "PlugMe",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "ул. Вавилова, 5, корп. 3",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1161",
+      "id": "S-1136",
       "lat": 55.657992,
       "lon": 37.617947,
       "operator": "Яндекс Заправки",
@@ -10923,7 +10527,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1162",
+      "id": "S-1137",
       "lat": 55.64371,
       "lon": 37.601265,
       "operator": "Яндекс Заправки",
@@ -10940,7 +10544,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1163",
+      "id": "S-1138",
       "lat": 55.652662,
       "lon": 37.617423,
       "operator": "Яндекс Заправки",
@@ -10957,7 +10561,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1164",
+      "id": "S-1139",
       "lat": 55.676775,
       "lon": 37.667758,
       "operator": "Энергия Москвы",
@@ -10974,7 +10578,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1165",
+      "id": "S-1140",
       "lat": 55.634941,
       "lon": 37.606642,
       "operator": "Яндекс Заправки",
@@ -10991,7 +10595,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1166",
+      "id": "S-1141",
       "lat": 55.637844,
       "lon": 37.607361,
       "operator": "Яндекс Заправки",
@@ -11008,7 +10612,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1167",
+      "id": "S-1142",
       "lat": 55.629918,
       "lon": 37.602166,
       "operator": "Яндекс Заправки",
@@ -11025,7 +10629,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1168",
+      "id": "S-1143",
       "lat": 55.635817,
       "lon": 37.613785,
       "operator": "Яндекс Заправки",
@@ -11042,7 +10646,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1169",
+      "id": "S-1144",
       "lat": 55.63136,
       "lon": 37.602775,
       "operator": "Яндекс Заправки",
@@ -11059,7 +10663,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1170",
+      "id": "S-1145",
       "lat": 55.630914,
       "lon": 37.605757,
       "operator": "Яндекс Заправки",
@@ -11076,7 +10680,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1171",
+      "id": "S-1146",
       "lat": 55.624363,
       "lon": 37.608389,
       "operator": "Яндекс Заправки",
@@ -11093,7 +10697,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1172",
+      "id": "S-1147",
       "lat": 55.622645,
       "lon": 37.596692,
       "operator": "Яндекс Заправки",
@@ -11110,7 +10714,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1173",
+      "id": "S-1148",
       "lat": 55.646503,
       "lon": 37.610917,
       "operator": "Яндекс Заправки",
@@ -11127,7 +10731,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1174",
+      "id": "S-1149",
       "lat": 55.630454,
       "lon": 37.608853,
       "operator": "Яндекс Заправки",
@@ -11144,7 +10748,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1175",
+      "id": "S-1150",
       "lat": 55.621051,
       "lon": 37.615982,
       "operator": "Eq Electric Intelligence, станция зарядки электромобилей",
@@ -11161,7 +10765,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1177",
+      "id": "S-1152",
       "lat": 55.759231,
       "lon": 37.850472,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11179,7 +10783,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1181",
+      "id": "S-1156",
       "lat": 55.759071,
       "lon": 37.843869,
       "operator": "Станция зарядки электромобилей",
@@ -11191,13 +10795,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 31% быстрых у оператора",
+      "kind_source": "оценка: 54% быстрых у оператора",
       "outside_mkad": true,
       "address": "Московская область, Реутов",
       "address_source": "yandex"
     },
     {
-      "id": "S-1182",
+      "id": "S-1157",
       "lat": 55.770451,
       "lon": 37.850613,
       "operator": "Punkt E",
@@ -11215,7 +10819,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1183",
+      "id": "S-1158",
       "lat": 55.765271,
       "lon": 37.844497,
       "operator": "Artis",
@@ -11233,7 +10837,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1185",
+      "id": "S-1159",
+      "lat": 55.765597,
+      "lon": 37.844477,
+      "operator": "Город Эзс",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "outside_mkad": true,
+      "address": "МКАД, 2-й километр, 1",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1160",
       "lat": 55.770661,
       "lon": 37.850635,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11251,7 +10873,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1186",
+      "id": "S-1161",
       "lat": 55.759324,
       "lon": 37.850559,
       "operator": "Punkt E",
@@ -11269,7 +10891,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1188",
+      "id": "S-1163",
       "lat": 55.765787,
       "lon": 37.845272,
       "operator": "Artis",
@@ -11287,25 +10909,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1190",
-      "lat": 55.763812,
-      "lon": 37.844909,
-      "operator": "Artis",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 11% быстрых у оператора",
-      "outside_mkad": true,
-      "address": "МКАД, 2-й километр, 2, Реутов",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1196",
+      "id": "S-1170",
       "lat": 55.746243,
       "lon": 37.855758,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11323,42 +10927,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1197",
-      "lat": 55.75961,
-      "lon": 37.787582,
-      "operator": "Энергия Москвы",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 43% быстрых у оператора",
-      "address": "Зелёное кольцо",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1199",
-      "lat": 55.811457,
-      "lon": 37.84204,
-      "operator": "Pandora",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "outside_mkad": true,
-      "address": "Балашиха, микрорайон 1 Мая, 14",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1200",
+      "id": "S-1174",
       "lat": 55.789672,
       "lon": 37.878273,
       "operator": "Punkt E",
@@ -11376,7 +10945,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1201",
+      "id": "S-1175",
       "lat": 55.789864,
       "lon": 37.882182,
       "operator": "Punkt E",
@@ -11394,7 +10963,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1203",
+      "id": "S-1177",
       "lat": 55.789817,
       "lon": 37.882292,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11412,7 +10981,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1206",
+      "id": "S-1180",
       "lat": 55.792667,
       "lon": 37.888572,
       "operator": "Punkt E",
@@ -11430,7 +10999,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1208",
+      "id": "S-1182",
       "lat": 55.79265,
       "lon": 37.888424,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11448,7 +11017,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1211",
+      "id": "S-1185",
       "lat": 55.753477,
       "lon": 37.883997,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11466,7 +11035,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1212",
+      "id": "S-1186",
       "lat": 55.746647,
       "lon": 37.849621,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11484,7 +11053,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1214",
+      "id": "S-1187",
       "lat": 55.753952,
       "lon": 37.888044,
       "operator": "МОСОБЛЭНЕРГО",
@@ -11502,7 +11071,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1219",
+      "id": "S-1188",
+      "lat": 55.695868,
+      "lon": 37.858798,
+      "operator": "Твоя Энергия Движения",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "outside_mkad": true,
+      "address": "1-й Люберецкий пр., 2, стр. 1, Москва",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1191",
       "lat": 55.804003,
       "lon": 37.754773,
       "operator": "Сокол",
@@ -11519,24 +11106,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1220",
-      "lat": 55.804049,
-      "lon": 37.754831,
-      "operator": "Pandora",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Щёлковское ш., 5, стр. 1",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1221",
+      "id": "S-1193",
       "lat": 55.75325,
       "lon": 37.88547,
       "operator": "Touch",
@@ -11554,7 +11124,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1225",
+      "id": "S-1197",
       "lat": 55.750444,
       "lon": 37.882737,
       "operator": "Charge eight",
@@ -11566,31 +11136,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "outside_mkad": true,
       "address": "Носовихинское ш., 37, Реутов",
       "address_source": "yandex"
     },
     {
-      "id": "S-1226",
-      "lat": 55.748942,
-      "lon": 37.879541,
-      "operator": "EV Charger",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "outside_mkad": true,
-      "address": "Московская область, Реутов, 9-й микрорайон",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1227",
+      "id": "S-1198",
       "lat": 55.746143,
       "lon": 37.855609,
       "operator": "Punkt E",
@@ -11608,7 +11160,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1228",
+      "id": "S-1199",
       "lat": 55.67565,
       "lon": 37.666023,
       "operator": "Яндекс Заправки",
@@ -11625,7 +11177,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1229",
+      "id": "S-1200",
       "lat": 55.679731,
       "lon": 37.67401,
       "operator": "Яндекс Заправки",
@@ -11642,7 +11194,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1230",
+      "id": "S-1201",
       "lat": 55.679617,
       "lon": 37.661767,
       "operator": "Яндекс Заправки",
@@ -11659,12 +11211,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1231",
-      "lat": 55.674884,
-      "lon": 37.663725,
+      "id": "S-1202",
+      "lat": 55.6749025,
+      "lon": 37.663733,
       "operator": "Зарядная станция",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -11676,24 +11228,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1232",
-      "lat": 55.683644,
-      "lon": 37.655171,
-      "operator": "Зарядная станция",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 65% быстрых у оператора",
-      "address": "Нагатинский бульвар",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-1233",
+      "id": "S-1204",
       "lat": 55.67628,
       "lon": 37.67645,
       "operator": "Энергия Москвы",
@@ -11711,7 +11246,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1234",
+      "id": "S-1205",
       "lat": 55.68269,
       "lon": 37.667675,
       "operator": "Яндекс Заправки",
@@ -11728,24 +11263,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1236",
-      "lat": 55.695612,
-      "lon": 37.662915,
-      "operator": "Pandora",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "проспект Андропова, 18 к2",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-1237",
+      "id": "S-1207",
       "lat": 55.695381,
       "lon": 37.662427,
       "operator": "Evlink",
@@ -11757,12 +11275,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 0% быстрых у оператора",
+      "kind_source": "оценка: 40% быстрых у оператора",
       "address": "просп. Андропова, 18, корп. 2",
       "address_source": "yandex"
     },
     {
-      "id": "S-1239",
+      "id": "S-1209",
       "lat": 55.680451,
       "lon": 37.722691,
       "operator": "Яндекс Заправки",
@@ -11779,7 +11297,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1240",
+      "id": "S-1210",
       "lat": 55.677974,
       "lon": 37.721992,
       "operator": "Яндекс Заправки",
@@ -11796,7 +11314,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1241",
+      "id": "S-1211",
       "lat": 55.680098,
       "lon": 37.728011,
       "operator": "Яндекс Заправки",
@@ -11813,7 +11331,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1242",
+      "id": "S-1212",
       "lat": 55.679671,
       "lon": 37.725336,
       "operator": "Яндекс Заправки",
@@ -11830,7 +11348,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1243",
+      "id": "S-1213",
       "lat": 55.679384,
       "lon": 37.722326,
       "operator": "Яндекс Заправки",
@@ -11847,10 +11365,10 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1246",
-      "lat": 55.69549,
-      "lon": 37.662865,
-      "operator": "Wallbox",
+      "id": "S-1218",
+      "lat": 55.693253,
+      "lon": 37.665692,
+      "operator": "Engy",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -11859,29 +11377,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "улица Мустая Карима",
-      "address_source": "nominatim"
-    },
-    {
-      "id": "S-1247",
-      "lat": 55.693075,
-      "lon": 37.659009,
-      "operator": "АтомЭнерго",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "Проектируемый пр. № 4062, 6, стр. 25",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "просп. Андропова, 10А",
       "address_source": "yandex"
     },
     {
-      "id": "S-1251",
+      "id": "S-1221",
       "lat": 55.68251833333333,
       "lon": 37.61850933333333,
       "operator": "Volt",
@@ -11898,7 +11399,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1254",
+      "id": "S-1224",
       "lat": 55.693769,
       "lon": 37.604897,
       "operator": "Яндекс Заправки",
@@ -11915,7 +11416,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1257",
+      "id": "S-1226",
       "lat": 55.746901,
       "lon": 37.849644,
       "operator": "Punkt E",
@@ -11933,7 +11434,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1258",
+      "id": "S-1227",
       "lat": 55.630497,
       "lon": 37.673097,
       "operator": "Яндекс Заправки",
@@ -11950,7 +11451,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1259",
+      "id": "S-1228",
       "lat": 55.62224,
       "lon": 37.651156,
       "operator": "Яндекс Заправки",
@@ -11967,7 +11468,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1261",
+      "id": "S-1230",
       "lat": 55.607416,
       "lon": 37.613135,
       "operator": "Яндекс Заправки",
@@ -11984,7 +11485,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1262",
+      "id": "S-1231",
       "lat": 55.606778,
       "lon": 37.61935,
       "operator": "Яндекс Заправки",
@@ -12001,7 +11502,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1263",
+      "id": "S-1232",
       "lat": 55.608478,
       "lon": 37.611284,
       "operator": "Яндекс Заправки",
@@ -12018,7 +11519,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1264",
+      "id": "S-1233",
       "lat": 55.602461,
       "lon": 37.620028,
       "operator": "Яндекс Заправки",
@@ -12035,7 +11536,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1265",
+      "id": "S-1234",
       "lat": 55.613658,
       "lon": 37.593249,
       "operator": "Яндекс Заправки",
@@ -12052,7 +11553,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1266",
+      "id": "S-1235",
       "lat": 55.69976,
       "lon": 37.806475,
       "operator": "Punkt E",
@@ -12069,7 +11570,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1271",
+      "id": "S-1236",
+      "lat": 55.694831,
+      "lon": 37.850235,
+      "operator": "Энергия Москвы",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 40% быстрых у оператора",
+      "outside_mkad": true,
+      "address": "Привольная ул., 29, корп. 1",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1240",
       "lat": 55.92144,
       "lon": 37.51328,
       "operator": "Punkt E",
@@ -12087,7 +11606,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1276",
+      "id": "S-1242",
+      "lat": 55.829437,
+      "lon": 37.623004,
+      "operator": "Энергия Москвы",
+      "P_kW": 22,
+      "posts": 1,
+      "P_post_kW": 22,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": true,
+      "kind": "slow",
+      "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
+      "address": "Хованская ул., 22, стр. 2",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1245",
       "lat": 55.757247,
       "lon": 37.612856,
       "operator": "Artis",
@@ -12104,7 +11641,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1278",
+      "id": "S-1247",
       "lat": 55.856154,
       "lon": 37.430948,
       "operator": "Яндекс Заправки",
@@ -12121,7 +11658,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1279",
+      "id": "S-1248",
       "lat": 55.858618,
       "lon": 37.390819,
       "operator": "Punkt E",
@@ -12139,7 +11676,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1280",
+      "id": "S-1249",
       "lat": 55.858599,
       "lon": 37.499129,
       "operator": "Яндекс Заправки",
@@ -12156,7 +11693,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1281",
+      "id": "S-1250",
       "lat": 55.832818,
       "lon": 37.499543,
       "operator": "Яндекс Заправки",
@@ -12173,7 +11710,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1282",
+      "id": "S-1251",
       "lat": 55.826832,
       "lon": 37.52342,
       "operator": "Яндекс Заправки",
@@ -12190,7 +11727,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1283",
+      "id": "S-1252",
       "lat": 55.825573,
       "lon": 37.523941,
       "operator": "Яндекс Заправки",
@@ -12207,24 +11744,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1284",
-      "lat": 55.833745,
-      "lon": 37.52728,
-      "operator": "Яндекс Заправки",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 0% быстрых у оператора",
-      "address": "бул. Матроса Железняка, 19, стр. 2",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1287",
+      "id": "S-1254",
       "lat": 55.801233,
       "lon": 37.454946,
       "operator": "Яндекс Заправки",
@@ -12241,7 +11761,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1290",
+      "id": "S-1255",
       "lat": 55.779021,
       "lon": 37.477812,
       "operator": "Яндекс Заправки",
@@ -12258,24 +11778,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1292",
-      "lat": 55.782786,
-      "lon": 37.448413,
-      "operator": "Энергия Москвы, станция 1623",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "address": "наб. Новикова-Прибоя, 6, корп. 2, стр. 2",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1293",
+      "id": "S-1257",
       "lat": 55.78988,
       "lon": 37.50179,
       "operator": "Punkt E",
@@ -12292,7 +11795,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1295",
+      "id": "S-1258",
       "lat": 55.808419,
       "lon": 37.566753,
       "operator": "Яндекс Заправки",
@@ -12309,7 +11812,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1296",
+      "id": "S-1259",
       "lat": 55.807987,
       "lon": 37.564545,
       "operator": "Яндекс Заправки",
@@ -12326,7 +11829,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1297",
+      "id": "S-1260",
       "lat": 55.816409,
       "lon": 37.583057,
       "operator": "Яндекс Заправки",
@@ -12343,7 +11846,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1298",
+      "id": "S-1261",
       "lat": 55.816921,
       "lon": 37.58411,
       "operator": "Яндекс Заправки",
@@ -12360,7 +11863,24 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1304",
+      "id": "S-1264",
+      "lat": 55.804062,
+      "lon": 37.592658,
+      "operator": "Zeekr",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Складочная ул., 1, стр. 27",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1265",
       "lat": 55.816288,
       "lon": 37.591782,
       "operator": "Яндекс Заправки",
@@ -12377,7 +11897,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1308",
+      "id": "S-1268",
       "lat": 55.820938,
       "lon": 37.582153,
       "operator": "Яндекс Заправки",
@@ -12394,7 +11914,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1312",
+      "id": "S-1271",
       "lat": 55.909352,
       "lon": 37.540529,
       "operator": "Розетка",
@@ -12406,31 +11926,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 47% быстрых у оператора",
+      "kind_source": "оценка: 71% быстрых у оператора",
       "outside_mkad": true,
       "address": "Дмитровское ш., 163А, корп. 1, Москва",
       "address_source": "yandex"
     },
     {
-      "id": "S-1313",
-      "lat": 55.91246,
-      "lon": 37.58207,
-      "operator": "Punkt E",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 67% быстрых у оператора",
-      "outside_mkad": true,
-      "address": "Алтуфьевское шоссе, 1-й километр, 3, стр. 1, Москва",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1316",
+      "id": "S-1274",
       "lat": 55.915765,
       "lon": 37.582682,
       "operator": "Мбрус, станция зарядки электроавтомобилей",
@@ -12442,13 +11944,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "outside_mkad": true,
       "address": "МКАД, 84-й километр, вл5с9, Москва",
       "address_source": "yandex"
     },
     {
-      "id": "S-1317",
+      "id": "S-1275",
       "lat": 55.911156,
       "lon": 37.628563,
       "operator": "Punkt E",
@@ -12466,12 +11968,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1321",
-      "lat": 55.902611,
-      "lon": 37.465913,
+      "id": "S-1278",
+      "lat": 55.902612000000005,
+      "lon": 37.4659085,
       "operator": "Voltstation.ru",
-      "P_kW": 60,
-      "posts": 2,
+      "P_kW": 120,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -12484,10 +11986,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1322",
-      "lat": 55.902613,
-      "lon": 37.465904,
-      "operator": "Voltstation",
+      "id": "S-1281",
+      "lat": 55.779819,
+      "lon": 37.569433,
+      "operator": "Encore",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -12496,30 +11998,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "outside_mkad": true,
-      "address": "ул. Юннатов, 21, корп. 19, Химки",
+      "kind_source": "оценка: 43% быстрых по всем",
+      "address": "Скаковая ул., 24",
       "address_source": "yandex"
     },
     {
-      "id": "S-1323",
-      "lat": 55.781119,
-      "lon": 37.579789,
-      "operator": "IT Charge",
-      "P_kW": 60,
-      "posts": 1,
-      "P_post_kW": 60,
-      "status": "active",
-      "year_open": 2024,
-      "source_detail": "yandex",
-      "P_known": false,
-      "kind": "slow",
-      "kind_source": "оценка: 73% быстрых у оператора",
-      "address": "3-я ул. Ямского Поля, 9, корп. 5",
-      "address_source": "yandex"
-    },
-    {
-      "id": "S-1326",
+      "id": "S-1282",
       "lat": 55.819317,
       "lon": 37.350566,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12537,7 +12021,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1327",
+      "id": "S-1283",
       "lat": 55.82033,
       "lon": 37.37539,
       "operator": "Punkt E",
@@ -12555,7 +12039,25 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1331",
+      "id": "S-1286",
+      "lat": 55.818393,
+      "lon": 37.360507,
+      "operator": "Россети",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "status": "active",
+      "year_open": 2024,
+      "source_detail": "yandex",
+      "P_known": false,
+      "kind": "slow",
+      "kind_source": "оценка: 83% быстрых у оператора",
+      "outside_mkad": true,
+      "address": "Красногорский бул., 37",
+      "address_source": "yandex"
+    },
+    {
+      "id": "S-1287",
       "lat": 55.823755,
       "lon": 37.366354,
       "operator": "Punkt E",
@@ -12573,7 +12075,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1332",
+      "id": "S-1288",
       "lat": 55.818273500000004,
       "lon": 37.363968,
       "operator": "Киловатт",
@@ -12585,13 +12087,13 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
+      "kind_source": "оценка: 43% быстрых по всем",
       "outside_mkad": true,
       "address": "Московская область, Красногорск, Ильинский бульвар",
       "address_source": "yandex"
     },
     {
-      "id": "S-1333",
+      "id": "S-1289",
       "lat": 55.804005,
       "lon": 37.332592,
       "operator": "Punkt E",
@@ -12609,7 +12111,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1334",
+      "id": "S-1290",
       "lat": 55.819762,
       "lon": 37.369835,
       "operator": "Punkt E",
@@ -12627,12 +12129,12 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1335",
-      "lat": 55.820601,
-      "lon": 37.375608,
+      "id": "S-1291",
+      "lat": 55.8205425,
+      "lon": 37.375551,
       "operator": "Киловатт",
-      "P_kW": 60,
-      "posts": 1,
+      "P_kW": 120,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
@@ -12645,7 +12147,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1343",
+      "id": "S-1298",
       "lat": 55.820486,
       "lon": 37.375476,
       "operator": "Punkt E",
@@ -12663,10 +12165,10 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1344",
-      "lat": 55.820484,
-      "lon": 37.375494,
-      "operator": "Киловатт",
+      "id": "S-1300",
+      "lat": 55.70253,
+      "lon": 37.765444,
+      "operator": "Станция зарядки электромобилей",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -12675,13 +12177,12 @@
       "source_detail": "yandex",
       "P_known": false,
       "kind": "slow",
-      "kind_source": "оценка: 44% быстрых по всем",
-      "outside_mkad": true,
-      "address": "Московская область, Красногорск, Красногорский бульвар",
+      "kind_source": "оценка: 56% быстрых у оператора",
+      "address": "Зеленодольская ул., 42",
       "address_source": "yandex"
     },
     {
-      "id": "S-1347",
+      "id": "S-1301",
       "lat": 55.627651,
       "lon": 37.862202,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12699,7 +12200,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1348",
+      "id": "S-1302",
       "lat": 55.631008,
       "lon": 37.852779,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12717,7 +12218,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1349",
+      "id": "S-1303",
       "lat": 55.62884,
       "lon": 37.857389,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12735,7 +12236,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1350",
+      "id": "S-1304",
       "lat": 55.659015,
       "lon": 37.887591,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12753,7 +12254,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1351",
+      "id": "S-1305",
       "lat": 55.663108,
       "lon": 37.857801,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12771,7 +12272,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1352",
+      "id": "S-1306",
       "lat": 55.676599,
       "lon": 37.875041,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12789,7 +12290,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1353",
+      "id": "S-1307",
       "lat": 55.666813,
       "lon": 37.879653,
       "operator": "МОСОБЛЭНЕРГО",
@@ -12807,7 +12308,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1355",
+      "id": "S-1309",
       "lat": 55.679837,
       "lon": 37.758122,
       "operator": "Яндекс Заправки",
@@ -12824,7 +12325,7 @@
       "address_source": "nominatim"
     },
     {
-      "id": "S-1356",
+      "id": "S-1310",
       "lat": 55.67696,
       "lon": 37.750175,
       "operator": "Яндекс Заправки",
@@ -12841,7 +12342,7 @@
       "address_source": "yandex"
     },
     {
-      "id": "S-1357",
+      "id": "S-1311",
       "lat": 55.679158,
       "lon": 37.739522,
       "operator": "Яндекс Заправки",
