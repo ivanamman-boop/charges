@@ -32,7 +32,29 @@ function insideMkad(lat, lon) {
   return inside;
 }
 
-const NOTE = ' | Обрезано по МКАД (scripts/clip-to-mkad.js, data/mkad.json): модель считается для Москвы внутри МКАД, где станции собраны полно.';
+// Станции сразу за МКАДом остаются конкурентами (25.10): водитель из
+// Ивановского или Новогиреева спокойно заряжается в Реутове. Без них у
+// кандидатов у кольца (L-006, L-011) модель видела 2 станции в 2 км вместо
+// 20 и завышала новых клиентов - краевой эффект обрезки. Спрос (cells)
+// по-прежнему только внутри МКАД; станции полосы помечены outside_mkad и
+// не входят в калибровку D0, сеть РСЗС и счётчики сайта.
+const BUFFER_KM = 3;
+const kmPerDegLat = 111.32;
+const kmPerDegLon = 111.32 * Math.cos((55.75 * Math.PI) / 180);
+function distToRingKm(lat, lon) {
+  let best = Infinity;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const ax = ring[j][1] * kmPerDegLon, ay = ring[j][0] * kmPerDegLat;
+    const bx = ring[i][1] * kmPerDegLon, by = ring[i][0] * kmPerDegLat;
+    const px = lon * kmPerDegLon, py = lat * kmPerDegLat;
+    const dx = bx - ax, dy = by - ay;
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy || 1)));
+    best = Math.min(best, Math.hypot(px - ax - t * dx, py - ay - t * dy));
+  }
+  return best;
+}
+
+const NOTE = ' | Обрезано по МКАД (scripts/clip-to-mkad.js, data/mkad.json): спрос - внутри МКАД; станции - внутри и в полосе 3 км за МКАДом как конкуренты (outside_mkad).';
 for (const [file, key] of [
   ['cells.json', 'cells'],
   ['stations.json', 'stations'],
@@ -41,8 +63,21 @@ for (const [file, key] of [
   if (!existsSync(join(DATA, file))) continue;
   const raw = read(file);
   const before = raw[key].length;
-  raw[key] = raw[key].filter((x) => insideMkad(x.lat, x.lon));
+  if (key === 'cells') {
+    raw[key] = raw[key].filter((x) => insideMkad(x.lat, x.lon));
+  } else {
+    raw[key] = raw[key].filter((x) => {
+      if (insideMkad(x.lat, x.lon)) {
+        delete x.outside_mkad;
+        return true;
+      }
+      if (x.status === 'planned' || distToRingKm(x.lat, x.lon) > BUFFER_KM) return false;
+      x.outside_mkad = true;
+      return true;
+    });
+  }
   if (!raw.source.includes('Обрезано по МКАД')) raw.source += NOTE;
   writeFileSync(join(DATA, file), JSON.stringify(raw, null, 2));
-  console.log(`${file}: ${before} → ${raw[key].length} внутри МКАД`);
+  const out = raw[key].filter((x) => x.outside_mkad).length;
+  console.log(`${file}: ${before} → ${raw[key].length - out} внутри МКАД${out ? ` + ${out} в полосе ${BUFFER_KM} км за МКАДом` : ''}`);
 }

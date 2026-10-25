@@ -24,6 +24,7 @@
     "build:sweep": "node scripts/build-sweep.js",
     "import:yandex": "node scripts/import-yandex-har.js",
     "merge:yandex": "node scripts/merge-yandex-stations.js",
+    "merge:city": "node scripts/merge-city-registry.js",
     "fit:hourly-profile": "node scripts/fit-hourly-profile.js",
     "build:tp04": "node scripts/build-tp04.js",
     "build:mkad": "node scripts/build-mkad.js",

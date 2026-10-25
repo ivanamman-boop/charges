@@ -36,13 +36,15 @@ for (const [season, ws] of [['winter', 5 / 12], ['summer', 7 / 12]])
     }
   }
 
-const idx = new Map(stations.map((st, j) => [st.id, j]));
-const inBench = new Set(benchmarks.flatMap((b) => b.station_ids));
-const units = stations.flatMap((st, j) => (OPS.has(st.operator) && !inBench.has(st.id) ? [{ S: S[j], U: U[j] }] : []));
+// Эталон - точка: станции модели в radius_m от неё (номера S-xxxx меняются).
+const kmTo = (b, st) => Math.hypot((b.lat - st.lat) * 111.32, (b.lon - st.lon) * 111.32 * Math.cos((55.75 * Math.PI) / 180));
+const groups = new Map(benchmarks.map((b) => [b.id, stations.map((st, j) => (kmTo(b, st) * 1000 <= (b.radius_m ?? 40) ? j : -1)).filter((j) => j >= 0)]));
+const inBench = new Set([...groups.values()].flat());
+const units = stations.flatMap((st, j) => (OPS.has(st.operator) && !st.outside_mkad && !inBench.has(j) ? [{ S: S[j], U: U[j] }] : []));
 const items = benchmarks.map((b) => {
-  const js = b.station_ids.map((id) => idx.get(id)).filter((j) => j !== undefined);
+  const js = groups.get(b.id);
   const posts = js.reduce((a, j) => a + stations[j].posts, 0);
-  return { ...b, posts, S: js.reduce((a, j) => a + S[j], 0), U: posts ? js.reduce((a, j) => a + U[j] * stations[j].posts, 0) / posts : 0 };
+  return { ...b, station_ids: js.map((j) => stations[j].id), posts, S: js.reduce((a, j) => a + S[j], 0), U: posts ? js.reduce((a, j) => a + U[j] * stations[j].posts, 0) / posts : 0 };
 });
 const all = [...units, ...items];
 const N = all.length;

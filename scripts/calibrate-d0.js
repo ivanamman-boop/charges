@@ -17,7 +17,9 @@ const params = JSON.parse(readFileSync(paramsPath));
 
 const YEAR = 2026;
 const stations = stationsAll.filter((s) => s.year_open <= YEAR); // вся сеть 2026 (участвует в равновесии)
-const existingIdx = stations.map((s, j) => (s.status === 'active' ? j : -1)).filter((j) => j >= 0); // J_ex
+// J_ex - действующие внутри МКАД: станции полосы за МКАДом получают только
+// спрос изнутри кольца, их сессии занижены и в среднее не входят.
+const existingIdx = stations.map((s, j) => (s.status === 'active' && !s.outside_mkad ? j : -1)).filter((j) => j >= 0);
 
 const S_OBS = params.M1_demand.S_obs.spring.value;
 console.log(`S_obs = ${S_OBS}, |J_ex| = ${existingIdx.length}`);

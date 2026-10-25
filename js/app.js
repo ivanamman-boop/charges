@@ -376,7 +376,7 @@ function renderKpis(zones) {
   const { scenario, year } = state.ctl;
   const c = countBy(zones, (z) => z.status);
   const ok = c.priority + c.now;
-  const active = state.stationsAll.filter((st) => st.status !== 'planned').length;
+  const active = state.stationsAll.filter((st) => st.status !== 'planned' && !st.outside_mkad).length;
   let planned = 0;
   for (let y = 2027; y <= 2030; y++) planned += plannedStationsPerYear(y, scenario, state.params);
   let conclusion;
@@ -692,21 +692,23 @@ async function benchmarkStats() {
       U[j] += (w * u) / 24;
     }
   }
-  const idx = new Map(stations.map((st, j) => [st.id, j]));
-  const inBench = new Set(state.benchmarks.flatMap((b) => b.station_ids));
-  const unit = (ids) => {
-    const js = ids.map((id) => idx.get(id)).filter((j) => j !== undefined);
+  // Эталон - точка: станции модели в radius_m от неё (номера S-xxxx при
+  // пересборке данных меняются, по ним не ссылаемся).
+  const groupOf = (b) => stations.map((st, j) => (haversineKm(b.lat, b.lon, st.lat, st.lon) * 1000 <= (b.radius_m ?? 40) ? j : -1)).filter((j) => j >= 0);
+  const groups = new Map(state.benchmarks.map((b) => [b.id, groupOf(b)]));
+  const inBench = new Set([...groups.values()].flat());
+  const unit = (js) => {
     const posts = js.reduce((a, j) => a + stations[j].posts, 0);
     return { S: js.reduce((a, j) => a + S[j], 0), U: posts ? js.reduce((a, j) => a + U[j] * stations[j].posts, 0) / posts : 0, found: js.length };
   };
   const units = [];
   stations.forEach((st, j) => {
-    if (RSZS_OPERATORS.has(st.operator) && !inBench.has(st.id)) units.push({ S: S[j], U: U[j] });
+    if (RSZS_OPERATORS.has(st.operator) && !st.outside_mkad && !inBench.has(j)) units.push({ S: S[j], U: U[j] });
   });
   const items = state.benchmarks.map((b) => {
-    const u = unit(b.station_ids);
-    const js = b.station_ids.map((id) => idx.get(id)).filter((j) => j !== undefined);
-    return { ...b, ...u, lat: js.length ? js.reduce((a, j) => a + stations[j].lat, 0) / js.length : null, lon: js.length ? js.reduce((a, j) => a + stations[j].lon, 0) / js.length : null, posts: js.reduce((a, j) => a + stations[j].posts, 0), P_kW: js.reduce((a, j) => a + stations[j].P_kW, 0) };
+    const js = groups.get(b.id);
+    const u = unit(js);
+    return { ...b, ...u, station_ids: js.map((j) => stations[j].id), lat: js.length ? b.lat : null, lon: b.lon, posts: js.reduce((a, j) => a + stations[j].posts, 0), P_kW: js.reduce((a, j) => a + stations[j].P_kW, 0) };
   });
   const all = [...units, ...items];
   const N = all.length;
@@ -1725,7 +1727,7 @@ async function main() {
   const calcById = new Map(zones.sites.map((s) => [s.id, s]));
   for (const s of pool) state.siteById.set(s.id, { ...s, calc: calcById.get(s.id) || null });
   computeThresholds();
-  document.getElementById('stations-count').textContent = String(stationsAll.filter((st) => st.status !== 'planned').length);
+  document.getElementById('stations-count').textContent = String(stationsAll.filter((st) => st.status !== 'planned' && !st.outside_mkad).length);
   document.getElementById('data-chip').textContent = `Расчёт зон ${new Date(zones.date).toLocaleDateString('ru-RU')}`;
 
   state.layers = initMap();
