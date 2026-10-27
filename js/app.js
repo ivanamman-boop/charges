@@ -10,7 +10,7 @@ import { SEGMENTS, demandField, stationsActiveIn, plannedStationsPerYear } from 
 import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } from './equilibrium.js';
 import { evaluateCandidateAsync, yearAverage, newClientsPerMln } from './equipment.js';
 import { interpolateAnchors } from './economics.js';
-import { thresholds, siteStatus, siteEconomics, robustness, loadFromSessions, utilization, taxiShare, siteMetrics, verdictRszs, STATUS } from './econ-view.js';
+import { thresholds, siteStatus, siteEconomics, robustness, loadFromSessions, utilization, taxiShare, siteMetrics, verdictRszs, paybackDemand, STATUS } from './econ-view.js';
 import { mfppipCompensation } from './grid.js';
 import {
   initMap,
@@ -367,9 +367,9 @@ function renderZoneLegend(zones) {
   const th = state.th;
   document.getElementById('zone-legend').innerHTML = `
     <div class="zl-title">Зоны на ${state.ctl.year}</div>
-    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>окупается за ${th.normYears} лет: от ${num(th.pb, 1)} зарядок в сутки, класс А. Тёмные — первая очередь: окупаются и с дисконтом 18% (от ${num(th.npv, 1)})</small></div></div>
-    <div class="zl-row"><i class="sw sw-grid"></i><div><b>Готовить сеть</b> <span class="zl-n">${c.grid}</span><small>спрос есть, подстанции ближе 200 м в данных нет</small></div></div>
-    <div class="zl-row"><i class="sw sw-no"></i><div><b>Не ставить</b> <span class="zl-n">${c.no}</span><small>ниже порога окупаемости</small></div></div>`;
+    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция окупится за ${th.normYears} лет: прогноз от ${num(th.pb, 0)} зарядок в сутки и подстанция рядом. Тёмно-синие — с запасом, от ${num(th.npv, 0)} зарядок</small></div></div>
+    <div class="zl-row"><i class="sw sw-grid"></i><div><b>Готовить сеть</b> <span class="zl-n">${c.grid}</span><small>спрос есть, но подстанции рядом нет — сначала запрос в «Россети»</small></div></div>
+    <div class="zl-row"><i class="sw sw-no"></i><div><b>Не ставить</b> <span class="zl-n">${c.no}</span><small>за ${th.normYears} лет не окупится</small></div></div>`;
 }
 
 function renderKpis(zones) {
@@ -381,14 +381,14 @@ function renderKpis(zones) {
   for (let y = 2027; y <= 2030; y++) planned += plannedStationsPerYear(y, scenario, state.params);
   let conclusion;
   const N = state.th.normYears;
-  if (ok === 0) conclusion = c.grid > 0 ? `В ${year} стандартная станция нигде не окупается за ${N} лет при подстанции рядом. Спрос есть в ${c.grid} ${plural(c.grid, 'зоне', 'зонах', 'зонах')} без известной подстанции — начинать с запроса мощности.` : `В ${year} стандартная станция нигде не окупается за ${N} лет. Смотрите следующий год или компенсацию МФППиП в паспорте.`;
-  else if (c.priority === 0) conclusion = `Окупается за ${N} лет в ${ok} ${plural(ok, 'зоне', 'зонах', 'зонах')}, но с дисконтом 18% — ни одна. Это вторая очередь, строить точечно.`;
-  else conclusion = `${c.priority} ${plural(c.priority, 'зона окупается', 'зоны окупаются', 'зон окупаются')} за ${N} лет и с дисконтом — первая очередь. Ещё ${c.now} во второй очереди, ${c.grid} ждут подключения к сети.`;
+  if (ok === 0) conclusion = c.grid > 0 ? `В ${year} году станция нигде не окупается за ${N} лет. Спрос есть только в ${c.grid} ${plural(c.grid, 'зоне', 'зонах', 'зонах')}, где нет подстанции рядом, — там начинать с запроса в «Россети».` : `В ${year} году станция нигде не окупается за ${N} лет. Посмотрите следующий год или включите компенсацию МФППиП в паспорте.`;
+  else if (c.priority === 0) conclusion = `В ${year} году станция окупается за ${N} лет в ${ok} ${plural(ok, 'зоне', 'зонах', 'зонах')}, но без запаса. Строить точечно, в самых тёмных зонах.`;
+  else conclusion = `В ${c.priority} ${plural(c.priority, 'зоне', 'зонах', 'зонах')} станция окупается с запасом — это первая волна. Ещё в ${c.now} окупается без запаса, в ${c.grid} сначала нужна сеть.`;
   document.getElementById('kpi-row').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Зон, где станция окупается, ${year}</div><div class="kpi-value">${ok}</div><div class="kpi-sub">из ${zones.length} зон внутри МКАД · окупаемость за ${N} лет, норматив РСЗС</div></div>
-    <div class="kpi"><div class="kpi-label">Из них первая очередь</div><div class="kpi-value">${c.priority}</div><div class="kpi-sub">окупаются за ${N} лет и с дисконтом 18%</div></div>
-    <div class="kpi"><div class="kpi-label">Действующие и план города к 2030</div><div class="kpi-value">~${fmtInt(active + planned)}</div><div class="kpi-sub">${active} работают, ${planned} по плану «Энергии Москвы» в этом сценарии</div></div>
-    <div class="kpi kpi-dark"><div class="kpi-label">Вывод сценария · ${esc(SCENARIO_LABEL[scenario])}</div><div class="kpi-text">${conclusion}</div></div>`;
+    <div class="kpi"><div class="kpi-label">Зон, где станция окупится, ${year}</div><div class="kpi-value">${ok}</div><div class="kpi-sub">из ${zones.length} зон внутри МКАД · за ${N} лет, как требует норматив РСЗС</div></div>
+    <div class="kpi"><div class="kpi-label">Из них — с запасом</div><div class="kpi-value">${c.priority}</div><div class="kpi-sub">окупятся и с учётом стоимости денег (ставка 18%)</div></div>
+    <div class="kpi"><div class="kpi-label">Быстрых станций к 2030</div><div class="kpi-value">~${fmtInt(active + planned)}</div><div class="kpi-sub">${active} уже работают, ещё ${planned} поставит город («Энергия Москвы»)</div></div>
+    <div class="kpi kpi-dark"><div class="kpi-label">Коротко · ${esc(SCENARIO_LABEL[scenario])}</div><div class="kpi-text">${conclusion}</div></div>`;
 }
 
 // ---------- Кандидаты модели (список слева, пины) ----------
@@ -458,19 +458,19 @@ function renderCandidateList() {
         <span class="cand-rank">${x.rank}</span>
         <div class="cand-body">
           <div class="cand-name">${esc(siteName(x.site))}<span class="tag tag-${st.tone}">${st.label}</span></div>
-          <div class="cand-meta">${esc(x.id)} · ${esc(siteKindLine(x.site || x))} · класс ${esc(clsLabel(x.cls))}</div>
+          <div class="cand-meta">${esc(siteKindLine(x.site || x))} · ${esc(x.id)} · подключение ${esc(clsLabel(x.cls))}</div>
           <div class="cand-bar tone-${st.tone}"><i style="width:${pos(x.S ?? 0)}"></i><b class="mk mk-pb" style="left:${pos(th.pb)}"></b><b class="mk mk-npv" style="left:${pos(th.npv)}"></b></div>
         </div>
-        <div class="cand-num"><b>${num(x.S, 0)}</b><small>зар. в сутки</small></div>
+        <div class="cand-num"><b>${num(x.S, 0)}</b><small>зарядок в сутки</small></div>
       </li>`;
     })
-    .join('') || '<li class="cand-empty">Нет кандидатов с таким решением в этом сценарии.</li>';
+    .join('') || '<li class="cand-empty">В этом сценарии таких мест нет.</li>';
   el.querySelectorAll('li.cand').forEach((li) => {
     const open = () => selectSite(li.dataset.id, { pan: true });
     li.addEventListener('click', open);
     li.addEventListener('keydown', (e) => e.key === 'Enter' && open());
   });
-  document.getElementById('threshold-note').innerHTML = `Серая отметка — ${num(th.pb, 1)} зарядки в сутки: станция окупается за ${th.normYears} лет, норматив РСЗС. Чёрная — ${num(th.npv, 1)}: окупается и с дисконтом 18%. Класс А, без компенсации МФППиП.`;
+  document.getElementById('threshold-note').innerHTML = `Полоса — прогноз зарядок в сутки. Серая отметка (${num(th.pb, 0)}) — с этого станция окупается за ${th.normYears} лет. Чёрная (${num(th.npv, 0)}) — окупается с запасом, с учётом стоимости денег.`;
 }
 
 // ---------- Карточка на карте (кандидат, зона, точка) ----------
@@ -479,7 +479,7 @@ function popupHtml({ kicker, title, S, U, status, cfgLine, text, actions = true,
   return `<button class="popup-close" data-action="close" aria-label="Закрыть">×</button>
     <div class="popup-kicker">${esc(kicker)}</div>
     <div class="popup-title">${esc(title)}</div>
-    ${S !== null && S !== undefined ? `<div class="popup-big"><b>${num(S, 0)}</b><span>зарядок в сутки в ${state.ctl.year}<br>≈${num(U * 100, 0)}% загрузки поста</span></div>` : ''}
+    ${S !== null && S !== undefined ? `<div class="popup-big"><b>${num(S, 0)}</b><span>зарядок в сутки<br>в ${state.ctl.year} году</span></div>` : ''}
     ${st ? `<span class="tag tag-${st.tone} popup-status">${st.label} · ${esc(cfgLine)}</span>` : ''}
     <p class="popup-text">${text}</p>
     ${note ? `<p class="popup-note">${note}</p>` : ''}
@@ -492,16 +492,17 @@ function statusExplanation(status, S, by, year) {
   // по годам не монотонен - городские станции 2027-2030 забирают клиентов.
   const crossYear = (lvl) => YEARS_ALL.find((y) => y > year && (sessionsIn(by, y) ?? 0) >= lvl);
   const earlier = (lvl) => YEARS_ALL.find((y) => y < year && (sessionsIn(by, y) ?? 0) >= lvl);
-  if (by?.cls === 'В') return 'У питающего центра нет свободной мощности (оценка). Подключить станцию без реконструкции сети нельзя.';
-  if (status === 'priority') return `Окупается за ${th.normYears} лет и с дисконтом 18% (от ${num(th.npv, 1)} зарядок в сутки). Подстанция рядом, подключение без реконструкции сети.`;
+  const gapTxt = S >= th.pb ? '' : ` Чтобы окупиться за ${th.normYears} лет, нужно ${num(th.pb, 0)} зарядок в сутки — на ${num(th.pb - S, 0)} больше прогноза.`;
+  if (by?.cls === 'В') return 'Свободной мощности у питающего центра нет (по нашей оценке) — без стройки сети станцию не подключить.';
+  if (status === 'priority') return `Станция окупится с запасом: прогноз выше ${num(th.npv, 0)} зарядок в сутки, а подстанция рядом — подключение дешёвое и быстрое.`;
   if (status === 'now') {
     const y = crossYear(th.npv);
-    return `Окупается за ${th.normYears} лет (от ${num(th.pb, 1)} зарядок), но с дисконтом 18% нужно ${num(th.npv, 1)}. ${y ? `Этот порог проходит в ${y}.` : 'До 2030 этот порог не проходит.'} Строить во вторую очередь.`;
+    return `Станция окупится за ${th.normYears} лет, но без запаса: для запаса нужно ${num(th.npv, 0)} зарядок в сутки${y ? ` — такой спрос будет к ${y}` : ''}. Вторая очередь.`;
   }
-  if (status === 'grid') return `Спрос есть (${num(S, 0)} при пороге ${num(th.pb, 0)}), но подстанции ближе 200 м в открытых данных нет. Нужен запрос мощности в Россети: с классом Б подключение в разы дороже.`;
+  if (status === 'grid') return `Спроса хватает (${num(S, 0)} зарядок при нужных ${num(th.pb, 0)}), но подстанции рядом нет — подключение может оказаться в разы дороже. Сначала запрос в «Россети».`;
   const y = crossYear(th.pb);
   const e = earlier(th.pb);
-  return `Прогноз ниже порога окупаемости (${num(th.pb, 0)} зарядок в сутки).${e ? ` В ${e} порог проходил: часть клиентов к ${year} заберут городские станции.` : ''} ${y ? `Снова проходит в ${y}.` : 'До 2030 не проходит — мониторинг спроса.'}`;
+  return `Пока не окупится.${gapTxt}${e ? ` В ${e} спроса хватало: к ${year} часть клиентов заберут новые городские станции.` : ''} ${y ? `Нужный спрос появится к ${y}.` : 'До 2030 его не будет.'}`;
 }
 
 function wirePopup() {
@@ -537,6 +538,7 @@ function clearSelection() {
 function selectSite(id, { pan = false } = {}) {
   const site = state.siteById.get(id);
   if (!site) return;
+  document.getElementById('map-hint').classList.add('gone');
   state.selected = { type: 'site', id, lat: site.lat, lon: site.lon, label: `${id} · ${siteName(site)}` };
   renderPoint(state.layers, null);
   refreshPopup();
@@ -580,8 +582,8 @@ function refreshPopup() {
       S,
       U: S !== null ? loadFromSessions(S, state.th, 2) : 0,
       status,
-      cfgLine: `150 кВт, 2 поста, класс ${clsLabel(by?.cls)}`,
-      text: by ? statusExplanation(status, S, by, year) : 'Для этой площадки нет расчёта зон.',
+      cfgLine: `150 кВт, 2 поста, подключение ${clsLabel(by?.cls)}`,
+      text: by ? statusExplanation(status, S, by, year) : 'Для этой площадки нет готового расчёта — откройте паспорт.',
       note: `${esc(siteKindLine(site))}${site.address ? `, ${esc(site.address)}` : ''}`,
     });
   } else if (sel.type === 'zone') {
@@ -591,13 +593,13 @@ function refreshPopup() {
     const status = statusOf(by, year);
     el.innerHTML = popupHtml({
       kicker: `Зона · ${z.district}`,
-      title: z.atTp ? 'Станция у подстанции зоны' : 'Станция в центре зоны',
+      title: z.atTp ? 'Станция у подстанции' : 'Станция в центре зоны',
       S,
       U: loadFromSessions(S, state.th, 2),
       status,
-      cfgLine: `150 кВт, 2 поста, класс ${clsLabel(by.cls)}`,
+      cfgLine: `150 кВт, 2 поста, подключение ${clsLabel(by.cls)}`,
       text: statusExplanation(status, S, by, year),
-      note: z.atTp ? 'Точка — известная трансформаторная подстанция 0,4 кВ внутри зоны.' : 'Подстанций в зоне в открытых данных нет — точка в центре зоны.',
+      note: z.atTp ? 'Станцию ставим у трансформаторной подстанции этой зоны — так подключение дешевле.' : 'Подстанций в зоне в открытых данных нет — станцию ставим в центре зоны.',
     });
   } else {
     const inside = insideMkad(sel.lat, sel.lon);
@@ -606,7 +608,7 @@ function refreshPopup() {
       title: inside ? 'Проверить это место' : 'За пределами МКАД',
       S: null,
       status: null,
-      text: inside ? 'Паспорт посчитает прогноз, подключение и экономику станции 150 кВт именно в этой точке. Расчёт занимает от нескольких секунд до минуты.' : 'Там не собраны данные о станциях, поэтому модель эту точку не считает. Выберите место внутри пунктирного кольца.',
+      text: inside ? 'Паспорт посчитает для станции 150 кВт в этой точке: сколько машин приедет, откуда, сколько стоит подключение и когда окупится. Это займёт несколько секунд.' : 'Там не собраны данные о станциях, поэтому модель эту точку не считает. Выберите место внутри пунктирного кольца.',
       actions: inside,
     });
   }
@@ -733,10 +735,10 @@ function benchPopupHtml(b) {
     <div class="bench-cols">
       <div><div class="bench-h">Известно от РСЗС</div><p>${esc(b.rszs)}</p><p class="popup-note">${esc(b.source)}${b.launched ? `. Запуск: ${esc(b.launched)}` : ''}</p></div>
       <div><div class="bench-h">Считает модель</div>
-        <p><b>${num(b.S, 1)}</b> сессий в сутки<br><b>${num(b.U * 100, 1)}%</b> загрузка поста</p>
-        <p class="popup-note">Место в сети РСЗС из ${b.N}: по сессиям ${b.rankS}, по загрузке ${b.rankU}. ${BENCH_YEAR}, базовый сценарий, средний день года. ${b.posts} пост(ов), ${b.P_kW} кВт, станции ${esc(b.station_ids.join(', '))}</p></div>
+        <p><b>${num(b.S, 1)}</b> зарядки в сутки<br>пост занят <b>${num(b.U * 100, 1)}%</b> времени</p>
+        <p class="popup-note">Среди ${b.N} станций РСЗС: ${b.rankS}-е место по числу зарядок, ${b.rankU}-е по загрузке. ${BENCH_YEAR}, базовый сценарий, средний день года. ${b.posts} пост(ов), ${b.P_kW} кВт, станции ${esc(b.station_ids.join(', '))}</p></div>
     </div>
-    ${b.mismatch ? `<p class="bench-mismatch"><b>Расхождение:</b> ${isWeak ? 'слабая станция выше' : 'лидер ниже'} середины сети РСЗС по загрузке. Модель ещё не откалибрована на почасовых данных РСЗС, это закрывает пилот.</p>` : ''}
+    ${b.mismatch ? `<p class="bench-mismatch"><b>Расхождение с РСЗС:</b> по загрузке модель ставит эту станцию ${isWeak ? 'выше' : 'ниже'} середины сети. Уточнится, когда модель получит почасовые данные РСЗС в пилоте.</p>` : ''}
     ${b.note ? `<p class="popup-note">Данные: ${esc(b.note)}</p>` : ''}`;
 }
 
@@ -1074,6 +1076,11 @@ function buildPassportVm(P) {
       verdict: verdictRszs({ npvExpensive: hi.npv, npvCheap: lo.npv, paybackExpensive: hi.payback, normYears: th.normYears }),
     };
     robust = robustness(P.e150, { params: state.params, subsidy, launchYear: year });
+    // Сколько зарядок в сутки нужно для окупаемости за норматив (идея команды 27.10).
+    const pd = paybackDemand(P.e150, { params: state.params, subsidy, launchYear: year, normYears: th.normYears });
+    const Snow = series.S[year];
+    const need = (m) => (m === null ? null : { mult: m, sessions: m * Snow, year: YEARS_ALL.find((y) => y >= year && series.S[y] >= m * Snow) ?? null });
+    econ.need = { expensive: need(pd.expensive), cheap: need(pd.cheap), forecast: Snow };
     if (cls === 'А') {
       const m5 = state.params.M5_grid;
       const P_kW = P.e150.cfg.P_cap_kW;
@@ -1092,22 +1099,22 @@ function buildPassportVm(P) {
   let recText;
   if (cls === 'В') {
     recTitle = 'Не ставить';
-    recText = 'У питающего центра нет свободной мощности (оценка). Без реконструкции сети станцию не подключить.';
+    recText = 'Свободной мощности у питающего центра нет (по нашей оценке) — без стройки сети станцию не подключить.';
   } else if (status === 'priority') {
     recTitle = 'Строить в первую очередь';
-    recText = `Прогноз ${num(S, 1)} зарядки в сутки: станция окупается за ${th.normYears} лет и с дисконтом 18% (порог ${num(th.npv, 1)}). Класс А — подключение без реконструкции сети.`;
+    recText = `На карте это место первой очереди: ${num(S, 1)} зарядки в сутки — больше, чем нужно для окупаемости с запасом (${num(th.npv, 0)}), и подстанция рядом.`;
   } else if (status === 'now') {
     const y = crossYear(th.npv);
     recTitle = 'Строить во вторую очередь';
-    recText = `Прогноз ${num(S, 1)} зарядки в сутки выше порога окупаемости за ${th.normYears} лет (${num(th.pb, 1)})${earlier(th.pb) ? `, пройденного ещё в ${earlier(th.pb)}` : ''}. С дисконтом 18% нужно ${num(th.npv, 1)} — ${y ? `это будет в ${y}` : 'до 2030 не набирается'}.`;
+    recText = `На карте это место второй очереди: ${num(S, 1)} зарядки в сутки — хватает, чтобы окупиться за ${th.normYears} лет (${num(th.pb, 0)}), но для запаса нужно ${num(th.npv, 0)}${y ? `, такой спрос будет к ${y}` : ', и до 2030 его не будет'}.`;
   } else if (status === 'grid') {
     recTitle = 'Готовить сеть';
-    recText = `Спрос есть: ${num(S, 0)} зарядок при пороге ${num(th.pb, 0)}. Но трансформаторной подстанции ближе 200 м в открытых данных нет, а с подключением класса Б станция окупается только от ${num(P.thB?.pb ?? NaN, 0)} зарядок. Заявка в Россети или поиск площадки у подстанции.`;
+    recText = `Спроса хватает (${num(S, 0)} зарядок при нужных ${num(th.pb, 0)}), но подстанции рядом нет. Если подключение окажется дорогим, нужно уже ${num(P.thB?.pb ?? NaN, 0)} зарядок. Сначала запрос в «Россети» или площадка ближе к подстанции.`;
   } else {
     const y = crossYear(th.pb);
     const e = earlier(th.pb);
     recTitle = 'Не ставить сейчас';
-    recText = `Прогноз ${num(S, 0)} зарядок в сутки ниже порога окупаемости ${num(th.pb, 0)}.${e ? ` В ${e} порог проходил: к ${year} часть клиентов заберут городские станции.` : ''} ${y ? `Снова проходит в ${y} — вернуться к площадке позже.` : 'До 2030 порог не проходит — мониторинг спроса.'}`;
+    recText = `На карте здесь пока не строить: ${num(S, 0)} зарядок в сутки при нужных ${num(th.pb, 0)}.${e ? ` В ${e} спроса хватало — к ${year} часть клиентов заберут городские станции.` : ''} ${y ? `Нужный спрос появится к ${y} — тогда вернуться к площадке.` : 'До 2030 нужного спроса не будет.'}`;
   }
 
   const m7 = state.params.M6_M7_equipment_economics;
@@ -1128,7 +1135,7 @@ function buildPassportVm(P) {
     Urange,
     cls,
     clsLabel: clsLabel(cls),
-    clsText: cls === 'А' ? 'А, без реконструкции сети' : cls === 'В' ? 'В, нет свободной мощности' : 'Б, подстанции рядом в данных нет',
+    clsText: cls === 'А' ? 'класс А — подстанция рядом' : cls === 'В' ? 'класс В — нет свободной мощности' : 'класс Б — подстанции рядом нет',
     dist04,
     conn,
     center,
@@ -1315,7 +1322,7 @@ function liveFromLocal(local, candidate) {
     ownLoss,
     newDemand,
     conditions: `${dayType === 'weekend' ? 'Выходной' : 'Будний день'}, ${season === 'winter' ? 'зима' : 'лето'} ${year}, ${SCENARIO_LABEL[scenario]}`,
-    hourNote: (h) => `Больше всего машин в ${peakHour}:00. Выделен ${h}:00: пост занят ${num(Uh[h] * 100, 0)}% времени, ожидание ${num(Wh[h] * 60, 0)} мин. Час, день и сезон меняются в слое «Спрос по часам» на карте.`,
+    hourNote: (h) => `Больше всего машин в ${peakHour}:00. В ${h}:00 пост занят ${num(Uh[h] * 100, 0)}% времени, ждать в среднем ${num(Wh[h] * 60, 0)} мин. Другой час, день или сезон — в слое «Спрос по часам» на карте.`,
     tech: [
       ['Обслужено сессий в сутки, S_new', num(Snew, 2)],
       ['Доля отказов за сутки, p_K', `${num(arr > 0 ? ((arr - srv) / arr) * 100 : 0, 1)}%`],
@@ -1482,14 +1489,14 @@ function portfolioMoney() {
   const row = (label, a, b, better) => `<tr><td>${label}</td><td class="num col-trad">${a}</td><td class="num col-model ${better ? 'better' : ''}">${b}</td></tr>`;
   document.getElementById('portfolio-money').innerHTML = `
     <table class="compare-table money-table">
-      <thead><tr><th>Деньги: 10 станций DC150-2, решение в 2026, ${esc(SCENARIO_LABEL[scenario])}, 10 лет, ставка 18%</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
+      <thead><tr><th>Деньги. 10 станций по 150 кВт, решение в 2026 году, ${esc(SCENARIO_LABEL[scenario])}, 10 лет работы, ставка 18%</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
       <tbody>
-        ${row('NPV портфеля, дорогое подключение', `${mlnS(t.npvHi)} млн ₽`, `${mlnS(m.npvHi)} млн ₽`, m.npvHi > t.npvHi)}
-        ${row('NPV портфеля, дешёвое подключение', `${mlnS(t.npvLo)} млн ₽`, `${mlnS(m.npvLo)} млн ₽`, m.npvLo > t.npvLo)}
-        ${row('Разница в пользу модели', '', `<b>${mlnS(m.npvHi - t.npvHi)} млн ₽</b>`, m.npvHi > t.npvHi)}
-        ${row('Индекс доходности (1 + NPV / вложения)', num(t.pi, 2), num(m.pi, 2), m.pi > t.pi)}
+        ${row('NPV 10 станций — если подключение дорогое', `${mlnS(t.npvHi)} млн ₽`, `${mlnS(m.npvHi)} млн ₽`, m.npvHi > t.npvHi)}
+        ${row('NPV 10 станций — если подключение дешёвое', `${mlnS(t.npvLo)} млн ₽`, `${mlnS(m.npvLo)} млн ₽`, m.npvLo > t.npvLo)}
+        ${row('<b>Модель выигрывает</b>', '', `<b>${mlnS(m.npvHi - t.npvHi)} млн ₽</b>`, m.npvHi > t.npvHi)}
+        ${row('Сколько возвращается с каждого вложенного рубля (с учётом ставки)', `${num(t.pi, 2)} ₽`, `${num(m.pi, 2)} ₽`, m.pi > t.pi)}
         ${row(`Площадок, окупающихся за ${N} лет`, `${t.paid} из ${t.n}`, `${m.paid} из ${m.n}`, m.paid > t.paid)}
-        ${row('Стоимость ошибок: сумма отрицательных NPV', `${num(t.errors / 1e6, 1)} млн ₽ (${t.losers} пл.)`, `${num(m.errors / 1e6, 1)} млн ₽ (${m.losers} пл.)`, m.errors < t.errors)}
+        ${row('Потери на местах, которые не окупаются', `${num(t.errors / 1e6, 1)} млн ₽`, `${num(m.errors / 1e6, 1)} млн ₽`, m.errors < t.errors)}
       </tbody>
     </table>
     <p class="hint">Каждая площадка посчитана как отдельная станция, без учёта того, что станции портфеля делят клиентов между собой, и без компенсации МФППиП. Стоимость ошибок — сколько потеряли бы станции с отрицательным NPV; разница между подходами — ошибки, которых модель позволяет избежать.</p>`;

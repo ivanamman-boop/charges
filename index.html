@@ -39,18 +39,18 @@
       <div class="page-head">
         <div>
           <h1>Где ставить быстрые станции</h1>
-          <p class="page-sub">Москва внутри МКАД, стандарт РСЗС — 150 кВт на 2 поста. Зоны пересчитываются при смене сценария.</p>
+          <p class="page-sub">Карта показывает, где в Москве внутри МКАД окупится стандартная станция РСЗС на 150 кВт и 2 поста. Синие зоны — строить, оранжевые — сначала нужна сеть, серые — пока не окупится. Нажмите на зону или кандидата, чтобы увидеть прогноз, а в паспорте — все цифры.</p>
         </div>
         <div class="head-controls">
           <div class="ctl">
-            <span class="ctl-label">Рост спроса в год</span>
+            <span class="ctl-label">Рост спроса на зарядку</span>
             <div class="seg" data-control="scenario">
               <button data-value="base" class="active">+30% · базовый</button>
               <button data-value="fast">+80% · быстрый</button>
             </div>
           </div>
           <div class="ctl">
-            <span class="ctl-label">Горизонт прогноза</span>
+            <span class="ctl-label">На какой год смотрим</span>
             <div class="seg" data-control="year">
               <button data-value="2026">2026</button>
               <button data-value="2028" class="active">2028</button>
@@ -68,12 +68,12 @@
             <label class="side-label" for="station-search-input">Поиск</label>
             <div class="search-box" id="station-search">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" /><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
-              <input id="station-search-input" type="search" placeholder="Район, адрес, оператор или № площадки" autocomplete="off" spellcheck="false" aria-controls="station-search-results" aria-expanded="false" />
+              <input id="station-search-input" type="search" placeholder="Улица, район или оператор" autocomplete="off" spellcheck="false" aria-controls="station-search-results" aria-expanded="false" />
               <ul id="station-search-results" role="listbox" hidden></ul>
             </div>
             <div class="chips" id="status-filter" role="group" aria-label="Фильтр по решению"></div>
           </div>
-          <div class="side-list-head"><b>Кандидаты <span id="cand-count"></span></b><span>по прогнозу, сверху лучшие</span></div>
+          <div class="side-list-head"><b>Кандидаты <span id="cand-count"></span></b><span>10 лучших мест по расчёту модели</span></div>
           <ol class="cand-list" id="cand-list"></ol>
           <div class="side-foot">
             <p id="threshold-note"></p>
@@ -88,14 +88,14 @@
           <div class="layers-panel" id="layers-panel">
             <button class="layers-toggle" id="layers-toggle" type="button" aria-expanded="true">Слои</button>
             <div class="layers-body" id="layers-body">
-              <label><input type="checkbox" id="layer-zones" checked /> Зоны решения</label>
-              <label><input type="checkbox" id="toggle-model" checked /> Кандидаты модели</label>
-              <label><input type="checkbox" id="toggle-trad" /> Традиционный выбор</label>
-              <label><input type="checkbox" id="layer-stations" checked /> Действующие станции</label>
+              <label><input type="checkbox" id="layer-zones" checked /> Где строить (зоны)</label>
+              <label><input type="checkbox" id="toggle-model" checked /> 10 мест от модели</label>
+              <label><input type="checkbox" id="toggle-trad" /> 10 мест обычным способом</label>
+              <label><input type="checkbox" id="layer-stations" checked /> Работающие быстрые станции</label>
               <label><input type="checkbox" id="toggle-slow" /> Медленные зарядки<span id="slow-count"></span></label>
-              <label><input type="checkbox" id="layer-centers" checked /> Подстанции</label>
-              <label><input type="checkbox" id="layer-bench" /> Эталоны РСЗС <span class="bench-swatch" aria-hidden="true"></span></label>
-              <label><input type="checkbox" id="layer-demand" /> Спрос по часам</label>
+              <label><input type="checkbox" id="layer-centers" checked /> Питающие центры (⚡)</label>
+              <label><input type="checkbox" id="layer-bench" /> Самые востребованные станции РСЗС <span class="bench-swatch" aria-hidden="true"></span></label>
+              <label><input type="checkbox" id="layer-demand" /> Спрос по часам суток</label>
               <div class="demand-controls" id="demand-controls" hidden>
                 <div class="seg seg-sm" data-control="dayType">
                   <button data-value="weekday" class="active">Будни</button>
@@ -132,7 +132,7 @@
       <a class="back-link" href="#map">← К карте зон</a>
       <div id="passport-empty" class="empty-state">
         <h2>Паспорт площадки</h2>
-        <p>Выберите кандидата в списке или нажмите на любую точку карты внутри МКАД и откройте её паспорт.</p>
+        <p>Паспорт — это всё о конкретном месте: сколько машин приедет, откуда, сколько стоит подключение и когда станция окупится. Выберите место на карте зон и нажмите «Открыть паспорт».</p>
         <a class="btn-primary" href="#map">Открыть карту зон</a>
       </div>
       <div id="passport" hidden></div>
@@ -142,7 +142,7 @@
     <section class="view" id="view-compare" hidden>
       <div class="page-head">
         <div>
-          <h1>Модель против обычного выбора мест</h1>
+          <h1>Что даёт модель: сравнение с обычным выбором мест</h1>
           <p class="page-sub" id="portfolio-subtitle"></p>
         </div>
       </div>
@@ -154,7 +154,7 @@
         <h3 class="table-title">Рекомендованные места <span class="hint">нажмите на строку, чтобы открыть паспорт</span></h3>
         <div class="table-wrap">
           <table class="data-table" id="portfolio-table">
-            <thead><tr><th>№</th><th>Площадка</th><th>Район</th><th>Новых клиентов в сутки<br><span class="th-sub">2026 → 2030</span></th><th>Всего машин в сутки<br><span class="th-sub">2026 → 2030</span></th><th>Станция и подключение</th></tr></thead>
+            <thead><tr><th>№</th><th>Площадка</th><th>Район</th><th>Новых клиентов в сутки<br><span class="th-sub">2026 → 2030</span></th><th>Всего зарядок в сутки<br><span class="th-sub">2026 → 2030</span></th><th>Станция и подключение</th></tr></thead>
             <tbody id="portfolio-body"></tbody>
           </table>
         </div>
@@ -163,9 +163,9 @@
 
       <section class="card" id="candidate-list-section">
         <h2>Ваши точки</h2>
-        <p class="hint" id="candidate-list-empty">Пока пусто. Нажмите «Сравнить» у кандидата на карте или в паспорте — точка появится здесь с баллами: подключение, спрос рядом, конкуренты.</p>
+        <p class="hint" id="candidate-list-empty">Здесь можно сравнить свои точки. Нажмите «Сравнить» в карточке места на карте или в паспорте — точка появится в таблице с оценками: подключение, спрос рядом, конкуренты.</p>
         <div class="table-wrap" id="candidate-list-wrap" hidden>
-          <p class="hint">Чем больше число, тем лучше. Баллы сравнимы только между строками этой таблицы.</p>
+          <p class="hint">Оценка от 0 до 100: чем больше, тем лучше. Это быстрая прикидка для сравнения точек между собой; точный ответ — в паспорте.</p>
           <table class="data-table" id="candidate-list-table">
             <thead>
               <tr>
@@ -200,12 +200,17 @@
         </div>
 
         <h3 class="how-subtitle">Как читать карту зон</h3>
-        <p>В каждой зоне (шестиугольник ~1,9 км²) модель ставит стандартную станцию РСЗС — 150 кВт, 2 поста — у известной трансформаторной подстанции зоны, а если её нет в данных, в центре зоны. Затем считает, сколько машин в сутки она будет заряжать в выбранном году и сценарии, и сравнивает с двумя порогами: окупаемость за 8 лет (норматив РСЗС) — 11,0 сессии в сутки, и та же окупаемость с дисконтом 18% — 17,0. Пороги посчитаны для подключения класса А (вложения 4,1 млн ₽), маржи 226 ₽ с сессии (30 кВт·ч, тариф 23 ₽, у такси 19 ₽ и 10% сессий, энергия 10 ₽) и постоянных расходов 388 тыс. ₽ в год. С компенсацией МФППиП пороги 10,1 и 15,8, при подключении класса Б (9,8 млн ₽) — 24,1.</p>
+        <p>Город поделён на шестиугольные зоны примерно по 2 км². В каждой зоне модель мысленно ставит стандартную станцию РСЗС на 150 кВт и 2 поста — у трансформаторной подстанции, если она есть в зоне, иначе в центре. Потом считает, сколько машин будет на ней заряжаться, и сравнивает с тем, сколько нужно для окупаемости:</p>
+        <ul class="status-explain plain">
+          <li><b>11 зарядок в сутки</b> — станция окупается за 8 лет, как требует норматив РСЗС;</li>
+          <li><b>17 зарядок</b> — окупается с запасом, с учётом стоимости денег (ставка 18%).</li>
+        </ul>
+        <p class="how-tech">Откуда 11 и 17: вложения 4,1 млн ₽ (станция, дешёвое подключение, площадка), постоянные расходы 388 тыс. ₽ в год, с каждой зарядки остаётся 226 ₽ (30 кВт·ч по 23 ₽, у такси 19 ₽, минус электроэнергия 10 ₽, НДС и эквайринг). С компенсацией МФППиП нужно 10 и 16 зарядок, при дорогом подключении — 24.</p>
         <ul class="status-explain">
-          <li><span class="tag tag-priority">Первая очередь</span> окупается за 8 лет и с дисконтом 18%, подстанция рядом (класс А).</li>
-          <li><span class="tag tag-now">Вторая очередь</span> окупается за 8 лет, но с дисконтом — нет; класс А.</li>
-          <li><span class="tag tag-grid">Готовить сеть</span> спрос окупил бы станцию с дешёвым подключением, но подстанции рядом в данных нет: нужен запрос мощности в Россети.</li>
-          <li><span class="tag tag-no">Не ставить</span> за 8 лет не окупается или у питающего центра нет свободной мощности.</li>
+          <li><span class="tag tag-priority">Первая очередь</span> станция окупится с запасом — даже с учётом стоимости денег; подстанция рядом.</li>
+          <li><span class="tag tag-now">Вторая очередь</span> окупится за 8 лет, как требует норматив РСЗС, но без запаса; подстанция рядом.</li>
+          <li><span class="tag tag-grid">Готовить сеть</span> спроса хватает, но подстанции рядом нет — подключение может оказаться дорогим, сначала запрос в «Россети».</li>
+          <li><span class="tag tag-no">Не ставить</span> за 8 лет станция не окупится или подключить её нельзя.</li>
         </ul>
 
         <h3 class="how-subtitle">Из чего складывается расчёт</h3>

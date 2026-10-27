@@ -527,3 +527,22 @@ main { max-width: 1440px; margin: 0 auto; padding: 24px 24px 64px; }
   details { display: block; }
   details > *:not(summary) { display: block; }
 }
+
+/* При каком спросе точка окупится */
+.need-card { border-left: 4px solid var(--orange); }
+.need-card.need-ok { border-left-color: var(--good); }
+.need-card.need-bad { border-left-color: var(--bad); }
+.need-headline { font-size: 16px; font-weight: 600; margin: 0 0 14px; line-height: 1.4; }
+.need-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.need-label { font-size: 12px; color: var(--ink-2); }
+.need-value { font-family: var(--mono); font-size: 26px; font-weight: 600; margin: 4px 0 6px; }
+.need-value small { font-family: var(--font); font-size: 13px; font-weight: 400; color: var(--muted); }
+.need-bar { position: relative; height: 8px; border-radius: 999px; background: var(--gray-soft); margin-bottom: 6px; }
+.need-fc { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; background: var(--blue-mid); }
+.need-mk { position: absolute; top: -4px; width: 3px; height: 16px; border-radius: 2px; background: var(--ink); transform: translateX(-1px); }
+@media (max-width: 720px) { .need-grid { grid-template-columns: 1fr; } }
+.status-explain.plain { list-style: disc; padding-left: 20px; margin: 8px 0; gap: 4px; }
+.status-explain.plain li { display: list-item; }
+.need-forecast { margin: 12px 0 0; font-size: 13.5px; }
+.pp-summary { margin: 16px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.pp-summary b { color: var(--ink); }

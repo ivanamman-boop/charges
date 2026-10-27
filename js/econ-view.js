@@ -229,3 +229,27 @@ export const VERDICT = {
   request: { label: 'Запросить ТУ у сети', tone: 'grid' },
   no: { label: 'Не строить', tone: 'no' },
 };
+
+// При каком спросе точка окупится: множитель к прогнозу спроса, при котором
+// простая окупаемость укладывается в норматив РСЗС (8 лет). Дорогая граница
+// подключения - «окупится наверняка» при любой цене ТП внутри класса,
+// дешёвая - лучший случай. null - не окупается даже при спросе ×10.
+export function paybackDemand(e, { params, subsidy = false, launchYear = 2026, normYears = 8 }) {
+  const fits = (mult, connBound) => {
+    const r = siteEconomics(e, { params, subsidy, launchYear, connBound, demandMult: mult });
+    return r && r.payback !== null && r.payback <= normYears;
+  };
+  const solve = (connBound) => {
+    if (fits(0.05, connBound)) return 0.05;
+    if (!fits(10, connBound)) return null;
+    let lo = 0.05;
+    let hi = 10;
+    for (let k = 0; k < 40; k++) {
+      const mid = (lo + hi) / 2;
+      if (fits(mid, connBound)) hi = mid;
+      else lo = mid;
+    }
+    return hi;
+  };
+  return { expensive: solve('high'), cheap: solve('low') };
+}
