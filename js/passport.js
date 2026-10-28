@@ -6,6 +6,7 @@
 // просто перерисовывает страницу. Тексты - для эксперта, который видит
 // паспорт впервые: в каждом блоке сначала вывод простыми словами, потом цифры.
 import { STATUS, VERDICT } from './econ-view.js';
+import { OWNER_TEXT } from './stakeholders.js';
 
 const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const num = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '—' : v.toFixed(d).replace('.', ','));
@@ -206,6 +207,55 @@ function summaryList(vm) {
   return `<ul class="pp-summary">${items.map((t) => `<li>${t}</li>`).join('')}</ul>`;
 }
 
+// Участники проекта (эксперт вуза, 28.10): с кем договариваться по точке.
+const OBJECT_TYPE = { parking: 'парковка', mall: 'торговый центр', fuel: 'АЗС', hotel: 'гостиница', office: 'офисное здание', supermarket: 'супермаркет', residential: 'жилой квартал', retail: 'торговая зона', commercial: 'коммерческая зона', apartments: 'жилой дом', house: 'жилой дом' };
+function stakeholderBlock(vm) {
+  const sh = vm.stakeholders;
+  if (!sh) return '';
+  const rows = [];
+  // 1. Сетевая компания
+  const tp = sh.tp;
+  const c = sh.center;
+  const netWho = tp?.operator ? esc(tp.operator) : '«Россети Московский регион» или ОЭК';
+  const netFacts = [
+    tp ? `ТП${tp.ref ? ` №${esc(tp.ref)}` : ''} в ${tp.dist} м${tp.address ? `, ${esc(tp.address)}` : ''}${tp.operator ? '' : ' — владелец в открытых данных не указан'}` : 'трансформаторной подстанции в открытых данных рядом нет',
+    c ? `питающий центр ${esc(c.name || c.id)}${c.voltage ? `, ${c.voltage} кВ` : ''}${Number.isFinite(c.freeMW) ? `, свободно около ${num(c.freeMW, 1)} МВт (оценка)` : ''}` : null,
+    c?.load ? (c.load.stations ? `от этого центра уже питаются ${c.load.stations} ${plural(c.load.stations, 'быстрая станция', 'быстрые станции', 'быстрых станций')} (${num(c.load.kw / 1000, 1)} МВт)` : 'других быстрых станций от этого центра пока нет') + (c.load.picks.filter((x) => x !== vm.subject.id).length ? `; на него же претендуют кандидаты модели ${esc(c.load.picks.filter((x) => x !== vm.subject.id).join(', '))}` : '') : null,
+  ].filter(Boolean);
+  rows.push(['Сетевая компания', netWho, netFacts.join('; '), 'Заявка на техприсоединение 150 кВт с паспортом точки; узнать реальный резерв центра и цену.']);
+  // 2. Правообладатель площадки
+  const o = sh.owner;
+  if (o) {
+    const t = OWNER_TEXT[o.kind] || OWNER_TEXT.unknown;
+    const objType = sh.siteKind || OBJECT_TYPE[sh.osm?.type] || sh.osm?.type || null;
+    const facts = [objType ? `на месте: ${esc(objType)}${sh.siteTitle || sh.osm?.name ? ` «${esc(sh.siteTitle || sh.osm?.name)}»` : ''}` : null, sh.osm?.operator ? `оператор: ${esc(sh.osm.operator)}` : null, sh.osm?.fee === 'yes' ? 'платная' : sh.osm?.fee === 'no' ? 'бесплатная' : null, o.name && o.kind !== 'commercial' ? esc(o.name) : null].filter(Boolean);
+    rows.push(['Площадка и земля', `${t.who}${o.kind === 'commercial' && o.name ? `: ${esc(o.name)}` : ''}`, facts.join(', ') || 'тип объекта в открытых данных не размечен', t.how]);
+  } else {
+    rows.push(['Площадка и земля', 'Определяется…', 'запрашиваю объект в точке', '']);
+  }
+  // 3. Город
+  rows.push(['Город', 'Дептранс, МФППиП', 'программа «Энергия Москвы»; компенсация 50% платы за подключение, до 2 млн ₽', 'Узнать, нет ли адреса в программе города; подать на компенсацию МФППиП после подключения.']);
+  // 4. Соседние операторы
+  if (sh.competitors?.length) {
+    const own = sh.competitors.find((x) => x.op === 'РСЗС');
+    rows.push(['Соседние станции', esc(sh.competitors.slice(0, 4).map((x) => x.op).join(', ')), sh.competitors.slice(0, 4).map((x) => `${esc(x.op)} — −${num(x.loss, 1)} зарядки в сутки`).join('; '), own ? `Станция заберёт ${num(own.loss, 1)} зарядки в сутки у своих же станций РСЗС — учесть при выборе.` : 'Станция заберёт клиентов у конкурентов, а не у своей сети.']);
+  }
+  // 5. Партнёры по спросу
+  const taxi = vm.yearRows?.find((r) => r.year === vm.year)?.taxi ?? vm.yearRows?.[0]?.taxi;
+  const partners = [];
+  if (taxi && taxi > 0.25) partners.push(`такси-агрегаторы и таксопарки: около ${pct(taxi)} зарядок здесь — такси`);
+  if (o?.kind === 'commercial') partners.push('собственник объекта: его посетители и сотрудники станут клиентами станции');
+  if (o?.kind === 'residential') partners.push('жители квартала: часть из них без домашней зарядки');
+  if (partners.length) rows.push(['Партнёры по спросу', partners.length > 1 ? 'Несколько' : partners[0].split(':')[0], partners.join('; '), 'Договориться о скидках или резерве постов для постоянных клиентов.']);
+  return `<section class="pp-card pp-wide">
+    <h3>Участники проекта</h3>
+    <p class="pp-note">С кем придётся договариваться по этой точке. Сведения из открытых данных — это подсказка для переговоров; правообладателя земли подтверждает кадастровая карта.</p>
+    <table class="data-table stake-table"><thead><tr><th>Кто</th><th>Конкретно</th><th>Что известно</th><th>Что сделать</th></tr></thead><tbody>
+      ${rows.map((r) => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}
+    </tbody></table>
+  </section>`;
+}
+
 function kpiTile({ label, value, unit = '', sub = '', tone = '' }) {
   return `<div class="pp-kpi"><div class="pp-kpi-top"><span>${label}</span></div><div class="pp-kpi-value ${tone}">${value}${unit ? `<small>${unit}</small>` : ''}</div><div class="pp-kpi-sub">${sub}</div></div>`;
 }
@@ -394,6 +444,7 @@ export function renderPassport(container, vm) {
       </section>
     </div>
 
+    ${stakeholderBlock(vm)}
     ${econBlock(vm)}
     ${yearTable(vm)}
     ${liveDetails(vm)}

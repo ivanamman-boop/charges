@@ -36,6 +36,7 @@ import { renderPassport, updatePassportHour } from './passport.js';
 import { runAllTests } from './tests.js';
 import { scoreCandidateRaw, normalizeAndScore } from './scoring.js';
 import { dist04FromKnownTp } from './grid.js';
+import { ownerOf } from './stakeholders.js';
 import { haversineKm } from './choice.js';
 
 const EQUIPMENT = 'DC150-2';
@@ -112,7 +113,7 @@ async function loadData() {
     fetchJson('data/mkad.json'),
   ]);
   const benchmarks = await fetchJson('data/benchmarks.json').then((d) => d.benchmarks).catch(() => []);
-  return { cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, mkadRing: mkadRaw.ring, benchmarks };
+  return { cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, tp04Meta: tp04Raw.meta || [], mkadRing: mkadRaw.ring, benchmarks };
 }
 
 const cfg150 = () => state.params.M6_M7_equipment_economics.catalog.configs.find((c) => c.omega === EQUIPMENT);
@@ -771,6 +772,74 @@ function nearestBenchmark(lat, lon) {
   return best;
 }
 
+// ---------- Участники проекта (эксперт вуза, 28.10) ----------
+// Все стороны, с которыми придётся договариваться по точке: сетевая
+// компания (ближайшая ТП и питающий центр), правообладатель площадки,
+// город, соседние операторы и партнёры по спросу.
+function nearestTpInfo(lat, lon) {
+  if (!state.tp04) return null;
+  let best = -1;
+  let bestD = Infinity;
+  const kLon = Math.cos((lat * Math.PI) / 180);
+  state.tp04.forEach(([la, lo], i) => {
+    if (Math.abs(la - lat) > 0.01) return;
+    const d = Math.hypot((la - lat) * 111320, (lo - lon) * 111320 * kLon);
+    if (d < bestD) {
+      bestD = d;
+      best = i;
+    }
+  });
+  if (best < 0 || bestD > 1500) return null;
+  const [ref, operator, address] = state.tp04Meta?.[best] || [];
+  return { dist: Math.round(bestD), ref, operator, address };
+}
+
+// Сколько действующих станций и кандидатов модели опираются на тот же
+// питающий центр - они делят его свободную мощность.
+function centerLoad(centerId) {
+  if (!centerId) return null;
+  if (!state.centerOf) {
+    const nearest = (lat, lon) => state.centers.reduce((b, c) => ((c.lat - lat) ** 2 + ((c.lon - lon) * 0.56) ** 2 < (b.lat - lat) ** 2 + ((b.lon - lon) * 0.56) ** 2 ? c : b)).id;
+    state.centerOf = new Map();
+    for (const st of state.stationsAll) if (st.status !== 'planned' && !st.outside_mkad) state.centerOf.set(st.id, nearest(st.lat, st.lon));
+    state.centerOfPick = new Map((state.portfolio?.model?.picks || []).map((p) => [p.id, nearest(p.lat, p.lon)]));
+  }
+  let stations = 0;
+  let kw = 0;
+  for (const st of state.stationsAll) {
+    if (state.centerOf.get(st.id) === centerId) {
+      stations++;
+      kw += st.P_kW;
+    }
+  }
+  const picks = [...state.centerOfPick].filter(([, c]) => c === centerId).map(([id]) => id);
+  return { stations, kw, picks };
+}
+
+function stakeholdersFor(P, center) {
+  const s = P.subject;
+  const tp = nearestTpInfo(s.lat, s.lon);
+  const centerFull = center?.id ? state.centers.find((c) => c.id === center.id) : null;
+  const owner = s.owner || (s.osm ? ownerOf(s.osm) : null);
+  const losers = (P.live?.neighbors || []).filter((n) => n.deltaS < 0);
+  const byOp = new Map();
+  for (const n of losers) {
+    const st = state.stations[n.globalJ];
+    const op = st?.status === 'planned' ? 'городские станции (план)' : !st?.operator || st.operator === 'независимый' ? 'станции без сети' : st.operator;
+    byOp.set(op, (byOp.get(op) || 0) - n.deltaS);
+  }
+  const competitors = [...byOp].sort((a, b) => b[1] - a[1]).map(([op, loss]) => ({ op, loss }));
+  return {
+    tp,
+    center: centerFull ? { id: centerFull.id, name: centerFull.name, voltage: centerFull.voltage_kV, freeMW: center.freeMW, load: centerLoad(centerFull.id) } : null,
+    owner,
+    osm: s.osm || null,
+    siteKind: s.siteKind || null,
+    siteTitle: s.siteTitle || null,
+    competitors,
+  };
+}
+
 // ---------- Поиск: станции, площадки, районы ----------
 let slowStationsPromise = null;
 function loadSlowStations() {
@@ -886,11 +955,15 @@ async function reverseGeocode(lat, lon) {
   if (state.geoCache.has(key)) return state.geoCache.get(key);
   let value = null;
   try {
-    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&accept-language=ru&lat=${lat}&lon=${lon}`);
+    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&extratags=1&accept-language=ru&lat=${lat}&lon=${lon}`);
     if (r.ok) {
-      const a = (await r.json()).address || {};
+      const j = await r.json();
+      const a = j.address || {};
+      const x = j.extratags || {};
       const street = a.road || a.pedestrian || a.footway || a.square || null;
-      value = { address: street ? (a.house_number ? `${street}, ${a.house_number}` : street) : null, area: (a.suburb || a.city_district || '').replace(/^(район|поселение|муниципальный округ)\s+/i, '') || null };
+      // Объект в точке - для «Участников проекта» (кто правообладатель).
+      const o = { category: j.category, type: j.type, name: j.name || null, operator: x.operator || null, fee: x.fee || null, access: x.access || null, parking: x.parking || null, residential: a.residential || null, landuse: j.category === 'landuse' ? j.type : null };
+      value = { address: street ? (a.house_number ? `${street}, ${a.house_number}` : street) : null, area: (a.suburb || a.city_district || '').replace(/^(район|поселение|муниципальный округ)\s+/i, '') || null, osm: o, owner: ownerOf(o) };
     }
   } catch {
     value = null;
@@ -908,7 +981,7 @@ function subjectFromRoute(parts) {
   if (kind === 'site') {
     const s = state.siteById.get(arg);
     if (!s) return null;
-    return { kind, id: arg, lat: s.lat, lon: s.lon, title: `Площадка ${arg}`, subtitle: siteName(s), address: s.address ? `${siteKindLine(s)}, ${s.address}` : siteKindLine(s), district: s.district, pre: s.calc };
+    return { kind, id: arg, lat: s.lat, lon: s.lon, title: `Площадка ${arg}`, subtitle: siteName(s), address: s.address ? `${siteKindLine(s)}, ${s.address}` : siteKindLine(s), district: s.district, pre: s.calc, owner: s.owner || null, osm: s.osm_object || null, siteKind: s.kind, siteTitle: s.name || null };
   }
   if (kind === 'zone') {
     const z = state.zones.zones.find((x) => x.key === arg);
@@ -1156,6 +1229,7 @@ function buildPassportVm(P) {
     liveProgress: P.progress,
     yearRows,
     nearestBench: nearestBenchmark(subject.lat, subject.lon),
+    stakeholders: stakeholdersFor(P, center),
     ownLoss: P.live?.ownLoss ?? null,
     inCompare: state.compareList.some((c) => Math.abs(c.lat - subject.lat) < 1e-6 && Math.abs(c.lon - subject.lon) < 1e-6),
   };
@@ -1221,10 +1295,21 @@ async function openPassport(subject) {
   renderPassportNow();
   window.scrollTo({ top: 0 });
 
+  // Правообладатель площадки ещё не известен (у пула нет разметки) - спросить объект в точке.
+  if (!subject.owner && !subject.geocode) {
+    reverseGeocode(subject.lat, subject.lon).then((g) => {
+      if (state.passport !== P || !g?.osm) return;
+      subject.osm = g.osm;
+      subject.owner = ownerOf(g.osm, { kind: subject.siteKind, siteName: subject.siteTitle });
+      renderPassportNow();
+    });
+  }
   if (subject.geocode && !subject.address) {
     reverseGeocode(subject.lat, subject.lon).then((g) => {
       if (state.passport !== P || !g) return;
       subject.address = g.address;
+      if (g.owner) subject.owner = g.owner;
+      if (g.osm) subject.osm = g.osm;
       if (g.area) subject.subtitle = subject.kind === 'pt' ? g.area : `${g.area} · ${subject.subtitle}`;
       renderPassportNow();
     });
@@ -1729,7 +1814,8 @@ function route() {
 
 // ---------- Старт ----------
 async function main() {
-  const { cells, stationsAll, centers, params, zones, pool, tp04, mkadRing, benchmarks } = await loadData();
+  const { cells, stationsAll, centers, params, zones, pool, tp04, tp04Meta, mkadRing, benchmarks } = await loadData();
+  state.tp04Meta = tp04Meta;
   state.benchmarks = benchmarks;
   const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
   Object.assign(state, { cells, stationsAll, centers, params, preciseParams, zones, tp04, mkadRing });

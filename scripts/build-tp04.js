@@ -18,12 +18,20 @@ const raw = JSON.parse(readFileSync(join(__dirname, 'data-sources', 'osm-substat
 
 const lowVoltage = (v) => String(v || '').split(';').some((x) => x === '400' || x === '230');
 const points = [];
+// Для паспорта (блок «Участники проекта»): номер ТП, владелец и адрес, если
+// они размечены в OSM. Массив meta идёт в том же порядке, что points.
+const meta = [];
+const tpRef = (t) => t.ref || (t.description || t.name || '').match(/(?:ТП|РТП)\s*№?\s*([\dА-Яа-я-]+)/)?.[1] || null;
+const tpAddr = (t) => (t['addr:street'] ? `${t['addr:street']}${t['addr:housenumber'] ? `, ${t['addr:housenumber']}` : ''}` : null);
 for (const e of raw.elements) {
   const t = e.tags || {};
   if (t.substation !== 'minor_distribution' && !lowVoltage(t.voltage)) continue;
   const lat = e.lat ?? e.center?.lat;
   const lon = e.lon ?? e.center?.lon;
-  if (typeof lat === 'number') points.push([Number(lat.toFixed(6)), Number(lon.toFixed(6))]);
+  if (typeof lat === 'number') {
+    points.push([Number(lat.toFixed(6)), Number(lon.toFixed(6))]);
+    meta.push([tpRef(t), t.operator || null, tpAddr(t)]);
+  }
 }
 writeFileSync(
   join(__dirname, '..', 'data', 'tp04.json'),
@@ -31,6 +39,8 @@ writeFileSync(
     source: 'OpenStreetMap (Overpass API, power=substation), area=Москва: substation=minor_distribution либо voltage с 400/230 В - трансформаторные подстанции сети 0.4 кВ. Размечена лишь часть реальных ТП города: ТП ближе 200 м = класс А, иначе класс не определён (считается как Б)',
     date: new Date().toISOString().slice(0, 10),
     points,
+    meta_fields: ['номер ТП', 'владелец', 'адрес'],
+    meta,
   })
 );
 console.log(`ТП 0.4 кВ: ${points.length} → data/tp04.json`);

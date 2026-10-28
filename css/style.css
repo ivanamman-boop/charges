@@ -546,3 +546,6 @@ main { max-width: 1440px; margin: 0 auto; padding: 24px 24px 64px; }
 .need-forecast { margin: 12px 0 0; font-size: 13.5px; }
 .pp-summary { margin: 16px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--ink-2); }
 .pp-summary b { color: var(--ink); }
+.stake-table td { font-size: 13px; vertical-align: top; }
+.stake-table tbody tr { cursor: default; }
+.stake-table td:first-child { white-space: nowrap; }
