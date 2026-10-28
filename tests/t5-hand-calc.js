@@ -64,7 +64,9 @@ for (const s of SEGMENTS) {
   const theta = d1.theta[s].value;
   const Ds = theta * D0; // year === y0, рост = 1
   const m = d1.m_weekday_weekend[M_GROUP[s]].value_weekday;
-  const zeta = d1.zeta_season[SEASON].value;
+  // Сезон 2026 года вручную: зимой −18% к лету, среднегодовой спрос = 1.
+  const drop = d1.season_winter_drop.value;
+  const zeta = (SEASON === 'winter' ? 1 - drop : 1) / (1 - (5 / 12) * drop);
   const p = hourlyProfileIndep(s, HOUR);
   const a = d1.layer_weights[s];
   const layers = ['res', 'work', 'poi', 'road', 'taxi'];

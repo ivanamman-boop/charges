@@ -166,8 +166,11 @@ function fitCalendar(data, params) {
 
   const m1 = params.M1_demand;
   const summer = 12 / (5 * winterRatio + 7);
-  m1.zeta_season.winter = { ...m1.zeta_season.winter, value: Number((winterRatio * summer).toFixed(4)), tag: 'Р', source: `${src}: зима/лето = ${winterRatio.toFixed(3)}, нормировка (5ζз+7ζл)/12=1. Dundee теплее Москвы - скорее нижняя граница` };
-  m1.zeta_season.summer = { ...m1.zeta_season.summer, value: Number(summer.toFixed(4)), tag: 'Р', source: m1.zeta_season.winter.source };
+  // zeta_season больше не используется моделью (28.10: сезон по данным РСЗС,
+  // season_winter_drop) - сохраняем оценку Dundee для истории.
+  m1.zeta_season_dundee_old ??= {};
+  m1.zeta_season_dundee_old.winter = { ...(m1.zeta_season_dundee_old.winter || {}), value: Number((winterRatio * summer).toFixed(4)), tag: 'Р', source: `${src}: зима/лето = ${winterRatio.toFixed(3)}, нормировка (5ζз+7ζл)/12=1. Dundee теплее Москвы - скорее нижняя граница` };
+  m1.zeta_season_dundee_old.summer = { value: Number(summer.toFixed(4)), tag: 'Р', source: m1.zeta_season_dundee_old.winter.source };
 
   // Тип дня: исходная сегментная форма ТЗ хранится в shape_weekend (при
   // первом запуске берётся из текущих value_weekend), чтобы повторные
@@ -200,7 +203,7 @@ function fitCalendar(data, params) {
     g.tag = 'Р';
     g.source = `${src}: выходные/будни по городу = ${weekendRatio.toFixed(3)}; сегментная форма ТЗ (shape_weekend) сохранена, общий множитель подогнан`;
   }
-  console.log(`календарь: тренд ${((Math.exp(trend) - 1) * 100).toFixed(1)}%/год, зима/лето ${winterRatio.toFixed(3)} → ζ зима ${m1.zeta_season.winter.value}, лето ${m1.zeta_season.summer.value}; выходные/будни ${weekendRatio.toFixed(3)} →`, Object.fromEntries(Object.entries(mw).map(([k, g]) => [k, `${g.value_weekday}/${g.value_weekend}`])));
+  console.log(`календарь: тренд ${((Math.exp(trend) - 1) * 100).toFixed(1)}%/год, зима/лето ${winterRatio.toFixed(3)} → ζ зима ${m1.zeta_season_dundee_old.winter.value}, лето ${m1.zeta_season_dundee_old.summer.value}; выходные/будни ${weekendRatio.toFixed(3)} →`, Object.fromEntries(Object.entries(mw).map(([k, g]) => [k, `${g.value_weekday}/${g.value_weekend}`])));
 }
 
 async function main() {

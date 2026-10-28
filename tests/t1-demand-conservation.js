@@ -1,7 +1,7 @@
 // Т1. Сохранение спроса в М1 (спецификация, раздел 13).
 // Σ_i Σ_h λ(s,i,h) должно совпасть с D_s·m·zeta с точностью 1e-9 (отн. ошибка).
 import { readFileSync } from 'node:fs';
-import { SEGMENTS, segmentDemand, demandField } from '../js/demand.js';
+import { SEGMENTS, segmentDemand, demandField, seasonMultiplier } from '../js/demand.js';
 
 const cells = JSON.parse(readFileSync(new URL('../data/cells.json', import.meta.url))).cells;
 const params = JSON.parse(readFileSync(new URL('../data/params.json', import.meta.url)));
@@ -24,7 +24,7 @@ for (const c of cases) {
       c.dayType === 'weekend'
         ? params.M1_demand.m_weekday_weekend[M_GROUP[s]].value_weekend
         : params.M1_demand.m_weekday_weekend[M_GROUP[s]].value_weekday;
-    const zeta = params.M1_demand.zeta_season[c.season].value;
+    const zeta = seasonMultiplier(c.season, params, c.year, c.scenario);
     const expected = Ds * m * zeta;
 
     let sum = 0;

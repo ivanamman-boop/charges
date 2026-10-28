@@ -2,7 +2,7 @@
 // тестов Т1-Т10 — чистые функции из js/*.js, без DOM. Т8 запускается в
 // сокращённом виде (3 кандидата), Т10 - с урезанным каталогом оборудования;
 // полные версии — в tests/*.js через `npm test` (Node). Т11 ждёт данных.
-import { SEGMENTS, segmentDemand, demandField, stationsActiveIn } from './demand.js';
+import { SEGMENTS, segmentDemand, demandField, stationsActiveIn, seasonMultiplier } from './demand.js';
 import {
   haversineKm,
   assignStationsToCells,
@@ -70,7 +70,7 @@ function testT1({ cells, params }) {
     for (const s of SEGMENTS) {
       const Ds = segmentDemand(s, c.year, c.scenario, params);
       const m = c.dayType === 'weekend' ? params.M1_demand.m_weekday_weekend[M_GROUP[s]].value_weekend : params.M1_demand.m_weekday_weekend[M_GROUP[s]].value_weekday;
-      const zeta = params.M1_demand.zeta_season[c.season].value;
+      const zeta = seasonMultiplier(c.season, params, c.year, c.scenario);
       const expected = Ds * m * zeta;
       let sum = 0;
       const arr = demand[s];
@@ -200,7 +200,9 @@ async function testT5({ params }) {
     const theta = d1.theta[s].value;
     const Ds = theta * D0;
     const m = d1.m_weekday_weekend[M_GROUP[s]].value_weekday;
-    const zeta = d1.zeta_season[SEASON].value;
+    // Сезон 2026 года вручную: зимой −18% к лету, среднегодовой спрос = 1.
+    const drop = d1.season_winter_drop.value;
+    const zeta = (SEASON === 'winter' ? 1 - drop : 1) / (1 - (5 / 12) * drop);
     const p = hourlyProfileIndep(s, HOUR);
     const a = d1.layer_weights[s];
     const layers = ['res', 'work', 'poi', 'road', 'taxi'];

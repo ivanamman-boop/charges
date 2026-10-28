@@ -127,8 +127,15 @@ function dayMultiplier(segment, dayType, params) {
   return dayType === 'weekend' ? cfg.value_weekend : cfg.value_weekday;
 }
 
-function seasonMultiplier(season, params) {
-  return params.M1_demand.zeta_season[season].value;
+// 3.4. Сезон (28.10, эксперты РСЗС): зимой зарядок на 18% меньше, чем
+// летом, и провал с каждым годом сглаживается ростом парка - зимний минус
+// года y делится на рост спроса к 2026 году в сценарии. Среднегодовой спрос
+// не меняется: зима - 5 месяцев (ноябрь-март), лето - 7.
+export function seasonMultiplier(season, params, year = 2026, scenario = 'base') {
+  const drop0 = params.M1_demand.season_winter_drop.value;
+  const drop = drop0 / Math.max(1, demandMultiplier(year, scenario, params));
+  const summer = 1 / (1 - (5 / 12) * drop);
+  return season === 'winter' ? (1 - drop) * summer : summer;
 }
 
 // 3.4. Полный спрос lambda_{s,i}(h) для заданных условий.
@@ -139,7 +146,7 @@ export function demandField({ cells, params, year, scenario, dayType, season }) 
   for (const s of SEGMENTS) {
     const Ds = segmentDemand(s, year, scenario, params);
     const m = dayMultiplier(s, dayType, params);
-    const zeta = seasonMultiplier(season, params);
+    const zeta = seasonMultiplier(season, params, year, scenario);
     const p = hourlyProfile(s, dayType, params);
     const w = weights[s];
     const arr = new Float64Array(cells.length * 24);

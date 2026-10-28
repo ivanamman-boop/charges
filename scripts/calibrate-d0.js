@@ -1,8 +1,9 @@
 // Калибровка D0 (спецификация, раздел 3.5): бисекция так, чтобы среднее
 // число обслуженных сессий на действующую быструю станцию в сутки совпало
-// с S_obs. Весна считается сезоном "лето". Средний день = взвешенное
-// будни/выходные (5/7, 2/7), чтобы D0 отвечал на вопрос про типичные сутки,
-// а не только будний день.
+// с S_obs. С 28.10 цель - 5,6 сессии в сутки на станцию РСЗС в Москве за
+// I полугодие 2026 (данные РСЗС, слайд 21): среднее по станциям оператора
+// РСЗС внутри МКАД, полугодие = половина зимы и половина лета, средний день =
+// будни/выходные 5/7 и 2/7.
 //
 // Запуск: node scripts/calibrate-d0.js [--write]
 
@@ -19,21 +20,22 @@ const YEAR = 2026;
 const stations = stationsAll.filter((s) => s.year_open <= YEAR); // вся сеть 2026 (участвует в равновесии)
 // J_ex - действующие внутри МКАД: станции полосы за МКАДом получают только
 // спрос изнутри кольца, их сессии занижены и в среднее не входят.
-const existingIdx = stations.map((s, j) => (s.status === 'active' && !s.outside_mkad ? j : -1)).filter((j) => j >= 0);
+const existingIdx = stations.map((s, j) => (s.status === 'active' && !s.outside_mkad && s.operator === 'РСЗС' ? j : -1)).filter((j) => j >= 0);
 
-const S_OBS = params.M1_demand.S_obs.spring.value;
+const S_OBS = params.M1_demand.S_obs.h1_2026.value;
 console.log(`S_obs = ${S_OBS}, |J_ex| = ${existingIdx.length}`);
 
 const context = buildNetworkContext({ cells, stations, params });
 
 function meanSForD0(D0) {
   params.M1_demand.D0.value = D0;
-  const weekday = equilibrium({ cells, stations, params, year: YEAR, scenario: 'base', dayType: 'weekday', season: 'summer', context });
-  const weekend = equilibrium({ cells, stations, params, year: YEAR, scenario: 'base', dayType: 'weekend', season: 'summer', context });
-  const Swd = dailySessions(weekday.qh.lambdaSrv, stations.length);
-  const Swe = dailySessions(weekend.qh.lambdaSrv, stations.length);
   let sum = 0;
-  for (const j of existingIdx) sum += (5 * Swd[j] + 2 * Swe[j]) / 7;
+  for (const season of ['winter', 'summer'])
+    for (const [dayType, w] of [['weekday', 5 / 7], ['weekend', 2 / 7]]) {
+      const r = equilibrium({ cells, stations, params, year: YEAR, scenario: 'base', dayType, season, context });
+      const S = dailySessions(r.qh.lambdaSrv, stations.length);
+      for (const j of existingIdx) sum += 0.5 * w * S[j];
+    }
   return sum / existingIdx.length;
 }
 
