@@ -120,7 +120,7 @@ export function thresholds({ params, cfg, connCostRub, mix = thresholdMix(params
   const pb = ((capex + re - comp) / N + opex) / (365 * margin);
   const npvS = (opex + (capex + rePv - pvComp) * crf(r, N)) / (365 * margin);
   const toU = (S) => (S * tau) / (24 * full.posts);
-  return { pb, npv: npvS, uPb: toU(pb), uNpv: toU(npvS), tau, margin, capex, normYears: N };
+  return { pb, npv: npvS, uPb: toU(pb), uNpv: toU(npvS), tau, margin, capex, opex, comp, reinvest: re, r, normYears: N };
 }
 
 // Загрузка поста: обслуженные сессии × их длительность по сегментам / (24 ч ×

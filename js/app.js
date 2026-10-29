@@ -197,9 +197,39 @@ function thFor(by) {
   return state.ctl.funding === 'ampp' && by?.amppOk ? state.thAmpp : state.th;
 }
 
+// Окупаемость станции, поставленной в год year, с ростом спроса: первый год -
+// подключение (дохода нет), дальше спрос по прогнозу (после 2030 - на уровне
+// 2030), 10 лет работы. Поток в год = 365 × S × маржа − расходы; вложения -
+// за вычетом компенсации МФППиП (если учтена). pays - вложения вернутся за
+// норматив, npvOk - с учётом ставки 18%, paybackYears - когда вернутся.
+function growthEcon(sOf, year, th) {
+  const N = th.normYears;
+  const invest = th.capex + (th.reinvest || 0) - (th.comp || 0);
+  let cum = -invest;
+  let npv = -invest;
+  let paybackYears = null;
+  for (let k = 0; k < N; k++) {
+    const S = k === 0 ? 0 : sOf(Math.min(year + k, 2030)) ?? 0;
+    const cf = 365 * S * th.margin - th.opex;
+    const before = cum;
+    cum += cf;
+    npv += cf / Math.pow(1 + th.r, k + 1);
+    if (paybackYears === null && cum >= 0 && cf > 0) paybackYears = k + (-before / cf);
+  }
+  return { pays: cum >= 0, npvOk: npv >= 0, paybackYears };
+}
+
+function statusFromGrowth(sOf, cls, year, th) {
+  if (cls === 'В' || !sOf) return 'no';
+  const g = growthEcon(sOf, year, th);
+  if (!g.pays) return 'no';
+  if (cls === 'А') return g.npvOk ? 'priority' : 'now';
+  return 'grid';
+}
+
 function statusOf(by, year, th = thFor(by)) {
   if (!by) return 'no';
-  return siteStatus({ S: sessionsIn(by, year), cls: by.cls, th });
+  return statusFromGrowth((y) => sessionsIn(by, y), by.cls, year, th);
 }
 
 const clsLabel = (cls) => (cls === 'А|Б' ? 'Б' : cls || '—');
@@ -431,9 +461,9 @@ function renderZoneLegend(zones) {
   const th = state.th;
   document.getElementById('zone-legend').innerHTML = `
     <div class="zl-title">Зоны на ${state.ctl.year}</div>
-    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция окупится за ${th.normYears} лет: прогноз от ${num(th.pb, 0)} зарядок в сутки и подстанция рядом. Тёмно-синие — с запасом, от ${num(th.npv, 0)} зарядок${state.ctl.funding === 'ampp' ? `. У парковок АМПП подключение за счёт сети — там хватает ${num(state.thAmpp.pb, 0)} зарядок` : ''}</small></div></div>
+    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция, поставленная в ${state.ctl.year}, окупится за ${th.normYears} лет с учётом роста спроса, подстанция рядом. Тёмно-синие — ещё и заработает больше стоимости денег${state.ctl.funding === 'ampp' ? '. У парковок АМПП подключение за счёт сети' : ''}</small></div></div>
     <div class="zl-row"><i class="sw sw-grid"></i><div><b>Готовить сеть</b> <span class="zl-n">${c.grid}</span><small>спрос есть, но подстанции рядом нет — сначала запрос в «Россети»</small></div></div>
-    <div class="zl-row"><i class="sw sw-no"></i><div><b>Не ставить</b> <span class="zl-n">${c.no}</span><small>за ${th.normYears} лет не окупится</small></div></div>`;
+    <div class="zl-row"><i class="sw sw-no"></i><div><b>Не ставить</b> <span class="zl-n">${c.no}</span><small>за ${th.normYears} лет не окупится даже с ростом спроса</small></div></div>`;
 }
 
 function renderKpis(zones) {
@@ -534,7 +564,7 @@ function renderCandidateList() {
     li.addEventListener('click', open);
     li.addEventListener('keydown', (e) => e.key === 'Enter' && open());
   });
-  document.getElementById('threshold-note').innerHTML = `Полоса — прогноз зарядок в сутки. Серая отметка (${num(th.pb, 0)}) — с этого станция окупается за ${th.normYears} лет. Чёрная (${num(th.npv, 0)}) — окупается с запасом, с учётом стоимости денег.`;
+  document.getElementById('threshold-note').innerHTML = `Полоса — прогноз зарядок в сутки. Серая отметка (${num(th.pb, 0)}) — средний спрос за 10 лет, при котором станция окупается. Статус учитывает рост спроса: место с прогнозом ниже отметки сегодня может окупиться за счёт роста.`;
 }
 
 // ---------- Карточка на карте (кандидат, зона, точка) ----------
@@ -551,22 +581,16 @@ function popupHtml({ kicker, title, S, U, status, cfgLine, text, actions = true,
 }
 
 function statusExplanation(status, S, by, year) {
-  const th = state.th;
-  // Первый год не раньше выбранного, когда прогноз доходит до порога; спрос
-  // по годам не монотонен - городские станции 2027-2030 забирают клиентов.
-  const crossYear = (lvl) => YEARS_ALL.find((y) => y > year && (sessionsIn(by, y) ?? 0) >= lvl);
-  const earlier = (lvl) => YEARS_ALL.find((y) => y < year && (sessionsIn(by, y) ?? 0) >= lvl);
-  const gapTxt = S >= th.pb ? '' : ` Чтобы окупиться за ${th.normYears} лет, нужно ${num(th.pb, 0)} зарядок в сутки — на ${num(th.pb - S, 0)} больше прогноза.`;
-  if (by?.cls === 'В') return 'Свободной мощности у питающего центра нет (по нашей оценке) — без стройки сети станцию не подключить.';
-  if (status === 'priority') return `Станция окупится с запасом: прогноз выше ${num(th.npv, 0)} зарядок в сутки, а подстанция рядом — подключение дешёвое и быстрое.`;
-  if (status === 'now') {
-    const y = crossYear(th.npv);
-    return `Станция окупится за ${th.normYears} лет, но без запаса: для запаса нужно ${num(th.npv, 0)} зарядок в сутки${y ? ` — такой спрос будет к ${y}` : ''}. Вторая очередь.`;
-  }
-  if (status === 'grid') return `Спроса хватает (${num(S, 0)} зарядок при нужных ${num(th.pb, 0)}), но подстанции рядом нет — подключение может оказаться в разы дороже. Сначала запрос в «Россети».`;
-  const y = crossYear(th.pb);
-  const e = earlier(th.pb);
-  return `Пока не окупится.${gapTxt}${e ? ` В ${e} спроса хватало: к ${year} часть клиентов заберут новые городские станции.` : ''} ${y ? `Нужный спрос появится к ${y}.` : 'До 2030 его не будет.'}`;
+  const th = thFor(by);
+  const g = by ? growthEcon((y) => sessionsIn(by, y), year, th) : null;
+  const S30 = by ? sessionsIn(by, 2030) : null;
+  const growth = S30 !== null && S30 > S ? ` Спрос растёт: ${num(S, 0)} зарядок в сутки в ${year}, ${num(S30, 0)} к 2030.` : '';
+  const pb = g?.paybackYears ? `примерно за ${num(g.paybackYears, 0)} лет` : `за ${th.normYears} лет`;
+  if (by?.cls === 'В') return 'Свободной мощности у питающего центра нет — без стройки сети станцию не подключить.';
+  if (status === 'priority') return `Станция, поставленная в ${year}, окупится ${pb} и заработает больше стоимости денег (ставка 18%). Подстанция рядом — первая очередь.${growth}`;
+  if (status === 'now') return `Станция, поставленная в ${year}, окупится ${pb} за счёт роста спроса.${growth} Запаса по ставке 18% пока нет — вторая очередь.`;
+  if (status === 'grid') return `Спрос окупит станцию ${pb}, но подстанции рядом в открытых данных нет — сначала запрос в «Россети».${growth}`;
+  return `Станция, поставленная в ${year}, за ${th.normYears} лет не окупится даже с ростом спроса.${growth}`;
 }
 
 function wirePopup() {
@@ -1229,29 +1253,31 @@ function buildPassportVm(P) {
   }
 
   const S = series.S[year];
-  const status = siteStatus({ S, cls, th });
+  const status = statusFromGrowth((y) => series.S[y], cls, year, th);
   const crossYear = (lvl) => YEARS_ALL.find((y) => y > year && series.S[y] >= lvl);
   const earlier = (lvl) => YEARS_ALL.find((y) => y < year && series.S[y] >= lvl);
   let recTitle;
   let recText;
+  const gro = growthEcon((y) => series.S[y], year, th);
+  const S30 = series.S[2030];
+  const growthTxt = S30 > S ? ` Спрос растёт: ${num(S, 1)} зарядки в сутки в ${year}, ${num(S30, 0)} к 2030.` : '';
+  const pbTxt = gro.paybackYears ? `примерно за ${num(gro.paybackYears, 0)} лет` : `за ${th.normYears} лет`;
   if (cls === 'В') {
     recTitle = 'Не ставить';
-    recText = 'Свободной мощности у питающего центра нет (по нашей оценке) — без стройки сети станцию не подключить.';
+    recText = 'Свободной мощности у питающего центра нет — без стройки сети станцию не подключить.';
   } else if (status === 'priority') {
     recTitle = 'Строить в первую очередь';
-    recText = `На карте это место первой очереди: ${num(S, 1)} зарядки в сутки — больше, чем нужно для окупаемости с запасом (${num(th.npv, 0)}), и подстанция рядом.`;
+    recText = `Станция, поставленная в ${year}, окупится ${pbTxt} и заработает больше стоимости денег (ставка 18%). Подстанция рядом.${growthTxt}`;
   } else if (status === 'now') {
-    const y = crossYear(th.npv);
     recTitle = 'Строить во вторую очередь';
-    recText = `На карте это место второй очереди: ${num(S, 1)} зарядки в сутки — хватает, чтобы окупиться за ${th.normYears} лет (${num(th.pb, 0)}), но для запаса нужно ${num(th.npv, 0)}${y ? `, такой спрос будет к ${y}` : ', и до 2030 его не будет'}.`;
+    recText = `Станция, поставленная в ${year}, окупится ${pbTxt} за счёт роста спроса — в пределах норматива РСЗС ${th.normYears} лет.${growthTxt} Запаса по ставке 18% пока нет.`;
   } else if (status === 'grid') {
     recTitle = 'Готовить сеть';
-    recText = `Спроса хватает (${num(S, 0)} зарядок при нужных ${num(th.pb, 0)}), но подстанции рядом нет. Если подключение окажется дорогим, нужно уже ${num(P.thB?.pb ?? NaN, 0)} зарядок. Сначала запрос в «Россети» или площадка ближе к подстанции.`;
+    recText = `Спрос окупит станцию ${pbTxt}, но подстанции рядом в открытых данных нет. Сначала запрос в «Россети» или площадка ближе к подстанции.${growthTxt}`;
   } else {
-    const y = crossYear(th.pb);
-    const e = earlier(th.pb);
+    const y = YEARS_ALL.find((yy) => yy > year && statusFromGrowth((q) => series.S[q], cls, yy, th) !== 'no');
     recTitle = 'Не ставить сейчас';
-    recText = `На карте здесь пока не строить: ${num(S, 0)} зарядок в сутки при нужных ${num(th.pb, 0)}.${e ? ` В ${e} спроса хватало — к ${year} часть клиентов заберут городские станции.` : ''} ${y ? `Нужный спрос появится к ${y} — тогда вернуться к площадке.` : 'До 2030 нужного спроса не будет.'}`;
+    recText = `Станция, поставленная в ${year}, за ${th.normYears} лет не окупится даже с ростом спроса.${growthTxt}${y ? ` Решение окупится, если принять его в ${y}.` : ''}`;
   }
 
   const m7 = state.params.M6_M7_equipment_economics;
