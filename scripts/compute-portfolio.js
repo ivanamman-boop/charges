@@ -56,7 +56,9 @@ const EQUIPMENT = 'DC150-2';
 const cells = read('cells.json').cells;
 const baseStations = read('stations.json').stations;
 const centersOrig = read('centers.json').centers;
-const tp04 = read('tp04.json').points;
+const tp04Raw = read('tp04.json');
+// ТП с резервом < 0,16 МВА по раскрытию «Россетей» (МКС, I кв. 2026) класс А не дают
+const tp04 = tp04Raw.points.filter((_, i) => !(tp04Raw.reserve?.[i] != null && tp04Raw.reserve[i] < 0.16));
 // Правило 10.1 - не ближе 150 м к действующим станциям. Пул собран раньше
 // дообъезда 25.10, часть площадок теперь у найденных станций - их убираем.
 const MIN_TO_EXISTING_KM = read('params.json').M8_portfolio.min_distance_to_existing_m.value / 1000;

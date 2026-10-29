@@ -218,8 +218,8 @@ function stakeholderBlock(vm) {
   const c = sh.center;
   const netWho = tp?.operator ? esc(tp.operator) : '«Россети Московский регион» или ОЭК';
   const netFacts = [
-    tp ? `ТП${tp.ref ? ` №${esc(tp.ref)}` : ''} в ${tp.dist} м${tp.address ? `, ${esc(tp.address)}` : ''}${tp.operator ? '' : ' — владелец в открытых данных не указан'}` : 'трансформаторной подстанции в открытых данных рядом нет',
-    c ? `питающий центр ${esc(c.name || c.id)}${c.voltage ? `, ${c.voltage} кВ` : ''}${Number.isFinite(c.freeMW) ? `, свободно около ${num(c.freeMW, 1)} МВт (оценка)` : ''}` : null,
+    tp ? `ТП${tp.ref ? ` №${esc(tp.ref)}` : ''} в ${tp.dist} м${tp.address ? `, ${esc(tp.address)}` : ''}${tp.reserveMVA !== null && tp.reserveMVA !== undefined ? ` — свободно ${num(tp.reserveMVA, 2)} МВА по данным «Россетей» (${tp.reserveMVA >= 0.16 ? 'станции 150 кВт хватит' : 'на станцию 150 кВт не хватит'})` : ''}${tp.operator ? '' : ' — владелец в открытых данных не указан'}` : 'трансформаторной подстанции в открытых данных рядом нет',
+    c ? `питающий центр ${esc(c.name || c.id)}${c.voltage ? `, ${c.voltage} кВ` : ''}${Number.isFinite(c.freeMW) ? `, свободно около ${num(c.freeMW, 1)} МВт (${c.real ? 'по данным «Россетей», III кв. 2026' : 'оценка'})` : ''}` : null,
     c?.load ? (c.load.stations ? `от этого центра уже питаются ${c.load.stations} ${plural(c.load.stations, 'быстрая станция', 'быстрые станции', 'быстрых станций')} (${num(c.load.kw / 1000, 1)} МВт)` : 'других быстрых станций от этого центра пока нет') + (c.load.picks.filter((x) => x !== vm.subject.id).length ? `; на него же претендуют кандидаты модели ${esc(c.load.picks.filter((x) => x !== vm.subject.id).join(', '))}` : '') : null,
   ].filter(Boolean);
   rows.push(['Сетевая компания', netWho, netFacts.join('; '), 'Заявка на техприсоединение 150 кВт с паспортом точки; узнать реальный резерв центра и цену.']);
@@ -431,13 +431,14 @@ export function renderPassport(container, vm) {
       <section class="pp-card">
         <h3>Подключение к электросети</h3>
         <div class="metric-row"><span>Трансформаторная подстанция</span><span>${vm.dist04 !== null ? `в ${vm.dist04} м` : '<span class="tag tag-warn">ближе 200 м нет</span>'}</span></div>
-        <div class="metric-row"><span>Свободная мощность питающего центра</span><span>${vm.center ? `${num(vm.center.freeMW, 1)} МВт <span class="tag tag-warn">оценка</span>` : '…'}</span></div>
+        <div class="metric-row"><span>Свободная мощность питающего центра</span><span>${vm.center ? `${num(vm.center.freeMW, 1)} МВт ${vm.center.real ? '<span class="tag">«Россети», III кв. 2026</span>' : '<span class="tag tag-warn">оценка</span>'}` : '…'}</span></div>
+        <div class="metric-row"><span>Новостройки в 1 км</span><span>${vm.newNear?.n ? `${vm.newNear.n} ЖК, ${num(vm.newNear.area / 1000, 0)} тыс. м² жилья, сдача до ${esc(vm.newNear.last ? vm.newNear.last.split('-').reverse().join('.') : '—')}${vm.newNear.dev ? ` (крупнейший — ${esc(vm.newNear.top)}, ${esc(vm.newNear.dev)})` : ''}` : 'строящихся ЖК нет'}</span></div>
         <div class="metric-row"><span>Стоянка такси</span><span>${vm.taxiNear ? `в ${vm.taxiNear.m < 1000 ? `${vm.taxiNear.m} м` : `${num(vm.taxiNear.m / 1000, 1)} км`}${vm.taxiNear.places ? `, ${vm.taxiNear.places} мест` : ''}` : 'нет данных'}</span></div>
         <div class="metric-row"><span>Парковка АМПП</span><span>${vm.amppNear ? (vm.amppNear.m <= vm.amppMaxM ? `${/^\d/.test(vm.amppNear.num) ? `№ ${esc(vm.amppNear.num)}` : esc(vm.amppNear.num)} в ${vm.amppNear.m} м — можно по программе АМПП` : `ближайшая в ${vm.amppNear.m} м`) : 'нет данных'}</span></div>
         <div class="metric-row"><span>Срок подключения</span><span>${vm.conn ? `${num(vm.conn.months[0], 0)}–${num(vm.conn.months[1], 0)} мес.` : '—'}</span></div>
         <div class="metric-row"><span>Плата за подключение</span><span class="mono">${vm.ampp ? 'нет — программа АМПП' : vm.conn ? `${mln(vm.conn.cost[0], 2)}–${mln(vm.conn.cost[1], 2)} млн ₽` : '—'}</span></div>
         <div class="metric-row"><span>Компенсация МФППиП</span><span>${vm.ampp ? 'не нужна' : vm.subsidy ? (econ?.subsidyRub ? `${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : 'учтена') : 'не учтена'}</span></div>
-        <p class="pp-note">${vm.dist04 !== null ? 'Подстанция рядом — подключение без стройки новой сети, это класс А. Плата всё равно 5–7,8 млн ₽: в Москве её считают по длине кабеля, это видно по 4 реальным техусловиям РСЗС.' : 'В открытых данных подстанции ближе 200 м нет, поэтому считаем осторожно, как дорогой класс Б. Точную цену даст запрос в «Россети».'} Срок в техусловиях — 4 месяца, на деле около года. Свободная мощность — наша оценка: официальной карты резерва нет.</p>
+        <p class="pp-note">${vm.dist04 !== null ? 'Подстанция рядом — подключение без стройки новой сети, это класс А. Плата всё равно 5–7,8 млн ₽: в Москве её считают по длине кабеля, это видно по 4 реальным техусловиям РСЗС.' : 'В открытых данных подстанции ближе 200 м нет, поэтому считаем осторожно, как дорогой класс Б. Точную цену даст запрос в «Россети».'} Срок в техусловиях — 4 месяца, на деле около года. Свободная мощность центра — по раскрытию «Россетей» за III квартал 2026, где центр нашёлся по названию, иначе наша оценка.</p>
       </section>
       <section class="pp-card">
         <h3>Почему здесь</h3>

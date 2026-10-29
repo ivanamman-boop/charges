@@ -115,7 +115,8 @@ async function loadData() {
   const benchmarks = await fetchJson('data/benchmarks.json').then((d) => d.benchmarks).catch(() => []);
   const ampp = await fetchJson('data/ampp.json').then((d) => d.points).catch(() => []);
   const taxiStands = await fetchJson('data/taxi-stands.json').then((d) => d.points).catch(() => []);
-  return { ampp, taxiStands, cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, tp04Meta: tp04Raw.meta || [], mkadRing: mkadRaw.ring, benchmarks };
+  const newBuildings = await fetchJson('data/new-buildings.json').then((d) => d.points).catch(() => []);
+  return { ampp, taxiStands, newBuildings, cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, tp04Meta: tp04Raw.meta || [], tp04Reserve: tp04Raw.reserve || [], mkadRing: mkadRaw.ring, benchmarks };
 }
 
 const cfg150 = () => state.params.M6_M7_equipment_economics.catalog.configs.find((c) => c.omega === EQUIPMENT);
@@ -177,6 +178,18 @@ function nearestTaxiStand(lat, lon) {
     if (!best || m < best.m) best = { m: Math.round(m), places: p[2], address: p[3] };
   }
   return best;
+}
+
+// Строящиеся ЖК в радиусе (наш.дом.рф): будущие жильцы, которых модель
+// спроса ещё не видит (замечание экспертов про ЖК ПИК) - подсказка, не расчёт.
+function newBuildingsNear(lat, lon, radiusM) {
+  const kLon = Math.cos((lat * Math.PI) / 180);
+  const near = (state.newBuildings || []).filter((p) => Math.hypot((p[0] - lat) * 111320, (p[1] - lon) * 111320 * kLon) <= radiusM);
+  if (!near.length) return { n: 0 };
+  const area = near.reduce((a, p) => a + (p[3] || 0), 0);
+  const last = near.map((p) => p[4]).filter(Boolean).sort().pop() || null;
+  const top = [...near].sort((a, b) => (b[3] || 0) - (a[3] || 0))[0];
+  return { n: near.length, area, last, top: top[2], dev: top[5] };
 }
 
 // Порог для статуса: при режиме «по АМПП» у мест рядом с парковкой АМПП - без платы за подключение.
@@ -841,7 +854,7 @@ function nearestTpInfo(lat, lon) {
   });
   if (best < 0 || bestD > 1500) return null;
   const [ref, operator, address] = state.tp04Meta?.[best] || [];
-  return { dist: Math.round(bestD), ref, operator, address };
+  return { dist: Math.round(bestD), ref, operator, address, reserveMVA: state.tp04Reserve?.[best] ?? null };
 }
 
 // Сколько действующих станций и кандидатов модели опираются на тот же
@@ -881,7 +894,7 @@ function stakeholdersFor(P, center) {
   const competitors = [...byOp].sort((a, b) => b[1] - a[1]).map(([op, loss]) => ({ op, loss }));
   return {
     tp,
-    center: centerFull ? { id: centerFull.id, name: centerFull.name, voltage: centerFull.voltage_kV, freeMW: center.freeMW, load: centerLoad(centerFull.id) } : null,
+    center: centerFull ? { id: centerFull.id, name: centerFull.name, voltage: centerFull.voltage_kV, freeMW: center.freeMW, real: !!centerFull.rossetimr, load: centerLoad(centerFull.id) } : null,
     owner,
     osm: s.osm || null,
     siteKind: s.siteKind || null,
@@ -1152,7 +1165,7 @@ function buildPassportVm(P) {
     cls = P.e150.cls;
     dist04 = P.dist04;
     conn = P.e150.connRange ? { cost: [P.e150.connRange.costLow, P.e150.connRange.costHigh], months: [P.e150.connRange.monthsLow, P.e150.connRange.monthsHigh] } : null;
-    center = P.evalResult ? { id: P.evalResult.center.id, freeMW: P.evalResult.centerFree / 1000 } : null;
+    center = P.evalResult ? { id: P.evalResult.center.id, freeMW: P.evalResult.centerFree / 1000, real: !!state.centers.find((c) => c.id === P.evalResult.center.id)?.rossetimr } : null;
   } else if (pre?.S) {
     series = seriesFromPre(pre);
     cls = pre.cls;
@@ -1253,6 +1266,7 @@ function buildPassportVm(P) {
     ampp,
     amppNear: nearestAmpp(subject.lat, subject.lon),
     taxiNear: nearestTaxiStand(subject.lat, subject.lon),
+    newNear: newBuildingsNear(subject.lat, subject.lon, 1000),
     amppMaxM: AMPP_M,
     econLive: !!P.e150,
     dateStr: new Date().toLocaleDateString('ru-RU'),
@@ -1390,7 +1404,7 @@ async function openPassport(subject) {
   const candidate = { ...candidateBase, P_kW: cfg.P_cap_kW, posts: cfg.posts, P_post_kW: cfg.P_post_kW, year_open: year };
   const local = localEquilibrium({ cells: state.cells, stations: state.stations, candidate, params: state.preciseParams, year, scenario, dayType, season, fullContext: state.fullContext, fullResult: state.fullResult });
   P.live = liveFromLocal(local, candidate);
-  P.dist04 = state.tp04 ? dist04FromKnownTp(subject.lat, subject.lon, state.tp04) : null;
+  P.dist04 = state.tp04Usable ? dist04FromKnownTp(subject.lat, subject.lon, state.tp04Usable) : null;
   P.progress = { fraction: 0.08, text: 'Подбираю оборудование и считаю экономику…' };
   renderPassportNow();
   renderNeighbors({ neighborsSource: state.layers.neighborsSource, stations: state.stations, neighborDeltas: P.live.neighbors.map((n) => ({ globalIdx: n.globalJ, deltaS: n.deltaS })) });
@@ -1885,10 +1899,14 @@ function route() {
 
 // ---------- Старт ----------
 async function main() {
-  const { ampp, taxiStands, cells, stationsAll, centers, params, zones, pool, tp04, tp04Meta, mkadRing, benchmarks } = await loadData();
+  const { ampp, taxiStands, newBuildings, cells, stationsAll, centers, params, zones, pool, tp04, tp04Meta, tp04Reserve, mkadRing, benchmarks } = await loadData();
   state.amppIndex = ampp.length ? buildAmppIndex(ampp) : null;
   state.taxiStands = taxiStands;
+  state.newBuildings = newBuildings;
   state.tp04Meta = tp04Meta;
+  state.tp04Reserve = tp04Reserve;
+  // ТП без свободной мощности под станцию (резерв < 0,16 МВА по раскрытию «Россетей») класс А не дают
+  state.tp04Usable = tp04.filter((_, i) => !(tp04Reserve[i] !== null && tp04Reserve[i] !== undefined && tp04Reserve[i] < 0.16));
   state.benchmarks = benchmarks;
   const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
   Object.assign(state, { cells, stationsAll, centers, params, preciseParams, zones, tp04, mkadRing });

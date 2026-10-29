@@ -40,7 +40,9 @@ const DAY_TYPES = ['weekday', 'weekend'];
 const cells = read('cells.json').cells;
 const stationsAll = read('stations.json').stations;
 const centers = read('centers.json').centers;
-const tp04 = read('tp04.json').points;
+const tp04Raw = read('tp04.json');
+// ТП с резервом < 0,16 МВА по раскрытию «Россетей» (МКС, I кв. 2026) класс А не дают
+const tp04 = tp04Raw.points.filter((_, i) => !(tp04Raw.reserve?.[i] != null && tp04Raw.reserve[i] < 0.16));
 const pool = read('pool.json').pool;
 const ring = read('mkad.json').ring;
 const params = read('params.json');
