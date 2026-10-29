@@ -73,6 +73,8 @@ export function siteEconomics(e, { params, subsidy = false, ampp = false, pEl = 
     opex,
     subsidyRub: comp,
     npv: npv(CF, capex, r),
+    // чистый доход за горизонт без ставки: сумма потока минус вложения
+    profit: CF.reduce((a, v) => a + v, 0) - capex,
     payback: paybackMonths(CF, capex, false, r),
     paybackDisc: paybackMonths(CF, capex, true, r),
     connMonths: conn.months,

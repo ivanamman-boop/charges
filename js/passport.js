@@ -37,7 +37,7 @@ function loadChart(vm) {
   const U = ys.map((y) => vm.U[y]);
   const lo = ys.map((y) => vm.Urange[y][0]);
   const hi = ys.map((y) => vm.Urange[y][1]);
-  const top = Math.max(0.3, ...hi, vm.th.uNpv * 1.25);
+  const top = Math.max(0.3, ...hi, vm.th.uPb * 1.4);
   const W = 560;
   const H = 230;
   const pad = { l: 40, r: 92, t: 18, b: 28 };
@@ -51,7 +51,6 @@ function loadChart(vm) {
   return `<svg class="load-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Загрузка поста по годам">
     ${grid.map((g) => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(g)}" y2="${y(g)}" class="grid"/><text x="${pad.l - 8}" y="${y(g) + 4}" class="axis" text-anchor="end">${Math.round(g * 100)}%</text>`).join('')}
     <path d="${band}" class="band"/>
-    ${thLine(vm.th.uNpv, `${num(vm.th.uNpv * 100, 0)}% с дисконтом`, 'th-npv')}
     ${thLine(vm.th.uPb, `${num(vm.th.uPb * 100, 0)}% окупаемость`, 'th-pb')}
     <path d="${line}" class="line"/>
     ${ys
@@ -92,10 +91,6 @@ function needBlock(vm) {
   const sure = n.expensive;
   const best = n.cheap;
   const fc = n.forecast;
-  // Вторая планка - NPV > 0 (заработать больше стоимости денег, ставка 18%):
-  // из «Насколько надёжен вывод», при дорогом подключении, как вердикт.
-  const dz = vm.robust?.demandZeroPct;
-  const npvNeed = dz === null || dz === undefined ? null : (1 + dz) * fc;
   const ratioText = (x) => {
     if (!x) return 'за пределами прогноза — вариант с подключением по АМПП';
     const d = x.mult - 1;
@@ -122,22 +117,15 @@ function needBlock(vm) {
     const max = Math.max(x.sessions, fc) * 1.15;
     return `<div class="need-bar"><i class="need-fc" style="width:${(fc / max) * 100}%"></i><b class="need-mk" style="left:${(x.sessions / max) * 100}%"></b></div>`;
   };
-  if (npvNeed !== null) {
-    headline +=
-      npvNeed <= fc
-        ? ` И станция заработает больше, чем стоят вложенные деньги: для этого нужно ${num(npvNeed, 1)}.`
-        : ` Доходность выше ставки 18% начнётся с ${num(npvNeed, 1)} зарядки в сутки.`;
-  }
   return `<section class="pp-card pp-wide need-card need-${tone}">
     <h3>При каком спросе точка окупится</h3>
     <p class="need-headline">${headline}</p>
     <div class="need-grid">
       <div><div class="need-label">Наверняка — даже при дорогом подключении</div><div class="need-value">${sure ? `${num(sure.sessions, 1)}` : '—'}<small> зарядки в сутки</small></div>${bar(sure)}<div class="pp-note">${ratioText(sure)}</div></div>
       <div><div class="need-label">В лучшем случае — при дешёвом подключении</div><div class="need-value">${best ? `${num(best.sessions, 1)}` : '—'}<small> зарядки в сутки</small></div>${bar(best)}<div class="pp-note">${ratioText(best)}</div></div>
-      <div><div class="need-label">Чтобы заработать больше стоимости денег (NPV > 0)</div><div class="need-value">${npvNeed !== null ? num(npvNeed, 1) : '—'}<small> зарядки в сутки</small></div>${npvNeed !== null ? bar({ sessions: npvNeed }) : ''}<div class="pp-note">${npvNeed === null ? 'вне диапазона расчёта' : npvNeed <= fc ? `прогноз выше нужного на ${num((fc / npvNeed - 1) * 100, 0)}%` : `спрос должен быть на ${num(dz * 100, 0)}% выше прогноза`}</div></div>
     </div>
     <p class="need-forecast">Прогноз модели на ${vm.year}: <b>${num(fc, 1)} зарядки в сутки</b> (средний день года, ${esc(vm.scenarioLabel)}).</p>
-    <p class="pp-note">Синяя полоса — прогноз, чёрная отметка — сколько нужно. «Окупится» — вложения вернутся за ${N} лет (норматив РСЗС). «Больше стоимости денег» — станция заработает больше, чем принесли бы те же деньги под 18% за 10 лет. Расчёт от года решения с ростом спроса по модели${vm.subsidy ? ', с компенсацией МФППиП' : ''}. Для сверки: по оценке АПОЭ быстрая станция окупается за 7–10 лет при 7–10 зарядках в сутки, а полный бюджет поста в Москве — 5–6 млн ₽ (Hyper); наша модель при таких вложениях даёт около 10 зарядок.</p>
+    <p class="pp-note">Синяя полоса — прогноз, чёрная отметка — сколько нужно. «Окупится» — вложения вернутся за ${N} лет (норматив РСЗС). Расчёт от года решения с ростом спроса по модели${vm.subsidy ? ', с компенсацией МФППиП' : ''}. Для сверки: по оценке АПОЭ быстрая станция окупается за 7–10 лет при 7–10 зарядках в сутки, а полный бюджет поста в Москве — 5–6 млн ₽ (Hyper); наша модель при таких вложениях даёт около 10 зарядок.</p>
   </section>`;
 }
 
@@ -163,7 +151,7 @@ function yearTable(vm) {
 function verdictText(vm) {
   const t = vm.econ.tz;
   const r = vm.econ.paybackRange || [];
-  if (t.verdict === 'build') return `Станция вернёт вложения за ${paybackText(vm.econ)} ${paybackUnit(vm.econ)} — в пределах норматива РСЗС (${vm.th.normYears} лет) — при типичной цене подключения по техусловиям РСЗС${vm.econ.npv > 0 ? ' и заработает больше ставки 18%' : ''}.`;
+  if (t.verdict === 'build') return `Станция вернёт вложения за ${paybackText(vm.econ)} ${paybackUnit(vm.econ)} — в пределах норматива РСЗС (${vm.th.normYears} лет) — при типичной цене подключения по техусловиям РСЗС.`;
   if (t.verdict === 'request') return 'Станция окупается за норматив при дешёвом подключении. Следующий шаг — технические условия от сетевой компании: они подтвердят цену.';
   return `Окупаемость за ${vm.th.normYears} лет здесь наберётся позже — с ростом спроса или при подключении по программе АМПП${r[0] === null ? '' : ''}.`;
 }
@@ -175,7 +163,7 @@ function econBlock(vm) {
   const row = (k, v, note = '') => `<div class="metric-row"><span>${k}${note ? `<small class="metric-note">${note}</small>` : ''}</span><span class="mono">${v}</span></div>`;
   return `<section class="pp-card pp-wide">
     <h3>Деньги: станция и вся сеть РСЗС</h3>
-    <p class="pp-note">Решение в ${vm.year} году, станция 150 кВт на 2 поста, 10 лет работы, ставка 18%. ${vm.subsidy ? 'Компенсация МФППиП учтена.' : 'Без компенсации МФППиП.'}</p>
+    <p class="pp-note">Ставим сейчас, станция 150 кВт на 2 поста, 10 лет работы, спрос растёт по модели. ${vm.subsidy ? 'Компенсация МФППиП учтена.' : 'Без компенсации МФППиП.'}</p>
     <div class="econ-grid">
       <div>
         ${row('Зарабатываем с одной зарядки', `${num(t.mBar, 0)} ₽`, 'тариф минус электроэнергия, НДС и эквайринг; такси и зима снижают')}
@@ -187,11 +175,8 @@ function econBlock(vm) {
       </div>
       <div>
         ${row('Окупаемость', `${paybackText(vm.econ)} ${paybackUnit(vm.econ)}`, `при типичной цене подключения; ${paybackRangeNote(vm.econ)}; норматив РСЗС — ${vm.th.normYears} лет`)}
-        ${row('Окупаемость с учётом стоимости денег', t.paybackDisc === null ? 'больше 10 лет' : years(t.paybackDisc), 'то же при ставке 18%')}
-        ${row('NPV станции', `${signedMln(t.npvStation)} млн ₽`, 'сколько станция заработает сверх вложений и ставки')}
-        ${row('NPV для всей сети РСЗС', `${signedMln(t.npvNetwork)} млн ₽`, 'без зарядок, которые просто перейдут со станций РСЗС')}
-        ${row('Порог доходности 18%', `${num(t.Sstar, 1)} зарядки в сутки`, `загрузка ${pct(t.Ustar, 1)}; с этого спроса станция зарабатывает больше ставки 18%`)}
-        ${row('Прогноз к порогу доходности', num(t.margin, 2), '1 и больше — доходность выше ставки 18%; окупаемость за норматив наступает раньше')}
+        ${row('Чистый доход станции за 10 лет', `${signedMln(t.profitStation)} млн ₽`, 'сколько станция заработает сверх вложений')}
+        ${row('Чистый доход для всей сети РСЗС', `${signedMln(t.profitNetwork)} млн ₽`, 'без зарядок, которые просто перейдут со станций РСЗС')}
       </div>
     </div>
   </section>`;
@@ -354,7 +339,7 @@ function liveDetails(vm) {
     ${
       L.equipmentRows
         ? `<details class="pp-card pp-wide equip-details"><summary>Сравнить с другими вариантами станции</summary>
-      <table class="data-table equip-table"><thead><tr><th>Станция</th><th>Класс подключения</th><th>Зарядок в сутки<br>2026 → 2030</th><th>Из них новых<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>NPV, млн ₽</th></tr></thead><tbody>${L.equipmentRows}</tbody></table>
+      <table class="data-table equip-table"><thead><tr><th>Станция</th><th>Класс подключения</th><th>Зарядок в сутки<br>2026 → 2030</th><th>Из них новых<br>2026 → 2030</th><th>Новых на 1 млн ₽</th><th>Окупаемость, лет</th></tr></thead><tbody>${L.equipmentRows}</tbody></table>
       <p class="pp-note">DC60-1 — 60 кВт, один пост; DC150-2 — 150 кВт, два поста и т. д. Выделен вариант, который даёт больше всего новых клиентов на каждый вложенный миллион.</p></details>`
         : ''
     }
@@ -369,7 +354,6 @@ export function renderPassport(container, vm) {
   const [sLo, sHi] = vm.Srange[vm.year];
   const econ = vm.econ;
   const paybackTone = econ && (econ.payback === null || econ.payback > vm.th.normYears) ? 'warn' : '';
-  const npvTone = econ && econ.npv < 0 ? 'warn' : '';
   const capexLine = econ?.capexRange ? capexText(econ, 2) : '—';
 
   container.innerHTML = `
@@ -412,7 +396,7 @@ export function renderPassport(container, vm) {
       ${kpiTile({ label: `Зарядок в сутки в ${vm.year}`, value: num(S, 0), sub: `обычно от ${num(sLo, 0)} (выходной летом) до ${num(sHi, 0)} (будни зимой)` })}
       ${kpiTile({ label: 'Загрузка поста', value: pct(vm.U[vm.year], 1), sub: `доля времени, когда пост занят; окупаемость начинается примерно с ${pct(vm.th.uPb)}` })}
       ${kpiTile({ label: 'Окупаемость', value: econ ? paybackText(econ) : '…', unit: econ ? ` ${paybackUnit(econ)}` : ' лет', sub: `при типичной цене подключения; норматив РСЗС — ${vm.th.normYears} лет`, tone: paybackTone })}
-      ${kpiTile({ label: 'NPV за 10 лет', value: econ ? signedMln(econ.npv) : '…', unit: ' млн ₽', sub: econ ? (econ.npv >= 0 ? 'станция зарабатывает больше ставки 18%' : 'доходность при ставке 18%; вложения возвращаются за счёт роста спроса') : '', tone: npvTone })}
+      ${kpiTile({ label: 'Чистый доход за 10 лет', value: econ?.profit !== undefined ? signedMln(econ.profit) : '…', unit: ' млн ₽', sub: 'сверх вложений, с ростом спроса', tone: econ?.profit !== undefined && econ.profit < 0 ? 'warn' : '' })}
     </div>
 
     ${needBlock(vm)}
@@ -420,7 +404,7 @@ export function renderPassport(container, vm) {
     <div class="pp-grid">
       <section class="pp-card pp-chart-card">
         <h3>Загрузка поста по годам</h3>
-        <p class="pp-note">Линия — прогноз на средний день, полоса — от выходного летом до будней зимой. Пунктир — с какой загрузки станция окупается за ${vm.th.normYears} лет и окупается с учётом ставки.</p>
+        <p class="pp-note">Линия — прогноз на средний день, полоса — от выходного летом до будней зимой. Пунктир — средняя загрузка за 10 лет, при которой станция окупается за ${vm.th.normYears} лет.</p>
         ${loadChart(vm)}
       </section>
       <section class="pp-card">

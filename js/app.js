@@ -131,6 +131,8 @@ function computeThresholds() {
   state.th = thresholds({ params: state.params, cfg, connCostRub: connMid });
   state.thSub = thresholds({ params: state.params, cfg, connCostRub: connMid, subsidy: true });
   state.thAmpp = thresholds({ params: state.params, cfg, connCostRub: 0 });
+  const m5 = state.params.M5_grid;
+  state.thB = thresholds({ params: state.params, cfg, connCostRub: ((m5.c_B_rub_per_kW.min + m5.c_B_rub_per_kW.max) / 2) * cfg.P_cap_kW });
 }
 
 // Прогноз зарядок в сутки в году y из расчёта зон (2027/2029 - интерполяция, 9.3).
@@ -217,14 +219,16 @@ function growthEcon(sOf, year, th) {
     npv += cf / Math.pow(1 + th.r, k + 1);
     if (paybackYears === null && cum >= 0 && cf > 0) paybackYears = k + (-before / cf);
   }
-  return { pays: cum >= 0, npvOk: npv >= 0, paybackYears };
+  return { pays: cum >= 0, npvOk: npv >= 0, paybackYears, profit: cum, invest };
 }
 
+const FAST_PAYBACK_YEARS = 8;
 function statusFromGrowth(sOf, cls, year, th) {
   if (cls === 'В' || !sOf) return 'no';
   const g = growthEcon(sOf, year, th);
   if (!g.pays) return 'no';
-  if (cls === 'А') return g.npvOk ? 'priority' : 'now';
+  // Первая очередь - окупится быстрее 8 лет (исходный ориентир РСЗС 7-8 лет), вторая - за 8-10.
+  if (cls === 'А') return g.paybackYears !== null && g.paybackYears <= FAST_PAYBACK_YEARS ? 'priority' : 'now';
   return 'grid';
 }
 
@@ -462,7 +466,7 @@ function renderZoneLegend(zones) {
   const th = state.th;
   document.getElementById('zone-legend').innerHTML = `
     <div class="zl-title">Если ставить сейчас</div>
-    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция окупится за ${th.normYears} лет с учётом роста спроса, подстанция рядом. Тёмно-синие — ещё и заработает больше стоимости денег${state.ctl.funding === 'ampp' ? '. У парковок АМПП подключение за счёт сети' : ''}</small></div></div>
+    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция окупится за ${th.normYears} лет с учётом роста спроса, подстанция рядом. Тёмно-синие — окупится быстрее 8 лет${state.ctl.funding === 'ampp' ? '. У парковок АМПП подключение за счёт сети' : ''}</small></div></div>
     <div class="zl-row"><i class="sw sw-grid"></i><div><b>Готовить сеть</b> <span class="zl-n">${c.grid}</span><small>спрос есть, но подстанции рядом нет — сначала запрос в «Россети»</small></div></div>
     <div class="zl-row"><i class="sw sw-no"></i><div><b>Пока рано</b> <span class="zl-n">${c.no}</span><small>окупаемость наберётся позже — с ростом спроса или при подключении по программе АМПП</small></div></div>`;
 }
@@ -597,7 +601,7 @@ function statusExplanation(status, S, by, year) {
   const pbN = g?.paybackYears ? Math.round(g.paybackYears) : null;
   const pb = pbN ? `примерно за ${pbN} ${plural(pbN, 'год', 'года', 'лет')}` : `за ${th.normYears} лет`;
   if (by?.cls === 'В') return 'У питающего центра сейчас нет свободной мощности — сначала запрос в «Россети» о расширении.';
-  if (status === 'priority') return `Если ставить сейчас, станция окупится ${pb} и заработает больше стоимости денег (ставка 18%). Подстанция рядом — первая очередь.${growth}`;
+  if (status === 'priority') return `Если ставить сейчас, станция окупится ${pb} — быстрее 8 лет. Подстанция рядом — первая очередь.${growth}`;
   if (status === 'now') return `Если ставить сейчас, станция окупится ${pb} за счёт роста спроса — в пределах норматива РСЗС.${growth}`;
   if (status === 'grid') return `Спрос окупит станцию ${pb}, но подстанции рядом в открытых данных нет — сначала запрос в «Россети».${growth}`;
   const later = by ? YEARS_ALL.find((yy) => yy > year && statusOf(by, yy) !== 'no') : null;
@@ -1177,7 +1181,6 @@ function assumptionsChips() {
     `тариф ${m7.tariff_incl_vat_rub_per_kWh.retail_and_corporate.value} ₽`,
     `энергия ${m7.p_el_rub_per_kWh.value} ₽ за кВт·ч`,
     `эквайринг ${Math.round(m7.f_acq.value * 100)}%`,
-    `ставка ${Math.round(m7.r_discount_rate.value * 100)}%`,
     `срок ${m7.H_years.value} лет`,
   ];
 }
@@ -1237,7 +1240,8 @@ function buildPassportVm(P) {
     econ = { ...typ, capexRange: [lo.capex, hi.capex], paybackRange: [lo.payback, hi.payback] };
     // Метрики ТЗ по экономике площадки (уровни 1 и 2).
     const net = typ;
-    const netNpv = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'typ', launchYear: year, network: true }).npv;
+    const netEcon = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'typ', launchYear: year, network: true });
+    const netNpv = netEcon.npv;
     const anchor = P.e150.years.includes(year) ? year : 2026;
     const comp = (c) => mfppipCompensation({ connCostRub: c, params: state.params });
     econ.tz = {
@@ -1248,6 +1252,8 @@ function buildPassportVm(P) {
       paybackDisc: net.paybackDisc,
       npvStation: net.npv,
       npvNetwork: netNpv,
+      profitStation: net.profit,
+      profitNetwork: netEcon.profit,
       verdict: verdictRszs({ npvExpensive: typ.npv, npvCheap: lo.npv, paybackExpensive: typ.payback, paybackCheap: lo.payback, normYears: th.normYears }),
     };
     robust = robustness(P.e150, { params: state.params, subsidy, ampp, launchYear: year });
@@ -1286,7 +1292,7 @@ function buildPassportVm(P) {
     recText = 'У питающего центра сейчас нет свободной мощности — сначала запрос в «Россети» о расширении.';
   } else if (status === 'priority') {
     recTitle = 'Строить в первую очередь';
-    recText = `Если ставить сейчас, станция окупится ${pbTxt} и заработает больше стоимости денег (ставка 18%). Подстанция рядом.${growthTxt}`;
+    recText = `Если ставить сейчас, станция окупится ${pbTxt} — быстрее 8 лет. Подстанция рядом.${growthTxt}`;
   } else if (status === 'now') {
     recTitle = 'Строить во вторую очередь';
     recText = `Если ставить сейчас, станция окупится ${pbTxt} за счёт роста спроса — в пределах норматива РСЗС ${th.normYears} лет.${growthTxt}`;
@@ -1558,7 +1564,7 @@ function equipmentRows(evalResult) {
         <td class="num">${num(a.sessions, 1)} → ${num(b.sessions, 1)}</td>
         <td class="num">+${num(a.gain, 1)} → +${num(b.gain, 1)}</td>
         <td class="num">${e.scenarios ? num(newClientsPerMln(e), 2) : '—'}</td>
-        <td class="num">${e.scenarios ? num(e.scenarios.low.NPVrub / 1e6, 1) : '—'}</td>
+        <td class="num">${e.scenarios ? (e.scenarios.high.Tpb !== null ? num(e.scenarios.high.Tpb, 1) : 'больше 10') : '—'}</td>
       </tr>`;
     })
     .join('');
@@ -1672,7 +1678,7 @@ function renderHowExample() {
   document.getElementById('how-example').hidden = false;
 }
 
-// Эффект инструмента в рублях (ТЗ по метрикам, уровень 3): NPV портфеля,
+// Эффект инструмента в рублях (ТЗ по метрикам, уровень 3): чистый доход портфеля за 10 лет,
 // индекс доходности, доля окупаемых за норматив площадок и стоимость ошибок -
 // сумма отрицательных NPV. По каждой площадке - отдельная станция DC150-2 из
 // zones.json (решение в 2026, 10 лет, 18%), выбранный сценарий.
@@ -1680,15 +1686,22 @@ function portfolioMoney() {
   const pf = state.portfolio;
   const scenario = state.ctl.scenario;
   const N = state.th.normYears;
+  // Деньги без ставки: решение сейчас, 10 лет, рост спроса - как статус на карте.
   const calc = (picks) => {
-    const rows = picks.map((p) => ({ p, by: state.siteById.get(p.id)?.calc?.by?.[scenario] })).filter((x) => x.by?.npv);
-    const npvHi = rows.reduce((a, x) => a + x.by.npv[0], 0);
-    const npvLo = rows.reduce((a, x) => a + x.by.npv[1], 0);
-    const capex = rows.reduce((a, x) => a + x.by.capex[1], 0);
-    const paid = rows.filter((x) => x.by.payback?.[1] !== null && x.by.payback[1] <= N).length;
-    const errors = rows.reduce((a, x) => a + Math.max(0, -x.by.npv[0]), 0);
-    const losers = rows.filter((x) => x.by.npv[0] < 0).length;
-    return { n: rows.length, npvHi, npvLo, capex, pi: capex > 0 ? 1 + npvHi / capex : null, paid, errors, losers };
+    const rows = picks
+      .map((p) => ({ p, by: state.siteById.get(p.id)?.calc?.by?.[scenario] }))
+      .filter((x) => x.by)
+      .map((x) => {
+        const th = x.by.cls === 'А' ? thFor(x.by) : state.thB;
+        const g = x.by.cls === 'В' ? { pays: false, profit: 0, invest: 0, paybackYears: null } : growthEcon((y) => sessionsIn(x.by, y), 2026, th);
+        return { ...x, g };
+      });
+    const invest = rows.reduce((a, x) => a + (x.g.invest || 0), 0);
+    const profit = rows.reduce((a, x) => a + (x.g.profit || 0), 0);
+    const paid = rows.filter((x) => x.g.pays).length;
+    const noPay = rows.filter((x) => !x.g.pays).reduce((a, x) => a + (x.g.invest || 0), 0);
+    const pbs = rows.map((x) => x.g.paybackYears).filter((v) => v !== null).sort((a, b) => a - b);
+    return { n: rows.length, invest, profit, paid, noPay, ret: invest > 0 ? (invest + profit) / invest : null, pbMed: pbs.length ? pbs[Math.floor(pbs.length / 2)] : null };
   };
   const m = calc(pf.model?.picks || []);
   const t = calc(pf.traditional?.picks || []);
@@ -1696,17 +1709,16 @@ function portfolioMoney() {
   const row = (label, a, b, better) => `<tr><td>${label}</td><td class="num col-trad">${a}</td><td class="num col-model ${better ? 'better' : ''}">${b}</td></tr>`;
   document.getElementById('portfolio-money').innerHTML = `
     <table class="compare-table money-table">
-      <thead><tr><th>Деньги. 10 станций по 150 кВт, решение в 2026 году, ${esc(SCENARIO_LABEL[scenario])}, 10 лет работы, ставка 18%</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
+      <thead><tr><th>Деньги. 10 станций по 150 кВт, ставим сейчас, ${esc(SCENARIO_LABEL[scenario])}, 10 лет работы</th><th class="col-trad">Традиционный подход</th><th class="col-model">Выбор по модели</th></tr></thead>
       <tbody>
-        ${row('NPV 10 станций — если подключение дорогое', `${mlnS(t.npvHi)} млн ₽`, `${mlnS(m.npvHi)} млн ₽`, m.npvHi > t.npvHi)}
-        ${row('NPV 10 станций — если подключение дешёвое', `${mlnS(t.npvLo)} млн ₽`, `${mlnS(m.npvLo)} млн ₽`, m.npvLo > t.npvLo)}
-        ${row('<b>Модель выигрывает</b>', '', `<b>${mlnS(m.npvHi - t.npvHi)} млн ₽</b>`, m.npvHi > t.npvHi)}
-        ${row('Сколько возвращается с каждого вложенного рубля (с учётом ставки)', `${num(t.pi, 2)} ₽`, `${num(m.pi, 2)} ₽`, m.pi > t.pi)}
+        ${row('Чистый доход 10 станций за 10 лет, сверх вложений', `${mlnS(t.profit)} млн ₽`, `${mlnS(m.profit)} млн ₽`, m.profit > t.profit)}
+        ${row('<b>Модель даёт больше</b>', '', `<b>${mlnS(m.profit - t.profit)} млн ₽</b>`, m.profit > t.profit)}
+        ${row('Возвращается с каждого вложенного рубля за 10 лет', `${num(t.ret, 2)} ₽`, `${num(m.ret, 2)} ₽`, m.ret > t.ret)}
         ${row(`Площадок, окупающихся за ${N} лет`, `${t.paid} из ${t.n}`, `${m.paid} из ${m.n}`, m.paid > t.paid)}
-        ${row('Вложения в места без окупаемости', `${num(t.errors / 1e6, 1)} млн ₽`, `${num(m.errors / 1e6, 1)} млн ₽`, m.errors < t.errors)}
+        ${row('Вложения в места без окупаемости за 10 лет', `${num(t.noPay / 1e6, 1)} млн ₽`, `${num(m.noPay / 1e6, 1)} млн ₽`, m.noPay < t.noPay)}
       </tbody>
     </table>
-    <p class="hint">Каждая площадка посчитана как отдельная станция, без учёта того, что станции портфеля делят клиентов между собой, и без компенсации МФППиП. Стоимость ошибок — сколько потеряли бы станции с отрицательным NPV; разница между подходами — ошибки, которых модель позволяет избежать.</p>`;
+    <p class="hint">Каждая площадка посчитана как отдельная станция при типичной цене подключения, с ростом спроса по модели, без компенсации МФППиП. Последняя строка — сколько денег традиционный подход вложил бы в места без окупаемости за 10 лет; модель этих ошибок избегает.</p>`;
 }
 
 function renderPortfolioPanel() {
