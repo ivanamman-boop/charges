@@ -125,7 +125,7 @@ function needBlock(vm) {
       <div><div class="need-label">Чтобы заработать больше стоимости денег (NPV > 0)</div><div class="need-value">${npvNeed !== null ? num(npvNeed, 1) : '—'}<small> зарядки в сутки</small></div>${npvNeed !== null ? bar({ sessions: npvNeed }) : ''}<div class="pp-note">${npvNeed === null ? 'вне диапазона расчёта' : npvNeed <= fc ? `прогноз выше нужного на ${num((fc / npvNeed - 1) * 100, 0)}%` : `спрос должен быть на ${num(dz * 100, 0)}% выше прогноза`}</div></div>
     </div>
     <p class="need-forecast">Прогноз модели на ${vm.year}: <b>${num(fc, 1)} зарядки в сутки</b> (средний день года, ${esc(vm.scenarioLabel)}).</p>
-    <p class="pp-note">Синяя полоса — прогноз, чёрная отметка — сколько нужно. «Окупится» — вложения вернутся за ${N} лет (норматив РСЗС). «Больше стоимости денег» — станция заработает больше, чем принесли бы те же деньги под 18% за 10 лет. Расчёт от года решения с ростом спроса по модели${vm.subsidy ? ', с компенсацией МФППиП' : ''}.</p>
+    <p class="pp-note">Синяя полоса — прогноз, чёрная отметка — сколько нужно. «Окупится» — вложения вернутся за ${N} лет (норматив РСЗС). «Больше стоимости денег» — станция заработает больше, чем принесли бы те же деньги под 18% за 10 лет. Расчёт от года решения с ростом спроса по модели${vm.subsidy ? ', с компенсацией МФППиП' : ''}. Для сверки: по оценке АПОЭ быстрая станция окупается за 7–10 лет при 7–10 зарядках в сутки, а полный бюджет поста в Москве — 5–6 млн ₽ (Hyper); наша модель при таких вложениях даёт около 10 зарядок.</p>
   </section>`;
 }
 
@@ -392,7 +392,8 @@ export function renderPassport(container, vm) {
           <div class="seg seg-dark" id="pp-scenario">${SCENARIO_BTNS.map(([v, l]) => `<button data-value="${v}" class="${v === vm.scenario ? 'active' : ''}">${l}</button>`).join('')}</div>
           <span class="ctl-label">Год решения о станции</span>
           <div class="seg seg-dark" id="pp-year">${[2026, 2028, 2030].map((y) => `<button data-value="${y}" class="${y === vm.year ? 'active' : ''}">${y}</button>`).join('')}</div>
-          <label class="switch"><input type="checkbox" id="pp-subsidy" ${vm.subsidy ? 'checked' : ''} ${vm.econLive ? '' : 'disabled'} /><span class="switch-ui"></span>Учесть компенсацию МФППиП — город возвращает 50% платы за подключение, до 2 млн ₽</label>
+          <label class="switch"><input type="checkbox" id="pp-subsidy" ${vm.subsidy ? 'checked' : ''} ${vm.econLive && !vm.ampp ? '' : 'disabled'} /><span class="switch-ui"></span>Учесть компенсацию МФППиП — город возвращает 50% платы за подключение, до 2 млн ₽</label>
+          <label class="switch"><input type="checkbox" id="pp-ampp" ${vm.ampp ? 'checked' : ''} ${vm.econLive ? '' : 'disabled'} /><span class="switch-ui"></span>Подключение по программе АМПП — сеть строит за свой счёт, РСЗС платит только станцию</label>
         </div>
       </div>
     </div>
@@ -420,7 +421,9 @@ export function renderPassport(container, vm) {
         <div class="metric-row"><span>Все вложения</span><span class="mono">${capexLine}</span></div>
         <div class="metric-row"><span>Аренда двух мест</span><span class="mono">${thousands(vm.costs.rentMonth)} в мес.</span></div>
         <div class="metric-row"><span>Обслуживание, связь, страховка</span><span class="mono">${thousands(vm.costs.serviceYear)} в год</span></div>
-        <p class="pp-note">Вложения — станция, подключение, подготовка площадки. Федеральной субсидии в Москве нет${vm.subsidy && econ?.subsidyRub ? `; по программе МФППиП город вернёт ${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : ''}. Аренда и обслуживание — наши допущения, РСЗС их пока не подтвердила.</p>
+        ${vm.costs.otherYear ? `<div class="metric-row"><span>Контакт-центр, сервис</span><span class="mono">${thousands(vm.costs.otherYear)} в год</span></div>` : ''}
+        ${vm.costs.lifeYears ? `<div class="metric-row"><span>Замена оборудования</span><span class="mono">через ${vm.costs.lifeYears} лет, ${mln(vm.costs.eq, 1)} млн ₽</span></div>` : ''}
+        <p class="pp-note">Вложения — станция, подключение, подготовка площадки. Федеральной субсидии в Москве нет${vm.ampp ? '; подключение по программе АМПП — платы нет' : vm.subsidy && econ?.subsidyRub ? `; по программе МФППиП город вернёт ${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : ''}. Цены станции, монтажа и электроэнергии — по ответам РСЗС 29.10; где ответ допускает разные трактовки, взята самая дешёвая (электроэнергия 11 ₽ с НДС, без покупки новой станции через 5 лет), дорогая — в проверке устойчивости.</p>
       </section>
     </div>
 
@@ -430,9 +433,9 @@ export function renderPassport(container, vm) {
         <div class="metric-row"><span>Трансформаторная подстанция</span><span>${vm.dist04 !== null ? `в ${vm.dist04} м` : '<span class="tag tag-warn">ближе 200 м нет</span>'}</span></div>
         <div class="metric-row"><span>Свободная мощность питающего центра</span><span>${vm.center ? `${num(vm.center.freeMW, 1)} МВт <span class="tag tag-warn">оценка</span>` : '…'}</span></div>
         <div class="metric-row"><span>Срок подключения</span><span>${vm.conn ? `${num(vm.conn.months[0], 0)}–${num(vm.conn.months[1], 0)} мес.` : '—'}</span></div>
-        <div class="metric-row"><span>Плата за подключение</span><span class="mono">${vm.conn ? `${mln(vm.conn.cost[0], 2)}–${mln(vm.conn.cost[1], 2)} млн ₽` : '—'}</span></div>
-        <div class="metric-row"><span>Компенсация МФППиП</span><span>${vm.subsidy ? (econ?.subsidyRub ? `${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : 'учтена') : 'не учтена'}</span></div>
-        <p class="pp-note">${vm.dist04 !== null ? 'Подстанция рядом — подключение без стройки новой сети, это класс А: дешевле и быстрее.' : 'В открытых данных подстанции ближе 200 м нет, поэтому считаем осторожно, как дорогой класс Б. Точную цену даст запрос в «Россети».'} Свободная мощность — наша оценка: официальной карты резерва нет.</p>
+        <div class="metric-row"><span>Плата за подключение</span><span class="mono">${vm.ampp ? 'нет — программа АМПП' : vm.conn ? `${mln(vm.conn.cost[0], 2)}–${mln(vm.conn.cost[1], 2)} млн ₽` : '—'}</span></div>
+        <div class="metric-row"><span>Компенсация МФППиП</span><span>${vm.ampp ? 'не нужна' : vm.subsidy ? (econ?.subsidyRub ? `${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : 'учтена') : 'не учтена'}</span></div>
+        <p class="pp-note">${vm.dist04 !== null ? 'Подстанция рядом — подключение без стройки новой сети, это класс А. Плата всё равно 5–7,8 млн ₽: в Москве её считают по длине кабеля, это видно по 4 реальным техусловиям РСЗС.' : 'В открытых данных подстанции ближе 200 м нет, поэтому считаем осторожно, как дорогой класс Б. Точную цену даст запрос в «Россети».'} Срок в техусловиях — 4 месяца, на деле около года. Свободная мощность — наша оценка: официальной карты резерва нет.</p>
       </section>
       <section class="pp-card">
         <h3>Почему здесь</h3>

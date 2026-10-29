@@ -11,7 +11,7 @@ import { buildNetworkContext, equilibrium, localEquilibrium, dailySessions } fro
 import { evaluateCandidateAsync, yearAverage, newClientsPerMln } from './equipment.js';
 import { interpolateAnchors } from './economics.js';
 import { thresholds, siteStatus, siteEconomics, robustness, loadFromSessions, utilization, taxiShare, siteMetrics, verdictRszs, paybackDemand, STATUS } from './econ-view.js';
-import { mfppipCompensation } from './grid.js';
+import { mfppipCompensation, classAConnRange } from './grid.js';
 import {
   initMap,
   renderDemandLayer,
@@ -118,14 +118,15 @@ async function loadData() {
 
 const cfg150 = () => state.params.M6_M7_equipment_economics.catalog.configs.find((c) => c.omega === EQUIPMENT);
 
-// Пороги для карты, как на слайде 21: класс А, середина цены подключения,
-// 10% сессий такси, норматив окупаемости РСЗС 8 лет.
+// Пороги для карты: класс А, середина платы за подключение по реальным ТУ,
+// 10% сессий такси, норматив окупаемости РСЗС (10 лет с 29.10), замена
+// оборудования через 5 лет. thAmpp - подключение по программе АМПП (платы нет).
 function computeThresholds() {
-  const m5 = state.params.M5_grid;
   const cfg = cfg150();
-  const connMid = ((m5.c_A_rub_per_kW.min + m5.c_A_rub_per_kW.max) / 2) * cfg.P_cap_kW;
+  const connMid = classAConnRange(state.params).mid;
   state.th = thresholds({ params: state.params, cfg, connCostRub: connMid });
   state.thSub = thresholds({ params: state.params, cfg, connCostRub: connMid, subsidy: true });
+  state.thAmpp = thresholds({ params: state.params, cfg, connCostRub: 0 });
 }
 
 // Прогноз зарядок в сутки в году y из расчёта зон (2027/2029 - интерполяция, 9.3).
@@ -1088,8 +1089,9 @@ function buildPassportVm(P) {
   const { subject } = P;
   const scenario = state.ctl.scenario;
   const year = state.ctl.year;
-  const subsidy = P.subsidy;
-  const th = subsidy ? state.thSub : state.th;
+  const subsidy = P.subsidy && !P.ampp;
+  const ampp = !!P.ampp;
+  const th = ampp ? state.thAmpp : subsidy ? state.thSub : state.th;
   const pre = subject.pre?.by?.[scenario] || null;
   let series = null;
   let cls = null;
@@ -1130,31 +1132,31 @@ function buildPassportVm(P) {
   let robust = null;
   let classBNpv = null;
   if (P.e150?.connRange) {
-    const hi = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high', launchYear: year });
-    const lo = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'low', launchYear: year });
+    const hi = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'high', launchYear: year });
+    const lo = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'low', launchYear: year });
     econ = { ...hi, capexRange: [lo.capex, hi.capex], paybackRange: [lo.payback, hi.payback] };
     // Метрики ТЗ по экономике площадки (уровни 1 и 2).
-    const net = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high', launchYear: year });
-    const netNpv = siteEconomics(P.e150, { params: state.params, subsidy, connBound: 'high', launchYear: year, network: true }).npv;
+    const net = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'high', launchYear: year });
+    const netNpv = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'high', launchYear: year, network: true }).npv;
     const anchor = P.e150.years.includes(year) ? year : 2026;
     const comp = (c) => mfppipCompensation({ connCostRub: c, params: state.params });
     econ.tz = {
       ...siteMetrics(P.e150, anchor, { params: state.params, capex: hi.capex }),
       year: anchor,
       capexNoSub: [lo.capex, hi.capex],
-      capexMfppip: [lo.capex - comp(lo.connCost), hi.capex - comp(hi.connCost)],
+      capexMfppip: ampp ? [lo.capex, hi.capex] : [lo.capex - comp(lo.connCost), hi.capex - comp(hi.connCost)],
       paybackDisc: net.paybackDisc,
       npvStation: net.npv,
       npvNetwork: netNpv,
       verdict: verdictRszs({ npvExpensive: hi.npv, npvCheap: lo.npv, paybackExpensive: hi.payback, normYears: th.normYears }),
     };
-    robust = robustness(P.e150, { params: state.params, subsidy, launchYear: year });
+    robust = robustness(P.e150, { params: state.params, subsidy, ampp, launchYear: year });
     // Сколько зарядок в сутки нужно для окупаемости за норматив (идея команды 27.10).
-    const pd = paybackDemand(P.e150, { params: state.params, subsidy, launchYear: year, normYears: th.normYears });
+    const pd = paybackDemand(P.e150, { params: state.params, subsidy, ampp, launchYear: year, normYears: th.normYears });
     const Snow = series.S[year];
     const need = (m) => (m === null ? null : { mult: m, sessions: m * Snow, year: YEARS_ALL.find((y) => y >= year && series.S[y] >= m * Snow) ?? null });
     econ.need = { expensive: need(pd.expensive), cheap: need(pd.cheap), forecast: Snow };
-    if (cls === 'А') {
+    if (cls === 'А' && !ampp) {
       const m5 = state.params.M5_grid;
       const P_kW = P.e150.cfg.P_cap_kW;
       classBNpv = siteEconomics(P.e150, { params: state.params, subsidy, connOverride: { cost: m5.c_B_rub_per_kW.max * P_kW, months: m5.T_conn_months.B.max }, launchYear: year }).npv;
@@ -1199,6 +1201,7 @@ function buildPassportVm(P) {
     year,
     hour: state.ctl.hour,
     subsidy,
+    ampp,
     econLive: !!P.e150,
     dateStr: new Date().toLocaleDateString('ru-RU'),
     th,
@@ -1223,6 +1226,8 @@ function buildPassportVm(P) {
       eq: cfg.C_eq_mln_rub * 1e6,
       rentMonth: m7.rent_rub_per_place_month.value * cfg.posts,
       serviceYear: m7.maintenance_share_Ceq_per_year.value * cfg.C_eq_mln_rub * 1e6 + m7.connectivity_insurance_rub_per_year.value,
+      otherYear: m7.opex_other_rub_per_year?.value ?? 0,
+      lifeYears: m7.equipment_life_years?.value ?? null,
     },
     assumptions: assumptionsChips(),
     live: P.live,
@@ -1284,12 +1289,17 @@ function wirePassport(P) {
     P.subsidy = e.target.checked;
     renderPassportNow();
   });
+  document.getElementById('pp-ampp')?.addEventListener('change', (e) => {
+    P.ampp = e.target.checked;
+    renderPassportNow();
+  });
 }
 
 async function openPassport(subject) {
   const token = {};
   const subsidy = state.passport?.subsidy ?? false;
-  state.passport = { subject, token, subsidy, progress: { fraction: 0.03, text: 'Считаю спрос, очередь и соседей…' }, live: null, e150: null };
+  const ampp = state.passport?.ampp ?? false;
+  state.passport = { subject, token, subsidy, ampp, progress: { fraction: 0.03, text: 'Считаю спрос, очередь и соседей…' }, live: null, e150: null };
   const P = state.passport;
   document.getElementById('passport-empty').hidden = true;
   renderPassportNow();

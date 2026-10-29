@@ -36,6 +36,12 @@ export function gridClass({ Preq, dist04Meters, RqFreeKW }) {
   return 'Б';
 }
 
+// Плата за подключение класса А, ₽ без НДС: [дешёвая, дорогая, середина].
+export function classAConnRange(params) {
+  const c = params.M5_grid.c_A_conn_rub;
+  return { low: c.min, high: c.max, mid: c.value };
+}
+
 // Стоимость и срок присоединения, диапазон [дешёвая граница, дорогая граница].
 // Класс В не оценивается (возвращает null).
 export function connectionCostRange({ cls, Preq, dist04Meters, params }) {
@@ -44,12 +50,13 @@ export function connectionCostRange({ cls, Preq, dist04Meters, params }) {
 
   const useClass = cls === 'А|Б' ? 'Б' : cls; // до уточнения dist04 считаем консервативно как Б (дороже)
   if (useClass === 'А') {
-    const cLow = m5.c_A_rub_per_kW.min;
-    const cHigh = m5.c_A_rub_per_kW.max;
+    // Плата в Москве считается по длине кабеля до ТП, а не за кВт: диапазон
+    // по 4 реальным ТУ РСЗС на 150 кВт (params c_A_conn_rub).
+    const { low, high } = classAConnRange(params);
     return {
       cls,
-      costLow: cLow * Preq,
-      costHigh: cHigh * Preq,
+      costLow: low,
+      costHigh: high,
       monthsLow: m5.T_conn_months.A.min,
       monthsHigh: m5.T_conn_months.A.max,
     };

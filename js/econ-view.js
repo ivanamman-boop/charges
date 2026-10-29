@@ -3,9 +3,9 @@
 // с ручками, которые нужны сайту: компенсация МФППиП, цена электроэнергии,
 // спрос ниже или выше прогноза, граница цены подключения. Чистые функции.
 // Пороги и статусы - как в презентации (слайд 21): окупаемость за норматив
-// РСЗС 8 лет, доля такси 10% сессий.
+// РСЗС (10 лет с 29.10.2026, было 8), доля такси 10% сессий.
 import { SEGMENTS } from './demand.js';
-import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateAnchors, crf } from './economics.js';
+import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateAnchors, crf, reinvestMonths, reinvestWithin } from './economics.js';
 import { mfppipCompensation } from './grid.js';
 
 export const STATUS = {
@@ -35,15 +35,19 @@ function connFor(connRange, bound) {
 // экономика паспорта согласована со статусом зоны на карте выбранного года.
 // network - NPV для сети РСЗС: из сессий станции вычитаются перешедшие со
 // станций самой РСЗС (ownLossByCombo), новые и ушедшие от конкурентов остаются.
-export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null, launchYear = 2026, network = false }) {
+// ampp - подключение по программе АМПП: сеть строит за свой счёт, РСЗС
+// платит только станцию и установку (РСЗС 29.10); срок подключения прежний,
+// платы и компенсации МФППиП нет.
+export function siteEconomics(e, { params, subsidy = false, ampp = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null, launchYear = 2026, network = false }) {
   if (!e?.connRange) return null;
   const p = pEl === null ? params : withPel(params, pEl);
   const m7 = p.M6_M7_equipment_economics;
-  const conn = connOverride || connFor(e.connRange, connBound);
+  const conn0 = connOverride || connFor(e.connRange, connBound);
+  const conn = ampp ? { cost: 0, months: conn0.months } : conn0;
   const cfg = e.cfg;
   // МФППиП не уменьшает вложения сразу: компенсация приходит тремя
   // платежами в конце 1-го, 2-го и 3-го года (притоки денежного потока).
-  const comp = subsidy ? mfppipCompensation({ connCostRub: conn.cost, params: p }) : 0;
+  const comp = subsidy && !ampp ? mfppipCompensation({ connCostRub: conn.cost, params: p }) : 0;
   const capex = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub: conn.cost, params: p });
   const opex = opexFixYearRub({ posts: cfg.posts, CeqRub: cfg.C_eq_rub, params: p });
   const years = e.years || [2026, 2030];
@@ -55,7 +59,7 @@ export function siteEconomics(e, { params, subsidy = false, pEl = null, demandMu
   const getSessions = (year, season, dayType, segment) =>
     demandMult * interpolateAnchors(Object.fromEntries(years.map((y) => [y, e.sessionsByCombo[`${y}|${season}|${dayType}`][segment] * incr(`${y}|${season}|${dayType}`)])), year);
   // Маржа летняя во всех месяцах - как в equipment.js (зимний расход учтён в сессиях).
-  const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginPerSession({ segment: s, season: 'summer', params: p }), TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: launchYear, H: m7.H_years.value, r: m7.r_discount_rate.value });
+  const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginPerSession({ segment: s, season: 'summer', params: p }), TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: launchYear, H: m7.H_years.value, r: m7.r_discount_rate.value, reinvest: { rub: cfg.C_eq_rub, months: reinvestMonths(p, m7.H_years.value) } });
   const nInst = p.M5_grid.mfppip?.installments.value ?? 3;
   for (let k = 1; k <= nInst && comp > 0; k++) CF[12 * k - 1] += comp / nInst;
   const r = m7.r_discount_rate.value;
@@ -91,7 +95,7 @@ export function thresholdMix(params) {
 }
 
 // Пороги в зарядках в сутки для конфигурации cfg (из каталога, C_eq в млн ₽),
-// как на слайде 21: pb - простая окупаемость за норматив РСЗС N = 8 лет,
+// как на слайде 21: pb - простая окупаемость за норматив РСЗС N (10 лет),
 // npv - окупаемость с дисконтом r = 18% за те же N лет (NPV за N лет = 0,
 // через CRF). Установившийся режим: спрос держится на этом уровне все годы.
 // subsidy - компенсация МФППиП: в простой окупаемости вычитается целиком,
@@ -110,8 +114,11 @@ export function thresholds({ params, cfg, connCostRub, mix = thresholdMix(params
   const nInst = params.M5_grid.mfppip?.installments.value ?? 3;
   let pvComp = 0;
   for (let k = 1; k <= nInst; k++) pvComp += comp / nInst / Math.pow(1 + r, k);
-  const pb = ((capex - comp) / N + opex) / (365 * margin);
-  const npvS = (opex + (capex - pvComp) * crf(r, N)) / (365 * margin);
+  // замена оборудования внутри норматива (через 5 лет) - тоже вложения
+  const re = reinvestWithin(params, CeqRub, N, 0);
+  const rePv = reinvestWithin(params, CeqRub, N, r);
+  const pb = ((capex + re - comp) / N + opex) / (365 * margin);
+  const npvS = (opex + (capex + rePv - pvComp) * crf(r, N)) / (365 * margin);
   const toU = (S) => (S * tau) / (24 * full.posts);
   return { pb, npv: npvS, uPb: toU(pb), uNpv: toU(npvS), tau, margin, capex, normYears: N };
 }
@@ -173,11 +180,11 @@ function crossing(f, lo, hi) {
 
 // Устойчивость вывода (паспорт): при какой цене электроэнергии и при каком
 // отклонении спроса от прогноза NPV станции становится нулевым.
-export function robustness(e, { params, subsidy = false, launchYear = 2026 }) {
+export function robustness(e, { params, subsidy = false, ampp = false, launchYear = 2026 }) {
   const base = params.M6_M7_equipment_economics.p_el_rub_per_kWh;
-  const npvAt = (opts) => siteEconomics(e, { params, subsidy, launchYear, ...opts })?.npv ?? NaN;
+  const npvAt = (opts) => siteEconomics(e, { params, subsidy, ampp, launchYear, ...opts })?.npv ?? NaN;
   const pElZero = crossing((x) => npvAt({ pEl: x }), 0, 40);
-  const demandZero = crossing((x) => npvAt({ demandMult: x }), 0.05, 5);
+  const demandZero = crossing((x) => npvAt({ demandMult: x }), 0.05, 10);
   return {
     pElBase: base.value,
     pElRange: [base.min, base.max],
@@ -212,7 +219,10 @@ export function siteMetrics(e, year, { params, capex }) {
   const mBar = N > 0 ? marginSum / N : 0;
   const tau = N > 0 ? tauSum / N : 0;
   const F = opexFixYearRub({ posts: e.cfg.posts, CeqRub: e.cfg.C_eq_rub, params });
-  const Sstar = mBar > 0 ? (F + capex * crf(m7.r_discount_rate.value, m7.H_years.value)) / (365 * mBar) : Infinity;
+  const H = m7.H_years.value;
+  const r = m7.r_discount_rate.value;
+  const capexAll = capex + reinvestWithin(params, e.cfg.C_eq_rub, H, r);
+  const Sstar = mBar > 0 ? (F + capexAll * crf(r, H)) / (365 * mBar) : Infinity;
   return { N, mBar, tau, F, cfYear: 365 * N * mBar - F, Sstar, Ustar: (Sstar * tau) / (24 * e.cfg.posts), margin: N / Sstar };
 }
 
@@ -231,12 +241,12 @@ export const VERDICT = {
 };
 
 // При каком спросе точка окупится: множитель к прогнозу спроса, при котором
-// простая окупаемость укладывается в норматив РСЗС (8 лет). Дорогая граница
+// простая окупаемость укладывается в норматив РСЗС (10 лет). Дорогая граница
 // подключения - «окупится наверняка» при любой цене ТП внутри класса,
 // дешёвая - лучший случай. null - не окупается даже при спросе ×10.
-export function paybackDemand(e, { params, subsidy = false, launchYear = 2026, normYears = 8 }) {
+export function paybackDemand(e, { params, subsidy = false, ampp = false, launchYear = 2026, normYears = 10 }) {
   const fits = (mult, connBound) => {
-    const r = siteEconomics(e, { params, subsidy, launchYear, connBound, demandMult: mult });
+    const r = siteEconomics(e, { params, subsidy, ampp, launchYear, connBound, demandMult: mult });
     return r && r.payback !== null && r.payback <= normYears;
   };
   const solve = (connBound) => {

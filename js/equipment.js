@@ -3,7 +3,7 @@ import { SEGMENTS } from './demand.js';
 import { localEquilibrium, dailySessions } from './equilibrium.js';
 import { haversineKm } from './choice.js';
 import { freeCenterCapacityKW, gridClass, connectionCostRange, availablePowerKW, equipmentSubsidy, connectionSubsidy } from './grid.js';
-import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateAnchors, breakeven } from './economics.js';
+import { capexRub, opexFixYearRub, marginPerSession, sessionDurationHours, monthlyCashFlow, npv, paybackMonths, interpolateAnchors, breakeven, reinvestMonths, reinvestWithin } from './economics.js';
 
 // Опорные годы по умолчанию (9.3); карта зон и паспорт добавляют 2028 (years).
 const YEARS = [2026, 2030];
@@ -147,7 +147,7 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
     const buildScenario = (connCostRub, TconnMonths) => {
       const subConn = connectionSubsidy({ Pcap: cfg.P_cap_kW, posts: cfg.posts, Cconn: connCostRub, params, enabled: subsidy });
       const CAPEXrub = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub, subsidyEqRub: subEq, subsidyConnRub: subConn, params });
-      const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginBySegmentSeason(s, 'summer'), TconnMonths, OPEXfixYearRub, startYear: 2026, H, r });
+      const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginBySegmentSeason(s, 'summer'), TconnMonths, OPEXfixYearRub, startYear: 2026, H, r, reinvest: { rub: cfg.C_eq_rub, months: reinvestMonths(params, H) } });
       const NPVrub = npv(CF, CAPEXrub, r);
       const Tpb = paybackMonths(CF, CAPEXrub, false, r);
       const TpbDisc = paybackMonths(CF, CAPEXrub, true, r);
@@ -167,7 +167,9 @@ function* evaluateConfigSteps({ cfg, candidateBase, cells, params, getBaseline, 
     const marginBar = marginPerSession({ segment: 'P0', season: 'summer', params }); // упрощение: сегментный состав станции не усредняем отдельно
     const tauBar = sessionDurationHours({ segment: 'P0', station, season: 'summer', params });
     const capexMid = capexRub({ CeqRub: cfg.C_eq_rub, connCostRub: (connRange.costLow + connRange.costHigh) / 2, params });
-    breakevenInfo = breakeven({ OPEXfixYearRub, CAPEXrub: capexMid, marginBar, tauBarHours: tauBar, posts: cfg.posts, params });
+    // замена оборудования через L лет - в приведённых вложениях
+    const capexWithReinvest = capexMid + reinvestWithin(params, cfg.C_eq_rub, H, r);
+    breakevenInfo = breakeven({ OPEXfixYearRub, CAPEXrub: capexWithReinvest, marginBar, tauBarHours: tauBar, posts: cfg.posts, params });
   }
 
   return { cfg, cls, connRange, scenarios, minAcc, worstHourAcc, minAccByYear, accDayByYear, breakevenInfo, sessionsByCombo, netGainByCombo, ownLossByCombo, years };

@@ -1,5 +1,5 @@
 {
-  "source": "OpenStreetMap (Overpass API, 40 только-OSM) + Яндекс.Карты (вручную собранные ответы поиска \"Электрозаправки\" из DevTools, см. scripts/data-sources/yandex-charging-stations-compact.json: 1272 станций уточнены/добавлены Яндексом суммарно за все объезды карты, из них 192 уточнили существующие точки и 1040 добавили новых на этом прогоне). Покрытие всё ещё неполное относительно независимых оценок (~1000+ по Москве) - заменить на данные Бори/Сони с transport.mos.ru при появлении. | + реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026): тип и мощность у станций с оценкой, новые станции реестра | Обрезано по МКАД (scripts/clip-to-mkad.js, data/mkad.json): спрос - внутри МКАД; станции - внутри и в полосе 3 км за МКАДом как конкуренты (outside_mkad). | + плановые станции города (scripts/add-planned-stations.js): количество по плану «Энергии Москвы» для быстрого роста (80%), в базовом пропорционально спросу (plan_rank), места — оценка ∝ спросу, status \"planned\".",
+  "source": "OpenStreetMap (Overpass API, 40 только-OSM) + Яндекс.Карты (вручную собранные ответы поиска \"Электрозаправки\" из DevTools, см. scripts/data-sources/yandex-charging-stations-compact.json: 1272 станций уточнены/добавлены Яндексом суммарно за все объезды карты, из них 192 уточнили существующие точки и 1040 добавили новых на этом прогоне). Покрытие всё ещё неполное относительно независимых оценок (~1000+ по Москве) - заменить на данные Бори/Сони с transport.mos.ru при появлении. | + реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026): тип и мощность у станций с оценкой, новые станции реестра | Обрезано по МКАД (scripts/clip-to-mkad.js, data/mkad.json): спрос - внутри МКАД; станции - внутри и в полосе 3 км за МКАДом как конкуренты (outside_mkad). | + плановые станции города (scripts/add-planned-stations.js): количество по плану «Энергии Москвы» для быстрого роста (80%), в базовом пропорционально спросу (plan_rank), места — оценка ∝ спросу, status \"planned\". | + реестр РСЗС (atomen.ru/map, 29.10.2026): оператор РСЗС, мощность у станций с оценкой, недостающие площадки",
   "date": "2026-10-25",
   "stations": [
     {
@@ -390,8 +390,8 @@
     },
     {
       "id": "S-0056",
-      "lat": 55.837783,
-      "lon": 37.655742,
+      "lat": 55.837373,
+      "lon": 37.6556,
       "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
@@ -403,7 +403,11 @@
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
       "address": "ул. Докукина, 4",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "457"
+      ]
     },
     {
       "id": "S-0057",
@@ -714,7 +718,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Короленко",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "436"
+      ]
     },
     {
       "id": "S-0116",
@@ -737,7 +745,7 @@
       "id": "S-0119",
       "lat": 55.87673,
       "lon": 37.537885,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -749,7 +757,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица 800-летия Москвы",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "452"
+      ]
     },
     {
       "id": "S-0120",
@@ -854,13 +867,17 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Волоколамское шоссе (дублёр)",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "441"
+      ]
     },
     {
       "id": "S-0126",
       "lat": 55.878442,
       "lon": 37.557747,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -872,7 +889,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Дубнинская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "476"
+      ]
     },
     {
       "id": "S-0128",
@@ -889,7 +911,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Часовая улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "439"
+      ]
     },
     {
       "id": "S-0133",
@@ -923,7 +949,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Петровско-Разумовская аллея",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "983",
+        "982"
+      ]
     },
     {
       "id": "S-0136",
@@ -1078,7 +1109,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Симоновский Вал, 2",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "998"
+      ]
     },
     {
       "id": "S-0153",
@@ -1119,24 +1154,30 @@
       "lat": 55.784774,
       "lon": 37.622822,
       "operator": "РСЗС",
-      "P_kW": 120,
-      "posts": 2,
+      "P_kW": 180,
+      "posts": 3,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
-      "P_source": "оценка: медиана быстрых у оператора",
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
       "address": "Олимпийский проспект",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "960",
+        "959",
+        "958"
+      ]
     },
     {
       "id": "S-0163",
       "lat": 55.7952966,
       "lon": 37.5810783,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -1148,7 +1189,12 @@
       "osm_id": 11984722719,
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "2-я Квесисская улица",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "479"
+      ]
     },
     {
       "id": "S-0164",
@@ -1182,7 +1228,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Академика Скрябина",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "987"
+      ]
     },
     {
       "id": "S-0166",
@@ -1199,7 +1249,11 @@
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
       "address": "Снежная улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "468"
+      ]
     },
     {
       "id": "S-0167",
@@ -1216,7 +1270,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Зеленодольская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "991",
+        "990"
+      ]
     },
     {
       "id": "S-0169",
@@ -1328,7 +1387,7 @@
       "id": "S-0190",
       "lat": 55.878164999999996,
       "lon": 37.482327,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -1340,7 +1399,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Дыбенко",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "483"
+      ]
     },
     {
       "id": "S-0194",
@@ -1429,7 +1493,12 @@
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
       "address": "Краснопролетарская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "981",
+        "980"
+      ]
     },
     {
       "id": "S-0207",
@@ -1446,7 +1515,11 @@
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
       "address": "Локомотивный проезд",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "481"
+      ]
     },
     {
       "id": "S-0208",
@@ -1480,7 +1553,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Шаболовка",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1639",
+        "1638"
+      ]
     },
     {
       "id": "S-0213",
@@ -1520,7 +1598,7 @@
       "id": "S-0217",
       "lat": 55.862284,
       "lon": 37.674481,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -1531,13 +1609,18 @@
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
       "address": "улица Лётчика Бабушкина, 10/1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "456"
+      ]
     },
     {
       "id": "S-0219",
       "lat": 55.85942,
       "lon": 37.6579,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -1548,7 +1631,12 @@
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
       "address": "Радужная улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "446"
+      ]
     },
     {
       "id": "S-0222",
@@ -1676,9 +1764,9 @@
     },
     {
       "id": "S-0231",
-      "lat": 55.8814183,
-      "lon": 37.7169743,
-      "operator": "Энергия Москвы",
+      "lat": 55.881867,
+      "lon": 37.715994,
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -1689,7 +1777,12 @@
       "year_open": 2024,
       "osm_id": 13298514026,
       "address": "Холмогорская улица",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "478"
+      ]
     },
     {
       "id": "S-0232",
@@ -1706,7 +1799,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Егора Абакумова",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "460"
+      ]
     },
     {
       "id": "S-0233",
@@ -1723,7 +1820,8 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Широкая улица, 5, корп. 2",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0235",
@@ -1741,7 +1839,12 @@
       "kind_source": "мощность",
       "outside_mkad": true,
       "address": "улица Татьяны Макаровой",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "303",
+        "999"
+      ]
     },
     {
       "id": "S-0237",
@@ -1881,7 +1984,8 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Большая Марьинская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0250",
@@ -1917,7 +2021,14 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "просп. Мира, 95",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "967",
+        "966",
+        "965",
+        "964"
+      ]
     },
     {
       "id": "S-0252",
@@ -1970,7 +2081,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Милютинский пер., 5",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "992",
+        "975"
+      ]
     },
     {
       "id": "S-0257",
@@ -1992,8 +2108,8 @@
     },
     {
       "id": "S-0260",
-      "lat": 55.708397,
-      "lon": 37.655662,
+      "lat": 55.70669,
+      "lon": 37.654987,
       "operator": "РСЗС",
       "P_kW": 150,
       "posts": 2,
@@ -2005,7 +2121,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "3-й Автозаводский проезд",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1693",
+        "1692"
+      ]
     },
     {
       "id": "S-0261",
@@ -2040,7 +2161,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Ельнинская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1679",
+        "1678"
+      ]
     },
     {
       "id": "S-0266",
@@ -2061,21 +2187,26 @@
     },
     {
       "id": "S-0270",
-      "lat": 55.7857185,
-      "lon": 37.480264500000004,
+      "lat": 55.78646,
+      "lon": 37.480409,
       "operator": "РСЗС",
-      "P_kW": 120,
-      "posts": 3,
-      "P_post_kW": 60,
+      "P_kW": 300,
+      "posts": 2,
+      "P_post_kW": 150,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "fast",
       "kind_source": "оценка: 99% быстрых у оператора",
-      "P_source": "оценка: медиана быстрых у оператора",
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
       "address": "улица Народного Ополчения",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1633",
+        "1632"
+      ]
     },
     {
       "id": "S-0271",
@@ -2093,7 +2224,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Солнечногорская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "472"
+      ]
     },
     {
       "id": "S-0272",
@@ -2116,7 +2251,7 @@
       "id": "S-0273",
       "lat": 55.783308,
       "lon": 37.676109,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -2128,7 +2263,13 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Леснорядский переулок",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "997",
+        "996"
+      ]
     },
     {
       "id": "S-0274",
@@ -2146,7 +2287,8 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Леснорядский переулок",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0276",
@@ -2562,7 +2704,8 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Краснопролетарская улица, 37",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0329",
@@ -2613,7 +2756,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "2-й Щемиловский переулок, 8-10кБ",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "985",
+        "984"
+      ]
     },
     {
       "id": "S-0335",
@@ -2630,7 +2778,8 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Орловский переулок",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0336",
@@ -2648,7 +2797,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Орловский переулок",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "962",
+        "961"
+      ]
     },
     {
       "id": "S-0337",
@@ -2665,7 +2819,8 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Орловский переулок",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0341",
@@ -2682,7 +2837,8 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Олимпийский проспект",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0342",
@@ -3191,7 +3347,8 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Большая Екатерининская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0407",
@@ -3297,7 +3454,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "проезд Завода Серп и Молот, 4",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "994"
+      ]
     },
     {
       "id": "S-0418",
@@ -3320,7 +3481,7 @@
       "id": "S-0421",
       "lat": 55.720001,
       "lon": 37.697015,
-      "operator": "Энергия Москвы, станция зарядки электромобилей",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -3332,7 +3493,13 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "2-я улица Машиностроения",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы, станция зарядки электромобилей",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "338",
+        "337"
+      ]
     },
     {
       "id": "S-0422",
@@ -3350,7 +3517,8 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "2-я улица Машиностроения",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0423",
@@ -3541,7 +3709,8 @@
       "kind_source": "скорость (Яндекс)",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Большая Тульская улица, 13",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0441",
@@ -3837,13 +4006,14 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Башиловская улица, 2с3",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0474",
       "lat": 55.793689,
       "lon": 37.577836,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 150,
       "posts": 2,
       "P_post_kW": 150,
@@ -3855,7 +4025,13 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Башиловская улица, 2с3",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1616",
+        "1615"
+      ]
     },
     {
       "id": "S-0477",
@@ -3873,7 +4049,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Большая Новодмитровская ул., 36, стр. 11",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "989",
+        "988"
+      ]
     },
     {
       "id": "S-0480",
@@ -3909,7 +4090,8 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "2-я улица Марьиной Рощи",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0487",
@@ -3978,7 +4160,8 @@
       "kind_source": "скорость (Яндекс)",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "3-й Нижнелихоборский проезд, 5, стр. 8",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0503",
@@ -3996,7 +4179,8 @@
       "kind_source": "скорость (Яндекс)",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Красностуденческий проезд, 21",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0505",
@@ -4014,13 +4198,17 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Красностуденческий проезд",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "450"
+      ]
     },
     {
       "id": "S-0506",
       "lat": 55.842043,
       "lon": 37.547928,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -4032,13 +4220,18 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Лихоборские Бугры",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "470"
+      ]
     },
     {
       "id": "S-0507",
       "lat": 55.832579,
       "lon": 37.592997,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -4050,7 +4243,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Малая Ботаническая улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "469"
+      ]
     },
     {
       "id": "S-0510",
@@ -4084,7 +4282,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Академика Ильюшина, 12",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "432"
+      ]
     },
     {
       "id": "S-0515",
@@ -4102,7 +4304,8 @@
       "kind_source": "скорость (Яндекс)",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "1-я Аэропортовская улица, 6",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0519",
@@ -4416,7 +4619,13 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Столетова",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "974",
+        "973",
+        "968"
+      ]
     },
     {
       "id": "S-0562",
@@ -4433,7 +4642,8 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Столетова",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0564",
@@ -4553,7 +4763,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "улица Красных Зорь",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "305",
+        "304"
+      ]
     },
     {
       "id": "S-0582",
@@ -4571,7 +4786,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Кутузовский проспект, 88",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "977",
+        "976"
+      ]
     },
     {
       "id": "S-0586",
@@ -4658,7 +4878,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "наб. Новикова-Прибоя, 6, корп. 2, стр. 2",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1624",
+        "1623"
+      ]
     },
     {
       "id": "S-0594",
@@ -4869,7 +5094,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Походный проезд, 4к1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1675",
+        "1674"
+      ]
     },
     {
       "id": "S-0611",
@@ -4929,7 +5159,7 @@
       "id": "S-0616",
       "lat": 55.861133,
       "lon": 37.398085,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 150,
       "posts": 3,
       "P_post_kW": 150,
@@ -4941,7 +5171,9 @@
       "kind_source": "мощность",
       "outside_mkad": true,
       "address": "Московская область, городской округ Красногорск, посёлок городского типа Путилково",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0617",
@@ -5053,8 +5285,8 @@
     },
     {
       "id": "S-0631",
-      "lat": 55.85822,
-      "lon": 37.483463,
+      "lat": 55.857911,
+      "lon": 37.483997,
       "operator": "РСЗС",
       "P_kW": 300,
       "posts": 1,
@@ -5067,13 +5299,17 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Фестивальная улица, 41, корп. 1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1670"
+      ]
     },
     {
       "id": "S-0632",
       "lat": 55.866782,
       "lon": 37.481115,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -5084,7 +5320,9 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Беломорская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0634",
@@ -5156,7 +5394,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Петрозаводская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "455"
+      ]
     },
     {
       "id": "S-0641",
@@ -5210,7 +5452,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Яхромская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "458"
+      ]
     },
     {
       "id": "S-0647",
@@ -5228,7 +5474,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Карельский бульвар, 5",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "473"
+      ]
     },
     {
       "id": "S-0648",
@@ -5268,21 +5518,26 @@
     },
     {
       "id": "S-0651",
-      "lat": 55.904263,
-      "lon": 37.5404215,
+      "lat": 55.904841,
+      "lon": 37.541422,
       "operator": "РСЗС",
       "P_kW": 120,
-      "posts": 4,
+      "posts": 2,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "fast",
       "kind_source": "скорость (Яндекс)",
-      "P_source": "оценка: медиана быстрых у оператора",
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
       "address": "Новодачное шоссе",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1742",
+        "1741"
+      ]
     },
     {
       "id": "S-0652",
@@ -5300,7 +5555,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Псковская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "454"
+      ]
     },
     {
       "id": "S-0653",
@@ -5355,7 +5614,8 @@
       "kind_source": "скорость (Яндекс)",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Алтуфьевское шоссе, 64",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0658",
@@ -5373,7 +5633,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Пришвина",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "466"
+      ]
     },
     {
       "id": "S-0659",
@@ -5427,7 +5691,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Бибиревская улица, 11",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "467"
+      ]
     },
     {
       "id": "S-0664",
@@ -5444,7 +5712,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Полярная улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "464"
+      ]
     },
     {
       "id": "S-0670",
@@ -5462,7 +5734,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Римского-Корсакова",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "463"
+      ]
     },
     {
       "id": "S-0671",
@@ -5480,7 +5756,8 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Полярная улица, 4, корп. 1, стр. 1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0675",
@@ -5503,7 +5780,7 @@
       "id": "S-0676",
       "lat": 55.887894,
       "lon": 37.656533,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -5514,7 +5791,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Широкая улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "465"
+      ]
     },
     {
       "id": "S-0690",
@@ -6192,7 +6474,7 @@
       "id": "S-0792",
       "lat": 55.643612,
       "lon": 37.827527,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 120,
       "posts": 1,
       "P_post_kW": 60,
@@ -6205,7 +6487,9 @@
       "P_source": "оценка: медиана быстрых у оператора",
       "outside_mkad": true,
       "address": "ул. Энергетиков, 24, Дзержинский",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0793",
@@ -6229,7 +6513,7 @@
       "id": "S-0794",
       "lat": 55.64444,
       "lon": 37.828932,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 150,
       "posts": 3,
       "P_post_kW": 150,
@@ -6241,7 +6525,9 @@
       "kind_source": "мощность",
       "outside_mkad": true,
       "address": "Московская область, городской округ Люберцы, Дзержинский, Северная производственно-складская зона",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0795",
@@ -6577,7 +6863,8 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "ул. Лётчика Бабушкина, 10/1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0846",
@@ -6630,7 +6917,8 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Кольская ул., 2, корп. 5, стр. 1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0850",
@@ -6684,7 +6972,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Мусоргского",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "445"
+      ]
     },
     {
       "id": "S-0854",
@@ -6737,7 +7029,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Санникова",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "437"
+      ]
     },
     {
       "id": "S-0868",
@@ -6755,13 +7051,14 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "ул. 800-летия Москвы, 6",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0870",
-      "lat": 55.844758,
-      "lon": 37.500926,
-      "operator": "Энергия Москвы",
+      "lat": 55.844507,
+      "lon": 37.500706,
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -6773,13 +7070,18 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Смольная ул., 2",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "449"
+      ]
     },
     {
       "id": "S-0871",
       "lat": 55.838567,
       "lon": 37.497152,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -6791,7 +7093,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Головинское шоссе",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "448"
+      ]
     },
     {
       "id": "S-0873",
@@ -6809,13 +7116,14 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Головинское ш., 10Г",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0876",
       "lat": 55.844923,
       "lon": 37.455224,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -6827,7 +7135,9 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "улица Свободы",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-0880",
@@ -7534,7 +7844,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Проектируемый проезд № 6503",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "485"
+      ]
     },
     {
       "id": "S-0984",
@@ -7586,7 +7900,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Юго-Восточная хорда",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "77-022"
+      ]
     },
     {
       "id": "S-0990",
@@ -7638,7 +7956,11 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Юго-Восточная хорда",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "77-023"
+      ]
     },
     {
       "id": "S-0996",
@@ -7708,7 +8030,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Электролитный проезд",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1641"
+      ]
     },
     {
       "id": "S-1005",
@@ -8108,7 +8434,7 @@
       "id": "S-1070",
       "lat": 55.58036,
       "lon": 37.703514,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 120,
       "posts": 1,
       "P_post_kW": 60,
@@ -8121,7 +8447,9 @@
       "P_source": "оценка: медиана быстрых у оператора",
       "outside_mkad": true,
       "address": "МКАД, 27-й километр, вл9, Москва",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-1072",
@@ -8238,7 +8566,7 @@
       "id": "S-1085",
       "lat": 55.581207,
       "lon": 37.703227,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 150,
       "posts": 3,
       "P_post_kW": 150,
@@ -8250,7 +8578,9 @@
       "kind_source": "мощность",
       "outside_mkad": true,
       "address": "МКАД, 26-й километр, внешняя сторона",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-1086",
@@ -8292,7 +8622,7 @@
       "id": "S-1090",
       "lat": 55.550641,
       "lon": 37.695382,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 120,
       "posts": 3,
       "P_post_kW": 60,
@@ -8305,25 +8635,34 @@
       "P_source": "оценка: медиана быстрых у оператора",
       "outside_mkad": true,
       "address": "Московская область, Ленинский городской округ, Видное, 1-й микрорайон",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-1093",
-      "lat": 55.580968000000006,
-      "lon": 37.64170333333333,
+      "lat": 55.582979,
+      "lon": 37.641021,
       "operator": "РСЗС",
-      "P_kW": 120,
-      "posts": 3,
-      "P_post_kW": 60,
+      "P_kW": 600,
+      "posts": 4,
+      "P_post_kW": 150,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "fast",
       "kind_source": "оценка: 99% быстрых у оператора",
-      "P_source": "оценка: медиана быстрых у оператора",
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
       "address": "Востряковский проезд",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1140",
+        "1139",
+        "1138",
+        "1137"
+      ]
     },
     {
       "id": "S-1095",
@@ -8417,21 +8756,29 @@
     },
     {
       "id": "S-1120",
-      "lat": 55.645435,
-      "lon": 37.608512,
-      "operator": "Станция зарядки электромобилей",
-      "P_kW": 120,
-      "posts": 1,
-      "P_post_kW": 60,
+      "lat": 55.645735,
+      "lon": 37.60832,
+      "operator": "РСЗС",
+      "P_kW": 600,
+      "posts": 4,
+      "P_post_kW": 150,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "fast",
       "kind_source": "оценка: 55% быстрых у оператора",
-      "P_source": "оценка: медиана быстрых по всем",
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
       "address": "Черноморский бульвар",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Станция зарядки электромобилей",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1158",
+        "1157",
+        "1156",
+        "1155"
+      ]
     },
     {
       "id": "S-1123",
@@ -9026,7 +9373,12 @@
       "kind": "fast",
       "kind_source": "мощность",
       "address": "Проектируемый пр. № 4062, 6, стр. 25",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "77-002",
+        "77-001"
+      ]
     },
     {
       "id": "S-1216",
@@ -9193,7 +9545,7 @@
       "id": "S-1239",
       "lat": 55.854618,
       "lon": 37.617814,
-      "operator": "Станция зарядки электромобилей",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -9205,7 +9557,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Отрадная улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Станция зарядки электромобилей",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "447"
+      ]
     },
     {
       "id": "S-1241",
@@ -9312,7 +9669,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "ул. Добролюбова, 20",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "434"
+      ]
     },
     {
       "id": "S-1263",
@@ -9333,8 +9694,8 @@
     },
     {
       "id": "S-1266",
-      "lat": 55.821153,
-      "lon": 37.585898,
+      "lat": 55.820638,
+      "lon": 37.585877,
       "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
@@ -9347,13 +9708,17 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "ул. Фонвизина, 13",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "443"
+      ]
     },
     {
       "id": "S-1267",
       "lat": 55.82361266666667,
       "lon": 37.603507,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 3,
       "P_post_kW": 60,
@@ -9365,7 +9730,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "1-я Останкинская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "459"
+      ]
     },
     {
       "id": "S-1269",
@@ -9456,7 +9826,8 @@
       "kind_source": "скорость (Яндекс)",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Отрадная ул., 18",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-1277",
@@ -9626,7 +9997,7 @@
       "id": "S-1299",
       "lat": 55.700432,
       "lon": 37.886407,
-      "operator": "РСЗС",
+      "operator": "независимый",
       "P_kW": 120,
       "posts": 1,
       "P_post_kW": 60,
@@ -9639,7 +10010,9 @@
       "P_source": "оценка: медиана быстрых у оператора",
       "outside_mkad": true,
       "address": "ул. Шевлякова, 8, Люберцы",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "РСЗС",
+      "operator_source": "нет в реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-1308",
@@ -9832,26 +10205,34 @@
       "kind_source": "мощность",
       "outside_mkad": true,
       "address": "улица Петра Непорожнего, 7с1",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "77-006"
+      ]
     },
     {
       "id": "S-1324",
       "lat": 55.634413,
       "lon": 37.412506,
       "operator": "РСЗС",
-      "P_kW": 120,
+      "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
       "status": "active",
       "year_open": 2024,
       "source_detail": "yandex",
-      "P_known": false,
+      "P_known": true,
       "kind": "fast",
       "kind_source": "оценка: 99% быстрых у оператора",
-      "P_source": "оценка: медиана быстрых у оператора",
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
       "outside_mkad": true,
       "address": "Родниковая улица",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "77-005"
+      ]
     },
     {
       "id": "S-1325",
@@ -9869,12 +10250,13 @@
       "kind_source": "оценка: 99% быстрых у оператора",
       "P_source": "оценка: медиана быстрых у оператора",
       "address": "Большая Марьинская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)"
     },
     {
       "id": "S-1326",
-      "lat": 55.76208,
-      "lon": 37.632645,
+      "lat": 55.761925,
+      "lon": 37.633549,
       "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
@@ -9887,7 +10269,11 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Мясницкая ул., 13, стр. 1",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "963"
+      ]
     },
     {
       "id": "S-0092",
@@ -9947,7 +10333,7 @@
       "id": "S-0127",
       "lat": 55.8614703,
       "lon": 37.5678214,
-      "operator": "независимый",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -9959,13 +10345,18 @@
       "osm_id": 11638562132,
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Дубнинская улица",
-      "address_source": "nominatim"
+      "address_source": "nominatim",
+      "operator_before": "независимый",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "471"
+      ]
     },
     {
       "id": "S-0158",
       "lat": 55.7947635,
       "lon": 37.61908,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -9977,7 +10368,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "2-я улица Марьиной Рощи",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "482"
+      ]
     },
     {
       "id": "S-0183",
@@ -10073,7 +10469,7 @@
       "id": "S-0502",
       "lat": 55.845672,
       "lon": 37.580018,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 2,
       "P_post_kW": 60,
@@ -10085,13 +10481,18 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Гостиничная улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "461"
+      ]
     },
     {
       "id": "S-0504",
       "lat": 55.846504,
       "lon": 37.565432,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -10103,13 +10504,18 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "1-й Нижнелихоборский проезд",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "451"
+      ]
     },
     {
       "id": "S-0509",
       "lat": 55.82728433333333,
       "lon": 37.522032333333335,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 3,
       "P_post_kW": 60,
@@ -10121,13 +10527,18 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Новопетровская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "462"
+      ]
     },
     {
       "id": "S-0516",
       "lat": 55.800935,
       "lon": 37.536191,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 120,
       "posts": 1,
       "P_post_kW": 60,
@@ -10139,13 +10550,18 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "1-я Аэропортовская улица",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "433"
+      ]
     },
     {
       "id": "S-0657",
       "lat": 55.884704,
       "lon": 37.587456,
-      "operator": "Энергия Москвы",
+      "operator": "РСЗС",
       "P_kW": 60,
       "posts": 1,
       "P_post_kW": 60,
@@ -10157,7 +10573,12 @@
       "kind_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "P_source": "реестр Дептранса (data.mos.ru, набор 2985, 14.07.2026)",
       "address": "Алтуфьевское шоссе, 64",
-      "address_source": "yandex"
+      "address_source": "yandex",
+      "operator_before": "Энергия Москвы",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "480"
+      ]
     },
     {
       "id": "M-2566178213",
@@ -11661,18 +12082,6 @@
       "plan_rank": 117
     },
     {
-      "id": "P-2027-119",
-      "lat": 55.774704,
-      "lon": 37.845839,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2027,
-      "plan_rank": 118
-    },
-    {
       "id": "P-2027-120",
       "lat": 55.795042,
       "lon": 37.699375,
@@ -12957,18 +13366,6 @@
       "plan_rank": 25
     },
     {
-      "id": "P-2028-027",
-      "lat": 55.716588,
-      "lon": 37.849201,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2028,
-      "plan_rank": 26
-    },
-    {
       "id": "P-2028-028",
       "lat": 55.811794,
       "lon": 37.737129,
@@ -13605,18 +14002,6 @@
       "plan_rank": 79
     },
     {
-      "id": "P-2028-081",
-      "lat": 55.768428,
-      "lon": 37.846295,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2028,
-      "plan_rank": 80
-    },
-    {
       "id": "P-2028-082",
       "lat": 55.815285,
       "lon": 37.687385,
@@ -14107,18 +14492,6 @@
       "status": "planned",
       "year_open": 2028,
       "plan_rank": 121
-    },
-    {
-      "id": "P-2028-123",
-      "lat": 55.718692,
-      "lon": 37.843857,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2028,
-      "plan_rank": 122
     },
     {
       "id": "P-2028-124",
@@ -16245,18 +16618,6 @@
       "plan_rank": 99
     },
     {
-      "id": "P-2029-101",
-      "lat": 55.734254,
-      "lon": 37.373792,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2029,
-      "plan_rank": 100
-    },
-    {
       "id": "P-2029-102",
       "lat": 55.759359,
       "lon": 37.566893,
@@ -16807,18 +17168,6 @@
       "status": "planned",
       "year_open": 2029,
       "plan_rank": 146
-    },
-    {
-      "id": "P-2029-148",
-      "lat": 55.68982,
-      "lon": 37.404236,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2029,
-      "plan_rank": 147
     },
     {
       "id": "P-2029-149",
@@ -18705,18 +19054,6 @@
       "plan_rank": 104
     },
     {
-      "id": "P-2030-106",
-      "lat": 55.579407,
-      "lon": 37.698265,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2030,
-      "plan_rank": 105
-    },
-    {
       "id": "P-2030-107",
       "lat": 55.649219,
       "lon": 37.604145,
@@ -19461,18 +19798,6 @@
       "plan_rank": 167
     },
     {
-      "id": "P-2030-169",
-      "lat": 55.742657,
-      "lon": 37.849345,
-      "operator": "Энергия Москвы (план, место — оценка)",
-      "P_kW": 150,
-      "posts": 2,
-      "P_post_kW": 150,
-      "status": "planned",
-      "year_open": 2030,
-      "plan_rank": 168
-    },
-    {
       "id": "P-2030-170",
       "lat": 55.873966,
       "lon": 37.628861,
@@ -19843,6 +20168,73 @@
       "status": "planned",
       "year_open": 2030,
       "plan_rank": 199
+    },
+    {
+      "id": "R-1146",
+      "lat": 55.610926,
+      "lon": 37.730841,
+      "operator": "РСЗС",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "P_kW": 600,
+      "posts": 4,
+      "P_post_kW": 150,
+      "P_known": true,
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "kind": "fast",
+      "kind_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "status": "active",
+      "year_open": 2025,
+      "address": "ул. Елецкая, д. 4, корп. 11",
+      "address_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1146",
+        "1145",
+        "1144",
+        "1143"
+      ]
+    },
+    {
+      "id": "R-1142",
+      "lat": 55.60968,
+      "lon": 37.725164,
+      "operator": "РСЗС",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "P_kW": 300,
+      "posts": 2,
+      "P_post_kW": 150,
+      "P_known": true,
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "kind": "fast",
+      "kind_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "status": "active",
+      "year_open": 2025,
+      "address": "ул. Воронежская, д. 3",
+      "address_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "1142",
+        "1141"
+      ]
+    },
+    {
+      "id": "R-484",
+      "lat": 55.850795,
+      "lon": 37.597189,
+      "operator": "РСЗС",
+      "operator_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "P_kW": 60,
+      "posts": 1,
+      "P_post_kW": 60,
+      "P_known": true,
+      "P_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "kind": "fast",
+      "kind_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "status": "active",
+      "year_open": 2025,
+      "address": "Сигнальный пр-д, д. 17",
+      "address_source": "реестр РСЗС (atomen.ru/map, 29.10.2026)",
+      "rszs_units": [
+        "484"
+      ]
     }
   ]
 }

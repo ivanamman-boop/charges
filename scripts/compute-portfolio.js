@@ -218,7 +218,7 @@ function modelStrategy(onStep) {
       .map((l) => {
         const cand = { ...asStation(l, 'CAND'), id: 'CAND' };
         const local = localEquilibrium({ cells, stations, candidate: cand, params, year: 2026, scenario: 'base', dayType: 'weekday', season: 'summer', fullContext: context, fullResult: result });
-        const connRub = (l.dist04_m !== null ? g.c_A_rub_per_kW.max : g.c_B_rub_per_kW.max) * CFG.P_cap_kW;
+        const connRub = l.dist04_m !== null ? g.c_A_conn_rub.max : g.c_B_rub_per_kW.max * CFG.P_cap_kW;
         return { l, screen: -(local.deltaLambdaOut + local.deltaLambdaLost) / (CFG.C_eq_mln_rub * 1e6 + connRub) };
       })
       .sort((a, b) => b.screen - a.screen);

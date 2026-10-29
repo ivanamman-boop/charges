@@ -49,7 +49,25 @@ export function opexFixYearRub({ posts, CeqRub, params }) {
   const m7 = params.M6_M7_equipment_economics;
   const rent = m7.rent_rub_per_place_month.value * 12 * posts;
   const maintenance = m7.maintenance_share_Ceq_per_year.value * CeqRub;
-  return rent + maintenance + m7.connectivity_insurance_rub_per_year.value;
+  // контакт-центр, сервис, ПО: РСЗС 29.10 - постоянные расходы «кратно больше»
+  const other = m7.opex_other_rub_per_year?.value ?? 0;
+  return rent + maintenance + m7.connectivity_insurance_rub_per_year.value + other;
+}
+
+// Замена оборудования: каждые L лет (РСЗС 29.10: через 5 лет ЭЗС устаревает)
+// оборудование покупается заново. Месяцы покупки внутри горизонта H лет
+// (покупка в самом конце горизонта не нужна).
+export function reinvestMonths(params, H) {
+  const L = params.M6_M7_equipment_economics.equipment_life_years?.value;
+  if (!L) return [];
+  const out = [];
+  for (let k = 1; 12 * L * k < 12 * H; k++) out.push(12 * L * k);
+  return out;
+}
+
+// Сумма замен оборудования за первые N лет: простая (pv=false) или приведённая.
+export function reinvestWithin(params, CeqRub, N, r = 0) {
+  return reinvestMonths(params, N).reduce((a, m) => a + CeqRub / Math.pow(1 + r, m / 12), 0);
 }
 
 const WINTER_MONTHS = new Set([11, 12, 1, 2, 3]); // 3.4: зима считается 5 месяцев, ноябрь-март
@@ -91,7 +109,7 @@ export function interpolateAnchors(byYear, year) {
 
 // 9.3-9.4. Помесячный денежный поток и производные показатели.
 // getSessions(year, season, dayType, segment) -> сессий/сутки для этого сегмента.
-export function monthlyCashFlow({ getSessions, marginBySegmentSeason, TconnMonths, OPEXfixYearRub, startYear = 2026, H, r }) {
+export function monthlyCashFlow({ getSessions, marginBySegmentSeason, TconnMonths, OPEXfixYearRub, startYear = 2026, H, r, reinvest = null }) {
   const CF = new Array(12 * H).fill(0);
   for (let t = 1; t <= 12 * H; t++) {
     if (t <= TconnMonths) continue; // 1[t > Tconn]
@@ -110,6 +128,8 @@ export function monthlyCashFlow({ getSessions, marginBySegmentSeason, TconnMonth
     }
     CF[t - 1] = revenue - OPEXfixYearRub / 12;
   }
+  // reinvest = {rub, months}: покупка оборудования заново (замена через L лет)
+  if (reinvest) for (const m of reinvest.months) if (m >= 1 && m <= CF.length) CF[m - 1] -= reinvest.rub;
   return CF;
 }
 
@@ -118,14 +138,19 @@ export function npv(CF, capex, r) {
   return -capex + CF.reduce((acc, cf, i) => acc + cf / Math.pow(1 + r, (i + 1) / 12), 0);
 }
 
+// Окупаемость: месяц, с которого накопленный поток покрывает вложения и
+// больше не проваливается ниже (замена оборудования через L лет может снова
+// увести станцию в минус - тогда окупаемость считается после неё).
 export function paybackMonths(CF, capex, discounted, r) {
   let cum = 0;
+  let lastBelow = 0;
   for (let t = 1; t <= CF.length; t++) {
     const cf = discounted ? CF[t - 1] / Math.pow(1 + r, t / 12) : CF[t - 1];
     cum += cf;
-    if (cum >= capex) return t / 12;
+    if (cum < capex) lastBelow = t;
   }
-  return null; // не окупилось за горизонт H
+  if (cum < capex) return null; // не окупилось за горизонт H
+  return (lastBelow + 1) / 12;
 }
 
 // 9.5. Загрузка безубыточности (закрытая формула).
