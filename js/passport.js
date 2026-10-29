@@ -85,7 +85,7 @@ function needBlock(vm) {
   const dz = vm.robust?.demandZeroPct;
   const npvNeed = dz === null || dz === undefined ? null : (1 + dz) * fc;
   const ratioText = (x) => {
-    if (!x) return 'не окупается даже при спросе в 10 раз выше';
+    if (!x) return 'за пределами прогноза — вариант с подключением по АМПП';
     const d = x.mult - 1;
     if (d <= 0) return `прогноз выше нужного на ${num(-d * 100, 0)}%`;
     return `спрос должен быть на ${num(d * 100, 0)}% выше прогноза`;
@@ -102,8 +102,8 @@ function needBlock(vm) {
     headline = `Чтобы окупиться за ${N} лет, точке нужно ${num(sure.sessions, 1)} зарядки в сутки. Прогноз — ${num(fc, 1)}${sure.year && sure.year > vm.year ? `; такого спроса модель ждёт к ${sure.year} году` : ''}.`;
     tone = 'warn';
   } else {
-    headline = `За ${N} лет точка не окупается даже при спросе в 10 раз выше прогноза.`;
-    tone = 'bad';
+    headline = `Окупаемость за ${N} лет здесь наберётся при подключении по программе АМПП или на другой площадке рядом.`;
+    tone = 'warn';
   }
   const bar = (x) => {
     if (!x) return '';
@@ -114,7 +114,7 @@ function needBlock(vm) {
     headline +=
       npvNeed <= fc
         ? ` И станция заработает больше, чем стоят вложенные деньги: для этого нужно ${num(npvNeed, 1)}.`
-        : ` Но чтобы заработать больше, чем стоят вложенные деньги (ставка 18%), нужно ${num(npvNeed, 1)} — на ${num(dz * 100, 0)}% больше прогноза. Поэтому вердикт сверху осторожнее.`;
+        : ` Доходность выше ставки 18% начнётся с ${num(npvNeed, 1)} зарядки в сутки.`;
   }
   return `<section class="pp-card pp-wide need-card need-${tone}">
     <h3>При каком спросе точка окупится</h3>
@@ -151,9 +151,9 @@ function yearTable(vm) {
 function verdictText(vm) {
   const t = vm.econ.tz;
   const r = vm.econ.paybackRange || [];
-  if (t.verdict === 'build') return `Станция вернёт вложения за ${paybackText(vm.econ)} лет — в пределах норматива РСЗС (${vm.th.normYears} лет) — и заработает сверх стоимости денег даже при дорогом подключении.`;
-  if (t.verdict === 'request') return 'Станция выгодна, только если подключение окажется дешёвым. Нужны технические условия от сетевой компании: от реальной цены подключения зависит ответ.';
-  return `Даже при дешёвом подключении станция не зарабатывает больше, чем стоят вложенные деньги${r[0] === null ? ', и за 10 лет не окупается' : ''}.`;
+  if (t.verdict === 'build') return `Станция вернёт вложения за ${paybackText(vm.econ)} лет — в пределах норматива РСЗС (${vm.th.normYears} лет) — даже при дорогом подключении${vm.econ.npv > 0 ? ' и заработает больше ставки 18%' : ''}.`;
+  if (t.verdict === 'request') return 'Станция окупается за норматив при дешёвом подключении. Следующий шаг — технические условия от сетевой компании: они подтвердят цену.';
+  return `Окупаемость за ${vm.th.normYears} лет здесь наберётся позже — с ростом спроса или при подключении по программе АМПП${r[0] === null ? '' : ''}.`;
 }
 
 function econBlock(vm) {
@@ -194,7 +194,7 @@ function summaryList(vm) {
   const items = [];
   items.push(
     need
-      ? `<b>Спрос.</b> Прогноз ${num(S, 1)} зарядки в сутки, для окупаемости за ${vm.th.normYears} лет нужно ${num(need, 1)} — ${S >= need ? 'хватает' : `не хватает ${num(need - S, 1)}`}.`
+      ? `<b>Спрос.</b> Прогноз ${num(S, 1)} зарядки в сутки в ${vm.year}, к 2030 — ${num(vm.S[2030], 0)}. ${S >= need ? `С ростом спроса станция окупается за ${vm.th.normYears} лет.` : `Для окупаемости за ${vm.th.normYears} лет старт нужен с ${num(need, 1)}.`}`
       : `<b>Спрос.</b> Прогноз ${num(S, 1)} зарядки в сутки в ${vm.year} году.`
   );
   if (vm.econ?.paybackRange) items.push(`<b>Деньги.</b> Вложения ${mln(vm.econ.capexRange[0], 1)}–${mln(vm.econ.capexRange[1], 1)} млн ₽, вернутся за ${paybackText(vm.econ)} лет.`);
@@ -390,8 +390,6 @@ export function renderPassport(container, vm) {
         <div class="pp-verdict-ctl">
           <span class="ctl-label">Рост спроса на зарядку</span>
           <div class="seg seg-dark" id="pp-scenario">${SCENARIO_BTNS.map(([v, l]) => `<button data-value="${v}" class="${v === vm.scenario ? 'active' : ''}">${l}</button>`).join('')}</div>
-          <span class="ctl-label">Год решения о станции</span>
-          <div class="seg seg-dark" id="pp-year">${[2026, 2028, 2030].map((y) => `<button data-value="${y}" class="${y === vm.year ? 'active' : ''}">${y}</button>`).join('')}</div>
           <label class="switch"><input type="checkbox" id="pp-subsidy" ${vm.subsidy ? 'checked' : ''} ${vm.econLive && !vm.ampp ? '' : 'disabled'} /><span class="switch-ui"></span>Учесть компенсацию МФППиП — город возвращает 50% платы за подключение, до 2 млн ₽</label>
           <label class="switch"><input type="checkbox" id="pp-ampp" ${vm.ampp ? 'checked' : ''} ${vm.econLive ? '' : 'disabled'} /><span class="switch-ui"></span>Подключение по программе АМПП — сеть строит за свой счёт, РСЗС платит только станцию</label>
         </div>
@@ -402,7 +400,7 @@ export function renderPassport(container, vm) {
       ${kpiTile({ label: `Зарядок в сутки в ${vm.year}`, value: num(S, 0), sub: `обычно от ${num(sLo, 0)} (выходной летом) до ${num(sHi, 0)} (будни зимой)` })}
       ${kpiTile({ label: 'Загрузка поста', value: pct(vm.U[vm.year], 1), sub: `доля времени, когда пост занят; окупаемость начинается примерно с ${pct(vm.th.uPb)}` })}
       ${kpiTile({ label: 'Окупаемость', value: econ ? paybackText(econ) : '…', unit: ' лет', sub: `норматив РСЗС — ${vm.th.normYears} лет; диапазон — от дешёвого до дорогого подключения`, tone: paybackTone })}
-      ${kpiTile({ label: 'NPV за 10 лет', value: econ ? signedMln(econ.npv) : '…', unit: ' млн ₽', sub: econ ? (econ.npv >= 0 ? 'станция зарабатывает больше, чем стоят вложенные деньги (ставка 18%)' : 'меньше нуля: заработок не покрывает стоимость денег (ставка 18%)') : '', tone: npvTone })}
+      ${kpiTile({ label: 'NPV за 10 лет', value: econ ? signedMln(econ.npv) : '…', unit: ' млн ₽', sub: econ ? (econ.npv >= 0 ? 'станция зарабатывает больше ставки 18%' : 'доходность при ставке 18%; вложения возвращаются за счёт роста спроса') : '', tone: npvTone })}
     </div>
 
     ${needBlock(vm)}

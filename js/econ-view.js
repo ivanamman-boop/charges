@@ -12,7 +12,7 @@ export const STATUS = {
   priority: { label: 'Первая очередь', short: 'Первая очередь', tone: 'priority' },
   now: { label: 'Вторая очередь', short: 'Вторая очередь', tone: 'now' },
   grid: { label: 'Готовить сеть', short: 'Готовить сеть', tone: 'grid' },
-  no: { label: 'Не ставить', short: 'Не ставить', tone: 'no' },
+  no: { label: 'Пока рано', short: 'Пока рано', tone: 'no' },
 };
 
 const withPel = (params, pEl) => ({
@@ -229,15 +229,17 @@ export function siteMetrics(e, year, { params, capex }) {
 // Вердикт ТЗ: «Строить» - NPV при дорогом подключении > 0 и простая
 // окупаемость не дольше норматива; «Запросить ТУ» - NPV > 0 только при
 // дешёвом подключении; иначе «Не строить».
-export function verdictRszs({ npvExpensive, npvCheap, paybackExpensive, normYears }) {
-  if (npvExpensive > 0 && paybackExpensive !== null && paybackExpensive <= normYears) return 'build';
-  if (npvCheap > 0) return 'request';
+// Критерий РСЗС - окупаемость за норматив (ответ 29.10: «окупаемость уходит
+// на 10 лет»); NPV при ставке 18% показывается рядом как доходность.
+export function verdictRszs({ npvExpensive, npvCheap, paybackExpensive, paybackCheap = null, normYears }) {
+  if (paybackExpensive !== null && paybackExpensive <= normYears) return 'build';
+  if ((paybackCheap !== null && paybackCheap <= normYears) || npvCheap > 0) return 'request';
   return 'no';
 }
 export const VERDICT = {
   build: { label: 'Строить', tone: 'now' },
   request: { label: 'Запросить ТУ у сети', tone: 'grid' },
-  no: { label: 'Не строить', tone: 'no' },
+  no: { label: 'Вернуться позже', tone: 'no' },
 };
 
 // При каком спросе точка окупится: множитель к прогнозу спроса, при котором
