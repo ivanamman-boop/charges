@@ -432,6 +432,8 @@ export function renderPassport(container, vm) {
         <h3>Подключение к электросети</h3>
         <div class="metric-row"><span>Трансформаторная подстанция</span><span>${vm.dist04 !== null ? `в ${vm.dist04} м` : '<span class="tag tag-warn">ближе 200 м нет</span>'}</span></div>
         <div class="metric-row"><span>Свободная мощность питающего центра</span><span>${vm.center ? `${num(vm.center.freeMW, 1)} МВт <span class="tag tag-warn">оценка</span>` : '…'}</span></div>
+        <div class="metric-row"><span>Стоянка такси</span><span>${vm.taxiNear ? `в ${vm.taxiNear.m < 1000 ? `${vm.taxiNear.m} м` : `${num(vm.taxiNear.m / 1000, 1)} км`}${vm.taxiNear.places ? `, ${vm.taxiNear.places} мест` : ''}` : 'нет данных'}</span></div>
+        <div class="metric-row"><span>Парковка АМПП</span><span>${vm.amppNear ? (vm.amppNear.m <= vm.amppMaxM ? `${/^\d/.test(vm.amppNear.num) ? `№ ${esc(vm.amppNear.num)}` : esc(vm.amppNear.num)} в ${vm.amppNear.m} м — можно по программе АМПП` : `ближайшая в ${vm.amppNear.m} м`) : 'нет данных'}</span></div>
         <div class="metric-row"><span>Срок подключения</span><span>${vm.conn ? `${num(vm.conn.months[0], 0)}–${num(vm.conn.months[1], 0)} мес.` : '—'}</span></div>
         <div class="metric-row"><span>Плата за подключение</span><span class="mono">${vm.ampp ? 'нет — программа АМПП' : vm.conn ? `${mln(vm.conn.cost[0], 2)}–${mln(vm.conn.cost[1], 2)} млн ₽` : '—'}</span></div>
         <div class="metric-row"><span>Компенсация МФППиП</span><span>${vm.ampp ? 'не нужна' : vm.subsidy ? (econ?.subsidyRub ? `${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : 'учтена') : 'не учтена'}</span></div>

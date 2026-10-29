@@ -1,5 +1,5 @@
 {
-  "source": "OpenStreetMap (Overpass API, power=substation, класс transmission/distribution либо напряжение >=35кВ), area=Москва. Координаты реальные, 227 подстанций. reserve_MVA - ОЦЕНКА: нижняя граница диапазона по классу напряжения (220 кВ - 40, 110 кВ - 10, прочие - 2 МВА), bus_planned_kW - 0 (данных нет) (не измеренные данные Россетей: публичная \"карта питающих центров\" на 2026-09-23 недоступна, см. docs/journal.md) - заменить при появлении официальных данных.",
+  "source": "OpenStreetMap (Overpass API, power=substation, класс transmission/distribution либо напряжение >=35кВ), area=Москва. Координаты реальные, 227 подстанций. reserve_MVA - ОЦЕНКА: нижняя граница диапазона по классу напряжения (220 кВ - 40, 110 кВ - 10, прочие - 2 МВА), bus_planned_kW - 0 (данных нет) (не измеренные данные Россетей: публичная \"карта питающих центров\" на 2026-09-23 недоступна, см. docs/journal.md) - заменить при появлении официальных данных. | Резерв центров, совпавших по названию с раскрытием «Россети Московский регион» (ЦП 35 кВ и выше, III кв. 2026), - по раскрытию (scripts/merge-rossetimr-centers.py)",
   "date": "2026-09-23",
   "centers": [
     {
@@ -50,12 +50,20 @@
       "id": "PS-104",
       "lat": 55.84614,
       "lon": 37.38233,
-      "reserve_MVA": 40,
+      "reserve_MVA": 42.21,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Пенягино",
       "voltage_kV": 220,
-      "osm_id": 27752235
+      "osm_id": 27752235,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10 кВ Пенягино",
+        "inst_MVA": 112.0,
+        "load_MVA": 42.41,
+        "reserve_MW": 40.1
+      }
     },
     {
       "id": "PS-105",
@@ -83,56 +91,96 @@
       "id": "PS-107",
       "lat": 55.78075,
       "lon": 37.74971,
-      "reserve_MVA": 10,
+      "reserve_MVA": 36.97,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Измайлово",
       "voltage_kV": 110,
-      "osm_id": 30997922
+      "osm_id": 30997922,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Измайлово",
+        "inst_MVA": 166.5,
+        "load_MVA": 52.56,
+        "reserve_MW": 35.12
+      }
     },
     {
       "id": "PS-108",
       "lat": 55.77251,
       "lon": 37.59604,
-      "reserve_MVA": 10,
+      "reserve_MVA": 68.26,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Маяковская",
       "voltage_kV": 110,
-      "osm_id": 31950842
+      "osm_id": 31950842,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Маяковская",
+        "inst_MVA": 250.0,
+        "load_MVA": 80.21,
+        "reserve_MW": 64.85
+      }
     },
     {
       "id": "PS-109",
       "lat": 55.70834,
       "lon": 37.88518,
-      "reserve_MVA": 40,
+      "reserve_MVA": 24.71,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Руднево",
       "voltage_kV": 220,
-      "osm_id": 32787095
+      "osm_id": 32787095,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10 кВ Руднево",
+        "inst_MVA": 200.0,
+        "load_MVA": 43.05,
+        "reserve_MW": 23.47
+      }
     },
     {
       "id": "PS-110",
       "lat": 55.80168,
       "lon": 37.39064,
-      "reserve_MVA": 10,
+      "reserve_MVA": 4.75,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Строгино",
       "voltage_kV": 110,
-      "osm_id": 34062014
+      "osm_id": 34062014,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Строгино",
+        "inst_MVA": 126.0,
+        "load_MVA": 46.49,
+        "reserve_MW": 4.51
+      }
     },
     {
       "id": "PS-111",
       "lat": 55.71335,
       "lon": 37.61712,
-      "reserve_MVA": 10,
+      "reserve_MVA": 25.31,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Москворецкая",
       "voltage_kV": 110,
-      "osm_id": 35589287
+      "osm_id": 35589287,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Москворецкая",
+        "inst_MVA": 126.0,
+        "load_MVA": 55.31,
+        "reserve_MW": 24.04
+      }
     },
     {
       "id": "PS-112",
@@ -160,45 +208,77 @@
       "id": "PS-114",
       "lat": 55.72438,
       "lon": 37.64925,
-      "reserve_MVA": 40,
+      "reserve_MVA": 79.73,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Павелецкая",
       "voltage_kV": 220,
-      "osm_id": 43539433
+      "osm_id": 43539433,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10 кВ Павелецкая",
+        "inst_MVA": 500.0,
+        "load_MVA": 72.37,
+        "reserve_MW": 75.74
+      }
     },
     {
       "id": "PS-115",
       "lat": 55.7141,
       "lon": 37.75895,
-      "reserve_MVA": 10,
+      "reserve_MVA": 5.99,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Чухлинка",
       "voltage_kV": 110,
-      "osm_id": 43696189
+      "osm_id": 43696189,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Чухлинка",
+        "inst_MVA": 126.0,
+        "load_MVA": 45.69,
+        "reserve_MW": 5.69
+      }
     },
     {
       "id": "PS-116",
       "lat": 55.8641,
       "lon": 37.70259,
-      "reserve_MVA": 10,
+      "reserve_MVA": 28.35,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Лосинка",
       "voltage_kV": 110,
-      "osm_id": 44145248
+      "osm_id": 44145248,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Лосинка",
+        "inst_MVA": 126.0,
+        "load_MVA": 42.4,
+        "reserve_MW": 26.93
+      }
     },
     {
       "id": "PS-117",
       "lat": 55.76858,
       "lon": 37.40306,
-      "reserve_MVA": 10,
+      "reserve_MVA": 35.88,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Крылатская",
       "voltage_kV": 110,
-      "osm_id": 45750796
+      "osm_id": 45750796,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Крылатская",
+        "inst_MVA": 126.0,
+        "load_MVA": 41.26,
+        "reserve_MW": 34.09
+      }
     },
     {
       "id": "PS-118",
@@ -215,12 +295,20 @@
       "id": "PS-119",
       "lat": 55.48983,
       "lon": 37.30988,
-      "reserve_MVA": 10,
+      "reserve_MVA": 2.78,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Троицкая",
       "voltage_kV": 110,
-      "osm_id": 47029571
+      "osm_id": 47029571,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/35/6 кВ Троицкая",
+        "inst_MVA": 50.0,
+        "load_MVA": 19.86,
+        "reserve_MW": 2.64
+      }
     },
     {
       "id": "PS-120",
@@ -237,12 +325,20 @@
       "id": "PS-121",
       "lat": 55.72814,
       "lon": 37.39934,
-      "reserve_MVA": 10,
+      "reserve_MVA": 27.53,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Сетунь",
       "voltage_kV": 110,
-      "osm_id": 48677464
+      "osm_id": 48677464,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Сетунь",
+        "inst_MVA": 126.0,
+        "load_MVA": 45.98,
+        "reserve_MW": 26.15
+      }
     },
     {
       "id": "PS-122",
@@ -292,23 +388,39 @@
       "id": "PS-126",
       "lat": 55.68595,
       "lon": 37.60371,
-      "reserve_MVA": 10,
+      "reserve_MVA": 27.49,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Черёмушки",
       "voltage_kV": 110,
-      "osm_id": 48831874
+      "osm_id": 48831874,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Черемушки",
+        "inst_MVA": 126.0,
+        "load_MVA": 49.34,
+        "reserve_MW": 26.12
+      }
     },
     {
       "id": "PS-127",
       "lat": 55.77792,
       "lon": 37.70096,
-      "reserve_MVA": 10,
+      "reserve_MVA": 29.72,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Лефортово",
       "voltage_kV": 110,
-      "osm_id": 48957234
+      "osm_id": 48957234,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Лефортово",
+        "inst_MVA": 126.0,
+        "load_MVA": 49.03,
+        "reserve_MW": 28.23
+      }
     },
     {
       "id": "PS-128",
@@ -325,12 +437,20 @@
       "id": "PS-129",
       "lat": 55.72919,
       "lon": 37.85786,
-      "reserve_MVA": 10,
+      "reserve_MVA": 42.12,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Косино",
       "voltage_kV": 110,
-      "osm_id": 49555769
+      "osm_id": 49555769,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Косино",
+        "inst_MVA": 126.0,
+        "load_MVA": 40.01,
+        "reserve_MW": 40.01
+      }
     },
     {
       "id": "PS-130",
@@ -347,45 +467,77 @@
       "id": "PS-131",
       "lat": 55.65897,
       "lon": 37.63393,
-      "reserve_MVA": 40,
+      "reserve_MVA": 62.42,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Южная",
       "voltage_kV": 220,
-      "osm_id": 50096532
+      "osm_id": 50096532,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10 кВ Южная",
+        "inst_MVA": 463.0,
+        "load_MVA": 49.36,
+        "reserve_MW": 59.3
+      }
     },
     {
       "id": "PS-132",
       "lat": 55.70613,
       "lon": 37.71459,
-      "reserve_MVA": 10,
+      "reserve_MVA": 11.11,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "АЗЛК",
       "voltage_kV": 110,
-      "osm_id": 50340919
+      "osm_id": 50340919,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ АЗЛК",
+        "inst_MVA": 126.0,
+        "load_MVA": 56.64,
+        "reserve_MW": 10.55
+      }
     },
     {
       "id": "PS-133",
       "lat": 55.87551,
       "lon": 37.47096,
-      "reserve_MVA": 40,
+      "reserve_MVA": 8.69,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Левобережная",
       "voltage_kV": 220,
-      "osm_id": 50599197
+      "osm_id": 50599197,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10 кВ Левобережная",
+        "inst_MVA": 126.0,
+        "load_MVA": 46.82,
+        "reserve_MW": 8.26
+      }
     },
     {
       "id": "PS-134",
       "lat": 55.98003,
       "lon": 37.20047,
-      "reserve_MVA": 10,
+      "reserve_MVA": 32.71,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Эра",
       "voltage_kV": 110,
-      "osm_id": 51143664
+      "osm_id": 51143664,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Эра",
+        "inst_MVA": 126.0,
+        "load_MVA": 46.42,
+        "reserve_MW": 31.07
+      }
     },
     {
       "id": "PS-135",
@@ -402,12 +554,20 @@
       "id": "PS-136",
       "lat": 55.71011,
       "lon": 37.67995,
-      "reserve_MVA": 10,
+      "reserve_MVA": 75.72,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Угреша",
       "voltage_kV": 110,
-      "osm_id": 53596735
+      "osm_id": 53596735,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Угреша",
+        "inst_MVA": 206.0,
+        "load_MVA": 41.58,
+        "reserve_MW": 71.93
+      }
     },
     {
       "id": "PS-137",
@@ -424,23 +584,39 @@
       "id": "PS-138",
       "lat": 55.6479,
       "lon": 37.56744,
-      "reserve_MVA": 10,
+      "reserve_MVA": 4.27,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Зюзино",
       "voltage_kV": 110,
-      "osm_id": 55388098
+      "osm_id": 55388098,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Зюзино",
+        "inst_MVA": 126.0,
+        "load_MVA": 70.0,
+        "reserve_MW": 4.06
+      }
     },
     {
       "id": "PS-139",
       "lat": 55.99779,
       "lon": 37.15695,
-      "reserve_MVA": 40,
+      "reserve_MVA": 46.48,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Сигма",
       "voltage_kV": 220,
-      "osm_id": 56072063
+      "osm_id": 56072063,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10 кВ Сигма",
+        "inst_MVA": 626.0,
+        "load_MVA": 63.44,
+        "reserve_MW": 44.16
+      }
     },
     {
       "id": "PS-140",
@@ -468,34 +644,58 @@
       "id": "PS-142",
       "lat": 55.62496,
       "lon": 37.69493,
-      "reserve_MVA": 10,
+      "reserve_MVA": 5.43,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Сенная",
       "voltage_kV": 110,
-      "osm_id": 62659932
+      "osm_id": 62659932,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Сенная",
+        "inst_MVA": 32.0,
+        "load_MVA": 15.36,
+        "reserve_MW": 5.16
+      }
     },
     {
       "id": "PS-143",
       "lat": 55.59218,
       "lon": 37.72347,
-      "reserve_MVA": 10,
+      "reserve_MVA": 12.26,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Каширская",
       "voltage_kV": 110,
-      "osm_id": 62704748
+      "osm_id": 62704748,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Каширская",
+        "inst_MVA": 80.0,
+        "load_MVA": 34.78,
+        "reserve_MW": 11.65
+      }
     },
     {
       "id": "PS-144",
       "lat": 55.59109,
       "lon": 37.72086,
-      "reserve_MVA": 10,
+      "reserve_MVA": 9.71,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Гоголево",
       "voltage_kV": 110,
-      "osm_id": 62704753
+      "osm_id": 62704753,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Гоголево",
+        "inst_MVA": 50.0,
+        "load_MVA": 22.74,
+        "reserve_MW": 9.22
+      }
     },
     {
       "id": "PS-145",
@@ -523,23 +723,39 @@
       "id": "PS-147",
       "lat": 55.49642,
       "lon": 37.57143,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Сырово",
       "voltage_kV": 110,
-      "osm_id": 72214557
+      "osm_id": 72214557,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Сырово",
+        "inst_MVA": 80.0,
+        "load_MVA": 40.14,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-148",
       "lat": 55.68186,
       "lon": 37.51075,
-      "reserve_MVA": 10,
+      "reserve_MVA": 30.92,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Вернадская",
       "voltage_kV": 110,
-      "osm_id": 72863950
+      "osm_id": 72863950,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Вернадская",
+        "inst_MVA": 126.0,
+        "load_MVA": 47.98,
+        "reserve_MW": 29.37
+      }
     },
     {
       "id": "PS-149",
@@ -578,12 +794,20 @@
       "id": "PS-152",
       "lat": 55.6881,
       "lon": 37.93565,
-      "reserve_MVA": 10,
+      "reserve_MVA": 3.55,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Некрасовка",
       "voltage_kV": 110,
-      "osm_id": 81962292
+      "osm_id": 81962292,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Некрасовка",
+        "inst_MVA": 126.0,
+        "load_MVA": 64.96,
+        "reserve_MW": 3.37
+      }
     },
     {
       "id": "PS-153",
@@ -622,23 +846,39 @@
       "id": "PS-156",
       "lat": 55.83452,
       "lon": 37.39735,
-      "reserve_MVA": 10,
+      "reserve_MVA": 19.16,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Трикотажная",
       "voltage_kV": 110,
-      "osm_id": 91137798
+      "osm_id": 91137798,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Трикотажная",
+        "inst_MVA": 50.0,
+        "load_MVA": 17.62,
+        "reserve_MW": 18.2
+      }
     },
     {
       "id": "PS-157",
       "lat": 55.55013,
       "lon": 37.52029,
-      "reserve_MVA": 10,
+      "reserve_MVA": 15.52,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Гавриково",
       "voltage_kV": 110,
-      "osm_id": 91903874
+      "osm_id": 91903874,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Гавриково",
+        "inst_MVA": 126.0,
+        "load_MVA": 49.03,
+        "reserve_MW": 14.74
+      }
     },
     {
       "id": "PS-158",
@@ -655,34 +895,58 @@
       "id": "PS-159",
       "lat": 55.59454,
       "lon": 37.64534,
-      "reserve_MVA": 10,
+      "reserve_MVA": 78.88,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Бирюлёво",
       "voltage_kV": 110,
-      "osm_id": 93782950
+      "osm_id": 93782950,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Бирюлёво",
+        "inst_MVA": 200.0,
+        "load_MVA": 46.43,
+        "reserve_MW": 74.94
+      }
     },
     {
       "id": "PS-160",
       "lat": 55.6437,
       "lon": 37.6593,
-      "reserve_MVA": 10,
+      "reserve_MVA": 35.56,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Беляево",
       "voltage_kV": 110,
-      "osm_id": 101520942
+      "osm_id": 101520942,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Беляево",
+        "inst_MVA": 160.0,
+        "load_MVA": 67.59,
+        "reserve_MW": 33.78
+      }
     },
     {
       "id": "PS-161",
       "lat": 55.87831,
       "lon": 37.57708,
-      "reserve_MVA": 10,
+      "reserve_MVA": 15.25,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Лианозово",
       "voltage_kV": 110,
-      "osm_id": 106445302
+      "osm_id": 106445302,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Лианозово",
+        "inst_MVA": 126.0,
+        "load_MVA": 64.16,
+        "reserve_MW": 14.49
+      }
     },
     {
       "id": "PS-162",
@@ -699,12 +963,20 @@
       "id": "PS-163",
       "lat": 55.45826,
       "lon": 37.27767,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Лебедево",
       "voltage_kV": 110,
-      "osm_id": 111618210
+      "osm_id": 111618210,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Лебедево",
+        "inst_MVA": 50.0,
+        "load_MVA": 38.63,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-164",
@@ -732,23 +1004,39 @@
       "id": "PS-166",
       "lat": 55.54634,
       "lon": 37.31151,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Марьино",
       "voltage_kV": 110,
-      "osm_id": 120861635
+      "osm_id": 120861635,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Марьино",
+        "inst_MVA": 65.0,
+        "load_MVA": 23.43,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-167",
       "lat": 55.48183,
       "lon": 37.34125,
-      "reserve_MVA": 40,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Лесная",
       "voltage_kV": 220,
-      "osm_id": 126082730
+      "osm_id": 126082730,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10/6 кВ Лесная",
+        "inst_MVA": 313.0,
+        "load_MVA": 40.45,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-168",
@@ -776,34 +1064,58 @@
       "id": "PS-170",
       "lat": 55.60712,
       "lon": 37.5027,
-      "reserve_MVA": 40,
+      "reserve_MVA": 46.08,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Ясенево",
       "voltage_kV": 220,
-      "osm_id": 136285897
+      "osm_id": 136285897,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10 кВ Ясенево",
+        "inst_MVA": 400.0,
+        "load_MVA": 61.06,
+        "reserve_MW": 43.78
+      }
     },
     {
       "id": "PS-171",
       "lat": 55.67925,
       "lon": 37.7837,
-      "reserve_MVA": 10,
+      "reserve_MVA": 43.27,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Дубровская",
       "voltage_kV": 110,
-      "osm_id": 136711492
+      "osm_id": 136711492,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Дубровская",
+        "inst_MVA": 126.0,
+        "load_MVA": 26.21,
+        "reserve_MW": 41.11
+      }
     },
     {
       "id": "PS-172",
       "lat": 55.67428,
       "lon": 37.79371,
-      "reserve_MVA": 10,
+      "reserve_MVA": 22.61,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Кузьминки",
       "voltage_kV": 110,
-      "osm_id": 136711507
+      "osm_id": 136711507,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Кузьминки",
+        "inst_MVA": 50.0,
+        "load_MVA": 3.63,
+        "reserve_MW": 21.48
+      }
     },
     {
       "id": "PS-173",
@@ -842,23 +1154,39 @@
       "id": "PS-176",
       "lat": 55.60508,
       "lon": 37.16475,
-      "reserve_MVA": 2,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Кокошкино",
       "voltage_kV": 35,
-      "osm_id": 151703018
+      "osm_id": 151703018,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Кокошкино",
+        "inst_MVA": 11.2,
+        "load_MVA": 9.7,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-177",
       "lat": 55.81748,
       "lon": 37.73441,
-      "reserve_MVA": 10,
+      "reserve_MVA": 18.47,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Стромынка",
       "voltage_kV": 110,
-      "osm_id": 153236809
+      "osm_id": 153236809,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Стромынка",
+        "inst_MVA": 126.0,
+        "load_MVA": 44.5,
+        "reserve_MW": 17.55
+      }
     },
     {
       "id": "PS-178",
@@ -886,23 +1214,39 @@
       "id": "PS-180",
       "lat": 55.66234,
       "lon": 37.79379,
-      "reserve_MVA": 40,
+      "reserve_MVA": 33.6,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Иловайская",
       "voltage_kV": 220,
-      "osm_id": 160282386
+      "osm_id": 160282386,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10 кВ Иловайская",
+        "inst_MVA": 126.0,
+        "load_MVA": 45.62,
+        "reserve_MW": 31.92
+      }
     },
     {
       "id": "PS-181",
       "lat": 55.72799,
       "lon": 37.66337,
-      "reserve_MVA": 10,
+      "reserve_MVA": 3.47,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Таганская",
       "voltage_kV": 110,
-      "osm_id": 160412237
+      "osm_id": 160412237,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Таганская",
+        "inst_MVA": 126.0,
+        "load_MVA": 75.15,
+        "reserve_MW": 3.3
+      }
     },
     {
       "id": "PS-182",
@@ -919,23 +1263,39 @@
       "id": "PS-183",
       "lat": 55.70317,
       "lon": 37.4346,
-      "reserve_MVA": 10,
+      "reserve_MVA": 52.78,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Новокунцево",
       "voltage_kV": 110,
-      "osm_id": 162571594
+      "osm_id": 162571594,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Новокунцево",
+        "inst_MVA": 120.0,
+        "load_MVA": 53.38,
+        "reserve_MW": 50.14
+      }
     },
     {
       "id": "PS-184",
       "lat": 55.7361,
       "lon": 37.7361,
-      "reserve_MVA": 10,
+      "reserve_MVA": 23.14,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Фрезер",
       "voltage_kV": 110,
-      "osm_id": 166416475
+      "osm_id": 166416475,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Фрезер",
+        "inst_MVA": 126.0,
+        "load_MVA": 35.94,
+        "reserve_MW": 21.98
+      }
     },
     {
       "id": "PS-185",
@@ -963,23 +1323,39 @@
       "id": "PS-187",
       "lat": 55.88743,
       "lon": 37.51154,
-      "reserve_MVA": 10,
+      "reserve_MVA": 8.56,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Коровино",
       "voltage_kV": 110,
-      "osm_id": 178469367
+      "osm_id": 178469367,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Коровино",
+        "inst_MVA": 50.0,
+        "load_MVA": 25.13,
+        "reserve_MW": 8.13
+      }
     },
     {
       "id": "PS-188",
       "lat": 55.69285,
       "lon": 37.50755,
-      "reserve_MVA": 10,
+      "reserve_MVA": 48.98,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "МГУ",
       "voltage_kV": 110,
-      "osm_id": 184143938
+      "osm_id": 184143938,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/20 кВ МГУ",
+        "inst_MVA": 160.0,
+        "load_MVA": 27.9,
+        "reserve_MW": 46.53
+      }
     },
     {
       "id": "PS-189",
@@ -1051,12 +1427,20 @@
       "id": "PS-195",
       "lat": 55.40906,
       "lon": 37.19482,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Былово",
       "voltage_kV": 110,
-      "osm_id": 198119584
+      "osm_id": 198119584,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Былово",
+        "inst_MVA": 80.0,
+        "load_MVA": 28.07,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-196",
@@ -1095,12 +1479,20 @@
       "id": "PS-199",
       "lat": 55.61574,
       "lon": 37.26883,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Полёт",
       "voltage_kV": 110,
-      "osm_id": 219207134
+      "osm_id": 219207134,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Полет",
+        "inst_MVA": 126.0,
+        "load_MVA": 54.84,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-200",
@@ -1117,23 +1509,39 @@
       "id": "PS-201",
       "lat": 55.65882,
       "lon": 37.41404,
-      "reserve_MVA": 10,
+      "reserve_MVA": 3.47,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Солнцево",
       "voltage_kV": 110,
-      "osm_id": 226749718
+      "osm_id": 226749718,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Солнцево",
+        "inst_MVA": 81.0,
+        "load_MVA": 49.42,
+        "reserve_MW": 3.3
+      }
     },
     {
       "id": "PS-202",
       "lat": 55.61146,
       "lon": 37.30315,
-      "reserve_MVA": 2,
+      "reserve_MVA": 1.67,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Внуково",
       "voltage_kV": 35,
-      "osm_id": 231006454
+      "osm_id": 231006454,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Внуково",
+        "inst_MVA": 9.3,
+        "load_MVA": 2.2,
+        "reserve_MW": 1.59
+      }
     },
     {
       "id": "PS-203",
@@ -1161,45 +1569,77 @@
       "id": "PS-205",
       "lat": 55.75597,
       "lon": 37.74789,
-      "reserve_MVA": 10,
+      "reserve_MVA": 25.88,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Прожектор",
       "voltage_kV": 110,
-      "osm_id": 246804421
+      "osm_id": 246804421,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Прожектор",
+        "inst_MVA": 126.0,
+        "load_MVA": 33.81,
+        "reserve_MW": 24.59
+      }
     },
     {
       "id": "PS-206",
       "lat": 55.57852,
       "lon": 37.47119,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Летово",
       "voltage_kV": 110,
-      "osm_id": 247724705
+      "osm_id": 247724705,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Летово",
+        "inst_MVA": 126.0,
+        "load_MVA": 45.51,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-207",
       "lat": 55.75491,
       "lon": 37.60712,
-      "reserve_MVA": 10,
+      "reserve_MVA": 84.37,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Никитская",
       "voltage_kV": 110,
-      "osm_id": 251313997
+      "osm_id": 251313997,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Никитская",
+        "inst_MVA": 250.0,
+        "load_MVA": 55.54,
+        "reserve_MW": 80.15
+      }
     },
     {
       "id": "PS-208",
       "lat": 55.87754,
       "lon": 37.66937,
-      "reserve_MVA": 40,
+      "reserve_MVA": 53.95,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Бабушкин",
       "voltage_kV": 220,
-      "osm_id": 252539575
+      "osm_id": 252539575,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10/6 кВ Бабушкин",
+        "inst_MVA": 252.0,
+        "load_MVA": 89.67,
+        "reserve_MW": 51.25
+      }
     },
     {
       "id": "PS-209",
@@ -1238,23 +1678,39 @@
       "id": "PS-212",
       "lat": 55.63396,
       "lon": 37.36823,
-      "reserve_MVA": 40,
+      "reserve_MVA": 25.13,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Чоботы",
       "voltage_kV": 220,
-      "osm_id": 270181521
+      "osm_id": 270181521,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10 кВ Чоботы",
+        "inst_MVA": 500.0,
+        "load_MVA": 65.89,
+        "reserve_MW": 23.87
+      }
     },
     {
       "id": "PS-213",
       "lat": 55.63782,
       "lon": 37.41336,
-      "reserve_MVA": 40,
+      "reserve_MVA": 77.2,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Говорово",
       "voltage_kV": 220,
-      "osm_id": 270246758
+      "osm_id": 270246758,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10 кВ Говорово",
+        "inst_MVA": 300.0,
+        "load_MVA": 116.0,
+        "reserve_MW": 73.34
+      }
     },
     {
       "id": "PS-214",
@@ -1271,12 +1727,20 @@
       "id": "PS-215",
       "lat": 55.96087,
       "lon": 37.19137,
-      "reserve_MVA": 10,
+      "reserve_MVA": 29.02,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Бакеево",
       "voltage_kV": 110,
-      "osm_id": 273650085
+      "osm_id": 273650085,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Бакеево",
+        "inst_MVA": 126.0,
+        "load_MVA": 42.22,
+        "reserve_MW": 27.57
+      }
     },
     {
       "id": "PS-216",
@@ -1293,12 +1757,20 @@
       "id": "PS-217",
       "lat": 55.66039,
       "lon": 37.59053,
-      "reserve_MVA": 40,
+      "reserve_MVA": 15.41,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Академическая",
       "voltage_kV": 220,
-      "osm_id": 293733142
+      "osm_id": 293733142,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/10 кВ Академическая",
+        "inst_MVA": 126.0,
+        "load_MVA": 57.93,
+        "reserve_MW": 14.64
+      }
     },
     {
       "id": "PS-218",
@@ -1315,12 +1787,20 @@
       "id": "PS-219",
       "lat": 55.4876,
       "lon": 37.51542,
-      "reserve_MVA": 2,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Знаменская",
       "voltage_kV": 35,
-      "osm_id": 302668718
+      "osm_id": 302668718,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Знаменская",
+        "inst_MVA": 12.6,
+        "load_MVA": 7.09,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-220",
@@ -1381,12 +1861,20 @@
       "id": "PS-225",
       "lat": 55.69841,
       "lon": 37.65681,
-      "reserve_MVA": 10,
+      "reserve_MVA": 62.36,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Кожухово",
       "voltage_kV": 110,
-      "osm_id": 333633536
+      "osm_id": 333633536,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Кожухово",
+        "inst_MVA": 252.0,
+        "load_MVA": 11.95,
+        "reserve_MW": 59.24
+      }
     },
     {
       "id": "PS-226",
@@ -1425,12 +1913,20 @@
       "id": "PS-229",
       "lat": 55.52529,
       "lon": 37.39722,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Десна",
       "voltage_kV": 110,
-      "osm_id": 360910459
+      "osm_id": 360910459,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Десна",
+        "inst_MVA": 50.0,
+        "load_MVA": 28.55,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-230",
@@ -1447,12 +1943,20 @@
       "id": "PS-231",
       "lat": 55.81403,
       "lon": 37.63145,
-      "reserve_MVA": 10,
+      "reserve_MVA": 67.82,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Ростокино",
       "voltage_kV": 110,
-      "osm_id": 366552788
+      "osm_id": 366552788,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Ростокино",
+        "inst_MVA": 166.5,
+        "load_MVA": 55.13,
+        "reserve_MW": 64.43
+      }
     },
     {
       "id": "PS-232",
@@ -1502,12 +2006,20 @@
       "id": "PS-236",
       "lat": 55.7488,
       "lon": 37.69296,
-      "reserve_MVA": 10,
+      "reserve_MVA": 37.08,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Андроньевская",
       "voltage_kV": 110,
-      "osm_id": 386349958
+      "osm_id": 386349958,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Андроньевская",
+        "inst_MVA": 126.0,
+        "load_MVA": 36.85,
+        "reserve_MW": 35.23
+      }
     },
     {
       "id": "PS-237",
@@ -1623,23 +2135,39 @@
       "id": "PS-247",
       "lat": 55.71945,
       "lon": 37.66835,
-      "reserve_MVA": 10,
+      "reserve_MVA": 76.92,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Новоспасская",
       "voltage_kV": 110,
-      "osm_id": 474701503
+      "osm_id": 474701503,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Новоспасская",
+        "inst_MVA": 121.5,
+        "load_MVA": 13.81,
+        "reserve_MW": 73.07
+      }
     },
     {
       "id": "PS-248",
       "lat": 55.446,
       "lon": 36.93005,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Кузнецово",
       "voltage_kV": 110,
-      "osm_id": 478346888
+      "osm_id": 478346888,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Кузнецово",
+        "inst_MVA": 32.0,
+        "load_MVA": 16.13,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-249",
@@ -1689,23 +2217,39 @@
       "id": "PS-253",
       "lat": 55.65839,
       "lon": 37.7003,
-      "reserve_MVA": 10,
+      "reserve_MVA": 25.34,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Курьяново",
       "voltage_kV": 110,
-      "osm_id": 479818678
+      "osm_id": 479818678,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Курьяново",
+        "inst_MVA": 126.0,
+        "load_MVA": 41.63,
+        "reserve_MW": 24.07
+      }
     },
     {
       "id": "PS-254",
       "lat": 55.65543,
       "lon": 37.72602,
-      "reserve_MVA": 10,
+      "reserve_MVA": 25.56,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Люблино",
       "voltage_kV": 110,
-      "osm_id": 479818868
+      "osm_id": 479818868,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Люблино",
+        "inst_MVA": 80.0,
+        "load_MVA": 24.0,
+        "reserve_MW": 24.28
+      }
     },
     {
       "id": "PS-255",
@@ -1722,23 +2266,39 @@
       "id": "PS-256",
       "lat": 55.38784,
       "lon": 37.20398,
-      "reserve_MVA": 2,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Емцово",
       "voltage_kV": 35,
-      "osm_id": 482568057
+      "osm_id": 482568057,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Емцово",
+        "inst_MVA": 5.2,
+        "load_MVA": 1.37,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-257",
       "lat": 55.36611,
       "lon": 37.3921,
-      "reserve_MVA": 2,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Есино",
       "voltage_kV": 35,
-      "osm_id": 483323534
+      "osm_id": 483323534,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Есино",
+        "inst_MVA": 6.4,
+        "load_MVA": 3.57,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-258",
@@ -1755,45 +2315,77 @@
       "id": "PS-259",
       "lat": 55.3279,
       "lon": 37.343,
-      "reserve_MVA": 2,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Молчаново",
       "voltage_kV": 35,
-      "osm_id": 485537692
+      "osm_id": 485537692,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Молчаново",
+        "inst_MVA": 20.0,
+        "load_MVA": 13.19,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-260",
       "lat": 55.32328,
       "lon": 37.15104,
-      "reserve_MVA": 10,
+      "reserve_MVA": 3.31,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Вороново",
       "voltage_kV": 110,
-      "osm_id": 487026992
+      "osm_id": 487026992,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Вороново",
+        "inst_MVA": 50.0,
+        "load_MVA": 18.67,
+        "reserve_MW": 3.14
+      }
     },
     {
       "id": "PS-261",
       "lat": 55.5416,
       "lon": 37.1561,
-      "reserve_MVA": 2,
+      "reserve_MVA": 2.15,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Бараново",
       "voltage_kV": 35,
-      "osm_id": 487079165
+      "osm_id": 487079165,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/10 кВ Бараново",
+        "inst_MVA": 20.0,
+        "load_MVA": 5.79,
+        "reserve_MW": 2.04
+      }
     },
     {
       "id": "PS-262",
       "lat": 55.62772,
       "lon": 37.62312,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Сумская",
       "voltage_kV": 110,
-      "osm_id": 513687962
+      "osm_id": 513687962,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Сумская",
+        "inst_MVA": 126.0,
+        "load_MVA": 64.61,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-263",
@@ -1843,12 +2435,20 @@
       "id": "PS-267",
       "lat": 55.6808,
       "lon": 37.55495,
-      "reserve_MVA": 10,
+      "reserve_MVA": 82.38,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Семёновская",
       "voltage_kV": 110,
-      "osm_id": 595896074
+      "osm_id": 595896074,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Семеновская",
+        "inst_MVA": 189.0,
+        "load_MVA": 72.02,
+        "reserve_MW": 78.26
+      }
     },
     {
       "id": "PS-268",
@@ -1997,12 +2597,20 @@
       "id": "PS-281",
       "lat": 55.54778,
       "lon": 37.44018,
-      "reserve_MVA": 40,
+      "reserve_MVA": 72.67,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Хованская",
       "voltage_kV": 220,
-      "osm_id": 678919267
+      "osm_id": 678919267,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/20/10 кВ Хованская",
+        "inst_MVA": 700.0,
+        "load_MVA": 35.34,
+        "reserve_MW": 69.04
+      }
     },
     {
       "id": "PS-282",
@@ -2129,12 +2737,20 @@
       "id": "PS-293",
       "lat": 55.69731,
       "lon": 37.48794,
-      "reserve_MVA": 10,
+      "reserve_MVA": 46.09,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Ломоносово",
       "voltage_kV": 110,
-      "osm_id": 845448328
+      "osm_id": 845448328,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/10 кВ Ломоносово",
+        "inst_MVA": 160.0,
+        "load_MVA": 48.35,
+        "reserve_MW": 43.79
+      }
     },
     {
       "id": "PS-294",
@@ -2184,12 +2800,20 @@
       "id": "PS-298",
       "lat": 55.72366,
       "lon": 37.68078,
-      "reserve_MVA": 10,
+      "reserve_MVA": 45.54,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Подшипник",
       "voltage_kV": 110,
-      "osm_id": 845878391
+      "osm_id": 845878391,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Подшипник",
+        "inst_MVA": 126.0,
+        "load_MVA": 36.38,
+        "reserve_MW": 43.26
+      }
     },
     {
       "id": "PS-299",
@@ -2283,67 +2907,115 @@
       "id": "PS-307",
       "lat": 55.78929,
       "lon": 37.58436,
-      "reserve_MVA": 10,
+      "reserve_MVA": 25.51,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Миусская",
       "voltage_kV": 110,
-      "osm_id": 846795692
+      "osm_id": 846795692,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Миусская",
+        "inst_MVA": 162.0,
+        "load_MVA": 73.06,
+        "reserve_MW": 24.23
+      }
     },
     {
       "id": "PS-308",
       "lat": 55.59587,
       "lon": 37.36095,
-      "reserve_MVA": 10,
+      "reserve_MVA": 12.8,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Передельцы",
       "voltage_kV": 110,
-      "osm_id": 846795693
+      "osm_id": 846795693,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Передельцы",
+        "inst_MVA": 126.0,
+        "load_MVA": 40.15,
+        "reserve_MW": 12.16
+      }
     },
     {
       "id": "PS-309",
       "lat": 55.67942,
       "lon": 37.94396,
-      "reserve_MVA": 10,
+      "reserve_MVA": 32.24,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Чистая",
       "voltage_kV": 110,
-      "osm_id": 846795694
+      "osm_id": 846795694,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10/6 кВ Чистая",
+        "inst_MVA": 130.0,
+        "load_MVA": 35.22,
+        "reserve_MW": 30.63
+      }
     },
     {
       "id": "PS-310",
       "lat": 55.4072,
       "lon": 37.39995,
-      "reserve_MVA": 10,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Щапово",
       "voltage_kV": 110,
-      "osm_id": 846795695
+      "osm_id": 846795695,
+      "reserve_estimate_MVA": 10,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 110/10 кВ Щапово",
+        "inst_MVA": 50.0,
+        "load_MVA": 18.71,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-311",
       "lat": 55.49077,
       "lon": 37.50086,
-      "reserve_MVA": 2,
+      "reserve_MVA": 0.0,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Рязаново",
       "voltage_kV": 35,
-      "osm_id": 846795696
+      "osm_id": 846795696,
+      "reserve_estimate_MVA": 2,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 35/6 кВ Рязаново",
+        "inst_MVA": 6.4,
+        "load_MVA": 3.2,
+        "reserve_MW": 0.0
+      }
     },
     {
       "id": "PS-312",
       "lat": 55.81425,
       "lon": 37.53843,
-      "reserve_MVA": 40,
+      "reserve_MVA": 36.74,
       "bus_planned_kW": 0,
-      "reserve_date": "2026-09-23",
+      "reserve_date": "2026-09-30",
       "name": "Гражданская",
       "voltage_kV": 220,
-      "osm_id": 847808030
+      "osm_id": 847808030,
+      "reserve_estimate_MVA": 40,
+      "reserve_source": "Россети Московский регион, раскрытие ЦП 35 кВ и выше, III кв. 2026",
+      "rossetimr": {
+        "name": "ПС 220/110/10 кВ Гражданская",
+        "inst_MVA": 500.0,
+        "load_MVA": 64.54,
+        "reserve_MW": 34.9
+      }
     },
     {
       "id": "PS-313",

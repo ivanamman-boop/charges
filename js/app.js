@@ -63,7 +63,7 @@ function plural(n, one, few, many) {
 }
 
 const state = {
-  ctl: { scenario: 'base', year: 2028, dayType: 'weekday', season: 'summer', hour: 12 },
+  ctl: { scenario: 'base', year: 2028, dayType: 'weekday', season: 'summer', hour: 12, funding: 'paid' },
   cells: null,
   stationsAll: null,
   centers: null,
@@ -113,7 +113,9 @@ async function loadData() {
     fetchJson('data/mkad.json'),
   ]);
   const benchmarks = await fetchJson('data/benchmarks.json').then((d) => d.benchmarks).catch(() => []);
-  return { cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, tp04Meta: tp04Raw.meta || [], mkadRing: mkadRaw.ring, benchmarks };
+  const ampp = await fetchJson('data/ampp.json').then((d) => d.points).catch(() => []);
+  const taxiStands = await fetchJson('data/taxi-stands.json').then((d) => d.points).catch(() => []);
+  return { ampp, taxiStands, cells: cellsRaw.cells, stationsAll: stationsRaw.stations, centers: centersRaw.centers, params, zones, pool: poolRaw.pool, tp04: tp04Raw.points, tp04Meta: tp04Raw.meta || [], mkadRing: mkadRaw.ring, benchmarks };
 }
 
 const cfg150 = () => state.params.M6_M7_equipment_economics.catalog.configs.find((c) => c.omega === EQUIPMENT);
@@ -135,7 +137,54 @@ function sessionsIn(by, year) {
   return interpolateAnchors(by.S, year);
 }
 
-function statusOf(by, year, th = state.th) {
+// Парковки АМПП (data.mos.ru): станция в AMPP_M метрах от платной парковки
+// города может пойти по программе АМПП - подключение за счёт сети (РСЗС 29.10).
+const AMPP_M = 100;
+// Зона - шестиугольник радиусом 850 м: место в ней можно выбрать у любой
+// парковки АМПП в 500 м от точки зоны.
+const AMPP_ZONE_M = 500;
+function buildAmppIndex(points) {
+  const cell = 0.005;
+  const grid = new Map();
+  for (const p of points) {
+    const k = `${Math.floor(p[0] / cell)}|${Math.floor(p[1] / cell)}`;
+    if (!grid.has(k)) grid.set(k, []);
+    grid.get(k).push(p);
+  }
+  return { cell, grid };
+}
+function nearestAmpp(lat, lon) {
+  const idx = state.amppIndex;
+  if (!idx) return null;
+  const i0 = Math.floor(lat / idx.cell);
+  const j0 = Math.floor(lon / idx.cell);
+  const kLon = Math.cos((lat * Math.PI) / 180);
+  let best = null;
+  for (let di = -1; di <= 1; di++)
+    for (let dj = -1; dj <= 1; dj++)
+      for (const p of idx.grid.get(`${i0 + di}|${j0 + dj}`) || []) {
+        const m = Math.hypot((p[0] - lat) * 111320, (p[1] - lon) * 111320 * kLon);
+        if (!best || m < best.m) best = { m: Math.round(m), places: p[2], num: p[3] };
+      }
+  return best;
+}
+// Ближайшая стоянка такси (data.mos.ru, набор 621): 356 точек - перебором.
+function nearestTaxiStand(lat, lon) {
+  const kLon = Math.cos((lat * Math.PI) / 180);
+  let best = null;
+  for (const p of state.taxiStands || []) {
+    const m = Math.hypot((p[0] - lat) * 111320, (p[1] - lon) * 111320 * kLon);
+    if (!best || m < best.m) best = { m: Math.round(m), places: p[2], address: p[3] };
+  }
+  return best;
+}
+
+// Порог для статуса: при режиме «по АМПП» у мест рядом с парковкой АМПП - без платы за подключение.
+function thFor(by) {
+  return state.ctl.funding === 'ampp' && by?.amppOk ? state.thAmpp : state.th;
+}
+
+function statusOf(by, year, th = thFor(by)) {
   if (!by) return 'no';
   return siteStatus({ S: sessionsIn(by, year), cls: by.cls, th });
 }
@@ -341,14 +390,14 @@ function zoneHint(z, by) {
 
 function renderZonesView() {
   const { scenario, year } = state.ctl;
-  const th = state.th;
   const zones = state.zones.zones
     .filter((z) => z.by?.[scenario])
     .map((z) => {
       const by = z.by[scenario];
       const status = statusOf(by, year);
       const S = sessionsIn(by, year) ?? 0;
-      return { key: z.key, status, level: Math.max(0, Math.min(1, (S - th.pb) / Math.max(1e-6, th.npv - th.pb))), hint: zoneHint(z, by), zone: z };
+      const t = thFor(by);
+      return { key: z.key, status, level: Math.max(0, Math.min(1, (S - t.pb) / Math.max(1e-6, t.npv - t.pb))), hint: zoneHint(z, by), zone: z };
     });
   renderZones({ zonesSource: state.layers.zonesSource, zones });
   renderZoneLegend(zones);
@@ -369,7 +418,7 @@ function renderZoneLegend(zones) {
   const th = state.th;
   document.getElementById('zone-legend').innerHTML = `
     <div class="zl-title">Зоны на ${state.ctl.year}</div>
-    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция окупится за ${th.normYears} лет: прогноз от ${num(th.pb, 0)} зарядок в сутки и подстанция рядом. Тёмно-синие — с запасом, от ${num(th.npv, 0)} зарядок</small></div></div>
+    <div class="zl-row"><i class="sw sw-now"></i><div><b>Строить</b> <span class="zl-n">${c.priority + c.now}</span><small>станция окупится за ${th.normYears} лет: прогноз от ${num(th.pb, 0)} зарядок в сутки и подстанция рядом. Тёмно-синие — с запасом, от ${num(th.npv, 0)} зарядок${state.ctl.funding === 'ampp' ? `. У парковок АМПП подключение за счёт сети — там хватает ${num(state.thAmpp.pb, 0)} зарядок` : ''}</small></div></div>
     <div class="zl-row"><i class="sw sw-grid"></i><div><b>Готовить сеть</b> <span class="zl-n">${c.grid}</span><small>спрос есть, но подстанции рядом нет — сначала запрос в «Россети»</small></div></div>
     <div class="zl-row"><i class="sw sw-no"></i><div><b>Не ставить</b> <span class="zl-n">${c.no}</span><small>за ${th.normYears} лет не окупится</small></div></div>`;
 }
@@ -1202,6 +1251,9 @@ function buildPassportVm(P) {
     hour: state.ctl.hour,
     subsidy,
     ampp,
+    amppNear: nearestAmpp(subject.lat, subject.lon),
+    taxiNear: nearestTaxiStand(subject.lat, subject.lon),
+    amppMaxM: AMPP_M,
     econLive: !!P.e150,
     dateStr: new Date().toLocaleDateString('ru-RU'),
     th,
@@ -1298,7 +1350,8 @@ function wirePassport(P) {
 async function openPassport(subject) {
   const token = {};
   const subsidy = state.passport?.subsidy ?? false;
-  const ampp = state.passport?.ampp ?? false;
+  const near = nearestAmpp(subject.lat, subject.lon);
+  const ampp = state.ctl.funding === 'ampp' && !!near && near.m <= AMPP_M;
   state.passport = { subject, token, subsidy, ampp, progress: { fraction: 0.03, text: 'Считаю спрос, очередь и соседей…' }, live: null, e150: null };
   const P = state.passport;
   document.getElementById('passport-empty').hidden = true;
@@ -1711,7 +1764,15 @@ function setControl(name, value) {
   if (state.ctl[name] === v) return;
   state.ctl[name] = v;
   document.querySelectorAll(`.seg[data-control="${name}"] button`).forEach((b) => b.classList.toggle('active', b.dataset.value === String(v)));
-  if (name === 'scenario' || name === 'year') renderZonesView();
+  if (name === 'scenario' || name === 'year' || name === 'funding') renderZonesView();
+  if (name === 'funding') {
+    if (state.passport) {
+      const near = nearestAmpp(state.passport.subject.lat, state.passport.subject.lon);
+      state.passport.ampp = v === 'ampp' && !!near && near.m <= AMPP_M;
+      if (currentView() === 'passport') renderPassportNow();
+    }
+    return;
+  }
   if (name === 'scenario' && state.portfolio) portfolioMoney();
   const onPassport = state.passport && currentView() === 'passport';
   // Паспорт сразу показывает готовый расчёт зон для нового сценария, точный
@@ -1824,13 +1885,25 @@ function route() {
 
 // ---------- Старт ----------
 async function main() {
-  const { cells, stationsAll, centers, params, zones, pool, tp04, tp04Meta, mkadRing, benchmarks } = await loadData();
+  const { ampp, taxiStands, cells, stationsAll, centers, params, zones, pool, tp04, tp04Meta, mkadRing, benchmarks } = await loadData();
+  state.amppIndex = ampp.length ? buildAmppIndex(ampp) : null;
+  state.taxiStands = taxiStands;
   state.tp04Meta = tp04Meta;
   state.benchmarks = benchmarks;
   const preciseParams = { ...params, equilibrium: { ...params.equilibrium, convergence_threshold_hours: params.equilibrium.convergence_threshold_hours_precise } };
   Object.assign(state, { cells, stationsAll, centers, params, preciseParams, zones, tp04, mkadRing });
   const calcById = new Map(zones.sites.map((s) => [s.id, s]));
   for (const s of pool) state.siteById.set(s.id, { ...s, calc: calcById.get(s.id) || null });
+  // расстояние до парковки АМПП - в расчёт каждого сценария (для статуса в режиме «по АМПП»)
+  const tagAmpp = (lat, lon, byAll, maxM) => {
+    const m = nearestAmpp(lat, lon)?.m ?? null;
+    for (const by of Object.values(byAll || {})) {
+      by.amppM = m;
+      by.amppOk = m !== null && m <= maxM;
+    }
+  };
+  for (const z of zones.zones) tagAmpp(z.lat, z.lon, z.by, AMPP_ZONE_M);
+  for (const s of state.siteById.values()) if (s.calc) tagAmpp(s.lat, s.lon, s.calc.by, AMPP_M);
   computeThresholds();
   document.getElementById('stations-count').textContent = String(stationsAll.filter((st) => st.status !== 'planned' && !st.outside_mkad).length);
   document.getElementById('data-chip').textContent = `Расчёт зон ${new Date(zones.date).toLocaleDateString('ru-RU')}`;

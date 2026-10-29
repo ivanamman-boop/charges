@@ -412,30 +412,30 @@
     "new_per_mln": 0.127
    },
    {
-    "id": "L-235",
-    "lat": 55.631253,
-    "lon": 37.601594,
+    "id": "L-027",
+    "lat": 55.80415,
+    "lon": 37.68314,
     "kind": "парковка",
     "name": null,
-    "district": "ЮАО",
-    "dist04_m": 97,
+    "district": "ВАО",
+    "dist04_m": 160,
     "omega": "DC150-2",
     "P_kW": 150,
     "posts": 2,
     "P_post_kW": 150,
     "cls": "А",
-    "sessions_2026": 10.31,
-    "sessions_2030": 19.14,
-    "new_demand_2026": 0.57,
-    "new_demand_2030": 2.17,
-    "acc_day_2026": 0.909,
-    "acc_day_2030": 0.763,
+    "sessions_2026": 10.88,
+    "sessions_2030": 19.86,
+    "new_demand_2026": 0.71,
+    "new_demand_2030": 1.91,
+    "acc_day_2026": 0.899,
+    "acc_day_2030": 0.749,
     "conn_cost_low_rub": 3000000,
     "conn_cost_high_rub": 7800000,
     "conn_months_low": 10,
     "conn_months_high": 12,
     "capex_rub": 11600000,
-    "new_per_mln": 0.118
+    "new_per_mln": 0.113
    },
    {
     "id": "L-080",
@@ -464,32 +464,6 @@
     "new_per_mln": 0.116
    },
    {
-    "id": "L-027",
-    "lat": 55.80415,
-    "lon": 37.68314,
-    "kind": "парковка",
-    "name": null,
-    "district": "ВАО",
-    "dist04_m": 160,
-    "omega": "DC150-2",
-    "P_kW": 150,
-    "posts": 2,
-    "P_post_kW": 150,
-    "cls": "А",
-    "sessions_2026": 10.87,
-    "sessions_2030": 19.86,
-    "new_demand_2026": 0.71,
-    "new_demand_2030": 1.91,
-    "acc_day_2026": 0.899,
-    "acc_day_2030": 0.749,
-    "conn_cost_low_rub": 3000000,
-    "conn_cost_high_rub": 7800000,
-    "conn_months_low": 10,
-    "conn_months_high": 12,
-    "capex_rub": 11600000,
-    "new_per_mln": 0.113
-   },
-   {
     "id": "L-225",
     "lat": 55.673487,
     "lon": 37.669237,
@@ -502,10 +476,10 @@
     "posts": 2,
     "P_post_kW": 150,
     "cls": "А",
-    "sessions_2026": 9.38,
-    "sessions_2030": 20.02,
-    "new_demand_2026": 0.53,
-    "new_demand_2030": 2.05,
+    "sessions_2026": 9.43,
+    "sessions_2030": 20.07,
+    "new_demand_2026": 0.54,
+    "new_demand_2030": 2.09,
     "acc_day_2026": 0.92,
     "acc_day_2030": 0.756,
     "conn_cost_low_rub": 3000000,
@@ -513,7 +487,7 @@
     "conn_months_low": 10,
     "conn_months_high": 12,
     "capex_rub": 11600000,
-    "new_per_mln": 0.111
+    "new_per_mln": 0.113
    },
    {
     "id": "L-108",
@@ -540,6 +514,32 @@
     "conn_months_high": 12,
     "capex_rub": 11600000,
     "new_per_mln": 0.111
+   },
+   {
+    "id": "L-294",
+    "lat": 55.662852,
+    "lon": 37.56942,
+    "kind": "парковка",
+    "name": null,
+    "district": "ЮЗАО",
+    "dist04_m": 142,
+    "omega": "DC150-2",
+    "P_kW": 150,
+    "posts": 2,
+    "P_post_kW": 150,
+    "cls": "А",
+    "sessions_2026": 11.78,
+    "sessions_2030": 18.64,
+    "new_demand_2026": 0.53,
+    "new_demand_2030": 1.87,
+    "acc_day_2026": 0.899,
+    "acc_day_2030": 0.776,
+    "conn_cost_low_rub": 3000000,
+    "conn_cost_high_rub": 7800000,
+    "conn_months_low": 10,
+    "conn_months_high": 12,
+    "capex_rub": 11600000,
+    "new_per_mln": 0.104
    }
   ],
   "stoppedReason": null
@@ -569,12 +569,12 @@
    "model": {
     "n": 10,
     "sessions_per_day_network": 2828,
-    "U_new_mean": 0.1299,
+    "U_new_mean": 0.1323,
     "U_network_mean": 0.0796,
     "share_new_U_below_20": 1,
     "served_share_of_demand": 0.9687,
     "queue_loss_share": 0.0175,
-    "wait_min_peak": 4.04
+    "wait_min_peak": 4.05
    }
   },
   "2028": {
@@ -601,7 +601,7 @@
    "model": {
     "n": 10,
     "sessions_per_day_network": 5277,
-    "U_new_mean": 0.1672,
+    "U_new_mean": 0.1689,
     "U_network_mean": 0.1131,
     "share_new_U_below_20": 0.9,
     "served_share_of_demand": 0.9728,
@@ -633,10 +633,10 @@
    "model": {
     "n": 10,
     "sessions_per_day_network": 9842,
-    "U_new_mean": 0.2722,
+    "U_new_mean": 0.2718,
     "U_network_mean": 0.1902,
     "share_new_U_below_20": 0,
-    "served_share_of_demand": 0.9584,
+    "served_share_of_demand": 0.9583,
     "queue_loss_share": 0.0305,
     "wait_min_peak": 9.05
    }
