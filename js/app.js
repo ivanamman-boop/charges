@@ -489,7 +489,7 @@ function renderKpis(zones) {
   else conclusion = `Если ставить сейчас, станция окупается за ${N} лет в ${ok} ${plural(ok, 'зоне', 'зонах', 'зонах')} из ${zones.length}${pbMed ? `, в среднем за ${num(pbMed, 0)} лет` : ''}. Начинать с самых тёмных зон — там быстрее всего.`;
   document.getElementById('kpi-row').innerHTML = `
     <div class="kpi"><div class="kpi-label">Зон, где станция окупится</div><div class="kpi-value">${ok}</div><div class="kpi-sub">из ${zones.length} зон внутри МКАД · если ставить сейчас, за ${N} лет с учётом роста спроса</div></div>
-    <div class="kpi"><div class="kpi-label">Окупаемость в среднем</div><div class="kpi-value">${pbMed ? `${num(pbMed, 1)} лет` : '—'}</div><div class="kpi-sub">${pbFast ? `в лучших зонах — от ${num(pbFast, 1)} лет; норматив РСЗС — ${N}` : `норматив РСЗС — ${N} лет`}</div></div>
+    <div class="kpi"><div class="kpi-label">Окупаемость в среднем</div><div class="kpi-value">${pbMed ? `${num(pbMed, 1)} года` : '—'}</div><div class="kpi-sub">${pbFast ? `в лучших зонах — от ${num(pbFast, 1)} года; норматив РСЗС — ${N} лет` : `норматив РСЗС — ${N} лет`}</div></div>
     <div class="kpi"><div class="kpi-label">Быстрых станций к 2030</div><div class="kpi-value">~${fmtInt(active + planned)}</div><div class="kpi-sub">${active} уже работают, ещё ${planned} поставит город («Энергия Москвы»)</div></div>
     <div class="kpi kpi-dark"><div class="kpi-label">Коротко · ${esc(SCENARIO_LABEL[scenario])}</div><div class="kpi-text">${conclusion}</div></div>`;
 }
@@ -594,7 +594,8 @@ function statusExplanation(status, S, by, year) {
   const g = by ? growthEcon((y) => sessionsIn(by, y), year, th) : null;
   const S30 = by ? sessionsIn(by, 2030) : null;
   const growth = S30 !== null && S30 > S ? ` Спрос растёт: ${num(S, 0)} зарядок в сутки в ${year}, ${num(S30, 0)} к 2030.` : '';
-  const pb = g?.paybackYears ? `примерно за ${num(g.paybackYears, 0)} лет` : `за ${th.normYears} лет`;
+  const pbN = g?.paybackYears ? Math.round(g.paybackYears) : null;
+  const pb = pbN ? `примерно за ${pbN} ${plural(pbN, 'год', 'года', 'лет')}` : `за ${th.normYears} лет`;
   if (by?.cls === 'В') return 'У питающего центра сейчас нет свободной мощности — сначала запрос в «Россети» о расширении.';
   if (status === 'priority') return `Если ставить сейчас, станция окупится ${pb} и заработает больше стоимости денег (ставка 18%). Подстанция рядом — первая очередь.${growth}`;
   if (status === 'now') return `Если ставить сейчас, станция окупится ${pb} за счёт роста спроса — в пределах норматива РСЗС.${growth}`;
@@ -1227,24 +1228,27 @@ function buildPassportVm(P) {
   let econ = null;
   let robust = null;
   let classBNpv = null;
+  let classBPayback = null;
   if (P.e150?.connRange) {
+    // основной расчёт - типичная цена подключения (как на карте: нижняя по 4 ТУ РСЗС), диапазон - от дешёвой до дорогой
     const hi = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'high', launchYear: year });
     const lo = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'low', launchYear: year });
-    econ = { ...hi, capexRange: [lo.capex, hi.capex], paybackRange: [lo.payback, hi.payback] };
+    const typ = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'typ', launchYear: year });
+    econ = { ...typ, capexRange: [lo.capex, hi.capex], paybackRange: [lo.payback, hi.payback] };
     // Метрики ТЗ по экономике площадки (уровни 1 и 2).
-    const net = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'high', launchYear: year });
-    const netNpv = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'high', launchYear: year, network: true }).npv;
+    const net = typ;
+    const netNpv = siteEconomics(P.e150, { params: state.params, subsidy, ampp, connBound: 'typ', launchYear: year, network: true }).npv;
     const anchor = P.e150.years.includes(year) ? year : 2026;
     const comp = (c) => mfppipCompensation({ connCostRub: c, params: state.params });
     econ.tz = {
-      ...siteMetrics(P.e150, anchor, { params: state.params, capex: hi.capex }),
+      ...siteMetrics(P.e150, anchor, { params: state.params, capex: typ.capex }),
       year: anchor,
       capexNoSub: [lo.capex, hi.capex],
       capexMfppip: ampp ? [lo.capex, hi.capex] : [lo.capex - comp(lo.connCost), hi.capex - comp(hi.connCost)],
       paybackDisc: net.paybackDisc,
       npvStation: net.npv,
       npvNetwork: netNpv,
-      verdict: verdictRszs({ npvExpensive: hi.npv, npvCheap: lo.npv, paybackExpensive: hi.payback, paybackCheap: lo.payback, normYears: th.normYears }),
+      verdict: verdictRszs({ npvExpensive: typ.npv, npvCheap: lo.npv, paybackExpensive: typ.payback, paybackCheap: lo.payback, normYears: th.normYears }),
     };
     robust = robustness(P.e150, { params: state.params, subsidy, ampp, launchYear: year });
     // Сколько зарядок в сутки нужно для окупаемости за норматив (идея команды 27.10).
@@ -1255,7 +1259,9 @@ function buildPassportVm(P) {
     if (cls === 'А' && !ampp) {
       const m5 = state.params.M5_grid;
       const P_kW = P.e150.cfg.P_cap_kW;
-      classBNpv = siteEconomics(P.e150, { params: state.params, subsidy, connOverride: { cost: m5.c_B_rub_per_kW.max * P_kW, months: m5.T_conn_months.B.max }, launchYear: year }).npv;
+      const eB = siteEconomics(P.e150, { params: state.params, subsidy, connOverride: { cost: m5.c_B_rub_per_kW.max * P_kW, months: m5.T_conn_months.B.max }, launchYear: year });
+      classBNpv = eB.npv;
+      classBPayback = eB.payback;
     }
   } else if (pre?.npv && year === 2026) {
     // В zones.json экономика посчитана для решения в 2026 - для другого года ждём живой расчёт.
@@ -1271,7 +1277,10 @@ function buildPassportVm(P) {
   const gro = growthEcon((y) => series.S[y], year, th);
   const S30 = series.S[2030];
   const growthTxt = S30 > S ? ` Спрос растёт: ${num(S, 1)} зарядки в сутки в ${year}, ${num(S30, 0)} к 2030.` : '';
-  const pbTxt = gro.paybackYears ? `примерно за ${num(gro.paybackYears, 0)} лет` : `за ${th.normYears} лет`;
+  // срок - из точного помесячного расчёта паспорта, если он уже есть, иначе из годового (как на карте)
+  const pbVal = econ?.payback ?? gro.paybackYears;
+  const pbN = pbVal ? Math.round(pbVal) : null;
+  const pbTxt = pbN ? `примерно за ${pbN} ${plural(pbN, 'год', 'года', 'лет')}` : `за ${th.normYears} лет`;
   if (cls === 'В') {
     recTitle = 'Сначала мощность';
     recText = 'У питающего центра сейчас нет свободной мощности — сначала запрос в «Россети» о расширении.';
@@ -1300,6 +1309,7 @@ function buildPassportVm(P) {
     hour: state.ctl.hour,
     subsidy,
     ampp,
+    classBPayback,
     amppNear: nearestAmpp(subject.lat, subject.lon),
     taxiNear: nearestTaxiStand(subject.lat, subject.lon),
     newNear: newBuildingsNear(subject.lat, subject.lon, 1000),
@@ -1693,7 +1703,7 @@ function portfolioMoney() {
         ${row('<b>Модель выигрывает</b>', '', `<b>${mlnS(m.npvHi - t.npvHi)} млн ₽</b>`, m.npvHi > t.npvHi)}
         ${row('Сколько возвращается с каждого вложенного рубля (с учётом ставки)', `${num(t.pi, 2)} ₽`, `${num(m.pi, 2)} ₽`, m.pi > t.pi)}
         ${row(`Площадок, окупающихся за ${N} лет`, `${t.paid} из ${t.n}`, `${m.paid} из ${m.n}`, m.paid > t.paid)}
-        ${row('Потери на местах, которые не окупаются', `${num(t.errors / 1e6, 1)} млн ₽`, `${num(m.errors / 1e6, 1)} млн ₽`, m.errors < t.errors)}
+        ${row('Вложения в места без окупаемости', `${num(t.errors / 1e6, 1)} млн ₽`, `${num(m.errors / 1e6, 1)} млн ₽`, m.errors < t.errors)}
       </tbody>
     </table>
     <p class="hint">Каждая площадка посчитана как отдельная станция, без учёта того, что станции портфеля делят клиентов между собой, и без компенсации МФППиП. Стоимость ошибок — сколько потеряли бы станции с отрицательным NPV; разница между подходами — ошибки, которых модель позволяет избежать.</p>`;

@@ -52,11 +52,12 @@ export function connectionCostRange({ cls, Preq, dist04Meters, params }) {
   if (useClass === 'А') {
     // Плата в Москве считается по длине кабеля до ТП, а не за кВт: диапазон
     // по 4 реальным ТУ РСЗС на 150 кВт (params c_A_conn_rub).
-    const { low, high } = classAConnRange(params);
+    const { low, high, mid } = classAConnRange(params);
     return {
       cls,
       costLow: low,
       costHigh: high,
+      costTyp: mid,
       monthsLow: m5.T_conn_months.A.min,
       monthsHigh: m5.T_conn_months.A.max,
     };

@@ -22,6 +22,7 @@ const withPel = (params, pEl) => ({
 
 function connFor(connRange, bound) {
   if (bound === 'low') return { cost: connRange.costLow, months: connRange.monthsLow };
+  if (bound === 'typ') return { cost: connRange.costTyp ?? (connRange.costLow + connRange.costHigh) / 2, months: (connRange.monthsLow + connRange.monthsHigh) / 2 };
   if (bound === 'mid') return { cost: (connRange.costLow + connRange.costHigh) / 2, months: (connRange.monthsLow + connRange.monthsHigh) / 2 };
   return { cost: connRange.costHigh, months: connRange.monthsHigh };
 }
@@ -38,7 +39,7 @@ function connFor(connRange, bound) {
 // ampp - подключение по программе АМПП: сеть строит за свой счёт, РСЗС
 // платит только станцию и установку (РСЗС 29.10); срок подключения прежний,
 // платы и компенсации МФППиП нет.
-export function siteEconomics(e, { params, subsidy = false, ampp = false, pEl = null, demandMult = 1, connBound = 'high', connOverride = null, launchYear = 2026, network = false }) {
+export function siteEconomics(e, { params, subsidy = false, ampp = false, pEl = null, demandMult = 1, connBound = 'typ', connOverride = null, launchYear = 2026, network = false }) {
   if (!e?.connRange) return null;
   const p = pEl === null ? params : withPel(params, pEl);
   const m7 = p.M6_M7_equipment_economics;
@@ -59,7 +60,11 @@ export function siteEconomics(e, { params, subsidy = false, ampp = false, pEl = 
   const getSessions = (year, season, dayType, segment) =>
     demandMult * interpolateAnchors(Object.fromEntries(years.map((y) => [y, e.sessionsByCombo[`${y}|${season}|${dayType}`][segment] * incr(`${y}|${season}|${dayType}`)])), year);
   // Маржа летняя во всех месяцах - как в equipment.js (зимний расход учтён в сессиях).
-  const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: (s) => marginPerSession({ segment: s, season: 'summer', params: p }), TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: launchYear, H: m7.H_years.value, r: m7.r_discount_rate.value, reinvest: { rub: cfg.C_eq_rub, months: reinvestMonths(p, m7.H_years.value) } });
+  // Выручка с зарядки - при доле такси из params (10%, как в презентации и на
+  // карте): модель спроса даёт такси 30-45% на любой станции, а РСЗС (29.10)
+  // видит такую долю только на хабах (ограничение 22). Число зарядок - по модели.
+  const mixMargin = mixAverages({ mix: thresholdMix(p), cfg: { ...cfg, C_eq_rub: cfg.C_eq_rub }, params: p }).margin;
+  const CF = monthlyCashFlow({ getSessions, marginBySegmentSeason: () => mixMargin, TconnMonths: conn.months, OPEXfixYearRub: opex, startYear: launchYear, H: m7.H_years.value, r: m7.r_discount_rate.value, reinvest: { rub: cfg.C_eq_rub, months: reinvestMonths(p, m7.H_years.value) } });
   const nInst = p.M5_grid.mfppip?.installments.value ?? 3;
   for (let k = 1; k <= nInst && comp > 0; k++) CF[12 * k - 1] += comp / nInst;
   const r = m7.r_discount_rate.value;
@@ -185,7 +190,16 @@ export function robustness(e, { params, subsidy = false, ampp = false, launchYea
   const npvAt = (opts) => siteEconomics(e, { params, subsidy, ampp, launchYear, ...opts })?.npv ?? NaN;
   const pElZero = crossing((x) => npvAt({ pEl: x }), 0, 40);
   const demandZero = crossing((x) => npvAt({ demandMult: x }), 0.05, 10);
+  // Граница окупаемости за норматив РСЗС (основной критерий): цена энергии и
+  // спрос, при которых простая окупаемость = N лет.
+  const N = params.M6_M7_equipment_economics.payback_norm_years.value;
+  const pbGap = (opts) => (siteEconomics(e, { params, subsidy, ampp, launchYear, ...opts })?.payback ?? 99) - N;
+  const pElPb = crossing((x) => pbGap({ pEl: x }), 0, 40);
+  const demandPb = crossing((x) => pbGap({ demandMult: x }), 0.05, 10);
   return {
+    pElPb,
+    pElPbPct: pElPb === null ? null : pElPb / base.value - 1,
+    demandPbPct: demandPb === null ? null : demandPb - 1,
     pElBase: base.value,
     pElRange: [base.min, base.max],
     pElZero,
@@ -216,7 +230,8 @@ export function siteMetrics(e, year, { params, capex }) {
         tauSum += n * sessionDurationHours({ segment: s, station: st, season: se, params });
       }
     }
-  const mBar = N > 0 ? marginSum / N : 0;
+  // выручка с зарядки при доле такси из params (как в siteEconomics); зимний расход ×κ_E не меняет маржу на зарядку существенно
+  const mBar = N > 0 ? mixAverages({ mix: thresholdMix(params), cfg: e.cfg, params }).margin : 0;
   const tau = N > 0 ? tauSum / N : 0;
   const F = opexFixYearRub({ posts: e.cfg.posts, CeqRub: e.cfg.C_eq_rub, params });
   const H = m7.H_years.value;

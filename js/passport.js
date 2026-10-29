@@ -14,7 +14,8 @@ const mln = (rub, d = 1) => (rub === null || rub === undefined || !Number.isFini
 const signedMln = (rub) => (Number.isFinite(rub) ? `${rub >= 0 ? '+' : '−'}${num(Math.abs(rub) / 1e6, 1)}` : '—');
 const pct = (v, d = 0) => (Number.isFinite(v) ? `${num(v * 100, d)}%` : '—');
 const thousands = (rub) => `${Math.round(rub / 1000).toLocaleString('ru-RU')} тыс. ₽`;
-const years = (v) => (v === null || v === undefined ? 'больше 10 лет' : `${num(v, 1)} ${plural(Math.round(v), 'год', 'года', 'лет')}`);
+const yWord = (v) => (Math.abs(v - Math.round(v)) > 0.05 ? 'года' : plural(Math.round(v), 'год', 'года', 'лет'));
+const years = (v) => (v === null || v === undefined ? 'больше 10 лет' : `${num(v, 1)} ${yWord(v)}`);
 
 function plural(n, one, few, many) {
   const m10 = n % 10;
@@ -64,11 +65,22 @@ function loadChart(vm) {
 }
 
 // Окупаемость диапазоном: дешёвая — дорогая граница цены подключения.
+// Окупаемость при типичной цене подключения (одна цифра); диапазон - отдельно словами.
 function paybackText(econ) {
-  const one = (v) => (v === null || v === undefined ? '> 10' : num(v, 1));
+  return econ.payback === null || econ.payback === undefined ? 'больше 10' : num(econ.payback, 1);
+}
+const paybackUnit = (econ) => (econ.payback === null || econ.payback === undefined ? 'лет' : yWord(econ.payback));
+function paybackRangeNote(econ) {
   const r = econ.paybackRange;
-  if (!r || one(r[0]) === one(r[1])) return one(econ.payback);
-  return `${one(r[0])}–${one(r[1])}`;
+  if (!r) return '';
+  const lo = r[0] !== null && r[0] !== undefined ? `при дешёвом подключении — ${num(r[0], 1)}` : null;
+  const hi = r[1] !== null && r[1] !== undefined ? `при дорогом — ${num(r[1], 1)}` : 'при дорогом — дольше 10';
+  return [lo, hi].filter(Boolean).join(', ');
+}
+// Вложения: типичная сумма и диапазон по цене подключения.
+function capexText(econ, d = 1) {
+  const r = econ.capexRange;
+  return `${mln(econ.capex, d)} млн ₽${r ? ` (${mln(r[0], d)}–${mln(r[1], d)} в зависимости от подключения)` : ''}`;
 }
 
 // «При каком спросе точка окупится» (предложение команды 27.10): сколько
@@ -96,7 +108,7 @@ function needBlock(vm) {
     headline = `Окупится за ${N} лет при любой цене подключения: прогноз ${num(fc, 1)} зарядки в сутки, а нужно ${num(sure.sessions, 1)}.`;
     tone = 'ok';
   } else if (best && best.mult <= 1) {
-    headline = `Окупится за ${N} лет, только если подключение окажется дешёвым. С дорогим подключением нужно ${num(sure?.sessions, 1)} зарядки в сутки, прогноз — ${num(fc, 1)}.`;
+    headline = `Окупится за ${N} лет при цене подключения ниже типичной. При дорогом подключении нужно ${num(sure?.sessions, 1)} зарядки в сутки, прогноз — ${num(fc, 1)}; цену уточнят техусловия.`;
     tone = 'warn';
   } else if (sure) {
     headline = `Чтобы окупиться за ${N} лет, точке нужно ${num(sure.sessions, 1)} зарядки в сутки. Прогноз — ${num(fc, 1)}${sure.year && sure.year > vm.year ? `; такого спроса модель ждёт к ${sure.year} году` : ''}.`;
@@ -151,7 +163,7 @@ function yearTable(vm) {
 function verdictText(vm) {
   const t = vm.econ.tz;
   const r = vm.econ.paybackRange || [];
-  if (t.verdict === 'build') return `Станция вернёт вложения за ${paybackText(vm.econ)} лет — в пределах норматива РСЗС (${vm.th.normYears} лет) — даже при дорогом подключении${vm.econ.npv > 0 ? ' и заработает больше ставки 18%' : ''}.`;
+  if (t.verdict === 'build') return `Станция вернёт вложения за ${paybackText(vm.econ)} ${paybackUnit(vm.econ)} — в пределах норматива РСЗС (${vm.th.normYears} лет) — при типичной цене подключения по техусловиям РСЗС${vm.econ.npv > 0 ? ' и заработает больше ставки 18%' : ''}.`;
   if (t.verdict === 'request') return 'Станция окупается за норматив при дешёвом подключении. Следующий шаг — технические условия от сетевой компании: они подтвердят цену.';
   return `Окупаемость за ${vm.th.normYears} лет здесь наберётся позже — с ростом спроса или при подключении по программе АМПП${r[0] === null ? '' : ''}.`;
 }
@@ -161,7 +173,6 @@ function econBlock(vm) {
   if (!t) return '';
   const rng = (a) => `${mln(a[0], 2)}–${mln(a[1], 2)}`;
   const row = (k, v, note = '') => `<div class="metric-row"><span>${k}${note ? `<small class="metric-note">${note}</small>` : ''}</span><span class="mono">${v}</span></div>`;
-  const marginTone = t.margin >= 1 ? 'ok' : 'warn';
   return `<section class="pp-card pp-wide">
     <h3>Деньги: станция и вся сеть РСЗС</h3>
     <p class="pp-note">Решение в ${vm.year} году, станция 150 кВт на 2 поста, 10 лет работы, ставка 18%. ${vm.subsidy ? 'Компенсация МФППиП учтена.' : 'Без компенсации МФППиП.'}</p>
@@ -171,16 +182,16 @@ function econBlock(vm) {
         ${row('Зарядок в сутки', num(t.N, 1), `средний день ${t.year} года`)}
         ${row('Загрузка поста', pct(vm.U[t.year], 1), 'ориентир РСЗС — 8–10% к концу первого года')}
         ${row('Остаётся за год после расходов', `${signedMln(t.cfYear)} млн ₽`, `маржа со всех зарядок минус ${mln(t.F, 2)} млн постоянных расходов`)}
-        ${row('Вложения', `${rng(t.capexNoSub)} млн ₽`, 'станция, подключение, площадка')}
+        ${row('Вложения', capexText(vm.econ, 2), 'станция, подключение, площадка')}
         ${row('Вложения с компенсацией МФППиП', `${rng(t.capexMfppip)} млн ₽`, 'город возвращает 50% платы за подключение')}
       </div>
       <div>
-        ${row('Окупаемость', `${paybackText(vm.econ)} лет`, `когда вернутся вложения; норматив РСЗС — ${vm.th.normYears} лет`)}
+        ${row('Окупаемость', `${paybackText(vm.econ)} ${paybackUnit(vm.econ)}`, `при типичной цене подключения; ${paybackRangeNote(vm.econ)}; норматив РСЗС — ${vm.th.normYears} лет`)}
         ${row('Окупаемость с учётом стоимости денег', t.paybackDisc === null ? 'больше 10 лет' : years(t.paybackDisc), 'то же при ставке 18%')}
         ${row('NPV станции', `${signedMln(t.npvStation)} млн ₽`, 'сколько станция заработает сверх вложений и ставки')}
         ${row('NPV для всей сети РСЗС', `${signedMln(t.npvNetwork)} млн ₽`, 'без зарядок, которые просто перейдут со станций РСЗС')}
-        ${row('Безубыточность', `${num(t.Sstar, 1)} зарядки в сутки`, `загрузка ${pct(t.Ustar, 1)}; столько нужно, чтобы вернуть вложения со ставкой`)}
-        <div class="metric-row"><span>Запас прочности<small class="metric-note">прогноз ÷ безубыточность; больше 1 — с запасом</small></span><span class="mono tone-${marginTone}">${num(t.margin, 2)}</span></div>
+        ${row('Порог доходности 18%', `${num(t.Sstar, 1)} зарядки в сутки`, `загрузка ${pct(t.Ustar, 1)}; с этого спроса станция зарабатывает больше ставки 18%`)}
+        ${row('Прогноз к порогу доходности', num(t.margin, 2), '1 и больше — доходность выше ставки 18%; окупаемость за норматив наступает раньше')}
       </div>
     </div>
   </section>`;
@@ -197,7 +208,7 @@ function summaryList(vm) {
       ? `<b>Спрос.</b> Прогноз ${num(S, 1)} зарядки в сутки в ${vm.year}, к 2030 — ${num(vm.S[2030], 0)}. ${S >= need ? `С ростом спроса станция окупается за ${vm.th.normYears} лет.` : `Для окупаемости за ${vm.th.normYears} лет старт нужен с ${num(need, 1)}.`}`
       : `<b>Спрос.</b> Прогноз ${num(S, 1)} зарядки в сутки в ${vm.year} году.`
   );
-  if (vm.econ?.paybackRange) items.push(`<b>Деньги.</b> Вложения ${mln(vm.econ.capexRange[0], 1)}–${mln(vm.econ.capexRange[1], 1)} млн ₽, вернутся за ${paybackText(vm.econ)} лет.`);
+  if (vm.econ?.paybackRange) items.push(`<b>Деньги.</b> Вложения ${capexText(vm.econ)}${vm.econ.payback !== null && vm.econ.payback !== undefined ? `, вернутся за ${paybackText(vm.econ)} ${paybackUnit(vm.econ)}` : '; окупаемость наберётся с ростом спроса или по программе АМПП'}.`);
   items.push(
     vm.dist04 !== null
       ? `<b>Сеть.</b> Подстанция в ${vm.dist04} м — подключение дешёвое, ${vm.conn ? `${num(vm.conn.months[0], 0)}–${num(vm.conn.months[1], 0)} мес.` : ''}`
@@ -216,13 +227,13 @@ function stakeholderBlock(vm) {
   // 1. Сетевая компания
   const tp = sh.tp;
   const c = sh.center;
-  const netWho = tp?.operator ? esc(tp.operator) : '«Россети Московский регион» или ОЭК';
+  const netWho = tp?.operator ? esc(tp.operator) : tp?.reserveMVA !== null && tp?.reserveMVA !== undefined ? 'ПАО «Россети Московский регион», МКС' : 'ПАО «Россети Московский регион» (МКС) или ОЭК';
   const netFacts = [
-    tp ? `ТП${tp.ref ? ` №${esc(tp.ref)}` : ''} в ${tp.dist} м${tp.address ? `, ${esc(tp.address)}` : ''}${tp.reserveMVA !== null && tp.reserveMVA !== undefined ? ` — свободно ${num(tp.reserveMVA, 2)} МВА по данным «Россетей» (${tp.reserveMVA >= 0.16 ? 'станции 150 кВт хватит' : 'на станцию 150 кВт не хватит'})` : ''}${tp.operator ? '' : ' — владелец в открытых данных не указан'}` : 'трансформаторной подстанции в открытых данных рядом нет',
-    c ? `питающий центр ${esc(c.name || c.id)}${c.voltage ? `, ${c.voltage} кВ` : ''}${Number.isFinite(c.freeMW) ? `, свободно около ${num(c.freeMW, 1)} МВт (${c.real ? 'по данным «Россетей», III кв. 2026' : 'оценка'})` : ''}` : null,
+    tp ? `ТП${tp.ref ? ` №${esc(tp.ref)}` : ''} в ${tp.dist} м${tp.address ? `, ${esc(tp.address)}` : ''}${tp.reserveMVA !== null && tp.reserveMVA !== undefined ? ` — свободно ${num(tp.reserveMVA, 2)} МВА по данным «Россетей» (${tp.reserveMVA >= 0.16 ? 'станции 150 кВт хватит' : 'на станцию 150 кВт не хватит'})` : ''}` : 'ближайшая трансформаторная подстанция определяется по запросу в сетевую компанию',
+    c ? `питающий центр ${esc(c.name || c.id)}${c.voltage ? `, ${c.voltage} кВ` : ''}${Number.isFinite(c.freeMW) ? `, свободно около ${num(c.freeMW, 1)} МВт (${c.real ? 'по данным «Россетей», III кв. 2026' : 'консервативная оценка по классу напряжения'})` : ''}` : null,
     c?.load ? (c.load.stations ? `от этого центра уже питаются ${c.load.stations} ${plural(c.load.stations, 'быстрая станция', 'быстрые станции', 'быстрых станций')} (${num(c.load.kw / 1000, 1)} МВт)` : 'других быстрых станций от этого центра пока нет') + (c.load.picks.filter((x) => x !== vm.subject.id).length ? `; на него же претендуют кандидаты модели ${esc(c.load.picks.filter((x) => x !== vm.subject.id).join(', '))}` : '') : null,
   ].filter(Boolean);
-  rows.push(['Сетевая компания', netWho, netFacts.join('; '), 'Заявка на техприсоединение 150 кВт с паспортом точки; узнать реальный резерв центра и цену.']);
+  rows.push(['Сетевая компания', netWho, netFacts.join('; '), 'Заявка на техприсоединение 150 кВт, паспорт точки — приложение; техусловия дадут точную цену и срок.']);
   // 2. Правообладатель площадки
   const o = sh.owner;
   if (o) {
@@ -234,11 +245,11 @@ function stakeholderBlock(vm) {
     rows.push(['Площадка и земля', 'Определяется…', 'запрашиваю объект в точке', '']);
   }
   // 3. Город
-  rows.push(['Город', 'Дептранс, МФППиП', 'программа «Энергия Москвы»; компенсация 50% платы за подключение, до 2 млн ₽', 'Узнать, нет ли адреса в программе города; подать на компенсацию МФППиП после подключения.']);
+  rows.push(['Город', 'Дептранс, ГКУ «АМПП», МФППиП', 'схема размещения ЭЗС Дептранса; программа АМПП — подключение за счёт сетевой организации; МФППиП — компенсация 50% платы за подключение, до 2 млн ₽', `${vm.amppNear && vm.amppNear.m <= vm.amppMaxM ? 'Рядом парковка АМПП — проверить участие в программе АМПП. ' : ''}Сверить адрес со схемой размещения ЭЗС; после подключения — заявка на компенсацию МФППиП.`]);
   // 4. Соседние операторы
   if (sh.competitors?.length) {
     const own = sh.competitors.find((x) => x.op === 'РСЗС');
-    rows.push(['Соседние станции', esc(sh.competitors.slice(0, 4).map((x) => x.op).join(', ')), sh.competitors.slice(0, 4).map((x) => `${esc(x.op)} — −${num(x.loss, 1)} зарядки в сутки`).join('; '), own ? `Станция заберёт ${num(own.loss, 1)} зарядки в сутки у своих же станций РСЗС — учесть при выборе.` : 'Станция заберёт клиентов у конкурентов, а не у своей сети.']);
+    rows.push(['Соседние станции', esc(sh.competitors.slice(0, 4).map((x) => x.op).join(', ')), sh.competitors.slice(0, 4).map((x) => `${esc(x.op)} — −${num(x.loss, 1)} зарядки в сутки`).join('; '), own ? `Перераспределение внутри сети РСЗС — ${num(own.loss, 1)} зарядки в сутки перейдут со своих станций; учтено в расчёте эффекта для сети.` : 'Клиенты приходят от конкурентов, а не из своей сети.']);
   }
   // 5. Партнёры по спросу
   const taxi = vm.yearRows?.find((r) => r.year === vm.year)?.taxi ?? vm.yearRows?.[0]?.taxi;
@@ -246,10 +257,10 @@ function stakeholderBlock(vm) {
   if (taxi && taxi > 0.25) partners.push(`такси-агрегаторы и таксопарки: около ${pct(taxi)} зарядок здесь — такси`);
   if (o?.kind === 'commercial') partners.push('собственник объекта: его посетители и сотрудники станут клиентами станции');
   if (o?.kind === 'residential') partners.push('жители квартала: часть из них без домашней зарядки');
-  if (partners.length) rows.push(['Партнёры по спросу', partners.length > 1 ? 'Несколько' : partners[0].split(':')[0], partners.join('; '), 'Договориться о скидках или резерве постов для постоянных клиентов.']);
+  if (partners.length) rows.push(['Партнёры по спросу', partners.length > 1 ? 'Несколько' : partners[0].split(':')[0], partners.join('; '), 'Договор о корпоративном тарифе или резерве постов для постоянных клиентов.']);
   return `<section class="pp-card pp-wide">
     <h3>Участники проекта</h3>
-    <p class="pp-note">С кем придётся договариваться по этой точке. Сведения из открытых данных — это подсказка для переговоров; правообладателя земли подтверждает кадастровая карта.</p>
+    <p class="pp-note">Кто участвует в проекте по этой точке и что нужно от каждого. Собрано из открытых данных; правообладатель земли перед заявкой сверяется по публичной кадастровой карте.</p>
     <table class="data-table stake-table"><thead><tr><th>Кто</th><th>Конкретно</th><th>Что известно</th><th>Что сделать</th></tr></thead><tbody>
       ${rows.map((r) => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}
     </tbody></table>
@@ -261,41 +272,42 @@ function kpiTile({ label, value, unit = '', sub = '', tone = '' }) {
 }
 
 function robustBlock(vm) {
+  if (vm.cls === 'В') return '<p class="pp-note">Точка ждёт свободной мощности питающего центра: по раскрытию «Россетей» резерв сейчас исчерпан. Решение — запрос в «Россети» о сроках расширения центра или соседняя площадка от другого центра.</p>';
   if (!vm.robust) return '<div class="skeleton"></div><p class="pp-note">Считается вместе с точным прогнозом…</p>';
   const r = vm.robust;
   const [pMin, pMax] = r.pElRange;
-  const scaleLo = Math.min(pMin, r.pElZero ?? pMin) * 0.8;
-  const scaleHi = Math.max(pMax, r.pElZero ?? pMax) * 1.1;
+  const scaleLo = Math.min(pMin, r.pElPb ?? pMin) * 0.8;
+  const scaleHi = Math.max(pMax, r.pElPb ?? pMax) * 1.1;
   const pos = (v) => `${(((v - scaleLo) / (scaleHi - scaleLo)) * 100).toFixed(1)}%`;
-  const npvPositive = vm.econ.npv > 0;
-  const dz = r.demandZeroPct;
+  const N = vm.th.normYears;
+  const pays = vm.econ.payback !== null && vm.econ.payback !== undefined && vm.econ.payback <= N;
+  const pz = r.pElPb;
+  const dz = r.demandPbPct;
   let verdict;
   let tone;
-  if (npvPositive && (r.pElZero === null || r.pElZero > pMax)) {
-    verdict = `Вывод надёжный: станция выгодна даже при самой дорогой электроэнергии (${num(pMax, 0)} ₽)${dz !== null ? ` и при спросе на ${num(-dz * 100, 0)}% ниже прогноза` : ''}.`;
+  if (pays && (pz === null || pz > pMax)) {
+    verdict = `Вывод надёжный: станция окупится за ${N} лет даже при самой дорогой электроэнергии (${num(pMax, 0)} ₽)${dz !== null && dz < 0 ? ` и при спросе на ${num(-dz * 100, 0)}% ниже прогноза` : ''}.`;
     tone = 'ok';
-  } else if (npvPositive) {
-    verdict = `Вывод хрупкий: если электроэнергия подорожает до ${num(r.pElZero, 1)} ₽ (на ${num(Math.abs(r.pElZeroPct) * 100, 0)}%), станция перестанет быть выгодной.`;
-    tone = 'warn';
+  } else if (pays) {
+    verdict = `Окупаемость за ${N} лет сохранится, пока электроэнергия не дороже ${num(pz, 1)} ₽${dz !== null && dz < 0 ? ` и спрос не ниже прогноза больше чем на ${num(-dz * 100, 0)}%` : ''}.`;
+    tone = 'ok';
   } else {
-    verdict =
-      r.pElZero !== null && r.pElZero > 0
-        ? `Сейчас невыгодно. Станция станет выгодной при электроэнергии дешевле ${num(r.pElZero, 1)} ₽${dz !== null ? ` или при спросе на ${num(dz * 100, 0)}% выше прогноза` : ''}.`
-        : `Сейчас невыгодно при любой цене электроэнергии${dz !== null ? `; нужен спрос на ${num(dz * 100, 0)}% выше прогноза` : ''}.`;
+    verdict = `Окупаемость за ${N} лет наберётся${dz !== null && dz > 0 ? ` при спросе на ${num(dz * 100, 0)}% выше прогноза` : ' позже'} или при подключении по программе АМПП.`;
     tone = 'warn';
   }
+  const pbB = vm.classBPayback;
   return `
-    <p class="pp-note">Что должно измениться, чтобы вывод поменялся.</p>
+    <p class="pp-note">Что должно измениться, чтобы вывод поменялся. Критерий — окупаемость за ${N} лет (норматив РСЗС).</p>
     <div class="robust-row">
-      <div class="robust-label">Цена электроэнергии: в расчёте ${num(r.pElBase, 0)} ₽, реальный диапазон ${num(pMin, 0)}–${num(pMax, 0)} ₽ за кВт·ч</div>
-      <div class="robust-scale"><span class="rs-range" style="left:${pos(pMin)};width:calc(${pos(pMax)} - ${pos(pMin)})"></span><span class="rs-base" style="left:${pos(r.pElBase)}"></span>${r.pElZero !== null ? `<span class="rs-zero" style="left:${pos(r.pElZero)}"></span>` : ''}</div>
-      <div class="robust-ends"><span>${r.pElZero !== null ? `граница выгоды — ${num(r.pElZero, 1)} ₽` : 'граница вне диапазона'}</span><span>${r.pElZeroPct !== null ? `${r.pElZeroPct >= 0 ? '+' : '−'}${num(Math.abs(r.pElZeroPct) * 100, 0)}% к расчёту` : ''}</span></div>
+      <div class="robust-label">Цена электроэнергии: в расчёте ${num(r.pElBase, 1)} ₽, по прогнозу Мосэнергосбыта на 2026 — ${num(pMin, 1)}–${num(pMax, 1)} ₽ за кВт·ч</div>
+      <div class="robust-scale"><span class="rs-range" style="left:${pos(pMin)};width:calc(${pos(pMax)} - ${pos(pMin)})"></span><span class="rs-base" style="left:${pos(r.pElBase)}"></span>${pz !== null ? `<span class="rs-zero" style="left:${pos(pz)}"></span>` : ''}</div>
+      <div class="robust-ends"><span>${pz !== null ? `окупаемость за ${N} лет — до ${num(pz, 1)} ₽` : `окупаемость за ${N} лет при любой цене в диапазоне`}</span><span>${r.pElPbPct !== null ? `${r.pElPbPct >= 0 ? '+' : '−'}${num(Math.abs(r.pElPbPct) * 100, 0)}% к расчёту` : ''}</span></div>
     </div>
     <div class="robust-row">
       <div class="robust-label">Спрос</div>
-      <div class="robust-text">${dz !== null ? `граница выгоды — спрос ${dz >= 0 ? 'на ' + num(dz * 100, 0) + '% выше' : 'на ' + num(-dz * 100, 0) + '% ниже'} прогноза` : 'граница вне диапазона −95%…+400%'}</div>
+      <div class="robust-text">${dz !== null ? `окупаемость за ${N} лет — при спросе ${dz >= 0 ? 'на ' + num(dz * 100, 0) + '% выше' : 'до ' + num(-dz * 100, 0) + '% ниже'} прогноза` : 'вне диапазона расчёта'}</div>
     </div>
-    ${vm.classBNpv !== null && vm.classBNpv !== undefined ? `<div class="robust-row"><div class="robust-label">Если подключение окажется дорогим (класс Б)</div><div class="robust-text">NPV ${signedMln(vm.classBNpv)} млн ₽</div></div>` : ''}
+    ${vm.classBNpv !== null && vm.classBNpv !== undefined ? `<div class="robust-row"><div class="robust-label">Если подключение окажется дорогим (класс Б, до 12 млн ₽)</div><div class="robust-text">${pbB !== null && pbB !== undefined ? `окупится примерно за ${num(pbB, 0)} лет` : `окупаемость за ${N} лет — с компенсацией МФППиП или по программе АМПП`}</div></div>` : ''}
     <div class="robust-verdict ${tone}">${verdict}</div>`;
 }
 
@@ -305,7 +317,7 @@ function benchRow(vm) {
   if (!b) return '';
   return `<div class="bench-row"><div class="bench-h">Ближайшая эталонная станция РСЗС</div>
     <div>${esc(b.address)}, ${num(b.distKm, 1)} км — по данным РСЗС ${b.type === 'weak' ? 'слабая' : 'одна из самых востребованных'}</div>
-    <div class="pp-note">Модель даёт ей ${num(b.S, 1)} зарядки в сутки (${b.rankS}-е место из ${b.N} станций РСЗС), загрузку ${pct(b.U, 1)} (${b.rankU}-е место)${b.mismatch ? '. По загрузке модель пока расходится с РСЗС — это уточнится на почасовых данных в пилоте' : ''}.</div></div>`;
+    <div class="pp-note">Модель даёт ей ${num(b.S, 1)} зарядки в сутки (${b.rankS}-е место из ${b.N} станций РСЗС), загрузку ${pct(b.U, 1)} (${b.rankU}-е место)${b.mismatch ? '. Загрузку модель уточнит на почасовых данных РСЗС в пилоте' : ''}.</div></div>`;
 }
 
 function whyBlock(vm) {
@@ -358,7 +370,7 @@ export function renderPassport(container, vm) {
   const econ = vm.econ;
   const paybackTone = econ && (econ.payback === null || econ.payback > vm.th.normYears) ? 'warn' : '';
   const npvTone = econ && econ.npv < 0 ? 'warn' : '';
-  const capexLine = econ?.capexRange ? `${mln(econ.capexRange[0], 2)}–${mln(econ.capexRange[1], 2)} млн ₽` : '—';
+  const capexLine = econ?.capexRange ? capexText(econ, 2) : '—';
 
   container.innerHTML = `
     <div class="pp-top">
@@ -399,7 +411,7 @@ export function renderPassport(container, vm) {
     <div class="pp-kpis">
       ${kpiTile({ label: `Зарядок в сутки в ${vm.year}`, value: num(S, 0), sub: `обычно от ${num(sLo, 0)} (выходной летом) до ${num(sHi, 0)} (будни зимой)` })}
       ${kpiTile({ label: 'Загрузка поста', value: pct(vm.U[vm.year], 1), sub: `доля времени, когда пост занят; окупаемость начинается примерно с ${pct(vm.th.uPb)}` })}
-      ${kpiTile({ label: 'Окупаемость', value: econ ? paybackText(econ) : '…', unit: ' лет', sub: `норматив РСЗС — ${vm.th.normYears} лет; диапазон — от дешёвого до дорогого подключения`, tone: paybackTone })}
+      ${kpiTile({ label: 'Окупаемость', value: econ ? paybackText(econ) : '…', unit: econ ? ` ${paybackUnit(econ)}` : ' лет', sub: `при типичной цене подключения; норматив РСЗС — ${vm.th.normYears} лет`, tone: paybackTone })}
       ${kpiTile({ label: 'NPV за 10 лет', value: econ ? signedMln(econ.npv) : '…', unit: ' млн ₽', sub: econ ? (econ.npv >= 0 ? 'станция зарабатывает больше ставки 18%' : 'доходность при ставке 18%; вложения возвращаются за счёт роста спроса') : '', tone: npvTone })}
     </div>
 
@@ -436,7 +448,7 @@ export function renderPassport(container, vm) {
         <div class="metric-row"><span>Срок подключения</span><span>${vm.conn ? `${num(vm.conn.months[0], 0)}–${num(vm.conn.months[1], 0)} мес.` : '—'}</span></div>
         <div class="metric-row"><span>Плата за подключение</span><span class="mono">${vm.ampp ? 'нет — программа АМПП' : vm.conn ? `${mln(vm.conn.cost[0], 2)}–${mln(vm.conn.cost[1], 2)} млн ₽` : '—'}</span></div>
         <div class="metric-row"><span>Компенсация МФППиП</span><span>${vm.ampp ? 'не нужна' : vm.subsidy ? (econ?.subsidyRub ? `${mln(econ.subsidyRub, 2)} млн ₽ за 3 года` : 'учтена') : 'не учтена'}</span></div>
-        <p class="pp-note">${vm.dist04 !== null ? 'Подстанция рядом — подключение без стройки новой сети, это класс А. Плата всё равно 5–7,8 млн ₽: в Москве её считают по длине кабеля, это видно по 4 реальным техусловиям РСЗС.' : 'В открытых данных подстанции ближе 200 м нет, поэтому считаем осторожно, как дорогой класс Б. Точную цену даст запрос в «Россети».'} Срок в техусловиях — 4 месяца, на деле около года. Свободная мощность центра — по раскрытию «Россетей» за III квартал 2026, где центр нашёлся по названию, иначе наша оценка.</p>
+        <p class="pp-note">${vm.cls === 'В' ? 'Резерв питающего центра по раскрытию «Россетей» (III кв. 2026) исчерпан — подключение после расширения центра; срок и условия даст запрос в «Россети».' : vm.dist04 !== null ? 'Подстанция рядом — подключение без стройки новой сети, это класс А. Плата в Москве считается по длине кабеля: по 4 техусловиям РСЗС — 5–7,8 млн ₽, в лучших случаях около 3 млн; по программе АМПП — за счёт сети.' : 'Трансформаторной подстанции ближе 200 м в открытых данных нет, поэтому расчёт ведётся по цене класса Б (с новой ТП): 7,5–12 млн ₽. Точную цену дадут техусловия «Россетей».'} Срок в техусловиях — 4 месяца, на деле около года. Свободная мощность центра — по раскрытию «Россетей» за III квартал 2026, где центр нашёлся по названию, иначе наша оценка.</p>
       </section>
       <section class="pp-card">
         <h3>Почему здесь</h3>
@@ -464,7 +476,7 @@ export function renderPassport(container, vm) {
       </ol>
     </section>
 
-    <div class="assumptions"><span>Исходные допущения</span>${vm.assumptions.map((a) => `<span class="mono-chip">${esc(a)}</span>`).join('')}</div>
+    <div class="assumptions"><span>Параметры расчёта</span>${vm.assumptions.map((a) => `<span class="mono-chip">${esc(a)}</span>`).join('')}</div>
   `;
 }
 
